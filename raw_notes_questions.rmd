@@ -1,22 +1,30 @@
 # Question
-#### When I write to the Master, I am writing to the forked copy of this website, correct? 
-So if that is correct, and Mike is still listed as a collaborator:
-Are MY edits being kept here until I send a Pull/Push request?
-My edits only affect this repo, correct?
+#### When I write to the Master, I am writing to my forked copy of the website, correct? 
+If Mike is still listed as a collaborator, MY edits are only pushed to my version in my repo, and affect only my copy. If I send a Push request, Mike can pull in my changes IF HE CHOOSES?
 
 # Question
 #### Anyone else need a QUICK tour of the branch and pull request map?
 
 # Question
-#### Still unclear on difference between a fork and a branch. 
+#### Still not sure I know difference between a fork and a branch. 
 Branch is an alternative version of a single file, but fork is a copy of the original repo in total. Y/N?
 
 # Question
-#### When I am working in my own repo, does it propagate? How do I connect to it in R?
-When I created my default website repo via fork, I assume I can edit that to my liking, and it will not be propagated back to whomever I forked it from. I also can presumably download a ZIP of a repo and install it to my local machine (Dropbox, actually). 
+#### Can I build multiple files in R, then push project to GitHub as a complete repo?
+Yep. Found instructions for doing it on this website.
+https://cfss.uchicago.edu/git05.html
+
+Is this correct, that if need be, I could download a ZIP of a project from someone else, unpack in my local machine (Dropbox, actually), then upload back to GitHub just the same as if I cloned it directly inside GH?
+
+I know it is the long way around, but if I have a folder of resources someone gives me, it seems rude to ask, "can you put that on GitHub first for me?"
 
 So how do I tell R to use my GitHub repo's as their source for data?
 
 # Question
 #### Having a slight problem with Git on laptop.
 I can use my desktop and create repos to Dropbox or local machine from GitHub. Laptop throws in an extra step that seems to corrupt process.
+
+**SOLVED**. The path to Git was wrong. Needs to be very specific: 
+/usr/local/git/bin/git
+
+Other Git and Git-GUI paths do not work.
