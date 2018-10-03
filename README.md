@@ -2,7 +2,7 @@
 
 This serves as a template for others to use for a website. It is a simple, Rmarkdown, static website that can be used by others to start their website.
 
-It is linked to a local repo on Dropbox and GitHub.
+It is linked to BOTH a local repo on Dropbox and GitHub.
 
 ## Getting Started
 
