@@ -1,2 +1,7 @@
-# When
-i
+# Question
+##When I write to the Master, I am writing to the forked copy of this website, correct? 
+So if that is correct, and Mike is still listed as a collaborator:
+Are MY edits being kept here until I send a Pull/Push request?
+My edits only affect this repo, correct?
+
+
