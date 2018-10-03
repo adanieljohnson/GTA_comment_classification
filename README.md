@@ -20,7 +20,7 @@ Best of luck!
 
 Start writing!
 
-## USe Github Pages
+## Use Github Pages
 
 Right now everything is being written to `docs` folder which makes using Github pages easier. You can compile your website using `rmarkdown::render_site()` in the console. 
 
