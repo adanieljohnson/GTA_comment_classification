@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|Raleway');
+
+h1, h2, h3 {
+  font-family: 'PT Sans', sans-serif;
+}
+
+.level1 h1 {
+  border-bottom: 1px solid;
+}
+
+body {
+  font-family: 'Raleway', sans-serif;
+}
+
+p {
+  font-family: 'Raleway', sans-serif;
+}
+
+div.scroll {
+    background-color: #FFFFFF;
+    height:225px;
+    width: 100%;
+    overflow-x: scroll;
+}
+
+blockquote {
+    border-left:none;
+    font-size: 1em;
+    display: block;
+    margin-top: .25em;
+    margin-left: 20px;
+}

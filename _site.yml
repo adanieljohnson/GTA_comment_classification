@@ -4,13 +4,13 @@ navbar:
   title: "Data Analysis in R"
   right:
   - text: "Course Notes"
-    icon: fa-book
+    icon: fa-leaf
     href: course_notes.html
   - text: "Pre-Work"
-    icon: fa-paper-plane
+    icon: fa-puzzle-piece
     href: pre_work.html
   - text: "Project"
-    icon: fa-folder
+    icon: fa-archive
     href: project.html
 output:
   html_document:
