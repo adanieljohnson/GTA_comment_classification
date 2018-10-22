@@ -34,3 +34,7 @@ ggplot(iris, aes(Species, Sepal.Length))+
 ## Session 7
 
 ## Session 8
+
+----
+
+## References

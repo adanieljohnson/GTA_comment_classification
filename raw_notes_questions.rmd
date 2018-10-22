@@ -8,7 +8,7 @@ If Mike is still listed as a collaborator, MY edits are only pushed to my versio
 # Question
 #### Still not sure I know difference between a fork and a branch. 
 Branch is an alternative version of a single file, but fork is a copy of the original repo in total. Y/N?
-
+ 
 # Question
 #### Can I build multiple files in R, then push project to GitHub as a complete repo?
 Yep. Found instructions for doing it on this website.

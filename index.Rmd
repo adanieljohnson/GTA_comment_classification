@@ -7,7 +7,7 @@ title: "Data Analysis in R: Research & Learning"
 
 ## So It Begins
 
-This is your landing page for your website for your project. This is just a launching pad for our community. Feel free to customise as much as you would like.
+This is a general landing page for your website for your project. This is just a launching pad for our community. Feel free to customise as much as you would like.
 
 You can use this page to give introductions about what you are doing and your aims.
 
