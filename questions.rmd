@@ -1,12 +1,23 @@
-# Question
+# R Code
+
+
+-----
+
+# Project
+
+-----
+
+# Github
 #### When I write to the Master, I am writing to my forked copy of the website, correct? 
 If Mike is still listed as a collaborator, MY edits are only pushed to my version in my repo, and affect only my copy. If I send a Push request, Mike can pull in my changes IF HE CHOOSES?
 
-# Question
+-----
+
 #### Still not sure I know difference between a fork and a branch. 
 Branch is an alternative version of a single file, but fork is a copy of the original repo in total. Y/N?
- 
-# Question
+
+-----
+
 #### Can I build multiple files in R, then push project to GitHub as a complete repo?
 Yep. Found instructions for doing it on this website.
 https://cfss.uchicago.edu/git05.html
@@ -17,7 +28,8 @@ I know it is the long way around, but if I have a folder of resources someone gi
 
 So how do I tell R to use my GitHub repo's as their source for data?
 
-# Question
+-----
+
 #### Having a slight problem with Git on laptop.
 I can use my desktop and create repos to Dropbox or local machine from GitHub. Laptop throws in an extra step that seems to corrupt process.
 

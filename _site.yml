@@ -3,6 +3,9 @@ output_dir: "docs"
 navbar:
   title: "Data Analysis in R"
   right:
+  - text: "Questions"
+    icon: fa-question-circle
+    href: questions.html
   - text: "Course Notes"
     icon: fa-leaf
     href: course_notes.html
