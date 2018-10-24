@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css?family=PT+Sans|Raleway');
+@import url('https://fonts.googleapis.com/css?family=PT+Sans|Raleway Regular');
 
 h1, h2, h3 {
   font-family: 'PT Sans', sans-serif;
@@ -9,11 +9,12 @@ h1, h2, h3 {
 }
 
 body {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway Regular', sans-serif;
+  color: black;
 }
 
 p {
-  font-family: 'Raleway', sans-serif;
+  font-family: 'Raleway Regular', sans-serif;
 }
 
 div.scroll {

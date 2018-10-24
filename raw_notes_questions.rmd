@@ -3,9 +3,6 @@
 If Mike is still listed as a collaborator, MY edits are only pushed to my version in my repo, and affect only my copy. If I send a Push request, Mike can pull in my changes IF HE CHOOSES?
 
 # Question
-#### Anyone else need a QUICK tour of the branch and pull request map?
-
-# Question
 #### Still not sure I know difference between a fork and a branch. 
 Branch is an alternative version of a single file, but fork is a copy of the original repo in total. Y/N?
  
