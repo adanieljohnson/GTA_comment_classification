@@ -1,4 +1,17 @@
 # R Code
+#### I can write code for Shiny and build pages locally, but they do not build for a website. 
+The build stalls here, with the error message:
+
+>label: unnamed-chunk-1 (with options) 
+>List of 1  
+> $ echo: logi FALSE  
+>Error in selectInput("n_breaks", label = "Number of bins:", choices = c(10,  :   
+>  could not find function "selectInput"  
+>Calls: <Anonymous> ... handle -> withCallingHandlers -> withVisible -> eval -> eval  
+>Execution halted  
+>Exited with status 1.
+
+Ideas?
 
 
 -----
@@ -8,8 +21,14 @@
 -----
 
 # Github
-#### When I write to the Master, I am writing to my forked copy of the website, correct? 
-If Mike is still listed as a collaborator, MY edits are only pushed to my version in my repo, and affect only my copy. If I send a Push request, Mike can pull in my changes IF HE CHOOSES?
+#### When I work on Github, I see no easy way to create new file folders. 
+
+If I empty a folder, it is deleted automatically. Am I overlooking tools, or is goal to be working locally to create files and use web interface less often? 
+
+-----
+
+#### I am not sure how to clone and blend my OWN repos. 
+I was trying to build a starting point with both data code and web site pieces by cloning the web site repo, then adding the standard data layout folder. Could not see an obvious way to clone one of my own, or to blend two into one.
 
 -----
 

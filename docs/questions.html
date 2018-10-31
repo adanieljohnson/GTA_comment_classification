@@ -27,7 +27,9 @@
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
 <link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
 <script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
-<link href="site_libs/font-awesome-4.5.0/css/font-awesome.min.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css">
@@ -96,6 +98,9 @@ img {
 }
 .tabbed-pane {
   padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
 }
 button.code-folding-btn:focus {
   outline: none;
@@ -325,7 +330,21 @@ div.tocify {
 
 <div id="r-code" class="section level1">
 <h1>R Code</h1>
+<div id="i-can-write-code-for-shiny-and-build-pages-locally-but-they-do-not-build-for-a-website." class="section level4">
+<h4>I can write code for Shiny and build pages locally, but they do not build for a website.</h4>
+<p>The build stalls here, with the error message:</p>
+<blockquote>
+<p>label: unnamed-chunk-1 (with options) List of 1<br />
+$ echo: logi FALSE<br />
+Error in selectInput(“n_breaks”, label = “Number of bins:”, choices = c(10, :<br />
+could not find function “selectInput”<br />
+Calls: <Anonymous> … handle -&gt; withCallingHandlers -&gt; withVisible -&gt; eval -&gt; eval<br />
+Execution halted<br />
+Exited with status 1.</p>
+</blockquote>
+<p>Ideas?</p>
 <hr />
+</div>
 </div>
 <div id="project" class="section level1">
 <h1>Project</h1>
@@ -333,6 +352,11 @@ div.tocify {
 </div>
 <div id="github" class="section level1">
 <h1>Github</h1>
+<div id="when-i-work-on-github-i-see-no-easy-way-to-create-new-file-folders." class="section level4">
+<h4>When I work on Github, I see no easy way to create new file folders.</h4>
+<p>If I empty a folder, it is deleted automatically. Am I overlooking tools, or is goal to be working locally to create files and use web interface less often?</p>
+<hr />
+</div>
 <div id="when-i-write-to-the-master-i-am-writing-to-my-forked-copy-of-the-website-correct" class="section level4">
 <h4>When I write to the Master, I am writing to my forked copy of the website, correct?</h4>
 <p>If Mike is still listed as a collaborator, MY edits are only pushed to my version in my repo, and affect only my copy. If I send a Push request, Mike can pull in my changes IF HE CHOOSES?</p>
