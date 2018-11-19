@@ -1,7 +1,7 @@
-name: "Data Analysis in R"
+name: "Analyzing TA Comments in R"
 output_dir: "docs"
 navbar:
-  title: "Data Analysis in R"
+  title: "Analyzing TA Comments in R"
   right:
   - text: "Questions"
     icon: fa-question-circle

@@ -2,7 +2,6 @@
 title: "Project"
 author: "Dan Johnson"
 date: "10/26/2018"
-runtime: shiny
 output: html_document
 bibliography: library.bib
 biblio-style: apalike
@@ -10,36 +9,75 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-# Abstract
+# Abstract 
 
-### Here are two Shiny widgets
-
-```{r echo = FALSE}
-selectInput("n_breaks", label = "Number of bins:",
-              choices = c(10, 20, 35, 50), selected = 20)
-  
-sliderInput("bw_adjust", label = "Bandwidth adjustment:",
-              min = 0.2, max = 2, value = 1, step = 0.2)
-```
-
-### ...that build a histogram.
-
-```{r echo = FALSE}
-renderPlot({
-  hist(faithful$eruptions, probability = TRUE, breaks = as.numeric(input$n_breaks),
-       xlab = "Duration (minutes)", main = "Geyser eruption duration")
-  
-  dens <- density(faithful$eruptions, adjust = input$bw_adjust)
-  lines(dens, col = "blue")
-})
-```
 
 
 # Introduction
+## Background
+In the context of introductory STEM courses, technical writing training for undergraduates often is poorly designed, implemented, and executed. Often it is treated as a mechanical skill that each student develops "along the way." Also, faculty often are not directly responsible for developing this skill. Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These class leaders may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively. 
+
+We have been evaluating standardized approaches and techniques for teaching technical writing that:
+
+*  Focus on holistic coaching, 
+*  Embody best practices from the writing in the disciplines literature
+*  Can be implemented at large scale by less experienced teaching assistants
+*  Focus student and instructor attention on larger issues rather than simple copy-correction.
+
+As part of this project, we have assembled a structured database of laboratory reports written by undergraduate students for introductory biology courses. In addition to the students' original texts we have collected these meta-data:
+
+*  Circumstances: first or second report of semester; initial submission or revision; course; topic; year of student author in college
+*  Instructor information: identity of TA providing feedback; score assigned; rationale behind score
+*  All comments that a TA made on the individual reports they graded.
+
+Using text-mining, we are searching for features of student writing, as well as connections and correlations between those features, that can inform how we teach technical writing.
+
+## Context for This Project
+It is well established that students make greater gains as writers if instructors adopt a coaching- centric approach and provide holistic, growth-oriented guidance rather than just telling students what to correct. To that end, we train graduate teaching assistants use a **global first, specific later** approach to grading undergraduate technical writing. They are instructed not to spend endless time copy editing. Instead we ask them to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students' writing improves, the TA can focus on smaller issues.   
+
+While this approach is sound in theory, we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, "what do TAs ACTUALLY spend the most time and effort making comments about as they grade student writing?"
+
+In Summer 2018, we began trying to answer this question by analyzing TAs' comments from student papers. We extracted and tabulated all TA comments from approximately 500 pairs of reports (initial submissions and revisions) in 3 different courses collected during a single semester. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging the intent. In all, the final tabulated dataset included ~11,000 separate comments.
+
+We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)
+
+Coded TA comments were sorted on two axes: 
+
+The resulting sorted table provided us with a relative estimate of TA effort.
+
+## The General Problem
+While the qualitative coding of TA comments is informative, it is unsustainable. A single investigator worked for nearly 2 months to develop the codebook then rate each of 11,000 comments. Even with the codebook, individual coders will require training to achieve any accuracy. Given that 10-12,000 comments are the normal output EACH SEMESTER, an automated sorting method is needed.
+
+### Specific Problems in the Analysis
+I have 11,000 comments from TAs on student reports. I want to parse them into topic groups more or less automatically, using pre-defined criteria.
+
+#### Approach Option: Latent Dirichlet allocation
+In text mining, we often have collections of documents, such as blog posts or news articles, that we’d like to divide into natural groups so that we can understand them separately. Topic modeling is a method for unsupervised classification of such documents, similar to clustering on numeric data, which finds natural groups of items even when we’re not sure what we’re looking for.
+
+Latent Dirichlet allocation (LDA) is a particularly popular method for fitting a topic model. It treats each document as a mixture of topics, and each topic as a mixture of words. This allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups, in a way that mirrors typical use of natural language.
+
+	https://www.tidytextmining.com/topicmodeling.html
+
+Challenge is that I have groups **already based on the existing coding book.** The individual groups are already labeled. LDA uses clustering based on its own analysis.
+
+
+#### Approach Option: Comparison Modeling Based on Twitter Strategies
+What if I treated each of the pre-defined sub-sets from primary codebook analysis as if they are tweets from separate users? 
+	https://www.tidytextmining.com/twitter.html
+
+Strategy would be:
+*  Un-nest tokens to create a tidy frame and remove stop words using anti-join
+*  Calculate word frequencies for each sub-type
+*  Compare frequencies by calculating log-odds ratios
+
+
+
 
 # Literature Review
 
-# Methodology
+# Methods
+## Preliminary Proof of Concept
+
 
 ## Data
 
