@@ -10,6 +10,7 @@ biblio-style: apalike
 You can detail what you learned in the session within these pages. You can also use the Rmd markdown language and insert code chunks with `CMD/CTRL + SHIFT + I`.
 
 # Session 1
+Change
 
 # Session 2
 
