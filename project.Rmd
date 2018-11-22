@@ -19,7 +19,7 @@ In the context of introductory STEM courses, technical writing training for unde
 
 We have been evaluating standardized approaches and techniques for teaching technical writing that:
 
-*  Focus on holistic coaching, 
+*  Focus on holistic coaching 
 *  Embody best practices from the writing in the disciplines literature
 *  Can be implemented at large scale by less experienced teaching assistants
 *  Focus student and instructor attention on larger issues rather than simple copy-correction.
