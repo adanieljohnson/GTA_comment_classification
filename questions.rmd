@@ -1,15 +1,5 @@
 # R Code
-#### I can write code for Shiny and build pages locally, but they do not build for a website. 
-The build stalls here, with the error message:
-
->label: unnamed-chunk-1 (with options) 
->List of 1  
-> $ echo: logi FALSE  
->Error in selectInput("n_breaks", label = "Number of bins:", choices = c(10,  :   
->  could not find function "selectInput"  
->Calls: <Anonymous> ... handle -> withCallingHandlers -> withVisible -> eval -> eval  
->Execution halted  
->Exited with status 1.
+#### I cannot get numbers on CSV extracted data frames. 
 
 Ideas?
 
@@ -32,8 +22,8 @@ I was trying to build a starting point with both data code and web site pieces b
 
 -----
 
-#### Still not sure I know difference between a fork and a branch. 
-Branch is an alternative version of a single file, but fork is a copy of the original repo in total. Y/N?
+#### Question about fork and branch. 
+When I fork another repo, I get comments saying I am "#" steps ahead of it. Should I clone instead? 
 
 -----
 
@@ -56,3 +46,7 @@ I can use my desktop and create repos to Dropbox or local machine from GitHub. L
 /usr/local/git/bin/git
 
 Other Git and Git-GUI paths do not work.
+
+
+
+####\  

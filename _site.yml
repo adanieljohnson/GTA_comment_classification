@@ -3,15 +3,15 @@ output_dir: "docs"
 navbar:
   title: "Analyzing TA Comments in R"
   right:
-  - text: "Questions"
-    icon: fa-question-circle
-    href: questions.html
   - text: "Course Notes"
     icon: fa-leaf
     href: course_notes.html
   - text: "Pre-Work"
     icon: fa-puzzle-piece
     href: pre_work.html
+  - text: "Questions"
+    icon: fa-question-circle
+    href: questions.html
   - text: "Project"
     icon: fa-archive
     href: project.html

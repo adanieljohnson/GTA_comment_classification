@@ -1,5 +1,5 @@
 ---
-title: "Course Notes"
+title: "Notes & Ideas"
 bibliography: library.bib
 biblio-style: apalike
 ---
@@ -7,23 +7,39 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-You can detail what you learned in the session within these pages. You can also use the Rmd markdown language and insert code chunks with `CMD/CTRL + SHIFT + I`.
-
-# Session 1
+# Session 1 (Oct. 1, 2018)
 Change
 
-# Session 2
+####\  
 
-# Session 3
+# Session 2 (Oct. 22, 2018)
 
-# Session 4
+####\  
 
-# Session 5
+# Session 3 (Nov. 12, 2018)
 
-# Session 6
+####\  
 
-# Session 7
+# Session 4 (Dec. 3, 2018)
 
-# Session 8
+####\  
+
+# Session 5 (Jan. 14, 2019)
+
+####\  
+
+# Session 6 (Feb. 4, 2019)
+
+####\  
+
+# Session 7 (Feb. 25, 2019)
+
+####\  
+
+# Session 8 (Mar. 18, 2019)
+
+####\  
 
 # References
+
+####\  
