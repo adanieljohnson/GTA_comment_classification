@@ -329,62 +329,73 @@ div.tocify {
 </div>
 
 
-<p>You can detail what you learned in the session within these pages. You can also use the Rmd markdown language and insert code chunks with <code>CMD/CTRL + SHIFT + I</code>.</p>
+<div id="session-1-oct.-1-2018" class="section level1">
+<h1>Session 1 (Oct. 1, 2018)</h1>
+<p>Change</p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
-<div id="session-1" class="section level1">
-<h1>Session 1</h1>
-<p>Change</p>
+</div>
+<div id="session-2-oct.-22-2018" class="section level1">
+<h1>Session 2 (Oct. 22, 2018)</h1>
 <div id="section-1" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="session-2" class="section level1">
-<h1>Session 2</h1>
+<div id="session-3-nov.-12-2018" class="section level1">
+<h1>Session 3 (Nov. 12, 2018)</h1>
+<p>I have 11,000 comments from TAs on student reports. I want to parse them into topic groups more or less automatically, using pre-defined criteria. What are the options?</p>
+<p><strong>Option: Latent Dirichlet Allocation</strong></p>
+<p>Found this:<br />
+“In text mining, we often have collections of documents, such as blog posts or news articles, that we’d like to divide into natural groups so that we can understand them separately. Topic modeling is a method for unsupervised classification of such documents, similar to clustering on numeric data, which finds natural groups of items even when we’re not sure what we’re looking for.”</p>
+<p>Latent Dirichlet allocation (LDA) is a particularly popular method for fitting a topic model. It treats each document as a mixture of topics, and each topic as a mixture of words. This allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups, in a way that mirrors typical use of natural language.</p>
+<pre><code>https://www.tidytextmining.com/topicmodeling.html</code></pre>
+<p>Challenge is that I have groups <strong>already based on the existing coding book.</strong> The individual groups are already labeled. LDA uses clustering based on its own analysis.</p>
+<p><strong>Option: Comparison Modeling Based on Twitter Strategies</strong></p>
+<p>What if I treated each of the pre-defined sub-sets from primary codebook analysis as if they are tweets from separate users? <a href="https://www.tidytextmining.com/twitter.html" class="uri">https://www.tidytextmining.com/twitter.html</a></p>
+<p>Strategy would be:</p>
+<ul>
+<li>Un-nest tokens to create a tidy frame and remove stop words using anti-join</li>
+<li>Calculate word frequencies for each sub-type</li>
+<li>Compare frequencies by calculating log-odds ratios</li>
+</ul>
 <div id="section-2" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="session-3" class="section level1">
-<h1>Session 3</h1>
+<div id="session-4-dec.-3-2018" class="section level1">
+<h1>Session 4 (Dec. 3, 2018)</h1>
 <div id="section-3" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="session-4" class="section level1">
-<h1>Session 4</h1>
+<div id="session-5-jan.-14-2019" class="section level1">
+<h1>Session 5 (Jan. 14, 2019)</h1>
 <div id="section-4" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="session-5" class="section level1">
-<h1>Session 5</h1>
+<div id="session-6-feb.-4-2019" class="section level1">
+<h1>Session 6 (Feb. 4, 2019)</h1>
 <div id="section-5" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="session-6" class="section level1">
-<h1>Session 6</h1>
+<div id="session-7-feb.-25-2019" class="section level1">
+<h1>Session 7 (Feb. 25, 2019)</h1>
 <div id="section-6" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="session-7" class="section level1">
-<h1>Session 7</h1>
+<div id="session-8-mar.-18-2019" class="section level1">
+<h1>Session 8 (Mar. 18, 2019)</h1>
 <div id="section-7" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="session-8" class="section level1">
-<h1>Session 8</h1>
-<div id="section-8" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
-<div id="section-9" class="section level4">
+<div id="section-8" class="section level4">
 <h4> </h4>
 </div>
 </div>

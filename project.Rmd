@@ -12,6 +12,7 @@ biblio-style: apalike
 # Abstract 
 
 
+####\
 
 # Introduction
 ## Background
@@ -45,50 +46,45 @@ We next used a subset of 100 randomly selected comments to build an initial qual
 
 Coded TA comments were sorted on two axes: 
 
-The resulting sorted table provided us with a relative estimate of TA effort.
+* __Subject__: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues
+* __Structure__: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?
 
-## The General Problem
-While the qualitative coding of TA comments is informative, it is unsustainable. A single investigator worked for nearly 2 months to develop the codebook then rate each of 11,000 comments. Even with the codebook, individual coders will require training to achieve any accuracy. Given that 10-12,000 comments are the normal output EACH SEMESTER, an automated sorting method is needed.
+The resulting sorted contingency table provided a relative estimate of TA effort.
 
-### Specific Problems in the Analysis
-I have 11,000 comments from TAs on student reports. I want to parse them into topic groups more or less automatically, using pre-defined criteria.
+####\  
 
-#### Approach Option: Latent Dirichlet allocation
-In text mining, we often have collections of documents, such as blog posts or news articles, that we’d like to divide into natural groups so that we can understand them separately. Topic modeling is a method for unsupervised classification of such documents, similar to clustering on numeric data, which finds natural groups of items even when we’re not sure what we’re looking for.
+## The Central Problem
+While qualitative coding of TA comments is informative, it is unsustainable. A single investigator needed 2 months to develop the codebook then rate 11,000 comments. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.
 
-Latent Dirichlet allocation (LDA) is a particularly popular method for fitting a topic model. It treats each document as a mixture of topics, and each topic as a mixture of words. This allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups, in a way that mirrors typical use of natural language.
-
-	https://www.tidytextmining.com/topicmodeling.html
-
-Challenge is that I have groups **already based on the existing coding book.** The individual groups are already labeled. LDA uses clustering based on its own analysis.
-
-
-#### Approach Option: Comparison Modeling Based on Twitter Strategies
-What if I treated each of the pre-defined sub-sets from primary codebook analysis as if they are tweets from separate users? 
-	https://www.tidytextmining.com/twitter.html
-
-Strategy would be:
-*  Un-nest tokens to create a tidy frame and remove stop words using anti-join
-*  Calculate word frequencies for each sub-type
-*  Compare frequencies by calculating log-odds ratios
-
-
-
+####\  
 
 # Literature Review
 
 # Methods
 ## Preliminary Proof of Concept
 
+####\
 
 ## Data
 
+####\
+
 ## Analysis
+
+####\
 
 # Results
 
+####\
+
 # Discussion
+
+####\
 
 # Conclusion
 
+####\
+
 # References
+
+####\

@@ -17,6 +17,30 @@ Change
 ####\  
 
 # Session 3 (Nov. 12, 2018)
+I have 11,000 comments from TAs on student reports. I want to parse them into topic groups more or less automatically, using pre-defined criteria. What are the options?
+
+**Option: Latent Dirichlet Allocation**  
+
+Found this:  
+"In text mining, we often have collections of documents, such as blog posts or news articles, that we’d like to divide into natural groups so that we can understand them separately. Topic modeling is a method for unsupervised classification of such documents, similar to clustering on numeric data, which finds natural groups of items even when we’re not sure what we’re looking for."
+
+Latent Dirichlet allocation (LDA) is a particularly popular method for fitting a topic model. It treats each document as a mixture of topics, and each topic as a mixture of words. This allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups, in a way that mirrors typical use of natural language.
+
+	https://www.tidytextmining.com/topicmodeling.html
+
+Challenge is that I have groups **already based on the existing coding book.** The individual groups are already labeled. LDA uses clustering based on its own analysis.
+
+
+**Option: Comparison Modeling Based on Twitter Strategies**  
+
+What if I treated each of the pre-defined sub-sets from primary codebook analysis as if they are tweets from separate users? 
+	https://www.tidytextmining.com/twitter.html
+
+Strategy would be:
+
+*  Un-nest tokens to create a tidy frame and remove stop words using anti-join
+*  Calculate word frequencies for each sub-type
+*  Compare frequencies by calculating log-odds ratios
 
 ####\  
 

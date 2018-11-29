@@ -290,13 +290,6 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="questions.html">
-    <span class="fa fa-question-circle"></span>
-     
-    Questions
-  </a>
-</li>
-<li>
   <a href="course_notes.html">
     <span class="fa fa-leaf"></span>
      
@@ -308,6 +301,13 @@ div.tocify {
     <span class="fa fa-puzzle-piece"></span>
      
     Pre-Work
+  </a>
+</li>
+<li>
+  <a href="questions.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Questions
   </a>
 </li>
 <li>
@@ -335,54 +335,53 @@ div.tocify {
 
 <div id="abstract" class="section level1">
 <h1>Abstract</h1>
+<div id="section" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
 <div id="background" class="section level2">
 <h2>Background</h2>
-<p>In the context of introductory STEM courses, technical writing training for undergraduates often is poorly designed, implemented, and executed. Often it is treated as a mechanical skill that each student develops “along the way.” Also, faculty often are not directly responsible for developing this skill. Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These class leaders may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively.</p>
+<p>Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops “along the way.” Or, the instructional strategy is haphazardly designed, implemented, and executed. Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills.</p>
+<p>Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These class leaders may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively.</p>
 <p>We have been evaluating standardized approaches and techniques for teaching technical writing that:</p>
 <ul>
-<li>Focus on holistic coaching,</li>
-<li>Embody best practices from the writing in the disciplines literature</li>
+<li>Embody best practices from nearly 40 years of “writing in the disciplines”&quot; literature</li>
 <li>Can be implemented at large scale by less experienced teaching assistants</li>
+<li>Emphasize student development through holistic coaching</li>
 <li>Focus student and instructor attention on larger issues rather than simple copy-correction.</li>
 </ul>
-<p>As part of this project, we have assembled a structured database of laboratory reports written by undergraduate students for introductory biology courses. In addition to the students’ original texts we have collected these meta-data:</p>
+<p>We have amassed a structured database of laboratory reports written by undergraduate students for introductory biology courses. Besides the original texts we have collected these meta-data:</p>
 <ul>
 <li>Circumstances: first or second report of semester; initial submission or revision; course; topic; year of student author in college</li>
 <li>Instructor information: identity of TA providing feedback; score assigned; rationale behind score</li>
 <li>All comments that a TA made on the individual reports they graded.</li>
 </ul>
-<p>Using text-mining, we are searching for features of student writing, as well as connections and correlations between those features, that can inform how we teach technical writing.</p>
+<p>We are using text-mining approaches to map key features of student writing, as well as connections and correlations between those features, that can inform how we teach technical writing.</p>
 </div>
 <div id="context-for-this-project" class="section level2">
 <h2>Context for This Project</h2>
-<p>It is well established that students make greater gains as writers if instructors adopt a coaching- centric approach and provide holistic, growth-oriented guidance rather than just telling students what to correct. To that end, we train graduate teaching assistants use a <strong>global first, specific later</strong> approach to grading undergraduate technical writing. They are instructed not to spend endless time copy editing. Instead we ask them to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students’ writing improves, the TA can focus on smaller issues.</p>
-<p>While this approach is sound in theory, we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, “what do TAs ACTUALLY spend the most time and effort making comments about as they grade student writing?”</p>
+<p>Students make greater gains as writers when instructors avoid just telling students what to correct (“copy editing”), and adopt a coaching- oriented approach instead. To that end, we train graduate teaching assistants use a <strong>global first, specific later</strong> approach to grading undergraduate technical writing. We ask them to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students’ writing improves, the TA can focus on smaller issues.</p>
+<p>While this approach is well-grounded in research, we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, “what do TAs ACTUALLY spend the most time and effort making comments about as they grade student writing?”</p>
 <p>In Summer 2018, we began trying to answer this question by analyzing TAs’ comments from student papers. We extracted and tabulated all TA comments from approximately 500 pairs of reports (initial submissions and revisions) in 3 different courses collected during a single semester. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging the intent. In all, the final tabulated dataset included ~11,000 separate comments.</p>
 <p>We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)</p>
 <p>Coded TA comments were sorted on two axes:</p>
-<p>The resulting sorted table provided us with a relative estimate of TA effort.</p>
+<ul>
+<li><strong>Subject</strong>: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues</li>
+<li><strong>Structure</strong>: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?</li>
+</ul>
+<p>The resulting sorted contingency table provided a relative estimate of TA effort.</p>
+<div id="section-1" class="section level4">
+<h4> </h4>
 </div>
-<div id="the-general-problem" class="section level2">
-<h2>The General Problem</h2>
-<p>While the qualitative coding of TA comments is informative, it is unsustainable. A single investigator worked for nearly 2 months to develop the codebook then rate each of 11,000 comments. Even with the codebook, individual coders will require training to achieve any accuracy. Given that 10-12,000 comments are the normal output EACH SEMESTER, an automated sorting method is needed.</p>
-<div id="specific-problems-in-the-analysis" class="section level3">
-<h3>Specific Problems in the Analysis</h3>
-<p>I have 11,000 comments from TAs on student reports. I want to parse them into topic groups more or less automatically, using pre-defined criteria.</p>
-<div id="approach-option-latent-dirichlet-allocation" class="section level4">
-<h4>Approach Option: Latent Dirichlet allocation</h4>
-<p>In text mining, we often have collections of documents, such as blog posts or news articles, that we’d like to divide into natural groups so that we can understand them separately. Topic modeling is a method for unsupervised classification of such documents, similar to clustering on numeric data, which finds natural groups of items even when we’re not sure what we’re looking for.</p>
-<p>Latent Dirichlet allocation (LDA) is a particularly popular method for fitting a topic model. It treats each document as a mixture of topics, and each topic as a mixture of words. This allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups, in a way that mirrors typical use of natural language.</p>
-<pre><code>https://www.tidytextmining.com/topicmodeling.html</code></pre>
-<p>Challenge is that I have groups <strong>already based on the existing coding book.</strong> The individual groups are already labeled. LDA uses clustering based on its own analysis.</p>
 </div>
-<div id="approach-option-comparison-modeling-based-on-twitter-strategies" class="section level4">
-<h4>Approach Option: Comparison Modeling Based on Twitter Strategies</h4>
-<p>What if I treated each of the pre-defined sub-sets from primary codebook analysis as if they are tweets from separate users? <a href="https://www.tidytextmining.com/twitter.html" class="uri">https://www.tidytextmining.com/twitter.html</a></p>
-<p>Strategy would be: * Un-nest tokens to create a tidy frame and remove stop words using anti-join * Calculate word frequencies for each sub-type * Compare frequencies by calculating log-odds ratios</p>
-</div>
+<div id="the-central-problem" class="section level2">
+<h2>The Central Problem</h2>
+<p>While qualitative coding of TA comments is informative, it is unsustainable. A single investigator needed 2 months to develop the codebook then rate 11,000 comments. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.</p>
+<div id="section-2" class="section level4">
+<h4> </h4>
 </div>
 </div>
 </div>
@@ -393,25 +392,53 @@ div.tocify {
 <h1>Methods</h1>
 <div id="preliminary-proof-of-concept" class="section level2">
 <h2>Preliminary Proof of Concept</h2>
+<div id="section-3" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
+<div id="section-4" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 <div id="analysis" class="section level2">
 <h2>Analysis</h2>
+<div id="section-5" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 </div>
 <div id="results" class="section level1">
 <h1>Results</h1>
+<div id="section-6" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 <div id="discussion" class="section level1">
 <h1>Discussion</h1>
+<div id="section-7" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 <div id="conclusion" class="section level1">
 <h1>Conclusion</h1>
+<div id="section-8" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
+<div id="section-9" class="section level4">
+<h4><br />
+</h4>
+</div>
 </div>
 
 <p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
