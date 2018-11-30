@@ -80,15 +80,19 @@ Any gaps or problems with this approach?
 These are values that are present already in the dataset.
 
 *record.id*  
+
 >Column is a semester ID and 5-digit number, like sp18.00001. This particular record.id indicates the data line is from Spring 2018 CSV file, and is line 00001 of the data table. This should be the unique primary key value for each record. Once assigned, it should not change.
 
 *report.id*  
+
 >Format is R\_nnn(...). The string is assigned to each entry made in Qualtrics. This particular string is assigned when a report is collected by our system. It is anonymous, and serves as a unique id for each REPORT document that we collect.
 
 *student*  
+
 >The email address of the SUBMITTING STUDENT. Unique to each student, and assigned by WFU. The email address connects multiple reports to a SINGLE STUDENT AUTHOR. It is NOT confidential though, so needs to be switched out. 
 
 *ta*  
+
 >The name of the TA assigning scores. Unique to instructor, and connects multiple reports scored by SINGLE TA. Again it is NOT confidential, so also needs to be switched out.
 
 Consider either:
@@ -118,9 +122,14 @@ Maybe this goes back to developing a habit of adopting one approach (like snake_
 * Need to review map, cast and bind commands again. Not sticking in my head.
 * Try visualizing the 2-D array of the TA comments as a mosaic plot.
 
-**Marking Lab Reports (random thoughts on a different project)**
+####\  
 
-Text files for processed lab reports already are structured so we can use them like corpus files with inline meta-data. All lab reports have this as embedded metadata up front:
+####Corpus Creation Using Student Lab Reports
+(Random thoughts on a different project)
+
+Text files for our processed lab reports already are structured so we can process them using Jerid's model for corpus files with inline meta-data. 
+
+All lab reports have these metadata embedded at the front end of the document:
 
 * Number of lab report in semester: first
 * This is a revision.
@@ -130,10 +139,7 @@ Text files for processed lab reports already are structured so we can use them l
 * Course number: 214
 * TA: *TA's NAME*
 
-Again, the main change we would need to make is to de-identify the student and TA. In theory I should be able to build some kind of direct replace functions for the TA-name and the Student-name. 
-
-
-
+Again, the we would need to de-identify the student and TA using some kind of firewalled search/replace functions. 
 
 ####\  
 
