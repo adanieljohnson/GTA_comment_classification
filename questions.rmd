@@ -1,7 +1,26 @@
 # R Code
 #### I cannot get numbers on CSV extracted data frames. 
 
-Ideas?
+Ideas? Detailed notes are in "Data_intake_1.rmd", starting Line 102.
+
+
+#### Why can I not append the read.csv command?
+This works fine:
+```{r}
+base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18.csv')
+head(base_data)
+```
+
+This fails:
+```{r}
+base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18.csv', header=FALSE)
+head(base_data)
+```
+I get:
+```	
+	Error in read_csv(file = "data/coded_full_comments_dataset_Spring18.csv",  : 
+  unused argument (header = FALSE)
+```
 
 
 -----
@@ -11,17 +30,6 @@ Ideas?
 -----
 
 # Github
-#### When I work on Github, I see no easy way to create new file folders. 
-
-If I empty a folder, it is deleted automatically. Am I overlooking tools, or is goal to be working locally to create files and use web interface less often? 
-
------
-
-#### I am not sure how to clone and blend my OWN repos. 
-I was trying to build a starting point with both data code and web site pieces by cloning the web site repo, then adding the standard data layout folder. Could not see an obvious way to clone one of my own, or to blend two into one.
-
------
-
 #### Question about fork and branch. 
 When I fork another repo, I get comments saying I am "#" steps ahead of it. Should I clone instead? 
 
@@ -38,15 +46,5 @@ I know it is the long way around, but if I have a folder of resources someone gi
 So how do I tell R to use my GitHub repo's as their source for data?
 
 -----
-
-#### Having a slight problem with Git on laptop.
-I can use my desktop and create repos to Dropbox or local machine from GitHub. Laptop throws in an extra step that seems to corrupt process.
-
-**SOLVED**. The path to Git was wrong. Needs to be very specific: 
-/usr/local/git/bin/git
-
-Other Git and Git-GUI paths do not work.
-
-
 
 ####\  

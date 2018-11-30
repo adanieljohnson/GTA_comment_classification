@@ -331,7 +331,6 @@ div.tocify {
 
 <div id="session-1-oct.-1-2018" class="section level1">
 <h1>Session 1 (Oct. 1, 2018)</h1>
-<p>Change</p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
@@ -344,7 +343,8 @@ div.tocify {
 </div>
 <div id="session-3-nov.-12-2018" class="section level1">
 <h1>Session 3 (Nov. 12, 2018)</h1>
-<p>I have 11,000 comments from TAs on student reports. I want to parse them into topic groups more or less automatically, using pre-defined criteria. What are the options?</p>
+<p>I have 11,000 comments from TAs on student reports. Bringing in the tidied data and structuring it is not done, but is coming along.</p>
+<p>I want to parse TA comments into topic groups more or less automatically, using pre-defined criteria. What are the options?</p>
 <p><strong>Option: Latent Dirichlet Allocation</strong></p>
 <p>Found this:<br />
 “In text mining, we often have collections of documents, such as blog posts or news articles, that we’d like to divide into natural groups so that we can understand them separately. Topic modeling is a method for unsupervised classification of such documents, similar to clustering on numeric data, which finds natural groups of items even when we’re not sure what we’re looking for.”</p>
@@ -359,43 +359,111 @@ div.tocify {
 <li>Calculate word frequencies for each sub-type</li>
 <li>Compare frequencies by calculating log-odds ratios</li>
 </ul>
+<p><strong>Option: Comparison Modeling Via Text Classification</strong></p>
+<p>What if I treated each of the comments as text blocks where pre-defined words are more or less likely to be associated with the category. Jerid has a Shiny app that does something similar: <a href="https://francojc.github.io/2015/08/15/generating-annotated-text-in-shiny/" class="uri">https://francojc.github.io/2015/08/15/generating-annotated-text-in-shiny/</a></p>
 <div id="section-2" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="session-4-dec.-3-2018" class="section level1">
 <h1>Session 4 (Dec. 3, 2018)</h1>
+<p>Looking at Jerid’s Intro to Statistical Thinking clarified my approach. I definitely need to be thinking more about unsupervised exploration.</p>
+<p>My question is, training with 80% seems excessive. When there is a large dataset, is there benefit to splitting to 33/33/34%, or 25% x 4? The 80/20 and 60/20/20% seem out of balance, but there is probably logic I do not see.</p>
 <div id="section-3" class="section level4">
+<h4> </h4>
+<p><strong>Problem: Maintaining Confidentiality</strong> My raw dataset contains confidential information that needs to be de-identified. Problem is, how do I convert the data so it can be displayed on a public site?</p>
+<p>Most obvious solution to problem is to write bridge scripts. I keep the script versions that actually read my data in private repo. The public versions of these scripts would have have empty placeholder spaces in the key commands that read in the data. Without correct system paths, outside users should not be able to access them. I can provide the de-identified data publicly, but not expose the confidential data.</p>
+<p>It will be essential to fully document how to add the correct path in the bridge script itself.</p>
+</div>
+<div id="section-4" class="section level4">
+<h4> </h4>
+<p><strong>What Are the Identifying Tags For Structuring the Dataset?</strong> What I have already.</p>
+<p><em>record.id</em><br />
+Column with a semester ID and 5-digit number, like sp18.00001. Indicates the data line is from Spring 2018 CSV file, and is line 00001 of the data table. This should be the unique primary key value for each record. Once assigned, it should not change.</p>
+<p><em>report.id</em><br />
+Format is R_nnn. Value is assigned by Qualtrics when report is collected by our system. It is anonymous, and serves as a unique id for each REPORT document that we collect.</p>
+<p><em>student</em><br />
+The email address of the SUBMITTING STUDENT. Unique to each student, and assigned by WFU. The email address connects multiple reports to a single author. NOT confidential though, so needs to be switched out.</p>
+<p><em>ta</em><br />
+The name of the TA assigning scores. Unique to instructor, and connects multiple reports scored by single TA. NOT confidential, so also needs to be switched out.</p>
+<p>Consider either:</p>
+<ul>
+<li>Creating lists of non-repeating IDs with S_nnn = Student name, T_nnn = TA name.</li>
+<li>Creating 25K list of randomly generated non-repeating names.</li>
+</ul>
+</div>
+<div id="section-5" class="section level4">
+<h4> </h4>
+<p><strong>For What It’s Worth</strong> Maybe it is just me, but something to keep in mind about the instructional materials. Some outside sources have used generic terms in ways that make code structure more confusing. For example, using the words “text” or “word” as a variable_name is confusing if the same word is used as part of commands.</p>
+<p>The best example I have of this is when I tried to use the unnest_tokens command. Look below; are the terms inside the parentheses variable_names, or instructional modifiers for the command?</p>
+<p>{r} (text_tibble) %&gt;% unnest_tokens(word,text)</p>
+<p>Just adding a numeral to show it is a variable name would help. For example, “text_1” clearly is not a command or modifier term.</p>
+<p>Maybe this goes back to the mindset of adopting some kind of standardized naming conventions, like adopting snake_case, or never using “_&quot; as the first character in a filename.</p>
+<blockquote>
+<p>Thank you x^y times over for the Regex101 link! Getting Regex right has been a pain for me! This greatly simplifies the process.</p>
+</blockquote>
+<p><strong>Miscellaneous To Do</strong></p>
+<ul>
+<li>Need to review map, cast and bind commands again. Not sticking in my head.</li>
+<li>Try visualizing the 2-D array of the TA comments as a mosaic plot.</li>
+</ul>
+<p><strong>Marking Lab Reports (random thoughts on a different project)</strong></p>
+<p>Text files for processed lab reports already are structured so we can use them like corpus files with inline meta-data. All lab reports have this as embedded metadata up front:</p>
+<ul>
+<li>Number of lab report in semester: first</li>
+<li>This is a revision.</li>
+<li>Date submitted: 2018-11-06 12:17:40</li>
+<li>Author of this lab report is: <em>Student’s NAME</em></li>
+<li>ID: R_1et5dvwqfl2ZCX1</li>
+<li>Course number: 214</li>
+<li>TA: <em>TA’s NAME</em></li>
+</ul>
+<p>The one change we would need to make is to de-identify the student and TA. In theory we should be able to create two lookup tables and do a direct replace for the TA-name and the Student-name.</p>
+<hr />
+<p>unique(base_data$course)</p>
+<p>[1] 113 114 NA 214</p>
+<p>unique(base_data$code.subject)</p>
+<p>[1] “3. Technical and Scientific” “2. Writing Quality”<br />
+[3] “4. Logic and Thinking” “5. Praise or Concern”<br />
+[5] “12. Narrative Comments” “1. Basic Criteria”<br />
+[7] “6. Misconduct” “11. FLAG”<br />
+[9] “8. No basis to judge” “Scientific Name”<br />
+[11] “7. Policy, Administrative” “9. SPLIT”</p>
+<p>unique(base_data$code.structure)</p>
+<p>[1] “Copy Correction” “Specific info” “General info”<br />
+[4] “Holistic” “Pointer” “No basis to judge” [7] “Idiomatic” NA</p>
+</div>
+<div id="section-6" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="session-5-jan.-14-2019" class="section level1">
 <h1>Session 5 (Jan. 14, 2019)</h1>
-<div id="section-4" class="section level4">
+<div id="section-7" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="session-6-feb.-4-2019" class="section level1">
 <h1>Session 6 (Feb. 4, 2019)</h1>
-<div id="section-5" class="section level4">
+<div id="section-8" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="session-7-feb.-25-2019" class="section level1">
 <h1>Session 7 (Feb. 25, 2019)</h1>
-<div id="section-6" class="section level4">
+<div id="section-9" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="session-8-mar.-18-2019" class="section level1">
 <h1>Session 8 (Mar. 18, 2019)</h1>
-<div id="section-7" class="section level4">
+<div id="section-10" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="references" class="section level1">
 <h1>References</h1>
-<div id="section-8" class="section level4">
+<div id="section-11" class="section level4">
 <h4> </h4>
 </div>
 </div>
