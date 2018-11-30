@@ -358,12 +358,12 @@ div.tocify {
 </div>
 <div id="specific-project-goals" class="section level2">
 <h2>Specific Project Goals</h2>
-<p>An existing Unix-based script can extract TA comments and meta-data for each student report then assemble the data into a CSV file. Classifying TA comments by hand is impractical for routine use though; 10-12,000 score-able comments are generated EACH SEMESTER. An automated classification method is needed both for speed and consistency.</p>
+<p>TA comments and meta-data for each student report can be extracted and compiled into a CSV datafile using an existing Unix script. However routinely classifying TA comments by hand is impractical; 10-12,000 comments need to be scored EACH SEMESTER. An automated classification method is needed both for speed and consistency.</p>
 <p>For my project I will be building an R-based text analysis workflow that:</p>
 <ol style="list-style-type: decimal">
-<li><strong>Creates a de-identified dataset.</strong> Required data will be extracted from the master dataset and organized in an anonymized data frame where all names, comments, and confidential metadata are re-keyed to unique random identifiers.</li>
-<li><strong>Classifies TA comments according to our existing codebook</strong>. Initially I will be evaluating whether terms frequencies can be used to classify comments. The goal is to be able to assign instructor comments into our pre-defined Subject and Structure codes with 90% accuracy or greater</li>
-<li><strong>Sorts TA comments using unsupervised grouping methods</strong>. The codebook for classifying TA comments makes prior assumptions about most relevant features. Unsupervised grouping may uncover more robust or informative classification methods.</li>
+<li><strong>Creates a de-identified dataset.</strong> Required data will be extracted from the master CSV data set and organized in an anonymized data frame where all names, comments, and confidential metadata are re-keyed to unique random identifiers.</li>
+<li><strong>Classifies TA comments according to our existing codebook</strong>. The goal is to be able to assign instructor comments into our pre-defined Subject and Structure codes with 90% accuracy or greater. Initially I will be evaluating whether terms frequencies can be used to classify comments. Other methods will be evaluated as they come to light.</li>
+<li><strong>Sorts TA comments using unsupervised grouping methods</strong>. The codebook for classifying TA comments makes prior assumptions about most relevant text features. Unsupervised learning may uncover more robust or informative classification groups.</li>
 </ol>
 <div id="section-3" class="section level4">
 <h4> </h4>

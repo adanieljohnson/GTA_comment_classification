@@ -35,6 +35,8 @@ We have amassed a structured database of laboratory reports written by undergrad
 
 We are using text-mining approaches to map key features of student writing, as well as connections and correlations between those features, that can inform how we teach technical writing.
 
+####\  
+
 ## Context for This Project
 Students make greater gains as writers when instructors avoid just telling students what to correct ("copy editing"), and adopt a coaching- oriented approach instead. To that end, we train graduate teaching assistants use a **global first, specific later** approach to grading undergraduate technical writing. We ask them to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students' writing improves, the TA can focus on smaller issues.   
 

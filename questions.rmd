@@ -1,18 +1,19 @@
 # R Code
 #### I cannot get numbers on CSV extracted data frames. 
 
-Ideas? Detailed notes are in "Data_intake_1.rmd", starting Line 102.
+Detailed notes are in "Data_intake_1.rmd", starting Line 102. Any ideas?
 
+####\  
 
 #### Why can I not append the read.csv command?
 This works fine:
-```{r}
+```
 base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18.csv')
 head(base_data)
 ```
 
 This fails:
-```{r}
+```
 base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18.csv', header=FALSE)
 head(base_data)
 ```
@@ -35,15 +36,9 @@ When I fork another repo, I get comments saying I am "#" steps ahead of it. Shou
 
 -----
 
-#### Can I build multiple files in R, then push project to GitHub as a complete repo?
-Yep. Found instructions for doing it on this website.
-https://cfss.uchicago.edu/git05.html
-
-Is this correct, that if need be, I could download a ZIP of a project from someone else, unpack in my local machine (Dropbox, actually), then upload back to GitHub just the same as if I cloned it directly inside GH?
-
-I know it is the long way around, but if I have a folder of resources someone gives me, it seems rude to ask, "can you put that on GitHub first for me?"
-
-So how do I tell R to use my GitHub repo's as their source for data?
+# Archived
+#### How to create files in R, then push to GitHub as a complete repo
+Instructions for doing it on this website. [https://cfss.uchicago.edu/git05.html]()
 
 -----
 
