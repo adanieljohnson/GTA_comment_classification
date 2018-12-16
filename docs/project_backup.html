@@ -816,7 +816,7 @@ base_data_tokenized_sorted2 &lt;- base_data_tokenized %&gt;%
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
 <pre class="r"><code>  ggsave(&quot;Freqplot_3vs2.png&quot;, width = 10, height = 6)</code></pre>
 <pre class="r"><code>#I can get part way around the problem by re-using the same data and calling a different subset for the Y axis. Want to add comparisons of 3 vs 4, but same tables cannot be created because dataframe keeps breaking when I try to change 2. WQ.
 
@@ -830,7 +830,7 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <pre class="r"><code>  ggsave(&quot;Freqplot_4vs2.png&quot;, width = 10, height = 6)</code></pre>
 <p>END of broken / limping section</p>
 </div>
@@ -863,7 +863,7 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Technical-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2. Writing Quality&quot;, &quot;3. Technical and Scientific&quot;))</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs3.png&quot;, width = 6, height = 10)</code></pre>
 <p><strong>3. Technical vs. 4. Logic</strong></p>
 <pre class="r"><code>word_ratios3v4 &lt;- base_data_tokenized %&gt;%
@@ -892,7 +892,7 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Technical-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;3. Technical and Scientific&quot;,&quot;4. Logic and Thinking&quot;))</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_3vs4.png&quot;, width = 6, height = 10)</code></pre>
 <p><strong>2. Writing versus 4. Logic</strong></p>
 <pre class="r"><code>word_ratios2v4 &lt;- base_data_tokenized %&gt;%
@@ -921,7 +921,7 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2. Writing Quality&quot;, &quot;4. Logic and Thinking&quot;))</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs4.png&quot;, width = 6, height = 10)</code></pre>
 </div>
 </div>
@@ -1077,21 +1077,21 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
 <p>Graphs 4-6 are pair-wise comparisons of frequencies for sub-categories. Unlike the comparisons to overall frequency, most words are NOT clustered on the trendline, suggesting there are differences in word usage.</p>
 <pre class="r"><code>ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
@@ -1099,21 +1099,21 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
+<p><img src="project_backup_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
 <div id="section-9" class="section level4">
 <h4><br />
 </h4>
