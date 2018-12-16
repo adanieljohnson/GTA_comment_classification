@@ -11,7 +11,7 @@ navbar:
     href: pre_work.html
   - text: "Questions"
     icon: fa-question-circle
-    href: questions.html
+    href: draft.html
   - text: "Project"
     icon: fa-archive
     href: project.html

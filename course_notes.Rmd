@@ -22,6 +22,11 @@ While learning the coding, I have been thinking about how to approach the larger
 
 ####\  
 
+**Option: Naive Bayes Text Classification**
+
+I found this summary, and a description of the approach at
+
+
 **Option: Latent Dirichlet Allocation**  
 
 I found this summary, and a description of the approach at
@@ -79,25 +84,15 @@ Any gaps or problems with this approach?
 ####Primary Data Keys For Structuring the Dataset?
 These are values that are present already in the dataset.
 
-*record.id*  
+*record.id*: Column is a semester ID and 5-digit number, like sp18.00001. This particular record.id indicates the data line is from Spring 2018 CSV file, and is line 00001 of the data table. This should be the unique primary key value for each record. Once assigned, it should not change.
 
->Column is a semester ID and 5-digit number, like sp18.00001. This particular record.id indicates the data line is from Spring 2018 CSV file, and is line 00001 of the data table. This should be the unique primary key value for each record. Once assigned, it should not change.
+*report.id*: Format is R\_nnn(...). The string is assigned to each entry made in Qualtrics. This particular string is assigned when a report is collected by our system. It is anonymous, and serves as a unique id for each REPORT document that we collect.
 
-*report.id*  
+*student*: The email address of the SUBMITTING STUDENT. Unique to each student, and assigned by WFU. The email address connects multiple reports to a SINGLE STUDENT AUTHOR. It is NOT confidential though, so needs to be switched out. 
 
->Format is R\_nnn(...). The string is assigned to each entry made in Qualtrics. This particular string is assigned when a report is collected by our system. It is anonymous, and serves as a unique id for each REPORT document that we collect.
+*ta*: The name of the TA assigning scores. Unique to instructor, and connects multiple reports scored by SINGLE TA. Again it is NOT confidential, so also needs to be switched out.
 
-*student*  
-
->The email address of the SUBMITTING STUDENT. Unique to each student, and assigned by WFU. The email address connects multiple reports to a SINGLE STUDENT AUTHOR. It is NOT confidential though, so needs to be switched out. 
-
-*ta*  
-
->The name of the TA assigning scores. Unique to instructor, and connects multiple reports scored by SINGLE TA. Again it is NOT confidential, so also needs to be switched out.
-
-Consider either:
-
-* Creating lists of non-repeating IDs with S\_nnn(...) = Student name, T\_nnn(...) = TA name. Then assign the names via a "lookup" style function
+Strategy we decided is to create ing lists of non-repeating IDs with S\_nnn(...) = Student name, T\_nnn(...) = TA name. Then assign the names via a "mutate" and join by row_number function
 * Using a global names generator to build 25K list of randomly generated non-repeating first_last names. In practice, random names are easier to scan for visually.   
 
 ####\  
