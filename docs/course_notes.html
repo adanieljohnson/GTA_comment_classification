@@ -302,7 +302,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="questions.html">
+  <a href="draft.html">
     <span class="fa fa-question-circle"></span>
      
     Questions
@@ -347,6 +347,8 @@ div.tocify {
 <p>While learning the coding, I have been thinking about how to approach the larger problem once data are in a reasonable form. I want to sort TA comments into topic groups more or less automatically, using pre-defined criteria. What are my options?</p>
 <div id="section-2" class="section level4">
 <h4> </h4>
+<p><strong>Option: Naive Bayes Text Classification</strong></p>
+<p>I found this summary, and a description of the approach at</p>
 <p><strong>Option: Latent Dirichlet Allocation</strong></p>
 <p>I found this summary, and a description of the approach at <a href="">https://www.tidytextmining.com/topicmodeling.html</a>:</p>
 <blockquote>
@@ -401,27 +403,11 @@ div.tocify {
 <div id="primary-data-keys-for-structuring-the-dataset" class="section level4">
 <h4>Primary Data Keys For Structuring the Dataset?</h4>
 <p>These are values that are present already in the dataset.</p>
-<p><em>record.id</em></p>
-<blockquote>
-<p>Column is a semester ID and 5-digit number, like sp18.00001. This particular record.id indicates the data line is from Spring 2018 CSV file, and is line 00001 of the data table. This should be the unique primary key value for each record. Once assigned, it should not change.</p>
-</blockquote>
-<p><em>report.id</em></p>
-<blockquote>
-<p>Format is R_nnn(…). The string is assigned to each entry made in Qualtrics. This particular string is assigned when a report is collected by our system. It is anonymous, and serves as a unique id for each REPORT document that we collect.</p>
-</blockquote>
-<p><em>student</em></p>
-<blockquote>
-<p>The email address of the SUBMITTING STUDENT. Unique to each student, and assigned by WFU. The email address connects multiple reports to a SINGLE STUDENT AUTHOR. It is NOT confidential though, so needs to be switched out.</p>
-</blockquote>
-<p><em>ta</em></p>
-<blockquote>
-<p>The name of the TA assigning scores. Unique to instructor, and connects multiple reports scored by SINGLE TA. Again it is NOT confidential, so also needs to be switched out.</p>
-</blockquote>
-<p>Consider either:</p>
-<ul>
-<li>Creating lists of non-repeating IDs with S_nnn(…) = Student name, T_nnn(…) = TA name. Then assign the names via a “lookup” style function</li>
-<li>Using a global names generator to build 25K list of randomly generated non-repeating first_last names. In practice, random names are easier to scan for visually.</li>
-</ul>
+<p><em>record.id</em>: Column is a semester ID and 5-digit number, like sp18.00001. This particular record.id indicates the data line is from Spring 2018 CSV file, and is line 00001 of the data table. This should be the unique primary key value for each record. Once assigned, it should not change.</p>
+<p><em>report.id</em>: Format is R_nnn(…). The string is assigned to each entry made in Qualtrics. This particular string is assigned when a report is collected by our system. It is anonymous, and serves as a unique id for each REPORT document that we collect.</p>
+<p><em>student</em>: The email address of the SUBMITTING STUDENT. Unique to each student, and assigned by WFU. The email address connects multiple reports to a SINGLE STUDENT AUTHOR. It is NOT confidential though, so needs to be switched out.</p>
+<p><em>ta</em>: The name of the TA assigning scores. Unique to instructor, and connects multiple reports scored by SINGLE TA. Again it is NOT confidential, so also needs to be switched out.</p>
+<p>Strategy we decided is to create ing lists of non-repeating IDs with S_nnn(…) = Student name, T_nnn(…) = TA name. Then assign the names via a “mutate” and join by row_number function * Using a global names generator to build 25K list of randomly generated non-repeating first_last names. In practice, random names are easier to scan for visually.</p>
 </div>
 <div id="section-8" class="section level4">
 <h4> </h4>

@@ -9,7 +9,7 @@ navbar:
   - text: "Pre-Work"
     icon: fa-puzzle-piece
     href: pre_work.html
-  - text: "Questions"
+  - text: "Draft"
     icon: fa-question-circle
     href: draft.html
   - text: "Project"

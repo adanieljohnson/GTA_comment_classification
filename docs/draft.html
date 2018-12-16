@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Dan Johnson" />
+
+<meta name="date" content="2018-10-26" />
+
+<title>Project</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analyzing TA Comments in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="course_notes.html">
+    <span class="fa fa-leaf"></span>
+     
+    Course Notes
+  </a>
+</li>
+<li>
+  <a href="pre_work.html">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    Pre-Work
+  </a>
+</li>
+<li>
+  <a href="draft.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Questions
+  </a>
+</li>
+<li>
+  <a href="project.html">
+    <span class="fa fa-archive"></span>
+     
+    Project
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Project</h1>
+<h4 class="author"><em>Dan Johnson</em></h4>
+<h4 class="date"><em>10/26/2018</em></h4>
+
+</div>
+
+
+<div id="abstract" class="section level1">
+<h1>Abstract</h1>
+<div id="section" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+<div id="introduction" class="section level1">
+<h1>Introduction</h1>
+<div id="background" class="section level2">
+<h2>Background</h2>
+<p>Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops “along the way.” Or, the instructional strategy is haphazardly designed, implemented, and executed. Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills.</p>
+<p>Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These instructors may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively.</p>
+<p>In 2014 we launched an automated data collection process we call SAWHET that collects systematic observations and sample data from student writers and graduate instructors. Our resarch goal is to better understand student and instructor behaviors within the technical writing instructional space. Our practical goal is to develop techniques for teaching technical writing that:</p>
+<ul>
+<li>Can be implemented at large scale by less experienced teaching assistants;</li>
+<li>Emphasize student development through holistic coaching;</li>
+<li>Shift student and instructor attention away from simple copy-correction towards larger writing issues; and</li>
+<li>Embody other best practices outlined in nearly 40 years of research literature on “writing in the disciplines.”</li>
+</ul>
+<p>We have a structured database of &gt;5000 laboratory reports written by undergraduate students for introductory biology courses. In addition we have all comments that a TA made on the individual reports, plus associated metadata:</p>
+<ul>
+<li>Context. Was it first or second report of the semester? Initial submission or revision? What course and topic in the course? What year in college was the author?</li>
+<li>Instructor information. Which TA provided the feedback? What score was assigned, and what what the rationale behind that score?</li>
+</ul>
+<p>We are using multiple text-mining methods to map key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.</p>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="context-for-this-project-prior-work" class="section level2">
+<h2>Context for This Project &amp; Prior Work</h2>
+<p>Students make greater gains as writers if instructors avoid telling students what to correct (“copy editing”), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a <strong>global first, specific later</strong> approach to grading undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students’ writing improves, the TA can focus on smaller issues.</p>
+<p>This strategy is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, <strong>“what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?”</strong></p>
+<p>In Summer 2018, we began analyzing TAs’ comments from student papers. We extracted and tabulated all comments from approximately 500 pairs of reports (initial submissions and revisions) collected during a single semester in 3 different courses. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent. In all, the final tabulated dataset included ~11,000 separate comments.</p>
+<p>We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)</p>
+<p>Coded TA comments were sorted on two axes:</p>
+<ul>
+<li><strong>Subject</strong>: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues</li>
+<li><strong>Structure</strong>: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?</li>
+</ul>
+<p>The sorted contingency table provided us with a relative estimate of TA effort.</p>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="the-central-problem-of-this-project" class="section level2">
+<h2>The Central Problem of This Project</h2>
+<p>Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.</p>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+</div>
+</div>
+<div id="literature-review" class="section level1">
+<h1>Literature Review</h1>
+<div id="general-approach-to-initial-dataset" class="section level2">
+<h2>General Approach to Initial Dataset</h2>
+<p>The following excerpt from <em>Text Mining with R: A Tidy Approach</em> (Julia Silge and David Robinson) summarizes how extended text (in this case, TA comments) can be organized as a tidy matrix.<em>All emphases are mine.</em></p>
+<blockquote>
+<p>We thus define the tidy text format as being a table with one-token-per-row. A token is a <strong>meaningful unit of text</strong>, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens.</p>
+</blockquote>
+<blockquote>
+<p>This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, <strong>but can also be an n-gram, sentence, or paragraph</strong> . In the tidytext package, we provide functionality to tokenize by commonly used units of text like these and convert to a one-term-per-row format.</p>
+</blockquote>
+<p>Using tidy format (vs. other common text data formats) better maintains relationships between individual comments and metadata, which simplifies subsequent analysis.</p>
+<div id="section-4" class="section level4">
+<h4> </h4>
+</div>
+</div>
+</div>
+<div id="methods" class="section level1">
+<h1>Methods</h1>
+<div id="section-5" class="section level4">
+<h4> </h4>
+</div>
+<div id="preliminary-analysis" class="section level2">
+<h2>Preliminary Analysis</h2>
+<div id="log-odds-text-comparison" class="section level3">
+<h3>Log-Odds Text Comparison</h3>
+<div id="comparing-pearson-correlations-of-word-frequencies" class="section level4">
+<h4>Comparing Pearson Correlations of Word Frequencies</h4>
+</div>
+<div id="calculating-and-plotting-log-odds-pairs" class="section level4">
+<h4>Calculating and Plotting Log-Odds Pairs</h4>
+</div>
+</div>
+<div id="direct-comparison-using-only-words-appearing-in-all-subsets-of-comments" class="section level3">
+<h3>Direct Comparison Using Only Words Appearing in All Subsets of Comments</h3>
+</div>
+<div id="other-analysis-approaches" class="section level3">
+<h3>Other Analysis Approaches</h3>
+<div id="section-6" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<div id="section-7" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+<div id="section-8" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+</div>
+<div id="results" class="section level1">
+<h1>Results</h1>
+<div id="section-9" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+<div id="discussion" class="section level1">
+<h1>Discussion</h1>
+<div id="section-10" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+<div id="conclusion" class="section level1">
+<h1>Conclusion</h1>
+<div id="section-11" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<div id="section-12" class="section level4">
+<h4><br />
+</h4>
+</div>
+</div>
+
+<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
