@@ -11,9 +11,9 @@
 
 <meta name="author" content="Dan Johnson" />
 
-<meta name="date" content="2018-10-26" />
+<meta name="date" content="2018-12-16" />
 
-<title>Project</title>
+<title>Data Intake &amp; Initial Exploration</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -326,90 +326,20 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Project</h1>
+<h1 class="title toc-ignore">Data Intake &amp; Initial Exploration</h1>
 <h4 class="author"><em>Dan Johnson</em></h4>
-<h4 class="date"><em>10/26/2018</em></h4>
+<h4 class="date"><em>12/16/2018</em></h4>
 
 </div>
 
 
-<div id="abstract" class="section level1">
-<h1>Abstract</h1>
+<p>The initial working dataset is an anonymized Excel table of 10,808 rows. One column has “TA comments” extracted from student lab reports. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
 <div id="section" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-<div id="introduction" class="section level1">
-<h1>Introduction</h1>
-<div id="background" class="section level2">
-<h2>Background</h2>
-<p>Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops “along the way.” Or, the instructional strategy is haphazardly designed, implemented, and executed. Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills.</p>
-<p>Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These instructors may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively.</p>
-<p>In 2014 we launched an automated data collection process we call SAWHET that collects systematic observations and sample data from student writers and graduate instructors. Our resarch goal is to better understand student and instructor behaviors within the technical writing instructional space. Our practical goal is to develop techniques for teaching technical writing that:</p>
-<ul>
-<li>Can be implemented at large scale by less experienced teaching assistants;</li>
-<li>Emphasize student development through holistic coaching;</li>
-<li>Shift student and instructor attention away from simple copy-correction towards larger writing issues; and</li>
-<li>Embody other best practices outlined in nearly 40 years of research literature on “writing in the disciplines.”</li>
-</ul>
-<p>We have a structured database of &gt;5000 laboratory reports written by undergraduate students for introductory biology courses. In addition we have all comments that a TA made on the individual reports, plus associated metadata:</p>
-<ul>
-<li>Context. Was it first or second report of the semester? Initial submission or revision? What course and topic in the course? What year in college was the author?</li>
-<li>Instructor information. Which TA provided the feedback? What score was assigned, and what what the rationale behind that score?</li>
-</ul>
-<p>We are using multiple text-mining methods to map key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.</p>
-<div id="section-1" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="context-for-this-project-prior-work" class="section level2">
-<h2>Context for This Project &amp; Prior Work</h2>
-<p>Students make greater gains as writers if instructors avoid telling students what to correct (“copy editing”), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a <strong>global first, specific later</strong> approach to grading undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students’ writing improves, the TA can focus on smaller issues.</p>
-<p>This strategy is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, <strong>“what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?”</strong></p>
-<p>In Summer 2018, we began analyzing TAs’ comments from student papers. We extracted and tabulated all comments from approximately 500 pairs of reports (initial submissions and revisions) collected during a single semester in 3 different courses. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent. In all, the final tabulated dataset included ~11,000 separate comments.</p>
-<p>We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)</p>
-<p>Coded TA comments were sorted on two axes:</p>
-<ul>
-<li><strong>Subject</strong>: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues</li>
-<li><strong>Structure</strong>: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?</li>
-</ul>
-<p>The sorted contingency table provided us with a relative estimate of TA effort.</p>
-<div id="section-2" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="the-central-problem-of-this-project" class="section level2">
-<h2>The Central Problem of This Project</h2>
-<p>Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.</p>
-<div id="section-3" class="section level4">
-<h4> </h4>
-</div>
-</div>
-</div>
-<div id="literature-review" class="section level1">
-<h1>Literature Review</h1>
-<div id="general-approach-to-initial-dataset" class="section level2">
-<h2>General Approach to Initial Dataset</h2>
-<p>The following excerpt from <em>Text Mining with R: A Tidy Approach</em> (Julia Silge and David Robinson) summarizes how extended text (in this case, TA comments) can be organized as a tidy matrix.<em>All emphases are mine.</em></p>
-<blockquote>
-<p>We thus define the tidy text format as being a table with one-token-per-row. A token is a <strong>meaningful unit of text</strong>, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, <strong>but can also be an n-gram, sentence, or paragraph</strong> . In the tidytext package, we provide functionality to tokenize by commonly used units of text like these and convert to a one-term-per-row format.</p>
-</blockquote>
-<p>Using tidy format (vs. other common text data formats) better maintains relationships between individual comments and metadata, which simplifies subsequent analysis.</p>
-<div id="section-4" class="section level4">
-<h4> </h4>
-</div>
-</div>
-</div>
-<div id="methods" class="section level1">
-<h1>Methods</h1>
-<p>Our initial working dataset is an anonymized Excel table with one column of “TA comments” extracted from student lab reports. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
-<div id="section-5" class="section level4">
 <h4> </h4>
 </div>
 <div id="data-pre-checks" class="section level2">
 <h2>Data Pre-Checks</h2>
-<p>A CSV file named “coded_full_comments_dataset_Spring18anon.csv” should have correctly organized text and meta-data. Prior to import, review data table in Excel. Check:</p>
+<p>Prior to import, review data table in Excel. Check:</p>
 <ol style="list-style-type: decimal">
 <li>Vocabulary terms used in coding columns matches criteria in “codebook_for_comments.md”</li>
 <li>Data have been de-identified and recoded using pre-assigned anonymous IDs.</li>
@@ -420,130 +350,104 @@ div.tocify {
 <tr class="header">
 <th>Column Number</th>
 <th>Column Name</th>
+<th>Column Number</th>
+<th>Column Name</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
 <td>1</td>
 <td>unique.record</td>
-</tr>
-<tr class="even">
-<td>2</td>
-<td>report.id</td>
-</tr>
-<tr class="odd">
-<td>3</td>
-<td>sort</td>
-</tr>
-<tr class="even">
-<td>4</td>
-<td>report.title (empty)</td>
-</tr>
-<tr class="odd">
-<td>5</td>
-<td>student (Std_nnn)</td>
-</tr>
-<tr class="even">
-<td>6</td>
-<td>course</td>
-</tr>
-<tr class="odd">
-<td>7</td>
-<td>ta (TA_nnn)</td>
-</tr>
-<tr class="even">
-<td>8</td>
-<td>lab</td>
-</tr>
-<tr class="odd">
-<td>9</td>
-<td>tag</td>
-</tr>
-<tr class="even">
-<td>10</td>
-<td>type.TA</td>
-</tr>
-<tr class="odd">
-<td>11</td>
-<td>grade.TA</td>
-</tr>
-<tr class="even">
-<td>12</td>
-<td>grading.time</td>
-</tr>
-<tr class="odd">
-<td>13</td>
-<td>Rank</td>
-</tr>
-<tr class="even">
-<td>14</td>
-<td>hypothesis.ok</td>
-</tr>
-<tr class="odd">
 <td>15</td>
 <td>data.ok</td>
 </tr>
 <tr class="even">
+<td>2</td>
+<td>report.id</td>
 <td>16</td>
 <td>citation.ok</td>
 </tr>
 <tr class="odd">
+<td>3</td>
+<td>sort</td>
 <td>17</td>
 <td>interpretation.ok</td>
 </tr>
 <tr class="even">
+<td>4</td>
+<td>report.title (empty)</td>
 <td>18</td>
 <td>organization.ok</td>
 </tr>
 <tr class="odd">
+<td>5</td>
+<td>student (Std_nnn)</td>
 <td>19</td>
 <td>techflaws.ok</td>
 </tr>
 <tr class="even">
+<td>6</td>
+<td>course</td>
 <td>20</td>
 <td>writing.ok</td>
 </tr>
 <tr class="odd">
+<td>7</td>
+<td>ta (TA_nnn)</td>
 <td>21</td>
 <td>comments.incorporated</td>
 </tr>
 <tr class="even">
+<td>8</td>
+<td>lab</td>
 <td>22</td>
 <td>ta.comment</td>
 </tr>
 <tr class="odd">
+<td>9</td>
+<td>tag</td>
 <td>23</td>
 <td>code.subject</td>
 </tr>
 <tr class="even">
+<td>10</td>
+<td>type.TA</td>
 <td>24</td>
 <td>code.structure</td>
 </tr>
 <tr class="odd">
+<td>11</td>
+<td>grade.TA</td>
 <td>25</td>
 <td>code.locus</td>
 </tr>
 <tr class="even">
+<td>12</td>
+<td>grading.time</td>
 <td>26</td>
 <td>code.scope</td>
 </tr>
 <tr class="odd">
+<td>13</td>
+<td>Rank</td>
 <td>27</td>
 <td>code.tone</td>
 </tr>
 <tr class="even">
+<td>14</td>
+<td>hypothesis.ok</td>
 <td>28</td>
 <td>code.notes</td>
 </tr>
 </tbody>
 </table>
 <p>Once all data are in correct format, export Excel file to CSV with name formatted as <strong>“coded_full_comments_dataset_SemYear.csv”</strong></p>
-<div id="section-6" class="section level4">
+<div id="section-1" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="initial-intake-and-post-check" class="section level2">
-<h2>Initial Intake and Post-Check</h2>
+<div id="initial-import-and-post-check" class="section level2">
+<h2>Initial Import and Post-Check</h2>
 <pre class="r"><code># Call in tidyverse, other required libraries.
 library(tidyverse)
 library(tidytext)
@@ -553,142 +457,36 @@ library(ggplot2)
 library(scales)</code></pre>
 <pre class="r"><code>#This block reads in the full CSV into a starting dataframe named &quot;base_data&quot;.
 #Subsequent analyses call in subsets of &quot;base_data&quot;.
-base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon.csv&#39;)</code></pre>
-<p>If the TA comments dataset is imported correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the <strong>Data Pre-Checks</strong> table above.</p>
+base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon.csv&#39;)
+
+#If the TA comments dataset is imported correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.</code></pre>
 <p>Given some data points may be entered incorrectly by instructors or students, I included several post-import data checks to ensure data have been properly coded and columns contain valid entries only.</p>
 <pre class="r"><code>#&quot;Course&quot; column should only have entries that correspond to 113, 114, 214, NA. 
-unique(base_data$course)</code></pre>
-<pre><code>## [1] 113 114  NA 214</code></pre>
-<pre class="r"><code>#Entries in &quot;TAs&quot; column should match the anonymous IDs that correspond to the TAs assigned to the relevant courses in the semester being analyzed. 
+course&lt;-unique(base_data$course)
+
+#Entries in &quot;TAs&quot; column should match the anonymous IDs that correspond to the TAs assigned to the relevant courses in the semester being analyzed. 
 #If there are incorrect or extra anonymous IDs in this list, the mostly likely source of the error is improper de-identification of the Excel file prior to import.
-unique(base_data$ta)</code></pre>
-<pre><code>##  [1] &quot;TA_bc8EVX09&quot; &quot;TA_YiRfsy28&quot; &quot;TA_kLMtS9Cu&quot; &quot;TA_l0zDB5kQ&quot; &quot;TA_fMNrLFgi&quot;
-##  [6] &quot;TA_kKK8bPFb&quot; &quot;TA_2R8KStqZ&quot; &quot;TA_TaMqWbpv&quot; &quot;TA_axAQrfTP&quot; &quot;TA_7lL5KRzf&quot;
-## [11] &quot;TA_rVWBLI1O&quot; &quot;TA_zoTYZxuS&quot; &quot;TA_0RcV6NvC&quot; &quot;TA_180JS8gb&quot; &quot;TA_T8nPUAZg&quot;</code></pre>
-<pre class="r"><code>#&quot;Lab&quot; should only have entries that match the limited keywords in codebook.
-unique(base_data$lab)</code></pre>
-<pre><code>## [1] &quot;allocation&quot;     &quot;betta&quot;          &quot;manduca&quot;        &quot;frog&quot;          
-## [5] NA               &quot;photosynthesis&quot; &quot;physarum&quot;</code></pre>
-<pre class="r"><code>#Look at the NUMBER of unique anonymous student IDs. Should be within 10% of (but not more than) the combined enrollment of the 3 target courses for the semester.
-unique(base_data$student)</code></pre>
-<pre><code>##   [1] &quot;Std_drVZ2x1W&quot; &quot;Std_St4XmzW9&quot; &quot;Std_k55eEnUN&quot; &quot;Std_NQE2hEZ9&quot;
-##   [5] &quot;Std_0d5y7JDx&quot; &quot;Std_xVZWs2b6&quot; &quot;Std_WWqzJAra&quot; &quot;Std_aiqyipj2&quot;
-##   [9] &quot;Std_negduoDf&quot; &quot;Std_Mqax2LC6&quot; &quot;Std_6QiXMN6g&quot; &quot;Std_p1Mcpg8E&quot;
-##  [13] &quot;Std_uy1tNt0j&quot; &quot;Std_mq6K5YTw&quot; &quot;Std_lWTDqb7O&quot; &quot;Std_uGT6Rmiv&quot;
-##  [17] &quot;Std_Avjg3aUu&quot; &quot;Std_LSB0YOpE&quot; &quot;Std_W703hu6U&quot; &quot;Std_H6n5PxOy&quot;
-##  [21] &quot;Std_ECIzVQHD&quot; &quot;Std_Ip0DBkaA&quot; &quot;Std_ru0R5p2a&quot; &quot;Std_SnnOjVX4&quot;
-##  [25] &quot;Std_OJEUVw25&quot; &quot;Std_MHlYBahq&quot; &quot;Std_De9Bg9OR&quot; &quot;Std_tFV9F1Ds&quot;
-##  [29] &quot;Std_dMO8JZlj&quot; &quot;Std_5SFrllJn&quot; &quot;Std_ds6eqfUl&quot; &quot;Std_XvlxBhPy&quot;
-##  [33] &quot;Std_HRS8b6PC&quot; &quot;Std_uHEfrYCr&quot; &quot;Std_bEQNz4NG&quot; &quot;Std_3efLeDKU&quot;
-##  [37] &quot;Std_ThPpsyyo&quot; &quot;Std_c2kHhFqV&quot; &quot;Std_ydWUBowA&quot; &quot;Std_Zfn3oav0&quot;
-##  [41] &quot;Std_EyScRSMZ&quot; &quot;Std_aW1vqkXu&quot; &quot;Std_JaSfqRxV&quot; &quot;Std_LzY08BzP&quot;
-##  [45] &quot;Std_NlQtHp7Q&quot; &quot;Std_krtFXJc2&quot; &quot;Std_Vnxin5cb&quot; &quot;Std_v5dh7rxq&quot;
-##  [49] &quot;Std_FdEfDUok&quot; &quot;Std_EtXmAMaE&quot; &quot;Std_o5sd5v6l&quot; &quot;Std_ZkBJYFSU&quot;
-##  [53] &quot;Std_nTrseYPd&quot; &quot;Std_vIwnncBr&quot; &quot;Std_oiS1EktC&quot; &quot;Std_DQQKHR5x&quot;
-##  [57] &quot;Std_F4yWIcx0&quot; &quot;Std_cw7hjCmF&quot; &quot;Std_24AzIkua&quot; &quot;Std_dvDlQ0vv&quot;
-##  [61] &quot;Std_ERmhon5S&quot; &quot;Std_P59ECO6v&quot; &quot;Std_65ITLnai&quot; &quot;Std_ARZ2FzDG&quot;
-##  [65] &quot;Std_NNe5WfpA&quot; &quot;Std_sSAj9YKg&quot; &quot;Std_rCbbcHSV&quot; &quot;Std_Y5ZgWWSU&quot;
-##  [69] &quot;Std_I54L6pql&quot; &quot;Std_QnFSxmzz&quot; &quot;Std_fV51amd3&quot; &quot;Std_lP7MDo7i&quot;
-##  [73] &quot;Std_J988mJ8o&quot; &quot;Std_RWwPJZEq&quot; &quot;Std_3ZCbXWf5&quot; &quot;Std_mzqfmeUf&quot;
-##  [77] &quot;Std_E9YN4Mk4&quot; &quot;Std_Cl1WKGJ1&quot; &quot;Std_syhpWMOJ&quot; &quot;Std_KqqpKDxS&quot;
-##  [81] &quot;Std_0tmbzXi9&quot; &quot;Std_mCobkdHA&quot; &quot;Std_lMDBoTdF&quot; &quot;Std_0R5jFmbi&quot;
-##  [85] &quot;Std_LnJ9T4X0&quot; &quot;Std_zVfMRJ2x&quot; &quot;Std_VN99AjaM&quot; &quot;Std_R0Gy2FQB&quot;
-##  [89] &quot;Std_bA2xY2Lq&quot; &quot;Std_JNJu7xJ7&quot; &quot;Std_Nu38Huyw&quot; &quot;Std_HxQqL9ro&quot;
-##  [93] &quot;Std_iLyF7kub&quot; &quot;Std_Ciwk8IUc&quot; &quot;Std_QVoQBUNa&quot; &quot;Std_YMJL3try&quot;
-##  [97] &quot;Std_4DppTzW5&quot; &quot;Std_lk7iRzZJ&quot; &quot;Std_hsrBfRti&quot; &quot;Std_91fMqP9R&quot;
-## [101] &quot;Std_FnS1cYdm&quot; &quot;Std_mRNXC26d&quot; &quot;Std_fyTic4NJ&quot; &quot;Std_GZRWoU7J&quot;
-## [105] &quot;Std_zNohGEGf&quot; &quot;Std_DxdgMj9o&quot; &quot;Std_NnOh3a5f&quot; &quot;Std_plkfjSYI&quot;
-## [109] &quot;Std_VYZJB4hR&quot; &quot;Std_dsBgq3Je&quot; &quot;Std_k6IwmB3w&quot; &quot;Std_4AkdMlRY&quot;
-## [113] &quot;Std_KaenyQ09&quot; &quot;Std_tX4A30cP&quot; &quot;Std_4uprNBBU&quot; &quot;Std_g62axQwR&quot;
-## [117] &quot;Std_byekg9XZ&quot; &quot;Std_AhIP0218&quot; &quot;Std_MRCmP90i&quot; &quot;Std_PDw9Qaqq&quot;
-## [121] &quot;Std_xRj6WabD&quot; &quot;Std_xiRRtWp2&quot; &quot;Std_OZfqbKa2&quot; &quot;Std_hB9pGzy8&quot;
-## [125] &quot;Std_jwVL7IEQ&quot; &quot;Std_mGkyTO1S&quot; &quot;Std_MzRP2CUX&quot; &quot;Std_y7JsFbNB&quot;
-## [129] &quot;Std_d57vCthw&quot; &quot;Std_cpdkqka4&quot; &quot;Std_aDRQYEJA&quot; &quot;Std_VSauewtT&quot;
-## [133] &quot;Std_YRHctdDK&quot; &quot;Std_0dBvru4j&quot; &quot;Std_ntWT94S4&quot; &quot;Std_SQBxPFsh&quot;
-## [137] &quot;Std_Jj5evFDR&quot; &quot;Std_mAwpSwBJ&quot; &quot;Std_Tu4f8cY7&quot; &quot;Std_e0tpV9QK&quot;
-## [141] &quot;Std_zrSpBR7Q&quot; &quot;Std_aRSEtXbD&quot; &quot;Std_eQovDY6x&quot; &quot;Std_r8OFGoR2&quot;
-## [145] &quot;Std_Nb05wCJC&quot; &quot;Std_jpGRMLJH&quot; &quot;Std_Lkr10s12&quot; &quot;Std_C2wSvW34&quot;
-## [149] &quot;Std_6n8Gk3sP&quot; &quot;Std_sMVaeGDR&quot; &quot;Std_MnsOH7Mp&quot; &quot;Std_fcbS8I9K&quot;
-## [153] &quot;Std_j8jpTZ4Y&quot; &quot;Std_Y8VEoBpi&quot; &quot;Std_lIEaUAzN&quot; &quot;Std_2cPZ3kIC&quot;
-## [157] &quot;Std_hSkOIUZ6&quot; &quot;Std_wmlxyFvq&quot; &quot;Std_j4KpJlWe&quot; &quot;Std_RGmdHih0&quot;
-## [161] &quot;Std_IozpePFm&quot; &quot;Std_4hesXShF&quot; &quot;Std_csSVIAoc&quot; &quot;Std_aWh1P2cJ&quot;
-## [165] &quot;Std_j3KUc1uM&quot; &quot;Std_I5aGgrf4&quot; &quot;Std_KKNXEfyd&quot; &quot;Std_pyHhznvl&quot;
-## [169] &quot;Std_3EEVDkjN&quot; &quot;Std_sKBKuq5g&quot; &quot;Std_vx2grlHl&quot; &quot;Std_xwn6VArZ&quot;
-## [173] &quot;Std_DA06f58s&quot; &quot;Std_uhGAwMPw&quot; &quot;Std_SQVuPeQ1&quot; &quot;Std_uj41dzuN&quot;
-## [177] &quot;Std_wpuMuSij&quot; &quot;Std_fm2ywxxl&quot; &quot;Std_xpiYkmCh&quot; &quot;Std_yBws4BiY&quot;
-## [181] &quot;Std_TsywmYZg&quot; &quot;Std_LNA4lJ8N&quot; &quot;Std_0AvcpNFm&quot; &quot;Std_nBMVAIO6&quot;
-## [185] &quot;Std_1yEVgMXy&quot; &quot;Std_88nnkx0P&quot; &quot;Std_6BNR6DsU&quot; &quot;Std_eYFep7VB&quot;
-## [189] &quot;Std_5G25hVGp&quot; &quot;Std_RjgbPjlb&quot; &quot;Std_jgfbvMOh&quot; &quot;Std_S5mHQTqK&quot;
-## [193] &quot;Std_FqGHz1Sa&quot; &quot;Std_XuHQprh3&quot; &quot;Std_bKJyajv0&quot; &quot;Std_oYA8I5bw&quot;
-## [197] &quot;Std_jnXsNANY&quot; &quot;Std_jsVspOQx&quot; &quot;Std_cBIStID6&quot; &quot;Std_AMOVmmxy&quot;
-## [201] &quot;Std_H1zJz3op&quot; &quot;Std_H3iUD7ET&quot; &quot;Std_bR83G1Qs&quot; &quot;Std_XHGZ6EVN&quot;
-## [205] &quot;Std_vKtLaAHQ&quot; &quot;Std_788UIJbt&quot; &quot;Std_gagMA5hd&quot; &quot;Std_gyxsrMmB&quot;
-## [209] &quot;Std_Ob9TgiI1&quot; &quot;Std_lvNKVGyp&quot; &quot;Std_Ifs8AaPB&quot; &quot;Std_UYaJ3xHb&quot;
-## [213] &quot;Std_UnrTzkrZ&quot; &quot;Std_EsedhxrC&quot; &quot;Std_VdRGIO5q&quot; &quot;Std_2mpB1tpE&quot;
-## [217] &quot;Std_LlOxCAez&quot; &quot;Std_7aaFBaoE&quot; &quot;Std_SCqjMEvU&quot; &quot;Std_2dYSEHxM&quot;
-## [221] &quot;Std_s85NvPii&quot; &quot;Std_ZBrQc9PQ&quot; &quot;Std_PfI9dOa2&quot; &quot;Std_M904Wobq&quot;
-## [225] &quot;Std_AqLDZ7Vz&quot; &quot;Std_5iwMi70u&quot; &quot;Std_JOyB2Sxm&quot; &quot;Std_siodWp7J&quot;
-## [229] &quot;Std_yoYDFUFU&quot; &quot;Std_sk8zbBg2&quot; &quot;Std_JLxrNUhh&quot; &quot;Std_cE5iOIrh&quot;
-## [233] &quot;Std_5uORBOgC&quot; &quot;Std_tmoEoTsD&quot; &quot;Std_JmgvWntD&quot; &quot;Std_CeNH3h8e&quot;
-## [237] &quot;Std_HgZWwcC4&quot; &quot;Std_z7N1s1nD&quot; &quot;Std_Gewk0K5X&quot; &quot;Std_PtCmYezw&quot;
-## [241] &quot;Std_VwPqdEhP&quot; &quot;Std_gme04CnP&quot; &quot;Std_1YAUQ71d&quot; &quot;Std_d5S8BOZW&quot;
-## [245] &quot;Std_NnshVSF5&quot; &quot;Std_u2xsXoDz&quot; &quot;Std_FRlaGFDL&quot; &quot;Std_PwofxBle&quot;
-## [249] &quot;Std_pkisbV1K&quot; &quot;Std_3e5u0c9P&quot; &quot;Std_trpvC0ah&quot; &quot;Std_uXS4mZaS&quot;
-## [253] &quot;Std_dbeNieJf&quot; &quot;Std_ZtVMqFqK&quot; &quot;Std_NG3kfGk0&quot; &quot;Std_giNertrJ&quot;
-## [257] &quot;Std_v3TRPKNK&quot; &quot;Std_18cDFx0W&quot; &quot;Std_4IspQVnT&quot; &quot;Std_C5rTMwB9&quot;
-## [261] &quot;Std_qa6vXrb1&quot; &quot;Std_Pirk0D4v&quot; &quot;Std_RZ5wjihE&quot; &quot;Std_bu4jwuxx&quot;
-## [265] &quot;Std_813s6fDn&quot; &quot;Std_LQhN2lAN&quot; &quot;Std_W0IeBITj&quot; &quot;Std_CiTFHFQv&quot;
-## [269] &quot;Std_gTe3GzJq&quot; &quot;Std_RyUebb9P&quot; &quot;Std_kcCBpj85&quot; &quot;Std_YjrcGeOq&quot;
-## [273] &quot;Std_4yMaUjU4&quot; &quot;Std_FbaSzFX8&quot; &quot;Std_vQ6git2q&quot; &quot;Std_y7CExnbl&quot;
-## [277] &quot;Std_UrwvIkif&quot; &quot;Std_DHMPWMOX&quot; &quot;Std_eLu0eVwW&quot; &quot;Std_tjQFNhz6&quot;
-## [281] &quot;Std_14kBczR4&quot; &quot;Std_ZsGlQZKk&quot; &quot;Std_feAt8ChY&quot; &quot;Std_V4vPOv7h&quot;
-## [285] &quot;Std_ednBy1Rm&quot; &quot;Std_mi8OEAfM&quot; &quot;Std_uLW5Uqaf&quot; &quot;Std_e6Q9Gisr&quot;
-## [289] &quot;Std_DiHEt721&quot; &quot;Std_ZxJV8Gx5&quot; &quot;Std_RVUaZljc&quot; &quot;Std_62X7yKgf&quot;
-## [293] &quot;Std_3RVWQ982&quot; &quot;Std_tcQptViN&quot; &quot;Std_JU3iDXrW&quot; &quot;Std_DvWeDV2R&quot;
-## [297] &quot;Std_KP2t3jbp&quot; &quot;Std_ySMsLvYB&quot; &quot;Std_4bDhaAWE&quot; &quot;Std_kc06qKHM&quot;
-## [301] &quot;Std_IgwEiD0o&quot; &quot;Std_irndqKjH&quot; &quot;Std_bmt3qkUp&quot; &quot;Std_hWFl2SPm&quot;
-## [305] &quot;Std_uoz4eNGQ&quot; &quot;Std_PgNJGmdI&quot; &quot;Std_88fMOMgP&quot; &quot;Std_HPSbQFn9&quot;
-## [309] &quot;Std_2rjlKeP5&quot; &quot;Std_F1xcDDcG&quot; &quot;Std_mUdkMeo5&quot; &quot;Std_mIjd9Xfd&quot;
-## [313] &quot;Std_BuzvhdQb&quot; &quot;Std_Z07raJMo&quot; &quot;Std_eYWuuy3e&quot; &quot;Std_UtBQV4H5&quot;
-## [317] &quot;Std_X4O0mOvT&quot; &quot;Std_hVAGDNXh&quot; &quot;Std_glPFRFxW&quot; &quot;Std_2PSe71wc&quot;
-## [321] &quot;Std_eibHGxXk&quot; &quot;Std_DdcMKGXE&quot; &quot;Std_dAg187gH&quot; &quot;Std_kI1a5Vj2&quot;
-## [325] &quot;Std_nV1HlgvZ&quot; &quot;Std_28AVesSp&quot; &quot;Std_LGzbyvli&quot; &quot;Std_I2wPy46g&quot;
-## [329] &quot;Std_mIHPhCqw&quot; &quot;Std_TNUSybA2&quot; &quot;Std_WCrvB03U&quot; &quot;Std_Z4iR3nL2&quot;
-## [333] &quot;Std_dtG2XZi5&quot; &quot;Std_VeRClqn3&quot; &quot;Std_HYrAtrvl&quot; &quot;Std_5nLW9iZI&quot;
-## [337] &quot;Std_EtP9gQsS&quot; &quot;Std_ORbHnxjf&quot; &quot;Std_yHpfNLHQ&quot; &quot;Std_dDrhx49g&quot;
-## [341] &quot;Std_ezajrbTc&quot; &quot;Std_CeyBsyIE&quot; &quot;Std_6ylFi2T4&quot; &quot;Std_sjhinntD&quot;
-## [345] &quot;Std_FIgieF18&quot; &quot;Std_kDY7iWqV&quot; &quot;Std_2azaNCCZ&quot; &quot;Std_NGcQpHxQ&quot;
-## [349] &quot;Std_03qE3rus&quot; &quot;Std_QGFq08Xc&quot; &quot;Std_dxAwD4J4&quot; &quot;Std_BEz71uYn&quot;
-## [353] &quot;Std_aURD8eFN&quot; &quot;Std_nF1X5F2t&quot; &quot;Std_emsp91h5&quot; &quot;Std_bwhQgSPL&quot;
-## [357] &quot;Std_az2adBbj&quot; &quot;Std_ojGVU7q1&quot; &quot;Std_GV3pvfRF&quot; &quot;Std_3r27MwJ0&quot;
-## [361] &quot;Std_BPqMChKa&quot; &quot;Std_xkK15XA1&quot; &quot;Std_kodKaXdo&quot; &quot;Std_H3SYaxWv&quot;
-## [365] &quot;Std_CZw7YuEu&quot; &quot;Std_sbpNGnnF&quot; &quot;Std_tiCw7g9Y&quot; &quot;Std_q9vkWMDZ&quot;
-## [369] &quot;Std_Gn36kqhC&quot; &quot;Std_1W8euIHO&quot; &quot;Std_FFg33ufk&quot; &quot;Std_UPVMxxlW&quot;
-## [373] &quot;Std_OVWzFQKI&quot; &quot;Std_9e9OxIM6&quot; &quot;Std_IJ1NWUuY&quot; &quot;Std_NsOadrDc&quot;
-## [377] &quot;Std_llrVN7KK&quot; &quot;Std_i1M8tttb&quot; &quot;Std_7N4ljVlI&quot; &quot;Std_STYNPwe0&quot;
-## [381] &quot;Std_hgvj2v8R&quot; &quot;Std_vJAIqGmD&quot; &quot;Std_EyLJLzrz&quot; &quot;Std_kjWmincI&quot;
-## [385] &quot;Std_Oh91eGFh&quot; &quot;Std_iPvfsvpe&quot; &quot;Std_P0KYrH0c&quot;</code></pre>
-<pre class="r"><code>#Check that the list of &quot;code.subject&quot; topics here matches allowed terms in codebook.
-unique(base_data$code.subject)</code></pre>
-<pre><code>##  [1] &quot;3. Technical and Scientific&quot; &quot;2. Writing Quality&quot;         
-##  [3] &quot;4. Logic and Thinking&quot;       &quot;5. Praise or Concern&quot;       
-##  [5] &quot;12. Narrative Comments&quot;      &quot;1. Basic Criteria&quot;          
-##  [7] &quot;6. Misconduct&quot;               &quot;11. FLAG&quot;                   
-##  [9] &quot;8. No basis to judge&quot;        &quot;Scientific Name&quot;            
-## [11] &quot;7. Policy, Administrative&quot;   &quot;9. SPLIT&quot;</code></pre>
-<pre class="r"><code>#Check that the list of &quot;code.structure&quot; terms extracted from the dataset and displayed here matches allowed terms in codebook.
-unique(base_data$code.structure)</code></pre>
-<pre><code>## [1] &quot;Copy Correction&quot;   &quot;Specific info&quot;     &quot;General info&quot;     
-## [4] &quot;Holistic&quot;          &quot;Pointer&quot;           &quot;No basis to judge&quot;
-## [7] &quot;Idiomatic&quot;         NA                  &quot;GEneral info&quot;</code></pre>
-<div id="section-7" class="section level4">
+ta&lt;-unique(base_data$ta)
+
+#&quot;Lab&quot; should only have entries that match the limited keywords in codebook.
+lab&lt;-unique(base_data$lab)
+
+#Look at the NUMBER of unique anonymous student IDs. Should be within 10% of (but not more than) the combined enrollment of the 3 target courses for the semester.
+student&lt;-unique(base_data$student)
+
+#Check that the list of &quot;code.subject&quot; topics here matches allowed terms in codebook.
+subject&lt;-unique(base_data$code.subject)
+
+#Check that the list of &quot;code.structure&quot; terms extracted from the dataset and displayed here matches allowed terms in codebook.
+structure&lt;-unique(base_data$code.structure)</code></pre>
+<div id="section-2" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="preliminary-analysis" class="section level2">
-<h2>Preliminary Analysis</h2>
-<p>The first question prior to deeper comparisons is <strong>are the comments obviously different between groups?</strong> Before conducting detailed analyses I tried several iterations of different visual comparison strategies.</p>
-<div id="section-8" class="section level4">
+<div id="preliminary-exploration" class="section level2">
+<h2>Preliminary Exploration</h2>
+<p>The first question to answer before making deeper comparisons is <strong>are the comments obviously different between sub-categories?</strong> Before conducting detailed analyses I tried several iterations of different visual comparison strategies.</p>
+<div id="section-3" class="section level4">
 <h4> </h4>
 </div>
 <div id="log-odds-text-comparison" class="section level3">
@@ -696,10 +494,10 @@ unique(base_data$code.structure)</code></pre>
 <p>The log-odds ratios method outlined below has been the most informative to date. The basic premise being tested is that certain words are more frequent in TA comments belonging to one sub-category, and less frequent in others. I first saw this approach as a way to compare word usage between separate Twitter accounts here: <a href="https://www.tidytextmining.com/twitter.html" class="uri">https://www.tidytextmining.com/twitter.html</a>.</p>
 <p>For simplicity I reduced the analysis to just the four most common comment subjects.</p>
 <pre class="r"><code># Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
-
 frequency_writing &lt;- filter(base_data, code.subject==&quot;2. Writing Quality&quot;|code.subject==&quot;3. Technical and Scientific&quot;|code.subject==&quot;4. Logic and Thinking&quot;)
-frequency_writing.subcolumns &lt;- frequency_writing %&gt;% select(1, 22:23)</code></pre>
-<pre class="r"><code># Tokenize phrases, remove stop words listed in standard reference file.
+frequency_writing.subcolumns &lt;- frequency_writing %&gt;% select(1, 22:23)
+
+# Tokenize phrases, remove stop words listed in standard reference file.
 base_data_tokenized &lt;- frequency_writing.subcolumns %&gt;% 
   unnest_tokens(word,ta.comment) %&gt;% 
   anti_join(stop_words)
@@ -723,7 +521,7 @@ base_data_tokenized_sorted2 &lt;- base_data_tokenized %&gt;%
 #The dataframe called &quot;base_data_tokenized_sorted2&quot; is the final 4-column dataframe for statistical analysis. Individual words are in column 1, &quot;2. Writing Quality&quot; frequency is in Column 2, &quot;code.subject&quot; is in column 3, and &quot;proportion&quot; is in column 4. Columns 1 and 3 are class = &quot;character&quot;, 2 and 4 are numeric ranges. 
 
 #This structure is needed in order to compare word (in Column 1) frequencies for 2. Writing Quality (Column 2) as Y values against the frequencies of those same words (in Column 4) as X axes. WHICH subset of X values to use is coded in Column 3.</code></pre>
-<p>Calculating Pearson correlation between the frequency of words in Writing Quality versus the other two groups.</p>
+<p><strong>Pearson correlation</strong> between the frequency of words in Writing Quality versus Technical and Logic sub-categoris.</p>
 <pre class="r"><code>cor.test(data = base_data_tokenized_sorted2[base_data_tokenized_sorted2$code.subject == &quot;3. Technical and Scientific&quot;,], 
          ~ proportion + `2. Writing Quality`)</code></pre>
 <pre><code>## 
@@ -750,6 +548,8 @@ base_data_tokenized_sorted2 &lt;- base_data_tokenized %&gt;%
 ## sample estimates:
 ##       cor 
 ## 0.5594369</code></pre>
+<hr />
+<hr />
 </div>
 <div id="start-of-broken-section" class="section level4">
 <h4>START OF BROKEN SECTION</h4>
@@ -796,7 +596,8 @@ base_data_tokenized_sorted3 &lt;- base_data_tokenized3 %&gt;%
 
 #END OF BROKEN SECTION</code></pre>
 <hr />
-<p>START OF SECTION I CANNOT COPY AND MODIFY. This section depends on the ability to calculate tables using the code above. So I cannot run this part either.</p>
+<hr />
+<p>I can run this block, but CANNOT COPY AND MODIFY THIS SECTION. It depends tables created using the broken code above. So I cannot run this part either.</p>
 <pre class="r"><code>#Create groups by code.subject, calculates proportional frequency in each group.
 #Final step creates 5 columns: code.subject, n, word, total, frequency.
 base_data_tokenized_sorted2 &lt;- base_data_tokenized %&gt;% 
@@ -816,7 +617,7 @@ base_data_tokenized_sorted2 &lt;- base_data_tokenized %&gt;%
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
 <pre class="r"><code>  ggsave(&quot;Freqplot_3vs2.png&quot;, width = 10, height = 6)</code></pre>
 <pre class="r"><code>#I can get part way around the problem by re-using the same data and calling a different subset for the Y axis. Want to add comparisons of 3 vs 4, but same tables cannot be created because dataframe keeps breaking when I try to change 2. WQ.
 
@@ -830,9 +631,9 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
 <pre class="r"><code>  ggsave(&quot;Freqplot_4vs2.png&quot;, width = 10, height = 6)</code></pre>
-<p>END of broken / limping section</p>
+<p>END of broken / limping section <strong><em> </em></strong></p>
 </div>
 <div id="calculating-and-plotting-log-odds-pairs" class="section level4">
 <h4>Calculating and Plotting Log-Odds Pairs</h4>
@@ -863,7 +664,7 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Technical-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2. Writing Quality&quot;, &quot;3. Technical and Scientific&quot;))</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs3.png&quot;, width = 6, height = 10)</code></pre>
 <p><strong>3. Technical vs. 4. Logic</strong></p>
 <pre class="r"><code>word_ratios3v4 &lt;- base_data_tokenized %&gt;%
@@ -892,7 +693,7 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Technical-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;3. Technical and Scientific&quot;,&quot;4. Logic and Thinking&quot;))</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-24-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_3vs4.png&quot;, width = 6, height = 10)</code></pre>
 <p><strong>2. Writing versus 4. Logic</strong></p>
 <pre class="r"><code>word_ratios2v4 &lt;- base_data_tokenized %&gt;%
@@ -921,7 +722,7 @@ base_data_tokenized_sorted2v4 &lt;- base_data_tokenized_sorted2 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2. Writing Quality&quot;, &quot;4. Logic and Thinking&quot;))</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-27-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs4.png&quot;, width = 6, height = 10)</code></pre>
 </div>
 </div>
@@ -1077,21 +878,21 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-36-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-30-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-37-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-31-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-38-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
 <p>Graphs 4-6 are pair-wise comparisons of frequencies for sub-categories. Unlike the comparisons to overall frequency, most words are NOT clustered on the trendline, suggesting there are differences in word usage.</p>
 <pre class="r"><code>ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
@@ -1099,68 +900,21 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-39-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-40-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-34-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-41-1.png" width="672" /></p>
-<div id="section-9" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-</div>
-<div id="data" class="section level2">
-<h2>Data</h2>
-<div id="section-10" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-<div id="analysis" class="section level2">
-<h2>Analysis</h2>
-<div id="section-11" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-</div>
-<div id="results" class="section level1">
-<h1>Results</h1>
-<div id="section-12" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-<div id="discussion" class="section level1">
-<h1>Discussion</h1>
-<div id="section-13" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-<div id="conclusion" class="section level1">
-<h1>Conclusion</h1>
-<div id="section-14" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-<div id="references" class="section level1">
-<h1>References</h1>
-<div id="section-15" class="section level4">
-<h4><br />
-</h4>
+<p><img src="draft_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
 </div>
 </div>
 

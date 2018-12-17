@@ -1,7 +1,7 @@
 ---
-title: "Project"
+title: "Data Intake & Initial Exploration"
 author: "Dan Johnson"
-date: "10/26/2018"
+date: "12/16/2018"
 output: html_document
 bibliography: library.bib
 biblio-style: apalike
@@ -9,115 +9,38 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-# Abstract 
-
-
-####\
-
-# Introduction
-## Background
-Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops "along the way." Or, the instructional strategy is  haphazardly designed, implemented, and executed. Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills. 
-
-Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These instructors may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively. 
-
-In 2014 we launched an automated data collection process we call SAWHET that collects systematic observations and sample data from student writers and graduate instructors. Our resarch goal is to better understand student and instructor behaviors within the technical writing instructional space. Our practical goal is to develop techniques for teaching technical writing that:
-
-*  Can be implemented at large scale by less experienced teaching assistants;
-*  Emphasize student development through holistic coaching;
-*  Shift student and instructor attention away from simple copy-correction towards larger writing issues; and
-*  Embody other best practices outlined in nearly 40 years of research literature on "writing in the disciplines."
-
-We have a structured database of >5000 laboratory reports written by undergraduate students for introductory biology courses. In addition we have all comments that a TA made on the individual reports, plus associated metadata:
-
-*  Context. Was it first or second report of the semester? Initial submission or revision? What course and topic in the course? What year in college was the author?
-*  Instructor information. Which TA provided the feedback? What score was assigned, and what what the rationale behind that score?
-
-We are using multiple text-mining methods to map key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.
+The initial working dataset is an anonymized Excel table of 10,808 rows. One column has "TA comments" extracted from student lab reports. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
 
 ####\  
-
-## Context for This Project & Prior Work
-Students make greater gains as writers if instructors avoid telling students what to correct ("copy editing"), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a **global first, specific later** approach to grading undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students' writing improves, the TA can focus on smaller issues.   
-
-This strategy is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, **"what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?"**
-
-In Summer 2018, we began analyzing TAs' comments from student papers. We extracted and tabulated all comments from approximately 500 pairs of reports (initial submissions and revisions) collected during a single semester in 3 different courses. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent. In all, the final tabulated dataset included ~11,000 separate comments.
-
-We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)
-
-Coded TA comments were sorted on two axes: 
-
-* __Subject__: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues
-* __Structure__: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?
-
-The sorted contingency table provided us with a relative estimate of TA effort.
-
-####\  
-
-## The Central Problem of This Project
-Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.
-
-####\  
-
-# Literature Review
-##General Approach to Initial Dataset
-The following excerpt from *Text Mining with R: A Tidy Approach* (Julia Silge and David Robinson) summarizes how extended text (in this case, TA comments) can be organized as a tidy matrix.*All emphases are mine.*
-
->We thus define the tidy text format as being a table with one-token-per-row. A token is a **meaningful unit of text**, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. 
->This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, **but can also be an n-gram, sentence, or paragraph** . In the tidytext package, we provide functionality to tokenize by commonly used units of text like these and convert to a one-term-per-row format.
-
-Using tidy format (vs. other common text data formats) better maintains relationships between individual comments and metadata, which simplifies subsequent analysis.
-
-####\  
-
-# Methods
-Our initial working dataset is an anonymized Excel table with one column of "TA comments" extracted from student lab reports. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment. 
-
-####\  
-
 ##Data Pre-Checks
-A CSV file named "coded_full_comments_dataset_Spring18anon.csv" should have correctly organized text and meta-data. Prior to import, review data table in Excel. Check:
+Prior to import, review data table in Excel. Check:
 
 1.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.md"
 2.  Data have been de-identified and recoded using pre-assigned anonymous IDs.
 3.  Data table headers are in snake_case, and match tabulated list below. The same list is in the file "code_column_names.txt"
 
-Column Number|Column Name
-------------|----------------------
-1|unique.record
-2|report.id
-3|sort
-4|report.title (empty)
-5|student (Std\_nnn)
-6|course
-7|ta (TA\_nnn)
-8|lab
-9|tag
-10|type.TA
-11|grade.TA
-12|grading.time
-13|Rank
-14|hypothesis.ok
-15|data.ok
-16|citation.ok
-17|interpretation.ok
-18|organization.ok
-19|techflaws.ok
-20|writing.ok
-21|comments.incorporated
-22|ta.comment
-23|code.subject
-24|code.structure
-25|code.locus
-26|code.scope
-27|code.tone
-28|code.notes
+Column Number|Column Name|Column Number|Column Name
+------------|----------------------|------------|----------------------
+1|unique.record|15|data.ok
+2|report.id|16|citation.ok
+3|sort|17|interpretation.ok
+4|report.title (empty)|18|organization.ok
+5|student (Std\_nnn)|19|techflaws.ok
+6|course|20|writing.ok
+7|ta (TA\_nnn)|21|comments.incorporated
+8|lab|22|ta.comment
+9|tag|23|code.subject
+10|type.TA|24|code.structure
+11|grade.TA|25|code.locus
+12|grading.time|26|code.scope
+13|Rank|27|code.tone
+14|hypothesis.ok|28|code.notes
 
 Once all data are in correct format, export Excel file to CSV with name formatted as **"coded_full_comments_dataset_SemYear.csv"**
 
 ####\  
 
-##Initial Intake and Post-Check
+##Initial Import and Post-Check
 ```{r Libraries}
 # Call in tidyverse, other required libraries.
 library(tidyverse)
@@ -132,48 +55,37 @@ library(scales)
 #This block reads in the full CSV into a starting dataframe named "base_data".
 #Subsequent analyses call in subsets of "base_data".
 base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anon.csv')
-```
 
-If the TA comments dataset is imported correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.
+#If the TA comments dataset is imported correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.
+```
 
 Given some data points may be entered incorrectly by instructors or students, I included several post-import data checks to ensure data have been properly coded and columns contain valid entries only.
 
 ```{r}
 #"Course" column should only have entries that correspond to 113, 114, 214, NA. 
-unique(base_data$course)
-```
+course<-unique(base_data$course)
 
-```{r}
 #Entries in "TAs" column should match the anonymous IDs that correspond to the TAs assigned to the relevant courses in the semester being analyzed. 
 #If there are incorrect or extra anonymous IDs in this list, the mostly likely source of the error is improper de-identification of the Excel file prior to import.
-unique(base_data$ta)
-```
+ta<-unique(base_data$ta)
 
-```{r}
 #"Lab" should only have entries that match the limited keywords in codebook.
-unique(base_data$lab)
-```
+lab<-unique(base_data$lab)
 
-```{r}
 #Look at the NUMBER of unique anonymous student IDs. Should be within 10% of (but not more than) the combined enrollment of the 3 target courses for the semester.
-unique(base_data$student)
-```
+student<-unique(base_data$student)
 
-```{r}
 #Check that the list of "code.subject" topics here matches allowed terms in codebook.
-unique(base_data$code.subject)
-```
+subject<-unique(base_data$code.subject)
 
-```{r}
 #Check that the list of "code.structure" terms extracted from the dataset and displayed here matches allowed terms in codebook.
-unique(base_data$code.structure)
+structure<-unique(base_data$code.structure)
 ```
 
 ####\  
 
-
-## Preliminary Analysis
-The first question prior to deeper comparisons is **are the comments obviously different between groups?** Before conducting detailed analyses I tried several iterations of different visual comparison strategies. 
+## Preliminary Exploration
+The first question to answer before making deeper comparisons is **are the comments obviously different between sub-categories?** Before conducting detailed analyses I tried several iterations of different visual comparison strategies. 
 
 ####\  
 
@@ -184,12 +96,9 @@ For simplicity I reduced the analysis to just the four most common comment subje
 
 ```{r}
 # Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
-
 frequency_writing <- filter(base_data, code.subject=="2. Writing Quality"|code.subject=="3. Technical and Scientific"|code.subject=="4. Logic and Thinking")
 frequency_writing.subcolumns <- frequency_writing %>% select(1, 22:23)
-```
 
-```{r}
 # Tokenize phrases, remove stop words listed in standard reference file.
 base_data_tokenized <- frequency_writing.subcolumns %>% 
   unnest_tokens(word,ta.comment) %>% 
@@ -219,7 +128,7 @@ base_data_tokenized_sorted2 <- base_data_tokenized %>%
 #This structure is needed in order to compare word (in Column 1) frequencies for 2. Writing Quality (Column 2) as Y values against the frequencies of those same words (in Column 4) as X axes. WHICH subset of X values to use is coded in Column 3.
 ```
 
-Calculating Pearson correlation between the frequency of words in Writing Quality versus the other two groups.
+**Pearson correlation** between the frequency of words in Writing Quality versus Technical and Logic sub-categoris.
 
 ```{r}
 cor.test(data = base_data_tokenized_sorted2[base_data_tokenized_sorted2$code.subject == "3. Technical and Scientific",], 
@@ -231,6 +140,8 @@ cor.test(data = base_data_tokenized_sorted2[base_data_tokenized_sorted2$code.sub
          ~ proportion + `2. Writing Quality`)
 ```
 
+***
+***
 ####START OF BROKEN SECTION
 THERE IS AN ERROR HERE I CANNOT DEBUG! If I change "3. Technical and Scientific"  to "2. Writing Quality", the structure of the tibble breaks. It goes from the correctly sorted 4 columns to incorrectly sorted 3 columns. It is NOT A TYPO; I can literally copy/paste it in and out and break/correct the code. 
 
@@ -292,8 +203,9 @@ base_data_tokenized_sorted3 <- base_data_tokenized3 %>%
 ```
 
 ***
+***
 
-START OF SECTION I CANNOT COPY AND MODIFY. This section depends on the ability to calculate tables using the code above. So I cannot run this part either.
+I can run this block, but CANNOT COPY AND MODIFY THIS SECTION. It depends tables created using the broken code above. So I cannot run this part either.
 
 ```{r}
 #Create groups by code.subject, calculates proportional frequency in each group.
@@ -348,7 +260,8 @@ ggplot(base_data_tokenized_sorted2v3, aes(`2. Writing Quality`,`4. Logic and Thi
 
 
 END of broken / limping section
-
+***
+***
 
 
 ####Calculating and Plotting Log-Odds Pairs
@@ -699,32 +612,3 @@ ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_abline(color = "red")
 ```
 
-
-
-
-
-####\
-
-## Data
-
-####\
-
-## Analysis
-
-####\
-
-# Results
-
-####\
-
-# Discussion
-
-####\
-
-# Conclusion
-
-####\
-
-# References
-
-####\
