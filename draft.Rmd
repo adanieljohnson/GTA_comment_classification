@@ -9,36 +9,39 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 #Overview
-This page provides a draft overview of my progress. A short narrative outlines the  discrete blocks of work and how they are connected. Links connect to longer pages that document intake, munging, analysis, and visualization in depth. 
+This page begins my draft outline of progress to date. Initial data import and exploration are described here. The other pages listed below document different pieces of the larger project.
+
+##Import and Initial Exploration
+This page describes to date on:
+
+*  Data pre-checks, import, and post-import validation process.
+*  Initial comparisons of sub-categories using log-odds ratios of word frequencies
+    +  Pearson Correlations of Word Frequencies: BROKEN SECTION
+    +  Mapping Analyses Visually: RUNS BUT CANNOT COPY AND MODIFY. It depends tables created using the broken code above. So I cannot run this part either.
+    +  Calculating and Plotting Log-Odds Pairs
+*  Direct comparison of word frequency lists
+
+##Deeper Text Analysis
+These linked pages summarize work to date on each method.
+
+*  Naive Bayes: https://adanieljohnson.github.io/default_website/Naive_bayes.html
+*  Random Forest (link)
+*  Latent Dirichlet Allocation (link)
+*  Etc. (link)
+*  Etc. (link)
 
 ####\  
 
-##Initial Dataset
+#Initial Dataset
 My working dataset is an Excel table of 10,808 rows. One column has "TA comments" extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
 
 Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings. 
 
 ####\  
 
-##Blocks of Work
-
-*  Data Pre-Checks and Import
-*  Initial Import and Post-Checks
-*  Preliminary Exploration: Log-Odds Text Comparison
-    +  Pearson Correlations of Word Frequencies: BROKEN SECTION
-    +  Mapping Analyses Visually: RUNS BUT CANNOT COPY AND MODIFY. It depends tables created using the broken code above. So I cannot run this part either.
-    +  Calculating and Plotting Log-Odds Pairs
-*  Preliminary Exploration: Direct Comparison of Word Lists
-*  Deeper Text Analysis Methods
-    +  Naive Bayes [https://adanieljohnson.github.io/default_website/Naive_bayes.html](link)
-    +  Random Forest (link)
-    +  Latent Dirichlet Allocation (link)
-    +  Etc. (link)
-    +  Etc. (link)
-
 ####\  
 
-##Data Pre-Checks
+#Data Pre-Checks
 Prior to import, review data table in Excel. Check:
 
 1.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.rmd"
