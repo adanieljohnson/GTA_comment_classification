@@ -1,0 +1,764 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Dan Johnson" />
+
+<meta name="date" content="2018-12-16" />
+
+<title>Naive Bayes</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analyzing TA Comments in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="course_notes.html">
+    <span class="fa fa-leaf"></span>
+     
+    Course Notes
+  </a>
+</li>
+<li>
+  <a href="pre_work.html">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    Pre-Work
+  </a>
+</li>
+<li>
+  <a href="draft.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Draft
+  </a>
+</li>
+<li>
+  <a href="project.html">
+    <span class="fa fa-archive"></span>
+     
+    Project
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Naive Bayes</h1>
+<h4 class="author"><em>Dan Johnson</em></h4>
+<h4 class="date"><em>12/16/2018</em></h4>
+
+</div>
+
+
+<div id="demo-of-naive-bayes-nb-method" class="section level1">
+<h1>Demo of Naive Bayes (NB) Method</h1>
+<p>I copied the original demo web site <a href="located%20here">https://rpubs.com/Billyhansen6/318412</a> to show how the process should work. I then duplicated the code and modified it to test with my TA comments.</p>
+<p>The initial trial was able to identify sub-categories of comments ~80% of the time. This is better than the inter-rater reliability of two human raters, but still low. For subsequent iterations of the NB method I plan to evaluate:</p>
+<ul>
+<li>Variations on data pre-processing: stemmed versus unstemmed, numbers removed vs. not, etc.</li>
+<li>Comparing n-grams rather than single words</li>
+<li>Pair-wise comparison versus comparing multiple groups simultaneously</li>
+<li>Modifying the variables within the NB analysis itself.</li>
+</ul>
+<div id="section" class="section level4">
+<h4> </h4>
+</div>
+<div id="hansens-original-version" class="section level2">
+<h2>Hansen’s Original Version</h2>
+<p>The objective of this project is to classify SMS messages as spam or ham (not spam). A Naive Bayes classifier approach will be used. This example is taken from chapter 4 of Machine Learning with R, Second Edition&quot;</p>
+<p>An example of the conditional probability that will be computed is as follows:</p>
+<p><span class="math display">\[P(Spam|Hospital) = P(Hospital|Spam)P(Spam)/P(Hospital)\]</span></p>
+<p>which is the formula for determining the probability that a message is spam given that it contains the word “Hospital” in the message.</p>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="loading-libraries-and-data" class="section level2">
+<h2>Loading Libraries and Data</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(tidytext)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard</code></pre>
+<pre><code>## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
+<pre class="r"><code>library(tm)</code></pre>
+<pre><code>## Loading required package: NLP</code></pre>
+<pre><code>## 
+## Attaching package: &#39;NLP&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:ggplot2&#39;:
+## 
+##     annotate</code></pre>
+<pre class="r"><code>library(SnowballC)
+library(wordcloud)</code></pre>
+<pre><code>## Loading required package: RColorBrewer</code></pre>
+<pre class="r"><code>library(e1071)
+library(gmodels)
+library(readr)
+#Demo dataset of SMS messages
+#sms_raw &lt;- read.table(&quot;~/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/data/SMSSpamCollection.txt&quot;, header = FALSE, sep = &quot;\t&quot;, quote = &quot;&quot;, col.names = c(&quot;type&quot;,&quot;text&quot;), stringsAsFactors = FALSE)</code></pre>
+</div>
+</div>
+<div id="my-test-of-naive-bayes" class="section level1">
+<h1>My Test of Naive Bayes</h1>
+<div id="loading-data" class="section level2">
+<h2>Loading Data</h2>
+<p>This block reads full CSV into a starting dataframe named “base_data”. Next block isolates tables and rows into new dataframe “sms_raw2”, and renames the columns.</p>
+<pre class="r"><code>#library(tm)
+#library(SnowballC)
+#library(wordcloud)
+#library(e1071)
+#library(gmodels)
+#library(readr)
+
+#Read in CSV file named &quot;coded_full_comments_dataset_Spring18anon.csv&quot;.
+base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon.csv&#39;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   sort = col_integer(),
+##   course = col_integer(),
+##   Rank = col_integer()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>#Isolate rows to compare, reduce larger dataframe to 2 required columns of data, and put columns in order needed. Finally, rename the columns and check data format.
+
+frequency_writing &lt;- filter(base_data, code.subject==&quot;2. Writing Quality&quot;|code.subject==&quot;3. Technical and Scientific&quot;|code.subject==&quot;4. Logic and Thinking&quot;)
+
+
+sms_raw2 &lt;- frequency_writing %&gt;% select(23,22)
+names(sms_raw2)[1] &lt;- &quot;type&quot;
+names(sms_raw2)[2] &lt;- &quot;text&quot;
+str(sms_raw2)</code></pre>
+<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    9129 obs. of  2 variables:
+##  $ type: chr  &quot;3. Technical and Scientific&quot; &quot;2. Writing Quality&quot; &quot;3. Technical and Scientific&quot; &quot;3. Technical and Scientific&quot; ...
+##  $ text: chr  &quot;critical level?&quot; &quot;Hypothesis comes before methods&quot; &quot;Is this the most concise way to communicate no significant difference?&quot; &quot;Try to use more parentheticals e.g. (t = , p = , df = ) etc.&quot; ...
+##  - attr(*, &quot;spec&quot;)=List of 2
+##   ..$ cols   :List of 28
+##   .. ..$ unique.record        : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ report.id            : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ sort                 : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ report.title         : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ student              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ course               : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ ta                   : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ lab                  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ tag                  : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ type.TA              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ grade.TA             : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ grading.time         : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ Rank                 : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
+##   .. ..$ hypothesis.ok        : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ data.ok              : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ citation.ok          : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ interpretation.ok    : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ organization.ok      : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ techflaws.ok         : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ writing.ok           : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ comments.incorporated: list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ ta.comment           : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ code.subject         : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ code.structure       : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ code.locus           : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ code.scope           : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ code.tone            : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   .. ..$ code.notes           : list()
+##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
+##   ..$ default: list()
+##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
+##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;</code></pre>
+<p>The “type”&quot; element should be a character. It needs to be changed to a factor for analysis.</p>
+<pre class="r"><code>sms_raw2$type &lt;- factor(sms_raw2$type)
+str(sms_raw2$type)</code></pre>
+<pre><code>##  Factor w/ 3 levels &quot;2. Writing Quality&quot;,..: 2 1 2 2 2 2 3 3 3 2 ...</code></pre>
+<pre class="r"><code>table(sms_raw2$type)</code></pre>
+<pre><code>## 
+##          2. Writing Quality 3. Technical and Scientific 
+##                        2578                        5409 
+##       4. Logic and Thinking 
+##                        1142</code></pre>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="text-transformation-steps" class="section level2">
+<h2>Text Transformation Steps</h2>
+<p>This begins with using “tm” package in R to create a volitile coprus that contains the “text” vector from our data frame.</p>
+<pre class="r"><code>#library(tm)
+sms_corpus2 &lt;- VCorpus(VectorSource(sms_raw2$text))
+print(sms_corpus2)</code></pre>
+<pre><code>## &lt;&lt;VCorpus&gt;&gt;
+## Metadata:  corpus specific: 0, document level (indexed): 0
+## Content:  documents: 9129</code></pre>
+<p>Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.</p>
+<pre class="r"><code>inspect(sms_corpus2[1:3])</code></pre>
+<pre><code>## &lt;&lt;VCorpus&gt;&gt;
+## Metadata:  corpus specific: 0, document level (indexed): 0
+## Content:  documents: 3
+## 
+## [[1]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 15
+## 
+## [[2]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 31
+## 
+## [[3]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 70</code></pre>
+<p>Use “as.character” function to see what a message looks like.</p>
+<pre class="r"><code>as.character(sms_corpus2[[3]])</code></pre>
+<pre><code>## [1] &quot;Is this the most concise way to communicate no significant difference?&quot;</code></pre>
+<p>In order to standardize the messages, the data set must be tranformed to all lower case letters. The words “Free”, “free”, and “FREE” should all be treated as the same word. Use the “tm_map”&quot; funtion in R, and use the “content_transformer” function to transform the text.</p>
+<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus2, content_transformer(tolower))</code></pre>
+<p>Look at third message again to see if our data was transformed.</p>
+<pre class="r"><code>as.character(sms_corpus2[[3]])</code></pre>
+<pre><code>## [1] &quot;Is this the most concise way to communicate no significant difference?&quot;</code></pre>
+<pre class="r"><code>as.character((sms_corpus_clean2[[3]]))</code></pre>
+<pre><code>## [1] &quot;is this the most concise way to communicate no significant difference?&quot;</code></pre>
+<p>This removes numbers. <strong>May not want to do.</strong></p>
+<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, removeNumbers)</code></pre>
+<p>Stopword removal takes out words that appear often but don’t contribute to our objective. These words include “to”, “and”, “but” and “or”. <strong>One of variables to test out.</strong></p>
+<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, removeWords, stopwords())</code></pre>
+<p>Remove punctuation as well using the “removePunctuation” function. <strong>Try not doing this.</strong></p>
+<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, removePunctuation)
+
+as.character((sms_corpus_clean2[[3]]))</code></pre>
+<pre><code>## [1] &quot;    concise way  communicate  significant difference&quot;</code></pre>
+<p>Perform “stemming” to the text data to strip the suffix from words. <strong>Try NOT doing this.</strong></p>
+<pre class="r"><code>#library(SnowballC)
+sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, stemDocument)</code></pre>
+<p>And now the final step in text mining is to remove white space from the document.</p>
+<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, stripWhitespace)</code></pre>
+<pre class="r"><code>as.character(sms_corpus_clean2[[3]])</code></pre>
+<pre><code>## [1] &quot;concis way communic signific differ&quot;</code></pre>
+<p>Perform tokenization using the “DocumentTermMatrix” function. This creates a matrix in which the rows indicate documents (SMS messages in this case) and the columns indicate words. It should be noted that the “DocumentTermMaxtrix” function has the power to do all of the text mining above in one command.</p>
+<pre class="r"><code>sms_dtm2 &lt;- DocumentTermMatrix(sms_corpus_clean2)</code></pre>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="data-preparation" class="section level2">
+<h2>Data Preparation</h2>
+<p>Split our data into training and testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. Divide our data set into 75% training and 25% testing.</p>
+<pre class="r"><code>.75 * 9129</code></pre>
+<pre><code>## [1] 6846.75</code></pre>
+<pre class="r"><code>.25 * 9129</code></pre>
+<pre><code>## [1] 2282.25</code></pre>
+<p>This code assumes comments are random. <strong>Probably want to try randomizing them.</strong></p>
+<pre class="r"><code>sms_dtm_train2 &lt;- sms_dtm2[1:6846, ]
+sms_dtm_test2 &lt;- sms_dtm2[6847:9129, ]</code></pre>
+<p>Save vectors labeling rows in the training and testing vectors</p>
+<pre class="r"><code>sms_train_labels2 &lt;- sms_raw2[1:6846, ]$type
+sms_test_labels2 &lt;- sms_raw2[6847:9129,]$type</code></pre>
+<p>Make sure that the proportion of each sub-category is similar in the training and testing data set.</p>
+<pre class="r"><code>prop.table(table(sms_train_labels2))</code></pre>
+<pre><code>## sms_train_labels2
+##          2. Writing Quality 3. Technical and Scientific 
+##                   0.2854221                   0.5911481 
+##       4. Logic and Thinking 
+##                   0.1234297</code></pre>
+<pre class="r"><code>prop.table(table(sms_test_labels2))</code></pre>
+<pre><code>## sms_test_labels2
+##          2. Writing Quality 3. Technical and Scientific 
+##                   0.2733246                   0.5965834 
+##       4. Logic and Thinking 
+##                   0.1300920</code></pre>
+<div id="section-4" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="visualization" class="section level2">
+<h2>Visualization</h2>
+<p>Create a wordcloud of the frequency of the words in the dataset using the package “wordcloud”.</p>
+<pre class="r"><code>#library(wordcloud)
+wordcloud(sms_corpus_clean2, max.words = 50, random.order = FALSE)</code></pre>
+<p><img src="scrap_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+<p>Compare wordclouds between 3 groups.</p>
+<pre class="r"><code>TWO &lt;- subset(sms_raw2, type == &quot;2. Writing Quality&quot;)
+THREE &lt;- subset(sms_raw2, type == &quot;3. Technical and Scientific&quot;)
+FOUR &lt;- subset(sms_raw2, type == &quot;4. Logic and Thinking&quot;)
+
+wordcloud(TWO$text, max.words = 50, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
+## tm::stopwords())): transformation drops documents</code></pre>
+<p><img src="scrap_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
+<pre class="r"><code>wordcloud(THREE$text, max.words = 50, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="scrap_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
+<pre class="r"><code>wordcloud(FOUR$text, max.words = 50, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="scrap_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
+<div id="section-5" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="preparation-for-naive-bayes" class="section level2">
+<h2>Preparation for Naive Bayes</h2>
+<p>Remove words from the matrix that appear less than 5 times.</p>
+<pre class="r"><code>sms_freq_words2 &lt;- findFreqTerms(sms_dtm_train2, 5)
+str(sms_freq_words2)</code></pre>
+<pre><code>##  chr [1:1034] &quot;’ll&quot; &quot;’re&quot; &quot;’ve&quot; &quot;“correct”&quot; &quot;“figur&quot; &quot;“group&quot; ...</code></pre>
+<p>Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.</p>
+<pre class="r"><code>sms_dtm_freq_train2 &lt;- sms_dtm_train2[ , sms_freq_words2]
+sms_dtm_freq_test2 &lt;- sms_dtm_test2[ , sms_freq_words2]</code></pre>
+<p>The naive bayes classifier works with categorical features, so we need to convert the matrix to “yes” and “no” categorical variables. To do this we’ll build a convert_counts function and apply it to our data.</p>
+<pre class="r"><code>convert_counts2 &lt;- function(x) {
+  x &lt;- ifelse(x &gt; 0, &quot;Yes&quot;, &quot;No&quot;)
+}</code></pre>
+<p>This replaces values greater than 0 with yes, and values not greater than 0 with no. Let’s apply it to our data.</p>
+<pre class="r"><code>sms_train2 &lt;- apply(sms_dtm_freq_train2, MARGIN = 2, convert_counts2)
+sms_test2 &lt;- apply(sms_dtm_freq_test2, MARGIN = 2, convert_counts2)</code></pre>
+<p>The resulting matrixes will be character type, with cells indicating “yes” or “no” if the word represented by the column appears in the message represented by the row.</p>
+<div id="section-6" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="train-model-predict-evaluate" class="section level2">
+<h2>Train Model, Predict, Evaluate</h2>
+<p>Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.</p>
+<pre class="r"><code>#library(e1071)
+#library(gmodels)
+sms_classifier2 &lt;- naiveBayes(sms_train2, sms_train_labels2)
+sms_test_pred2 &lt;- predict(sms_classifier2, sms_test2)
+CrossTable(sms_test_pred2, sms_test_labels2, prop.chisq = FALSE, prop.t = FALSE, dnn = c(&#39;predicted&#39;, &#39;actual&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |           N / Row Total |
+## |           N / Col Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  2283 
+## 
+##  
+##                             | actual 
+##                   predicted |          2. Writing Quality | 3. Technical and Scientific |       4. Logic and Thinking |                   Row Total | 
+## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
+##          2. Writing Quality |                         457 |                         104 |                          63 |                         624 | 
+##                             |                       0.732 |                       0.167 |                       0.101 |                       0.273 | 
+##                             |                       0.732 |                       0.076 |                       0.212 |                             | 
+## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
+## 3. Technical and Scientific |                         108 |                        1198 |                          43 |                        1349 | 
+##                             |                       0.080 |                       0.888 |                       0.032 |                       0.591 | 
+##                             |                       0.173 |                       0.880 |                       0.145 |                             | 
+## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
+##       4. Logic and Thinking |                          59 |                          60 |                         191 |                         310 | 
+##                             |                       0.190 |                       0.194 |                       0.616 |                       0.136 | 
+##                             |                       0.095 |                       0.044 |                       0.643 |                             | 
+## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
+##                Column Total |                         624 |                        1362 |                         297 |                        2283 | 
+##                             |                       0.273 |                       0.597 |                       0.130 |                             | 
+## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
+## 
+## </code></pre>
+<p>Show the 5 most frequent words in the data:</p>
+<pre class="r"><code>sack2 &lt;- TermDocumentMatrix(sms_corpus_clean2)
+pack2 &lt;- as.matrix(sack2)
+snack2 &lt;- sort(rowSums(pack2), decreasing = TRUE)
+hack2 &lt;- data.frame(word = names(snack2), freq=snack2)
+head(hack2, 5)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["word"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["freq"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"need","2":"1350","_rn_":"need"},{"1":"result","2":"1007","_rn_":"result"},{"1":"use","2":"896","_rn_":"use"},{"1":"figur","2":"852","_rn_":"figur"},{"1":"includ","2":"677","_rn_":"includ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>And the 5 most frequent words from each class:</p>
+<pre class="r"><code>wordcloud(TWO$text, max.words = 5, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
+## tm::stopwords())): transformation drops documents</code></pre>
+<p><img src="scrap_files/figure-html/unnamed-chunk-29-1.png" width="672" /></p>
+<pre class="r"><code>wordcloud(THREE$text, max.words = 5, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="scrap_files/figure-html/unnamed-chunk-29-2.png" width="672" /></p>
+<pre class="r"><code>wordcloud(FOUR$text, max.words = 5, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="scrap_files/figure-html/unnamed-chunk-29-3.png" width="672" /></p>
+</div>
+</div>
+
+<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

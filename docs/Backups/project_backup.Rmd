@@ -1,73 +1,124 @@
 ---
-title: "Draft Description of Work in Progress"
+title: "Project"
 author: "Dan Johnson"
-date: "12/17/2018"
+date: "10/26/2018"
 output: html_document
 bibliography: library.bib
 biblio-style: apalike
 ---
 ```{r, child="_setup.Rmd"}
 ```
-#Overview
-This page provides a draft overview of my progress. A short narrative outlines the  discrete blocks of work and how they are connected. Links connect to longer pages that document intake, munging, analysis, and visualization in depth. 
+
+# Abstract 
+
+
+####\
+
+# Introduction
+## Background
+Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops "along the way." Or, the instructional strategy is  haphazardly designed, implemented, and executed. Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills. 
+
+Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These instructors may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively. 
+
+In 2014 we launched an automated data collection process we call SAWHET that collects systematic observations and sample data from student writers and graduate instructors. Our resarch goal is to better understand student and instructor behaviors within the technical writing instructional space. Our practical goal is to develop techniques for teaching technical writing that:
+
+*  Can be implemented at large scale by less experienced teaching assistants;
+*  Emphasize student development through holistic coaching;
+*  Shift student and instructor attention away from simple copy-correction towards larger writing issues; and
+*  Embody other best practices outlined in nearly 40 years of research literature on "writing in the disciplines."
+
+We have a structured database of >5000 laboratory reports written by undergraduate students for introductory biology courses. In addition we have all comments that a TA made on the individual reports, plus associated metadata:
+
+*  Context. Was it first or second report of the semester? Initial submission or revision? What course and topic in the course? What year in college was the author?
+*  Instructor information. Which TA provided the feedback? What score was assigned, and what what the rationale behind that score?
+
+We are using multiple text-mining methods to map key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.
 
 ####\  
 
-##Initial Dataset
-My working dataset is an Excel table of 10,808 rows. One column has "TA comments" extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
+## Context for This Project & Prior Work
+Students make greater gains as writers if instructors avoid telling students what to correct ("copy editing"), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a **global first, specific later** approach to grading undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students' writing improves, the TA can focus on smaller issues.   
 
-Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings. 
+This strategy is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, **"what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?"**
+
+In Summer 2018, we began analyzing TAs' comments from student papers. We extracted and tabulated all comments from approximately 500 pairs of reports (initial submissions and revisions) collected during a single semester in 3 different courses. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent. In all, the final tabulated dataset included ~11,000 separate comments.
+
+We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)
+
+Coded TA comments were sorted on two axes: 
+
+* __Subject__: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues
+* __Structure__: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?
+
+The sorted contingency table provided us with a relative estimate of TA effort.
 
 ####\  
 
-##Blocks of Work
+## The Central Problem of This Project
+Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.
 
-*  Data Pre-Checks and Import
-*  Initial Import and Post-Checks
-*  Preliminary Exploration: Log-Odds Text Comparison
-    +  Pearson Correlations of Word Frequencies: BROKEN SECTION
-    +  Mapping Analyses Visually: RUNS BUT CANNOT COPY AND MODIFY. It depends tables created using the broken code above. So I cannot run this part either.
-    +  Calculating and Plotting Log-Odds Pairs
-*  Preliminary Exploration: Direct Comparison of Word Lists
-*  Deeper Text Analysis Methods
-    +  Naive Bayes [https://adanieljohnson.github.io/default_website/Naive_bayes.html](link)
-    +  Random Forest (link)
-    +  Latent Dirichlet Allocation (link)
-    +  Etc. (link)
-    +  Etc. (link)
+####\  
+
+# Literature Review
+##General Approach to Initial Dataset
+The following excerpt from *Text Mining with R: A Tidy Approach* (Julia Silge and David Robinson) summarizes how extended text (in this case, TA comments) can be organized as a tidy matrix.*All emphases are mine.*
+
+>We thus define the tidy text format as being a table with one-token-per-row. A token is a **meaningful unit of text**, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. 
+>This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, **but can also be an n-gram, sentence, or paragraph** . In the tidytext package, we provide functionality to tokenize by commonly used units of text like these and convert to a one-term-per-row format.
+
+Using tidy format (vs. other common text data formats) better maintains relationships between individual comments and metadata, which simplifies subsequent analysis.
+
+####\  
+
+# Methods
+Our initial working dataset is an anonymized Excel table with one column of "TA comments" extracted from student lab reports. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment. 
 
 ####\  
 
 ##Data Pre-Checks
-Prior to import, review data table in Excel. Check:
+A CSV file named "coded_full_comments_dataset_Spring18anon.csv" should have correctly organized text and meta-data. Prior to import, review data table in Excel. Check:
 
-1.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.rmd"
+1.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.md"
 2.  Data have been de-identified and recoded using pre-assigned anonymous IDs.
-3.  Data table headers are in snake_case, and match tabulated list below. The same list is in the file "code_column_names.rmd"
+3.  Data table headers are in snake_case, and match tabulated list below. The same list is in the file "code_column_names.txt"
 
-Column Number|Column Name|Column Number|Column Name
-------------|----------------------|------------|----------------------
-1|unique.record|15|data.ok
-2|report.id|16|citation.ok
-3|sort|17|interpretation.ok
-4|report.title (empty)|18|organization.ok
-5|student (Std\_nnn)|19|techflaws.ok
-6|course|20|writing.ok
-7|ta (TA\_nnn)|21|comments.incorporated
-8|lab|22|ta.comment
-9|tag|23|code.subject
-10|type.TA|24|code.structure
-11|grade.TA|25|code.locus
-12|grading.time|26|code.scope
-13|Rank|27|code.tone
-14|hypothesis.ok|28|code.notes
+Column Number|Column Name
+------------|----------------------
+1|unique.record
+2|report.id
+3|sort
+4|report.title (empty)
+5|student (Std\_nnn)
+6|course
+7|ta (TA\_nnn)
+8|lab
+9|tag
+10|type.TA
+11|grade.TA
+12|grading.time
+13|Rank
+14|hypothesis.ok
+15|data.ok
+16|citation.ok
+17|interpretation.ok
+18|organization.ok
+19|techflaws.ok
+20|writing.ok
+21|comments.incorporated
+22|ta.comment
+23|code.subject
+24|code.structure
+25|code.locus
+26|code.scope
+27|code.tone
+28|code.notes
 
 Once all data are in correct format, export Excel file to CSV with name formatted as **"coded_full_comments_dataset_SemYear.csv"**
 
 ####\  
 
-##Initial Import and Post-Check
-```{r Libraries_1}
+##Initial Intake and Post-Check
+```{r Libraries}
 # Call in tidyverse, other required libraries.
 library(tidyverse)
 library(tidytext)
@@ -81,50 +132,64 @@ library(scales)
 #This block reads in the full CSV into a starting dataframe named "base_data".
 #Subsequent analyses call in subsets of "base_data".
 base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anon.csv')
-
-#If dataset imports correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.
 ```
 
-Given some data points may be entered incorrectly by instructors or students, these post-import data checks help ensure data have been properly coded and columns contain valid entries only.
+If the TA comments dataset is imported correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.
+
+Given some data points may be entered incorrectly by instructors or students, I included several post-import data checks to ensure data have been properly coded and columns contain valid entries only.
 
 ```{r}
 #"Course" column should only have entries that correspond to 113, 114, 214, NA. 
-course<-unique(base_data$course)
+unique(base_data$course)
+```
 
+```{r}
 #Entries in "TAs" column should match the anonymous IDs that correspond to the TAs assigned to the relevant courses in the semester being analyzed. 
 #If there are incorrect or extra anonymous IDs in this list, the mostly likely source of the error is improper de-identification of the Excel file prior to import.
-ta<-unique(base_data$ta)
+unique(base_data$ta)
+```
 
+```{r}
 #"Lab" should only have entries that match the limited keywords in codebook.
-lab<-unique(base_data$lab)
+unique(base_data$lab)
+```
 
+```{r}
 #Look at the NUMBER of unique anonymous student IDs. Should be within 10% of (but not more than) the combined enrollment of the 3 target courses for the semester.
-student<-unique(base_data$student)
+unique(base_data$student)
+```
 
+```{r}
 #Check that the list of "code.subject" topics here matches allowed terms in codebook.
-subject<-unique(base_data$code.subject)
+unique(base_data$code.subject)
+```
 
+```{r}
 #Check that the list of "code.structure" terms extracted from the dataset and displayed here matches allowed terms in codebook.
-structure<-unique(base_data$code.structure)
+unique(base_data$code.structure)
 ```
 
 ####\  
 
-## Preliminary Exploration
-The first question to answer before making deeper comparisons is **are the comments obviously different between sub-categories?** Before conducting detailed analyses I tried several iterations of different visual comparison strategies. 
+
+## Preliminary Analysis
+The first question prior to deeper comparisons is **are the comments obviously different between groups?** Before conducting detailed analyses I tried several iterations of different visual comparison strategies. 
 
 ####\  
 
 ###Log-Odds Text Comparison
-The log-odds ratios method outlined below finds and displays differences words that are more frequently found in TA comments belonging to one sub-category vs. another. I based this on a method for comparing word usage frequencies between two separate Twitter users [https://www.tidytextmining.com/twitter.html](that I found here.)
+The log-odds ratios method outlined below has been the most informative to date. The basic premise being tested is that certain words are more frequent in TA comments belonging to one sub-category, and less frequent in others. I first saw this approach as a way to compare word usage between separate Twitter accounts here: https://www.tidytextmining.com/twitter.html.
 
-For simplicity I reduced my analysis to just the four most common comment subjects. This has been the most informative preliminary visualization I have found so far. 
+For simplicity I reduced the analysis to just the four most common comment subjects.
 
 ```{r}
 # Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
+
 frequency_writing <- filter(base_data, code.subject=="2. Writing Quality"|code.subject=="3. Technical and Scientific"|code.subject=="4. Logic and Thinking")
 frequency_writing.subcolumns <- frequency_writing %>% select(1, 22:23)
+```
 
+```{r}
 # Tokenize phrases, remove stop words listed in standard reference file.
 base_data_tokenized <- frequency_writing.subcolumns %>% 
   unnest_tokens(word,ta.comment) %>% 
@@ -154,7 +219,7 @@ base_data_tokenized_sorted2 <- base_data_tokenized %>%
 #This structure is needed in order to compare word (in Column 1) frequencies for 2. Writing Quality (Column 2) as Y values against the frequencies of those same words (in Column 4) as X axes. WHICH subset of X values to use is coded in Column 3.
 ```
 
-**Pearson correlation** between the frequency of words in Writing Quality versus Technical and Logic sub-categoris.
+Calculating Pearson correlation between the frequency of words in Writing Quality versus the other two groups.
 
 ```{r}
 cor.test(data = base_data_tokenized_sorted2[base_data_tokenized_sorted2$code.subject == "3. Technical and Scientific",], 
@@ -166,12 +231,10 @@ cor.test(data = base_data_tokenized_sorted2[base_data_tokenized_sorted2$code.sub
          ~ proportion + `2. Writing Quality`)
 ```
 
-***
-***
 ####START OF BROKEN SECTION
-THERE IS AN ERROR HERE I CANNOT DEBUG! If I change "3. Technical and Scientific"  to "2. Writing Quality", the structure of the tibble breaks. It goes from the correctly sorted 4 columns to incorrectly sorted 3 columns. It is NOT A TYPO; I can literally copy/paste the names in and out and break/correct the code. 
+THERE IS AN ERROR HERE I CANNOT DEBUG! If I change "3. Technical and Scientific"  to "2. Writing Quality", the structure of the tibble breaks. It goes from the correctly sorted 4 columns to incorrectly sorted 3 columns. It is NOT A TYPO; I can literally copy/paste it in and out and break/correct the code. 
 
-I cannot fix it using a different order for variables. I am at a loss for why it breaks.
+I cannot use a different order, or any other format. I am at a loss.
 
 ```{}
 # Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
@@ -228,9 +291,11 @@ base_data_tokenized_sorted3 <- base_data_tokenized3 %>%
 #END OF BROKEN SECTION
 ```
 
-I can run this block, but CANNOT COPY AND MODIFY THIS SECTION. It needs the tables that should be created using the broken code above. So I cannot run this part either.
+***
 
-```{}
+START OF SECTION I CANNOT COPY AND MODIFY. This section depends on the ability to calculate tables using the code above. So I cannot run this part either.
+
+```{r}
 #Create groups by code.subject, calculates proportional frequency in each group.
 #Final step creates 5 columns: code.subject, n, word, total, frequency.
 base_data_tokenized_sorted2 <- base_data_tokenized %>% 
@@ -242,7 +307,7 @@ base_data_tokenized_sorted2 <- base_data_tokenized %>%
   mutate(freq = n/total)
 ```
 
-```{}
+```{r}
 base_data_tokenized_sorted2v3 <- base_data_tokenized_sorted2 %>% 
   select(code.subject, word, freq) %>% 
   spread(code.subject, freq) %>%
@@ -250,18 +315,18 @@ base_data_tokenized_sorted2v3 <- base_data_tokenized_sorted2 %>%
 ```
 
 
-```{}
+```{r}
 ggplot(base_data_tokenized_sorted2v3, aes(`2. Writing Quality`,`3. Technical and Scientific`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-  #ggsave("Freqplot_3vs2.png", width = 10, height = 6)
+  ggsave("Freqplot_3vs2.png", width = 10, height = 6)
 ```
 
 
-```{}
+```{r}
 #I can get part way around the problem by re-using the same data and calling a different subset for the Y axis. Want to add comparisons of 3 vs 4, but same tables cannot be created because dataframe keeps breaking when I try to change 2. WQ.
 
 base_data_tokenized_sorted2v4 <- base_data_tokenized_sorted2 %>% 
@@ -271,21 +336,23 @@ base_data_tokenized_sorted2v4 <- base_data_tokenized_sorted2 %>%
 ```
 
 
-```{}
+```{r}
 ggplot(base_data_tokenized_sorted2v3, aes(`2. Writing Quality`,`4. Logic and Thinking`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-  #ggsave("Freqplot_4vs2.png", width = 10, height = 6)
+  ggsave("Freqplot_4vs2.png", width = 10, height = 6)
 ```
-END of broken / limping sections
-***
-***
 
 
-###Calculating and Plotting Log-Odds Pairs
+END of broken / limping section
+
+
+
+####Calculating and Plotting Log-Odds Pairs
+**2. Writing versus 3. Technical**
 
 ```{r}
 word_ratios2v3 <- base_data_tokenized %>%
@@ -297,36 +364,10 @@ word_ratios2v3 <- base_data_tokenized %>%
   mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
   mutate(logratio = log(`2. Writing Quality`/`3. Technical and Scientific`)) %>%
   arrange(desc(logratio))
-
-word_ratios3v4 <- base_data_tokenized %>%
-  count(word, code.subject) %>%
-  group_by(word) %>%
-  filter(sum(n) >= 10) %>%
-  ungroup() %>%
-  spread(code.subject, n, fill = 0) %>%
-  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
-  mutate(logratio = log(`3. Technical and Scientific`/`4. Logic and Thinking`)) %>%
-  arrange(desc(logratio))
-
-word_ratios2v4 <- base_data_tokenized %>%
-  count(word, code.subject) %>%
-  group_by(word) %>%
-  filter(sum(n) >= 10) %>%
-  ungroup() %>%
-  spread(code.subject, n, fill = 0) %>%
-  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
-  mutate(logratio = log(`2. Writing Quality`/`4. Logic and Thinking`)) %>%
-  arrange(desc(logratio))
 ```
 
 ```{r}
 word_ratios2v3 %>% 
-  arrange(abs(logratio))
-
-word_ratios3v4 %>% 
-  arrange(abs(logratio))
-
-word_ratios2v4 %>% 
   arrange(abs(logratio))
 ```
 
@@ -343,6 +384,29 @@ word_ratios2v3 %>%
   scale_fill_discrete(name = "", labels = c("2. Writing Quality", "3. Technical and Scientific"))
   #ggsave("Logplot_2vs3.png", width = 6, height = 10)
 
+```
+
+
+**3. Technical vs. 4. Logic**
+
+```{r}
+word_ratios3v4 <- base_data_tokenized %>%
+  count(word, code.subject) %>%
+  group_by(word) %>%
+  filter(sum(n) >= 10) %>%
+  ungroup() %>%
+  spread(code.subject, n, fill = 0) %>%
+  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
+  mutate(logratio = log(`3. Technical and Scientific`/`4. Logic and Thinking`)) %>%
+  arrange(desc(logratio))
+```
+
+```{r}
+word_ratios3v4 %>% 
+  arrange(abs(logratio))
+```
+
+```{r}
 word_ratios3v4 %>%
   group_by(logratio < 0) %>%
   top_n(20, abs(logratio)) %>%
@@ -355,6 +419,29 @@ word_ratios3v4 %>%
   scale_fill_discrete(name = "", labels = c("3. Technical and Scientific","4. Logic and Thinking"))
   #ggsave("Logplot_3vs4.png", width = 6, height = 10)
 
+```
+
+
+**2. Writing versus 4. Logic**
+
+```{r}
+word_ratios2v4 <- base_data_tokenized %>%
+  count(word, code.subject) %>%
+  group_by(word) %>%
+  filter(sum(n) >= 10) %>%
+  ungroup() %>%
+  spread(code.subject, n, fill = 0) %>%
+  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
+  mutate(logratio = log(`2. Writing Quality`/`4. Logic and Thinking`)) %>%
+  arrange(desc(logratio))
+```
+
+```{r}
+word_ratios2v4 %>% 
+  arrange(abs(logratio))
+```
+
+```{r}
 word_ratios2v4 %>%
   group_by(logratio < 0) %>%
   top_n(20, abs(logratio)) %>%
@@ -367,38 +454,52 @@ word_ratios2v4 %>%
   scale_fill_discrete(name = "", labels = c("2. Writing Quality", "4. Logic and Thinking"))
   #ggsave("Logplot_2vs4.png", width = 6, height = 10)
 
-
 ```
-
-####\  
 
 ##Direct Comparison Using Only Words Appearing in All Subsets of Comments
-I think this is less informative, but it does let me see the data more clearly. 
+I think this is less informative, but it does let me see the data more clearly.Basic strategy is to take all comments from base_data, unnest tokens, filter stopwords, count and sort remaining terms, then write back to a new datatable called 'sortedwords.comments.all'.  Calculate TOTAL words and store. Then calculate fractional frequencies for each word and store using mutate.
 
-Basic strategy is to take all comments from base_data, unnest tokens, filter stopwords, count and sort remaining terms, then write back to a new datatable called 'sortedwords.comments.all'.  Calculate TOTAL words and store. Then calculate fractional frequencies for each word and store using mutate.
-
-I wrote this block so that, once CSV is imported, it does not require any of the code above. This is an early effort, so likely has some poorly developed code that could be refactored.
-
-```{}
-# Call in tidyverse, other required libraries.
-library(tidyverse)
-library(tidytext)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(scales)
-
-#Read in the full CSV into a starting dataframe named "base_data".
-#Dataframe should have ~11,000 rows and 28 columns .
-base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anon.csv')
-```
+This is an early version, so likely has some poorly developed code blocks that could be refactored.
 
 ```{r}
-# Tokenize phrases, remove the stop words listed in R's standard reference file.
+library(dplyr)
+library(tidytext)
+
+sortedwords.comments.all <- base_data_tokenized %>%
+  filter(!word %in% stop_words$word,
+         !word %in% str_remove_all(stop_words$word, "'"),
+         str_detect(word, "[a-z]")) %>%
+  count(word, word, sort = TRUE) %>%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.all <- sortedwords.comments.all %>% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.comments.all.fraction <- sortedwords.comments.all %>% as_tibble() %>% mutate(
+  all.fraction = (n*100)/total_words.all$total
+  )
+```
+
+
+##Summarize Word Frequencies in Subsets of Comments Based on 'Subject'
+Take subsets of comments from base_data_tokenized using code.subject as separating characteristic.
+
+
+###Other Analysis Approaches
+This approach summarizes the word frequencies in the FULL set of TA comments first, then breaks them down into sub-groups. It has examples of other code bits as well.
+
+The first block takes all comments from base_data, unnests tokens, filters stopwords, count and sort remaining terms, then writes results back to a new dataframe called 'sortedwords.comments.all'.  
+
+TOTAL words is calculated and stored. Then fractional frequencies for each word are calculated and stored back to the dataframe using mutate.
+
+```{r}
+# Tokenize phrases, remove stop words listed in standard reference file.
 base_data_tokenized <- base_data %>% 
   unnest_tokens(word,ta.comment)
 
-# This is an ALTERNATIVE METHOD for pulling out stopwords.  
+# An alternative approach to pulling out stopwords  
 sortedwords.comments.all <- base_data_tokenized %>%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
@@ -465,7 +566,9 @@ total_words.writing <- sortedwords.writing %>%
 sortedwords.writing.fraction <- sortedwords.writing %>% as_tibble() %>% mutate(
   writing.fraction = (n*100)/total_words.writing$total
 )
+```
 
+```{r}
 sortedwords.technical <- base_data_tokenized.technical %>%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
@@ -481,7 +584,9 @@ total_words.technical <- sortedwords.technical %>%
 sortedwords.technical.fraction <- sortedwords.technical %>% as_tibble() %>% mutate(
   technical.fraction = (n*100)/total_words.technical$total
 )
+```
 
+```{r}
 sortedwords.logic <- base_data_tokenized.logic %>%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
@@ -499,9 +604,9 @@ sortedwords.logic.fraction <- sortedwords.logic %>% as_tibble() %>% mutate(
 )
 ```
 
-Next block joins the individual data tables for each subset in a larger file using column named 'word'. Columns get confusing names so they are renamed. **WARNING**: if a word is MISSING from **any subset** the data for that word is pruned from the full dataset. I am losing the unique words this way. 
+Next block joins the individual data tables for each subset in a larger file using column named 'word'. Columns get confusing names so they are renamed.
 
-**Need to figure out how to join without pruning.**
+**WARNING**: Words that are MISSING from **any subset** cause the full set to be pruned. I am losing the unique words this way. **Need to figure out how to join without pruning.**
 
 
 ```{r}
@@ -529,9 +634,7 @@ total6 <- total5 %>% as_tibble() %>% mutate(
 
 ```
 
-The following six graphs compare frequencies for ~770 words that appear in ALL THREE of the sub-categories. 
-
-Graphs 1-3 compare frequencies in individual groups against word frequency overall. Generally, the frequency of a term in the whole set of comments is similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup clearly fall below the trendline Graph 3, suggesting they are less frequent in that sub-category than overall.
+The following six graphs only compare frequencies for ~770 words that appear in ALL THREE of the sub-categories. Graphs 1-3 compare frequencies in individual groups against word frequency overall. Generally, the frequency of a term in the whole set of comments is similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup clearly fall below the trendline Graph 3, suggesting they are less frequent in that sub-category than overall.
 
 ```{r}
 ggplot(total6, aes(`all.fraction`,`writing.fraction`)) +
@@ -540,14 +643,22 @@ ggplot(total6, aes(`all.fraction`,`writing.fraction`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
+```
 
+
+
+```{r}
 ggplot(total6, aes(`all.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
+```
 
+
+
+```{r}
 ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
@@ -556,7 +667,9 @@ ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_abline(color = "red")
 ```
 
-Graphs 4-6 are pair-wise comparisons of frequencies for sub-categories. Unlike the comparisons to overall frequency, most words are NOT clustered along the trendline, suggesting there are greater differences in word usage frequencies.
+
+Graphs 4-6 are pair-wise comparisons of frequencies for sub-categories. Unlike the comparisons to overall frequency, most words are NOT clustered on the trendline, suggesting there are differences in word usage.
+
 
 ```{r}
 ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
@@ -565,14 +678,19 @@ ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
+```
 
+```{r}
 ggplot(total6, aes(`logic.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
+```
 
+
+```{r}
 ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
@@ -581,5 +699,32 @@ ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_abline(color = "red")
 ```
 
-####\  
 
+
+
+
+####\
+
+## Data
+
+####\
+
+## Analysis
+
+####\
+
+# Results
+
+####\
+
+# Discussion
+
+####\
+
+# Conclusion
+
+####\
+
+# References
+
+####\
