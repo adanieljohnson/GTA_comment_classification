@@ -358,29 +358,13 @@ div.tocify {
 </div>
 <div id="loading-libraries-and-data" class="section level2">
 <h2>Loading Libraries and Data</h2>
-<pre class="r"><code>library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
-## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(tidytext)
+<pre class="r"><code>library(tidyverse)
+library(tidytext)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-library(scales)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     discard</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor</code></pre>
-<pre class="r"><code>library(tm)</code></pre>
+library(scales)
+library(tm)</code></pre>
 <pre><code>## Loading required package: NLP</code></pre>
 <pre><code>## 
 ## Attaching package: &#39;NLP&#39;</code></pre>
@@ -628,9 +612,8 @@ head(hack, 5)</code></pre>
 #library(wordcloud)
 #library(e1071)
 #library(gmodels)
-#library(readr)
-
-#Read in CSV file named &quot;coded_full_comments_dataset_Spring18anon.csv&quot;.
+#library(readr)</code></pre>
+<pre class="r"><code>#Read in CSV file named &quot;coded_full_comments_dataset_Spring18anon.csv&quot;.
 base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon.csv&#39;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -640,88 +623,27 @@ base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon
 ##   Rank = col_integer()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre class="r"><code>#Isolate rows to compare, reduce larger dataframe to 2 required columns of data, and put columns in order needed. Finally, rename the columns and check data format.
+<pre class="r"><code>#Isolate rows to compare. 
 frequency_writing &lt;- filter(base_data,code.subject==&quot;2. Writing Quality&quot;|code.subject==&quot;3. Technical and Scientific&quot;|code.subject==&quot;4. Logic and Thinking&quot;)
 
-
+#Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
 sms_raw2 &lt;- frequency_writing %&gt;% select(23,22)
+
+#Rename the columns.
 names(sms_raw2)[1] &lt;- &quot;type&quot;
 names(sms_raw2)[2] &lt;- &quot;text&quot;
-str(sms_raw2)</code></pre>
-<pre><code>## Classes &#39;tbl_df&#39;, &#39;tbl&#39; and &#39;data.frame&#39;:    9129 obs. of  2 variables:
-##  $ type: chr  &quot;3. Technical and Scientific&quot; &quot;2. Writing Quality&quot; &quot;3. Technical and Scientific&quot; &quot;3. Technical and Scientific&quot; ...
-##  $ text: chr  &quot;critical level?&quot; &quot;Hypothesis comes before methods&quot; &quot;Is this the most concise way to communicate no significant difference?&quot; &quot;Try to use more parentheticals e.g. (t = , p = , df = ) etc.&quot; ...
-##  - attr(*, &quot;spec&quot;)=List of 2
-##   ..$ cols   :List of 28
-##   .. ..$ unique.record        : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ report.id            : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ sort                 : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
-##   .. ..$ report.title         : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ student              : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ course               : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
-##   .. ..$ ta                   : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ lab                  : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ tag                  : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ type.TA              : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ grade.TA             : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ grading.time         : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ Rank                 : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_integer&quot; &quot;collector&quot;
-##   .. ..$ hypothesis.ok        : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ data.ok              : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ citation.ok          : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ interpretation.ok    : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ organization.ok      : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ techflaws.ok         : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ writing.ok           : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ comments.incorporated: list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ ta.comment           : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ code.subject         : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ code.structure       : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ code.locus           : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ code.scope           : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ code.tone            : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   .. ..$ code.notes           : list()
-##   .. .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_character&quot; &quot;collector&quot;
-##   ..$ default: list()
-##   .. ..- attr(*, &quot;class&quot;)= chr  &quot;collector_guess&quot; &quot;collector&quot;
-##   ..- attr(*, &quot;class&quot;)= chr &quot;col_spec&quot;</code></pre>
-<p>The “type”&quot; element should be a character. It needs to be changed to a factor for analysis.</p>
-<pre class="r"><code>sms_raw2$type &lt;- factor(sms_raw2$type)
+
+#Simplify the coding terms
+sms_raw2[,1] &lt;- ifelse(sms_raw2[,1] == &quot;2. Writing Quality&quot;, &quot;2_Writing&quot;, ifelse(sms_raw2[,1] == &quot;3. Technical and Scientific&quot;, &quot;3_Technical&quot;, ifelse(sms_raw2[,1] == &quot;4. Logic and Thinking&quot;,&quot;4_Logic&quot;,99)))
+
+#Change &quot;type&quot; element from character to a factor for analysis.
+sms_raw2$type &lt;- factor(sms_raw2$type)
 str(sms_raw2$type)</code></pre>
-<pre><code>##  Factor w/ 3 levels &quot;2. Writing Quality&quot;,..: 2 1 2 2 2 2 3 3 3 2 ...</code></pre>
+<pre><code>##  Factor w/ 3 levels &quot;2_Writing&quot;,&quot;3_Technical&quot;,..: 2 1 2 2 2 2 3 3 3 2 ...</code></pre>
 <pre class="r"><code>table(sms_raw2$type)</code></pre>
 <pre><code>## 
-##          2. Writing Quality 3. Technical and Scientific 
-##                        2578                        5409 
-##       4. Logic and Thinking 
-##                        1142</code></pre>
+##   2_Writing 3_Technical     4_Logic 
+##        2578        5409        1142</code></pre>
 <div id="section-8" class="section level4">
 <h4> </h4>
 </div>
@@ -803,16 +725,12 @@ sms_test_labels2 &lt;- sms_raw2[6847:9129,]$type</code></pre>
 <p>Make sure that the proportion of each sub-category is similar in the training and testing data set.</p>
 <pre class="r"><code>prop.table(table(sms_train_labels2))</code></pre>
 <pre><code>## sms_train_labels2
-##          2. Writing Quality 3. Technical and Scientific 
-##                   0.2854221                   0.5911481 
-##       4. Logic and Thinking 
-##                   0.1234297</code></pre>
+##   2_Writing 3_Technical     4_Logic 
+##   0.2854221   0.5911481   0.1234297</code></pre>
 <pre class="r"><code>prop.table(table(sms_test_labels2))</code></pre>
 <pre><code>## sms_test_labels2
-##          2. Writing Quality 3. Technical and Scientific 
-##                   0.2733246                   0.5965834 
-##       4. Logic and Thinking 
-##                   0.1300920</code></pre>
+##   2_Writing 3_Technical     4_Logic 
+##   0.2733246   0.5965834   0.1300920</code></pre>
 <div id="section-10" class="section level4">
 <h4> </h4>
 </div>
@@ -822,32 +740,32 @@ sms_test_labels2 &lt;- sms_raw2[6847:9129,]$type</code></pre>
 <p>Create a wordcloud of the frequency of the words in the dataset using the package “wordcloud”.</p>
 <pre class="r"><code>#library(wordcloud)
 wordcloud(sms_corpus_clean2, max.words = 50, random.order = FALSE)</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
 <p>Compare wordclouds between 3 groups.</p>
-<pre class="r"><code>TWO &lt;- subset(sms_raw2, type == &quot;2. Writing Quality&quot;)
-THREE &lt;- subset(sms_raw2, type == &quot;3. Technical and Scientific&quot;)
-FOUR &lt;- subset(sms_raw2, type == &quot;4. Logic and Thinking&quot;)
+<pre class="r"><code>TWO &lt;- subset(sms_raw2, type == &quot;2_Writing&quot;)
+THREE &lt;- subset(sms_raw2, type == &quot;3_Technical&quot;)
+FOUR &lt;- subset(sms_raw2, type == &quot;4_Logic&quot;)
 
 wordcloud(TWO$text, max.words = 50, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
 ## tm::stopwords())): transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-53-1.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
 <pre class="r"><code>wordcloud(THREE$text, max.words = 50, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents
 
 ## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-53-2.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-52-2.png" width="672" /></p>
 <pre class="r"><code>wordcloud(FOUR$text, max.words = 50, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents
 
 ## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-53-3.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-52-3.png" width="672" /></p>
 <div id="section-11" class="section level4">
 <h4> </h4>
 </div>
@@ -894,24 +812,24 @@ CrossTable(sms_test_pred2, sms_test_labels2, prop.chisq = FALSE, prop.t = FALSE,
 ## Total Observations in Table:  2283 
 ## 
 ##  
-##                             | actual 
-##                   predicted |          2. Writing Quality | 3. Technical and Scientific |       4. Logic and Thinking |                   Row Total | 
-## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
-##          2. Writing Quality |                         457 |                         104 |                          63 |                         624 | 
-##                             |                       0.732 |                       0.167 |                       0.101 |                       0.273 | 
-##                             |                       0.732 |                       0.076 |                       0.212 |                             | 
-## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
-## 3. Technical and Scientific |                         108 |                        1198 |                          43 |                        1349 | 
-##                             |                       0.080 |                       0.888 |                       0.032 |                       0.591 | 
-##                             |                       0.173 |                       0.880 |                       0.145 |                             | 
-## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
-##       4. Logic and Thinking |                          59 |                          60 |                         191 |                         310 | 
-##                             |                       0.190 |                       0.194 |                       0.616 |                       0.136 | 
-##                             |                       0.095 |                       0.044 |                       0.643 |                             | 
-## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
-##                Column Total |                         624 |                        1362 |                         297 |                        2283 | 
-##                             |                       0.273 |                       0.597 |                       0.130 |                             | 
-## ----------------------------|-----------------------------|-----------------------------|-----------------------------|-----------------------------|
+##              | actual 
+##    predicted |   2_Writing | 3_Technical |     4_Logic |   Row Total | 
+## -------------|-------------|-------------|-------------|-------------|
+##    2_Writing |         457 |         104 |          63 |         624 | 
+##              |       0.732 |       0.167 |       0.101 |       0.273 | 
+##              |       0.732 |       0.076 |       0.212 |             | 
+## -------------|-------------|-------------|-------------|-------------|
+##  3_Technical |         108 |        1198 |          43 |        1349 | 
+##              |       0.080 |       0.888 |       0.032 |       0.591 | 
+##              |       0.173 |       0.880 |       0.145 |             | 
+## -------------|-------------|-------------|-------------|-------------|
+##      4_Logic |          59 |          60 |         191 |         310 | 
+##              |       0.190 |       0.194 |       0.616 |       0.136 | 
+##              |       0.095 |       0.044 |       0.643 |             | 
+## -------------|-------------|-------------|-------------|-------------|
+## Column Total |         624 |        1362 |         297 |        2283 | 
+##              |       0.273 |       0.597 |       0.130 |             | 
+## -------------|-------------|-------------|-------------|-------------|
 ## 
 ## </code></pre>
 <p>Show the 5 most frequent words in the data:</p>
@@ -931,21 +849,21 @@ head(hack2, 5)</code></pre>
 ## transformation drops documents</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
 ## tm::stopwords())): transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-60-1.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
 <pre class="r"><code>wordcloud(THREE$text, max.words = 5, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents
 
 ## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-60-2.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-59-2.png" width="672" /></p>
 <pre class="r"><code>wordcloud(FOUR$text, max.words = 5, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents
 
 ## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-60-3.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-59-3.png" width="672" /></p>
 </div>
 </div>
 
