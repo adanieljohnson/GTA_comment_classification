@@ -1,23 +1,49 @@
 ---
-title: "Data Intake & Initial Exploration"
+title: "Draft Description of Work in Progress"
 author: "Dan Johnson"
-date: "12/16/2018"
+date: "12/17/2018"
 output: html_document
 bibliography: library.bib
 biblio-style: apalike
 ---
 ```{r, child="_setup.Rmd"}
 ```
-
-The initial working dataset is an anonymized Excel table of 10,808 rows. One column has "TA comments" extracted from student lab reports. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
+#Overview
+This page provides a draft overview of my progress. A short narrative outlines the  discrete blocks of work and how they are connected. Links connect to longer pages that document intake, munging, analysis, and visualization in depth. 
 
 ####\  
+
+##Initial Dataset
+My working dataset is an Excel table of 10,808 rows. One column has "TA comments" extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
+
+Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings. 
+
+####\  
+
+##Blocks of Work
+
+*  Data Pre-Checks and Import
+*  Initial Import and Post-Checks
+*  Preliminary Exploration: Log-Odds Text Comparison
+    +  Pearson Correlations of Word Frequencies: BROKEN SECTION
+    +  Mapping Analyses Visually: RUNS BUT CANNOT COPY AND MODIFY. It depends tables created using the broken code above. So I cannot run this part either.
+    +  Calculating and Plotting Log-Odds Pairs
+*  Preliminary Exploration: Direct Comparison of Word Lists
+*  Deeper Text Analysis Methods
+    +  Naive Bayes [/docs/Naive_bayes.html](link)
+    +  Random Forest (link)
+    +  Latent Dirichlet Allocation (link)
+    +  Etc. (link)
+    +  Etc. (link)
+
+####\  
+
 ##Data Pre-Checks
 Prior to import, review data table in Excel. Check:
 
-1.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.md"
+1.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.rmd"
 2.  Data have been de-identified and recoded using pre-assigned anonymous IDs.
-3.  Data table headers are in snake_case, and match tabulated list below. The same list is in the file "code_column_names.txt"
+3.  Data table headers are in snake_case, and match tabulated list below. The same list is in the file "code_column_names.rmd"
 
 Column Number|Column Name|Column Number|Column Name
 ------------|----------------------|------------|----------------------
@@ -41,7 +67,7 @@ Once all data are in correct format, export Excel file to CSV with name formatte
 ####\  
 
 ##Initial Import and Post-Check
-```{r Libraries}
+```{r Libraries_1}
 # Call in tidyverse, other required libraries.
 library(tidyverse)
 library(tidytext)
@@ -56,10 +82,10 @@ library(scales)
 #Subsequent analyses call in subsets of "base_data".
 base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anon.csv')
 
-#If the TA comments dataset is imported correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.
+#If dataset imports correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.
 ```
 
-Given some data points may be entered incorrectly by instructors or students, I included several post-import data checks to ensure data have been properly coded and columns contain valid entries only.
+Given some data points may be entered incorrectly by instructors or students, these post-import data checks help ensure data have been properly coded and columns contain valid entries only.
 
 ```{r}
 #"Course" column should only have entries that correspond to 113, 114, 214, NA. 
@@ -90,9 +116,9 @@ The first question to answer before making deeper comparisons is **are the comme
 ####\  
 
 ###Log-Odds Text Comparison
-The log-odds ratios method outlined below has been the most informative to date. The basic premise being tested is that certain words are more frequent in TA comments belonging to one sub-category, and less frequent in others. I first saw this approach as a way to compare word usage between separate Twitter accounts here: https://www.tidytextmining.com/twitter.html.
+The log-odds ratios method outlined below finds and displays differences words that are more frequently found in TA comments belonging to one sub-category vs. another. I based this on a method for comparing word usage frequencies between two separate Twitter users [https://www.tidytextmining.com/twitter.html](that I found here.)
 
-For simplicity I reduced the analysis to just the four most common comment subjects.
+For simplicity I reduced my analysis to just the four most common comment subjects. This has been the most informative preliminary visualization I have found so far. 
 
 ```{r}
 # Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
@@ -143,9 +169,9 @@ cor.test(data = base_data_tokenized_sorted2[base_data_tokenized_sorted2$code.sub
 ***
 ***
 ####START OF BROKEN SECTION
-THERE IS AN ERROR HERE I CANNOT DEBUG! If I change "3. Technical and Scientific"  to "2. Writing Quality", the structure of the tibble breaks. It goes from the correctly sorted 4 columns to incorrectly sorted 3 columns. It is NOT A TYPO; I can literally copy/paste it in and out and break/correct the code. 
+THERE IS AN ERROR HERE I CANNOT DEBUG! If I change "3. Technical and Scientific"  to "2. Writing Quality", the structure of the tibble breaks. It goes from the correctly sorted 4 columns to incorrectly sorted 3 columns. It is NOT A TYPO; I can literally copy/paste the names in and out and break/correct the code. 
 
-I cannot use a different order, or any other format. I am at a loss.
+I cannot fix it using a different order for variables. I am at a loss for why it breaks.
 
 ```{}
 # Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
@@ -202,12 +228,9 @@ base_data_tokenized_sorted3 <- base_data_tokenized3 %>%
 #END OF BROKEN SECTION
 ```
 
-***
-***
+I can run this block, but CANNOT COPY AND MODIFY THIS SECTION. It needs the tables that should be created using the broken code above. So I cannot run this part either.
 
-I can run this block, but CANNOT COPY AND MODIFY THIS SECTION. It depends tables created using the broken code above. So I cannot run this part either.
-
-```{r}
+```{}
 #Create groups by code.subject, calculates proportional frequency in each group.
 #Final step creates 5 columns: code.subject, n, word, total, frequency.
 base_data_tokenized_sorted2 <- base_data_tokenized %>% 
@@ -219,7 +242,7 @@ base_data_tokenized_sorted2 <- base_data_tokenized %>%
   mutate(freq = n/total)
 ```
 
-```{r}
+```{}
 base_data_tokenized_sorted2v3 <- base_data_tokenized_sorted2 %>% 
   select(code.subject, word, freq) %>% 
   spread(code.subject, freq) %>%
@@ -227,18 +250,18 @@ base_data_tokenized_sorted2v3 <- base_data_tokenized_sorted2 %>%
 ```
 
 
-```{r}
+```{}
 ggplot(base_data_tokenized_sorted2v3, aes(`2. Writing Quality`,`3. Technical and Scientific`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-  ggsave("Freqplot_3vs2.png", width = 10, height = 6)
+  #ggsave("Freqplot_3vs2.png", width = 10, height = 6)
 ```
 
 
-```{r}
+```{}
 #I can get part way around the problem by re-using the same data and calling a different subset for the Y axis. Want to add comparisons of 3 vs 4, but same tables cannot be created because dataframe keeps breaking when I try to change 2. WQ.
 
 base_data_tokenized_sorted2v4 <- base_data_tokenized_sorted2 %>% 
@@ -248,24 +271,21 @@ base_data_tokenized_sorted2v4 <- base_data_tokenized_sorted2 %>%
 ```
 
 
-```{r}
+```{}
 ggplot(base_data_tokenized_sorted2v3, aes(`2. Writing Quality`,`4. Logic and Thinking`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-  ggsave("Freqplot_4vs2.png", width = 10, height = 6)
+  #ggsave("Freqplot_4vs2.png", width = 10, height = 6)
 ```
-
-
-END of broken / limping section
+END of broken / limping sections
 ***
 ***
 
 
-####Calculating and Plotting Log-Odds Pairs
-**2. Writing versus 3. Technical**
+###Calculating and Plotting Log-Odds Pairs
 
 ```{r}
 word_ratios2v3 <- base_data_tokenized %>%
@@ -277,10 +297,36 @@ word_ratios2v3 <- base_data_tokenized %>%
   mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
   mutate(logratio = log(`2. Writing Quality`/`3. Technical and Scientific`)) %>%
   arrange(desc(logratio))
+
+word_ratios3v4 <- base_data_tokenized %>%
+  count(word, code.subject) %>%
+  group_by(word) %>%
+  filter(sum(n) >= 10) %>%
+  ungroup() %>%
+  spread(code.subject, n, fill = 0) %>%
+  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
+  mutate(logratio = log(`3. Technical and Scientific`/`4. Logic and Thinking`)) %>%
+  arrange(desc(logratio))
+
+word_ratios2v4 <- base_data_tokenized %>%
+  count(word, code.subject) %>%
+  group_by(word) %>%
+  filter(sum(n) >= 10) %>%
+  ungroup() %>%
+  spread(code.subject, n, fill = 0) %>%
+  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
+  mutate(logratio = log(`2. Writing Quality`/`4. Logic and Thinking`)) %>%
+  arrange(desc(logratio))
 ```
 
 ```{r}
 word_ratios2v3 %>% 
+  arrange(abs(logratio))
+
+word_ratios3v4 %>% 
+  arrange(abs(logratio))
+
+word_ratios2v4 %>% 
   arrange(abs(logratio))
 ```
 
@@ -297,29 +343,6 @@ word_ratios2v3 %>%
   scale_fill_discrete(name = "", labels = c("2. Writing Quality", "3. Technical and Scientific"))
   #ggsave("Logplot_2vs3.png", width = 6, height = 10)
 
-```
-
-
-**3. Technical vs. 4. Logic**
-
-```{r}
-word_ratios3v4 <- base_data_tokenized %>%
-  count(word, code.subject) %>%
-  group_by(word) %>%
-  filter(sum(n) >= 10) %>%
-  ungroup() %>%
-  spread(code.subject, n, fill = 0) %>%
-  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
-  mutate(logratio = log(`3. Technical and Scientific`/`4. Logic and Thinking`)) %>%
-  arrange(desc(logratio))
-```
-
-```{r}
-word_ratios3v4 %>% 
-  arrange(abs(logratio))
-```
-
-```{r}
 word_ratios3v4 %>%
   group_by(logratio < 0) %>%
   top_n(20, abs(logratio)) %>%
@@ -332,29 +355,6 @@ word_ratios3v4 %>%
   scale_fill_discrete(name = "", labels = c("3. Technical and Scientific","4. Logic and Thinking"))
   #ggsave("Logplot_3vs4.png", width = 6, height = 10)
 
-```
-
-
-**2. Writing versus 4. Logic**
-
-```{r}
-word_ratios2v4 <- base_data_tokenized %>%
-  count(word, code.subject) %>%
-  group_by(word) %>%
-  filter(sum(n) >= 10) %>%
-  ungroup() %>%
-  spread(code.subject, n, fill = 0) %>%
-  mutate_if(is.numeric, funs((. + 1) / (sum(.) + 1))) %>%
-  mutate(logratio = log(`2. Writing Quality`/`4. Logic and Thinking`)) %>%
-  arrange(desc(logratio))
-```
-
-```{r}
-word_ratios2v4 %>% 
-  arrange(abs(logratio))
-```
-
-```{r}
 word_ratios2v4 %>%
   group_by(logratio < 0) %>%
   top_n(20, abs(logratio)) %>%
@@ -367,52 +367,38 @@ word_ratios2v4 %>%
   scale_fill_discrete(name = "", labels = c("2. Writing Quality", "4. Logic and Thinking"))
   #ggsave("Logplot_2vs4.png", width = 6, height = 10)
 
+
 ```
+
+####\  
 
 ##Direct Comparison Using Only Words Appearing in All Subsets of Comments
-I think this is less informative, but it does let me see the data more clearly.Basic strategy is to take all comments from base_data, unnest tokens, filter stopwords, count and sort remaining terms, then write back to a new datatable called 'sortedwords.comments.all'.  Calculate TOTAL words and store. Then calculate fractional frequencies for each word and store using mutate.
+I think this is less informative, but it does let me see the data more clearly. 
 
-This is an early version, so likely has some poorly developed code blocks that could be refactored.
+Basic strategy is to take all comments from base_data, unnest tokens, filter stopwords, count and sort remaining terms, then write back to a new datatable called 'sortedwords.comments.all'.  Calculate TOTAL words and store. Then calculate fractional frequencies for each word and store using mutate.
 
-```{r}
-library(dplyr)
+I wrote this block so that, once CSV is imported, it does not require any of the code above. This is an early effort, so likely has some poorly developed code that could be refactored.
+
+```{}
+# Call in tidyverse, other required libraries.
+library(tidyverse)
 library(tidytext)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
 
-sortedwords.comments.all <- base_data_tokenized %>%
-  filter(!word %in% stop_words$word,
-         !word %in% str_remove_all(stop_words$word, "'"),
-         str_detect(word, "[a-z]")) %>%
-  count(word, word, sort = TRUE) %>%
-  ungroup()
-
-#Calculate the number of words in total in the subset
-total_words.all <- sortedwords.comments.all %>% 
-  summarize(total = sum(n))
-
-#Mutate table to calculate then append fractional word frequency in the text.
-sortedwords.comments.all.fraction <- sortedwords.comments.all %>% as_tibble() %>% mutate(
-  all.fraction = (n*100)/total_words.all$total
-  )
+#Read in the full CSV into a starting dataframe named "base_data".
+#Dataframe should have ~11,000 rows and 28 columns .
+base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anon.csv')
 ```
 
-
-##Summarize Word Frequencies in Subsets of Comments Based on 'Subject'
-Take subsets of comments from base_data_tokenized using code.subject as separating characteristic.
-
-
-###Other Analysis Approaches
-This approach summarizes the word frequencies in the FULL set of TA comments first, then breaks them down into sub-groups. It has examples of other code bits as well.
-
-The first block takes all comments from base_data, unnests tokens, filters stopwords, count and sort remaining terms, then writes results back to a new dataframe called 'sortedwords.comments.all'.  
-
-TOTAL words is calculated and stored. Then fractional frequencies for each word are calculated and stored back to the dataframe using mutate.
-
 ```{r}
-# Tokenize phrases, remove stop words listed in standard reference file.
+# Tokenize phrases, remove the stop words listed in R's standard reference file.
 base_data_tokenized <- base_data %>% 
   unnest_tokens(word,ta.comment)
 
-# An alternative approach to pulling out stopwords  
+# This is an ALTERNATIVE METHOD for pulling out stopwords.  
 sortedwords.comments.all <- base_data_tokenized %>%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
@@ -479,9 +465,7 @@ total_words.writing <- sortedwords.writing %>%
 sortedwords.writing.fraction <- sortedwords.writing %>% as_tibble() %>% mutate(
   writing.fraction = (n*100)/total_words.writing$total
 )
-```
 
-```{r}
 sortedwords.technical <- base_data_tokenized.technical %>%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
@@ -497,9 +481,7 @@ total_words.technical <- sortedwords.technical %>%
 sortedwords.technical.fraction <- sortedwords.technical %>% as_tibble() %>% mutate(
   technical.fraction = (n*100)/total_words.technical$total
 )
-```
 
-```{r}
 sortedwords.logic <- base_data_tokenized.logic %>%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
@@ -517,9 +499,9 @@ sortedwords.logic.fraction <- sortedwords.logic %>% as_tibble() %>% mutate(
 )
 ```
 
-Next block joins the individual data tables for each subset in a larger file using column named 'word'. Columns get confusing names so they are renamed.
+Next block joins the individual data tables for each subset in a larger file using column named 'word'. Columns get confusing names so they are renamed. **WARNING**: if a word is MISSING from **any subset** the data for that word is pruned from the full dataset. I am losing the unique words this way. 
 
-**WARNING**: Words that are MISSING from **any subset** cause the full set to be pruned. I am losing the unique words this way. **Need to figure out how to join without pruning.**
+**Need to figure out how to join without pruning.**
 
 
 ```{r}
@@ -547,7 +529,9 @@ total6 <- total5 %>% as_tibble() %>% mutate(
 
 ```
 
-The following six graphs only compare frequencies for ~770 words that appear in ALL THREE of the sub-categories. Graphs 1-3 compare frequencies in individual groups against word frequency overall. Generally, the frequency of a term in the whole set of comments is similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup clearly fall below the trendline Graph 3, suggesting they are less frequent in that sub-category than overall.
+The following six graphs compare frequencies for ~770 words that appear in ALL THREE of the sub-categories. 
+
+Graphs 1-3 compare frequencies in individual groups against word frequency overall. Generally, the frequency of a term in the whole set of comments is similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup clearly fall below the trendline Graph 3, suggesting they are less frequent in that sub-category than overall.
 
 ```{r}
 ggplot(total6, aes(`all.fraction`,`writing.fraction`)) +
@@ -556,22 +540,14 @@ ggplot(total6, aes(`all.fraction`,`writing.fraction`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-```
 
-
-
-```{r}
 ggplot(total6, aes(`all.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-```
 
-
-
-```{r}
 ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
@@ -580,9 +556,7 @@ ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_abline(color = "red")
 ```
 
-
-Graphs 4-6 are pair-wise comparisons of frequencies for sub-categories. Unlike the comparisons to overall frequency, most words are NOT clustered on the trendline, suggesting there are differences in word usage.
-
+Graphs 4-6 are pair-wise comparisons of frequencies for sub-categories. Unlike the comparisons to overall frequency, most words are NOT clustered along the trendline, suggesting there are greater differences in word usage frequencies.
 
 ```{r}
 ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
@@ -591,19 +565,14 @@ ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-```
 
-```{r}
 ggplot(total6, aes(`logic.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
-```
 
-
-```{r}
 ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
@@ -611,4 +580,6 @@ ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = "red")
 ```
+
+####\  
 
