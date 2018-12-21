@@ -1,7 +1,7 @@
 ---
-title: "Naive Bayes"
+title: "Naive Bayes Workflow"
 author: "Dan Johnson"
-date: "12/16/2018"
+date: "12/21/2018"
 output: html_document
 ---
 
@@ -9,469 +9,181 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-#Demo of Naive Bayes (NB) Method
-I copied the original demo web site [https://rpubs.com/Billyhansen6/318412](located here) to show how the process should work. I then duplicated the code and modified it to test with my TA comments. 
+##Summary
+This notebook documents a basic workflow for applying a naive Bayes model to terms in TA comments. I based it on a tutorial [https://rpubs.com/Billyhansen6/318412](located here). This is quoted from Hansen's original tutorial:
+>The objective of this project is to classify SMS messages as spam or ham (not spam). A Naive Bayes classifier approach will be used. This example is taken from chapter 4 of Machine Learning with R, Second Edition"
 
-The initial trial was able to identify sub-categories of comments ~80% of the time. This is better than the inter-rater reliability of two human raters, but still low. For subsequent iterations of the NB method I plan to evaluate:
-
-*  Variations on data pre-processing: stemmed versus unstemmed, numbers removed vs. not, etc.
-*  Comparing n-grams rather than single words
-*  Pair-wise comparison versus comparing multiple groups simultaneously
-*  Modifying the variables within the NB analysis itself.
-
-####\  
-
-##Hansen's Original Version
-The objective of this project is to classify SMS messages as spam or ham (not spam). A Naive Bayes classifier approach will be used. This example is taken from chapter 4 of Machine Learning with R, Second Edition"
-
-An example of the conditional probability that will be computed is as follows: 
+>An example of the conditional probability that will be computed is as follows: 
 
 $$P(Spam|Hospital) = P(Hospital|Spam)P(Spam)/P(Hospital)$$ 
 
-which is the formula for determining the probability that a message is spam given that it contains the word "Hospital" in the message.
+>which is the formula for determining the probability that a message is spam given that it contains the word "Hospital" in the message.
+
+Lines ~30-205 are the baseline version of the workflow using single words. It correctly classifies comments in the top 4 sub-categories  ~79% of the time. While that is close to minimum acceptable inter-rater reliability of two human readers, it is well below my goal of >95% for use in routine automated analysis. 
+
+Lines ~208-290 describe an alternative method using n-grams. When I tested this approach using 2-grams, classification was slightly worse, at 68.3% correct. 
+
+Lines ~295-335 show how to use word clouds to visualize single word frequencies. I did not find this approach very useful.
+
+To keep this code clean for now I will run various permutations in a scratch version, then summarize findings starting on line #345. In these subsequent iterations I will evaluate:
+
+*  Different text pre-processing strategies: stemmed versus unstemmed, numbers removed vs. not, etc.
+*  Using n-grams rather than single words
+*  Making pair-wise comparison versus comparing multiple groups simultaneously
+*  Modifying the variables in the NB analysis itself.
+
+Finally, there are several things still missing or needed for this workflow:
+
+*  How to feed a text dataset in, and get a table of the predicted categories back out.
+*  How to store the values from the Bayes prediction table so I can use them in calculations rather than type them in by hand.
+*  How to randomize which comments are used for training, testing datasets.
 
 ####\  
 
-##Loading Libraries and Data
-
+##Initial Setup
 ```{r}
 library(tidyverse)
 library(tidytext)
-library(dplyr)
 library(tidyr)
-library(ggplot2)
-library(scales)
 library(tm)
 library(SnowballC)
 library(wordcloud)
 library(e1071)
 library(gmodels)
-library(readr)
-```
-
-```{r}
-#Demo dataset of SMS messages
-sms_raw <- read.table("~/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/data/SMSSpamCollection.txt", header = FALSE, sep = "\t", quote = "", col.names = c("type","text"), stringsAsFactors = FALSE)
-```
-
-
-
-
-The data frame has 5574 observations marked as either spam or ham.
-
-```{r}
-str(sms_raw)
-```
-
-As seen above, the "type"" element is a character.Change it to a factor for the analysis.
-
-```{r}
-sms_raw$type <- factor(sms_raw$type)
-str(sms_raw$type)
-table(sms_raw$type)
-```
-
-Now the "type" variable is a factor with 2 levels. Of 5574 messages, 747 (about 13.4%) are spam.
-
-####\  
-
-##Text Mining
-For Naive Bayes to run effectively, the test data needs to be transformed. This begins with using "tm" to create a volitile coprus that contains the "text" vector from our data frame.
-
-```{r}
-sms_corpus <- VCorpus(VectorSource(sms_raw$text))
-print(sms_corpus)
-```
-
-Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.
-
-```{r}
-inspect(sms_corpus[1:3])
-```
-
-Use "as.character" function to see what a message looks like.
-
-```{r}
-as.character(sms_corpus[[3]])
-```
-
-In order to standardize the messages, the data set must be tranformed to all lower case letters. The words "Free", "free", and "FREE" should all be treated as the same word. Use the "tm_map"" funtion in R, and use the "content_transformer" function to transform the text.
-
-```{r}
-sms_corpus_clean <- tm_map(sms_corpus, content_transformer(tolower))
-```
-
-Look at third message again to see if our data was transformed.
-
-```{r}
-as.character(sms_corpus[[3]])
-as.character((sms_corpus_clean[[3]]))
-```
-
-The message was indeed tranformed to all lowercase letters. Now to remove the numbers using the "removeNumbers" function.
-
-```{r}
-sms_corpus_clean <- tm_map(sms_corpus_clean, removeNumbers)
-```
-
-Remome words that appear often but don't contribute to our objective. These words include "to", "and", "but" and "or".
-
-```{r}
-sms_corpus_clean <- tm_map(sms_corpus_clean, removeWords, stopwords())
-```
-
-Remove punctuation as well using the "removePunctuation" function.
-
-```{r}
-sms_corpus_clean <- tm_map(sms_corpus_clean, removePunctuation)
-
-as.character((sms_corpus_clean[[3]]))
-```
-
-Perform "stemming" to the text data to strip the suffix from words like "jumping", so the words "jumping" "jumps" and "jumped" are all transformed into "jump". Stemming can be perfromed using the "tm" package with help from the "SnowballC" package.
-
-```{r}
-sms_corpus_clean <- tm_map(sms_corpus_clean, stemDocument)
-```
-
-And now the final step in text mining is to remove white space from the document. 
-
-```{r}
-sms_corpus_clean <- tm_map(sms_corpus_clean, stripWhitespace)
-```
-
-```{r}
-as.character(sms_corpus_clean[[3]])
-```
-
-Perform tokenization using the "DocumentTermMatrix" function. This creates a matrix in which the rows indicates documents (SMS messages in this case) and the columns indicate words. It should be noted that the "DocumentTermMaxtrix" function has the power to do all of the text mining above in one command.
-
-```{r}
-sms_dtm <- DocumentTermMatrix(sms_corpus_clean)
 ```
 
 ####\  
 
-##Data Preparation
-Split our data into training and testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. Divide our data set into 75% training and 25% testing.
-
+##Baseline Version 1.0 of Naive Bayes (NB) Protocol
+###Initial Data Input
 ```{r}
-.75 * 5574
-.25 * 5574
-```
-
-Because the dataset is random, the first 4180 messages can be used for the training set - there’s no need to randomize the data first.
-
-```{r}
-sms_dtm_train <- sms_dtm[1:4180, ]
-sms_dtm_test <- sms_dtm[4181:5559, ]
-```
-
-Save vectors labeling rows in the training and testing vectors
-
-```{r}
-sms_train_labels <- sms_raw[1:4180, ]$type
-sms_test_labels <- sms_raw[4181:5559,]$type
-```
-
-Make sure that the proportion of spam is similar in the training and testing data set.
-
-```{r}
-prop.table(table(sms_train_labels))
-```
-
-```{r}
-prop.table(table(sms_test_labels))
-```
-
-Each have approx. 13% spam.
-
-####\  
-
-##Visualization
-Create a wordcloud of the frequency of the words in the dataset using the package “wordcloud”.
-
-```{r}
-wordcloud(sms_corpus_clean, max.words = 50, random.order = FALSE)
-```
-
-Compare wordclouds between spam and ham.
-```{r}
-spam <- subset(sms_raw, type == "spam")
-ham <- subset(sms_raw, type == "ham")
-wordcloud(spam$text, max.words = 50, scale = c(3, 0.5))
-wordcloud(ham$text, max.words = 50, scale = c(3, 0.5))
-```
-
-####\  
-
-##Preparation for Naive Bayes
-Remove words from the matrix that appear less than 5 times.
-
-```{r}
-sms_freq_words <- findFreqTerms(sms_dtm_train, 5)
-str(sms_freq_words)
-```
-
-Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.
-
-```{r}
-sms_dtm_freq_train <- sms_dtm_train[ , sms_freq_words]
-sms_dtm_freq_test <- sms_dtm_test[ , sms_freq_words]
-```
-
-The naive bayes classifier works with categorical reatures, so we need to convert the matrix to “yes” and “no” categorical variables. To do this we’ll build a convert_counts function and apply it to our data.
-
-```{r}
-convert_counts <- function(x) {
-  x <- ifelse(x > 0, "Yes", "No")
-}
-```
-
-This replaces values greater than 0 with yes, and values not greater than 0 with no. Let’s apply it to our data.
-
-```{r}
-sms_train <- apply(sms_dtm_freq_train, MARGIN = 2, convert_counts)
-sms_test <- apply(sms_dtm_freq_test, MARGIN = 2, convert_counts)
-```
-
-The resulting matrixes will be character type, with cells indicating “yes” or “no” if the word represented by the column appears in the message represented by the row.
-
-####\  
-
-##Train Model on the Data.
-Use the e1071 package to impliment the Naive Bayes algorithm on the data, and predict whether a message is likely to be spam or ham.
-
-```{r}
-sms_classifier <- naiveBayes(sms_train, sms_train_labels)
-```
-
-####\  
-
-##Predict and Evaluate the Model.
-
-```{r}
-sms_test_pred <- predict(sms_classifier, sms_test)
-```
-
-Evaluate the predition with the actual data using a crosstable from the gmodels package.
-
-```{r}
-CrossTable(sms_test_pred, sms_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
-```
- 
-As shown in the table only 27/1379 messages were classified incorrectly. This means that the algorithm classifed the testing set as spam or ham with approx. 98% accuracy. That’s impressive. To improve the model, one might tamper with the Laplace value, colect more sms data, or try splitting the dataset randomly into training and testing.
-I suspect the accuracy would increase as the dataset gets bigger. The more data there is to train the algorith, the more effective it would be in predicting Spam or Ham.
-
-
-Show the 5 most frequent words in the sms data:
-```{r}
-sack <- TermDocumentMatrix(sms_corpus_clean)
-pack <- as.matrix(sack)
-snack <- sort(rowSums(pack), decreasing = TRUE)
-hack <- data.frame(word = names(snack), freq=snack)
-head(hack, 5)
-```
- 
-And the 5 most frequent words from each class:
-
-```{r}
-wordcloud(spam$text, max.words = 5, scale = c(3, 0.5))
-wordcloud(ham$text, max.words = 5, scale = c(3, 0.5))
-```
-
-As shown in the word clouds, the most frequent words from the spam messages are "call", "free", "now", "mobile", and "text". And in the Ham messages, the 5 most frequent words are "can", "get", "just", "will", and "now".
-
-***
-***
-
-#My Test of Naive Bayes
-##Loading Data
-This block reads full CSV into a starting dataframe named "base_data". Next block isolates tables and rows into new dataframe "sms_raw2", and renames the columns.
-```{r}
-#library(tm)
-#library(SnowballC)
-#library(wordcloud)
-#library(e1071)
-#library(gmodels)
-#library(readr)
-```
-
-```{r}
-#Read in CSV file named "coded_full_comments_dataset_Spring18anon.csv".
+#Read in TA comments from CSV file.
 base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anon.csv')
 
-#Isolate rows to compare. 
-frequency_writing <- filter(base_data,code.subject=="2. Writing Quality"|code.subject=="3. Technical and Scientific"|code.subject=="4. Logic and Thinking")
+#Select rows representing the sub-groups to compare. 
+comments_subset <- filter(base_data,code.subject=="1. Basic Criteria"|code.subject=="2. Writing Quality"|code.subject=="3. Technical and Scientific"|code.subject=="4. Logic and Thinking")
 
 #Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
-sms_raw2 <- frequency_writing %>% select(23,22)
+comments_raw <- comments_subset %>% select(23,22)
 
 #Rename the columns.
-names(sms_raw2)[1] <- "type"
-names(sms_raw2)[2] <- "text"
+names(comments_raw)[1] <- "type"
+names(comments_raw)[2] <- "text"
 
-#Simplify the coding terms
-sms_raw2[,1] <- ifelse(sms_raw2[,1] == "2. Writing Quality", "2_Writing", ifelse(sms_raw2[,1] == "3. Technical and Scientific", "3_Technical", ifelse(sms_raw2[,1] == "4. Logic and Thinking","4_Logic",99)))
+#Simplify coding terms
+comments_raw[,1] <- ifelse(comments_raw[,1] == "1. Basic Criteria","1_Basic", ifelse(comments_raw[,1] == "2. Writing Quality","2_Writing", ifelse(comments_raw[,1] == "3. Technical and Scientific","3_Technical", ifelse(comments_raw[,1] == "4. Logic and Thinking","4_Logic",99))))
 
 #Change "type" element from character to a factor for analysis.
-sms_raw2$type <- factor(sms_raw2$type)
-str(sms_raw2$type)
-table(sms_raw2$type)
+comments_raw$type <- factor(comments_raw$type)
+str(comments_raw$type)
+table(comments_raw$type)
+```
+
+Data set must be converted to a volative corpus using "tm" library then transformed.
+```{r}
+#Create the volatile coprus that contains the "text" vector from data frame.
+comments_corpus <- VCorpus(VectorSource(comments_raw$text))
+print(comments_corpus)
+
+#Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.
+inspect(comments_corpus[1:3])
+
+#Use "as.character" function to see what a message looks like.
+as.character(comments_corpus[[3]])
+```
+
+The OPTIONAL data transforms using "tm_map"" and "content_transformer" functions. Switch between "{r}" and "{}" to turn a transformation block off or on.
+```{r}
+#Convert to all lower case letters.
+comments_corpus_clean <- tm_map(comments_corpus, content_transformer(tolower))
+```
+
+```{r}
+#Remove numbers. 
+comments_corpus_clean <- tm_map(comments_corpus_clean, removeNumbers)
+```
+
+```{r}
+#Stopword removal. 
+comments_corpus_clean <- tm_map(comments_corpus_clean, removeWords, stopwords())
+```
+
+```{r}
+#Remove punctuation using the "removePunctuation" function. 
+#This step removes evidence of questions, so may remove data.
+comments_corpus_clean <- tm_map(comments_corpus_clean, removePunctuation)
+```
+
+```{r}
+#Stemming the text data to strip the suffix from words.  
+comments_corpus_clean <- tm_map(comments_corpus_clean, stemDocument)
+```
+
+Final prep and data check.
+```{r}
+#Final step removes white space from the document. This is NOT optional.
+comments_corpus_clean <- tm_map(comments_corpus_clean, stripWhitespace)
+
+#Look at an example of data.
+as.character((comments_corpus_clean[[3]]))
 ```
 
 ####\  
 
-##Text Transformation Steps
-This begins with using "tm" package in R to create a volitile coprus that contains the "text" vector from our data frame.
+###Basic Tokenizer
+This version uses the "DocumentTermMatrix" function to creates a matrix in which the rows indicate individual documents (individual TA comments) and the columns indicate presence or absence of the word that is the header for the column. Be careful not to confuse it with "TermDocumentMatrix", which transposes the matrix.
+
+"DocumentTermMaxtrix" function also can perform all of the text prep above in one command. 
 
 ```{r}
-#library(tm)
-sms_corpus2 <- VCorpus(VectorSource(sms_raw2$text))
-print(sms_corpus2)
-```
-
-Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.
-
-```{r}
-inspect(sms_corpus2[1:3])
-```
-
-Use "as.character" function to see what a message looks like.
-
-```{r}
-as.character(sms_corpus2[[3]])
-```
-
-In order to standardize the messages, the data set must be tranformed to all lower case letters. The words "Free", "free", and "FREE" should all be treated as the same word. Use the "tm_map"" funtion in R, and use the "content_transformer" function to transform the text.
-
-```{r}
-sms_corpus_clean2 <- tm_map(sms_corpus2, content_transformer(tolower))
-```
-
-Look at third message again to see if our data was transformed.
-
-```{r}
-as.character(sms_corpus2[[3]])
-
-as.character((sms_corpus_clean2[[3]]))
-```
-
-This removes numbers. **May not want to do.**
-```{r}
-sms_corpus_clean2 <- tm_map(sms_corpus_clean2, removeNumbers)
-```
-
-Stopword removal takes out words that appear often but don't contribute to our objective. These words include "to", "and", "but" and "or". **One of variables to test out.**
-
-```{r}
-sms_corpus_clean2 <- tm_map(sms_corpus_clean2, removeWords, stopwords())
-```
-
-Remove punctuation as well using the "removePunctuation" function. **Try not doing this.**
-
-```{r}
-sms_corpus_clean2 <- tm_map(sms_corpus_clean2, removePunctuation)
-
-as.character((sms_corpus_clean2[[3]]))
-```
-
-Perform "stemming" to the text data to strip the suffix from words. **Try NOT doing this.** 
-
-```{r}
-#library(SnowballC)
-sms_corpus_clean2 <- tm_map(sms_corpus_clean2, stemDocument)
-```
-
-And now the final step in text mining is to remove white space from the document. 
-
-```{r}
-sms_corpus_clean2 <- tm_map(sms_corpus_clean2, stripWhitespace)
-```
-
-```{r}
-as.character(sms_corpus_clean2[[3]])
-```
-
-
-Perform tokenization using the "DocumentTermMatrix" function. This creates a matrix in which the rows indicate documents (SMS messages in this case) and the columns indicate words. It should be noted that the "DocumentTermMaxtrix" function has the power to do all of the text mining above in one command.
-
-```{r}
-sms_dtm2 <- DocumentTermMatrix(sms_corpus_clean2)
+comments_corpus_1gram <- DocumentTermMatrix(comments_corpus_clean)
+comments_corpus_1gram_tidy <- tidy(comments_corpus_1gram)
+inspect(comments_corpus_1gram)
 ```
 
 ####\  
 
-##Data Preparation
-Split our data into training and testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. Divide our data set into 75% training and 25% testing.
-
+###Data Preparation
+Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. 
 ```{r}
-.75 * 9129
-.25 * 9129
+.75 * 9340 #Number of documents/rows in the dataset; product is #rows for training
+.25 * 9340 #Product is #rows for testing set
 ```
 
 This code assumes comments are random. **Probably want to try randomizing them.**
-
 ```{r}
-sms_dtm_train2 <- sms_dtm2[1:6846, ]
-sms_dtm_test2 <- sms_dtm2[6847:9129, ]
+comments_dtm_train <- comments_corpus_1gram[1:7005, ]
+comments_dtm_test <- comments_corpus_1gram[7006:9340, ]
 ```
 
 Save vectors labeling rows in the training and testing vectors
-
 ```{r}
-sms_train_labels2 <- sms_raw2[1:6846, ]$type
-sms_test_labels2 <- sms_raw2[6847:9129,]$type
+comments_train_labels <- comments_raw[1:7005, ]$type
+comments_test_labels <- comments_raw[7006:9340,]$type
 ```
 
 Make sure that the proportion of each sub-category is similar in the training and testing data set.
-
 ```{r}
-prop.table(table(sms_train_labels2))
-prop.table(table(sms_test_labels2))
+prop.table(table(comments_train_labels))
+prop.table(table(comments_test_labels))
 ```
 
 ####\  
 
-##Visualization
-Create a wordcloud of the frequency of the words in the dataset using the package "wordcloud".
-
-```{r}
-#library(wordcloud)
-wordcloud(sms_corpus_clean2, max.words = 50, random.order = FALSE)
-```
-
-Compare wordclouds between 3 groups.
-
-```{r}
-TWO <- subset(sms_raw2, type == "2_Writing")
-THREE <- subset(sms_raw2, type == "3_Technical")
-FOUR <- subset(sms_raw2, type == "4_Logic")
-
-wordcloud(TWO$text, max.words = 50, scale = c(3, 0.5))
-wordcloud(THREE$text, max.words = 50, scale = c(3, 0.5))
-wordcloud(FOUR$text, max.words = 50, scale = c(3, 0.5))
-```
-
-####\  
-
-##Preparation for Naive Bayes
+###Preparation for Naive Bayes
 Remove words from the matrix that appear less than 5 times.
-
 ```{r}
-sms_freq_words2 <- findFreqTerms(sms_dtm_train2, 5)
-str(sms_freq_words2)
+comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)
 ```
 
 Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.
-
 ```{r}
-sms_dtm_freq_train2 <- sms_dtm_train2[ , sms_freq_words2]
-sms_dtm_freq_test2 <- sms_dtm_test2[ , sms_freq_words2]
+comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
 ```
 
 The naive bayes classifier works with categorical features, so we need to convert the matrix to "yes" and "no" categorical variables. To do this we'll build a convert_counts function and apply it to our data.
-
 ```{r}
 convert_counts2 <- function(x) {
   x <- ifelse(x > 0, "Yes", "No")
@@ -479,44 +191,172 @@ convert_counts2 <- function(x) {
 ```
 
 This replaces values greater than 0 with yes, and values not greater than 0 with no. Let's apply it to our data.
-
 ```{r}
-sms_train2 <- apply(sms_dtm_freq_train2, MARGIN = 2, convert_counts2)
-sms_test2 <- apply(sms_dtm_freq_test2, MARGIN = 2, convert_counts2)
+comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
 ```
 
 The resulting matrixes will be character type, with cells indicating "yes" or "no" if the word represented by the column appears in the message represented by the row.
 
 ####\  
 
-##Train Model, Predict, Evaluate
-Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.
+###Train Model, Predict, Evaluate
+Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group ONE, TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.
+```{r}
+comments_classifier <- naiveBayes(comments_train, comments_train_labels)
+comments_test_pred <- predict(comments_classifier, comments_test)
+CrossTable(comments_test_pred, comments_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+```
+
+Calculate overall correct prediction rate.
+```{r}
+(42+454+1186+185)/23.35
+```
+
+***
+##Modified Naive Bayes (NB) Method Using N-grams
+The tokenizer command block above only works for single words. The block below uses tm's NLP commands to generate either 1-, 2-, or 3-grams with the same command. The only change needed is "#" in "(words(x), #)" below. For simplicity I left off all of the preparatory code up leading up to the final cleaned corpus.
 
 ```{r}
-#library(e1071)
-#library(gmodels)
-sms_classifier2 <- naiveBayes(sms_train2, sms_train_labels2)
-sms_test_pred2 <- predict(sms_classifier2, sms_test2)
-CrossTable(sms_test_pred2, sms_test_labels2, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+NLP_Tokenizer <- function(x) {
+      unlist(lapply(ngrams(words(x), 2), paste, collapse = " "), use.names = FALSE)
+}
+
+comments_dtm_2gram <- DocumentTermMatrix(comments_corpus_clean, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_2gram_tidy <- tidy(comments_dtm_2gram)
+inspect(comments_dtm_2gram)
+```
+
+####\  
+
+###Data Preparation
+Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. 
+
+```{r}
+.75 * 9340 #Number of rows in the dataset; product is #rows for training
+.25 * 9340 #Product is #rows for testing set
+```
+
+This code assumes comments are random. **Probably want to try randomizing them.**
+```{r}
+comments_dtm_train <- comments_dtm_2gram[1:7005, ]
+comments_dtm_test <- comments_dtm_2gram[7006:9340, ]
+```
+
+Save vectors labeling rows in the training and testing vectors
+```{r}
+comments_train_labels <- comments_raw[1:7005, ]$type
+comments_test_labels <- comments_raw[7006:9340,]$type
+```
+
+Make sure that the proportion of each sub-category is similar in the training and testing data set.
+```{r}
+prop.table(table(comments_train_labels))
+prop.table(table(comments_test_labels))
+```
+
+####\  
+
+###Preparation for Naive Bayes
+Remove words from the matrix that appear less than 5 times.
+```{r}
+comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)
+```
+
+Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.
+```{r}
+comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
+```
+
+The naive bayes classifier works with categorical features, so we need to convert the matrix to "yes" and "no" categorical variables. To do this we'll build a convert_counts function and apply it to our data.
+```{r}
+convert_counts2 <- function(x) {
+  x <- ifelse(x > 0, "Yes", "No")
+}
+```
+
+This replaces values greater than 0 with yes, and values not greater than 0 with no. Let's apply it to our data.
+```{r}
+comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
+```
+
+The resulting matrixes will be character type, with cells indicating "yes" or "no" if the word represented by the column appears in the message represented by the row.
+
+####\  
+
+###Train Model, Predict, Evaluate
+Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group ONE, TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.
+```{r}
+comments_classifier <- naiveBayes(comments_train, comments_train_labels)
+comments_test_pred <- predict(comments_classifier, comments_test)
+CrossTable(comments_test_pred, comments_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+```
+
+
+```{r}
+(34+214+1254+94)/23.35
+```
+
+***
+***
+####\  
+
+##Visualization
+This code generates a wordcloud of the frequency of single words in the dataset using the package "wordcloud".
+```{r}
+wordcloud(comments_corpus_clean, max.words = 50, random.order = FALSE)
+```
+
+Compare wordclouds between 3 groups.
+```{r}
+ONE <- subset(comments_raw, type == "1_Basic")
+TWO <- subset(comments_raw, type == "2_Writing")
+THREE <- subset(comments_raw, type == "3_Technical")
+FOUR <- subset(comments_raw, type == "4_Logic")
+
+wordcloud(ONE$text, max.words = 50, scale = c(3, 0.5))
+wordcloud(TWO$text, max.words = 50, scale = c(3, 0.5))
+wordcloud(THREE$text, max.words = 50, scale = c(3, 0.5))
+wordcloud(FOUR$text, max.words = 50, scale = c(3, 0.5))
 ```
 
 Show the 5 most frequent words in the data:
-
 ```{r}
-sack2 <- TermDocumentMatrix(sms_corpus_clean2)
-pack2 <- as.matrix(sack2)
-snack2 <- sort(rowSums(pack2), decreasing = TRUE)
-hack2 <- data.frame(word = names(snack2), freq=snack2)
-head(hack2, 5)
+comment_sack <- TermDocumentMatrix(comments_corpus_clean)
+comment_pack <- as.matrix(comment_sack)
+comment_snack <- sort(rowSums(comment_pack), decreasing = TRUE)
+comment_hack <- data.frame(word = names(comment_snack), freq=comment_snack)
+head(comment_hack, 10)
 ```
 
 And the 5 most frequent words from each class:
-
 ```{r}
-wordcloud(TWO$text, max.words = 5, scale = c(3, 0.5))
-wordcloud(THREE$text, max.words = 5, scale = c(3, 0.5))
-wordcloud(FOUR$text, max.words = 5, scale = c(3, 0.5))
+wordcloud(ONE$text, max.words = 10, scale = c(3, 0.5))
+wordcloud(TWO$text, max.words = 10, scale = c(3, 0.5))
+wordcloud(THREE$text, max.words = 10, scale = c(3, 0.5))
+wordcloud(FOUR$text, max.words = 10, scale = c(3, 0.5))
 ```
 
+####\  
+
+##Permutation Tests of Naive Bayes (NB) Method
+Version 1.0 correctly identifies comment subcategories ~79% of the time when using single words, and 68.3% of the time when using 2-grams. Permutations to test:
+
+*  Compare 2-grams, 3-grams rather than single words
+*  Make pair-wise comparisons versus comparing multiple groups simultaneously. 
+    +  Ex.: Basic vs. Not Basic (1_Basic vs. not 1_Basic)
+*  Modify the variables within the NB analysis itself. 
+    +  Laplace constant (Y/N), Cutoff value for words removed from list.
+*  Do/Do not stem the terms
+    +  This may remove evidence of tense
+*  Remove/Leave stopwords
+*  Remove/Leave capitalization
+*  Remove/Leave numbers
+    +  This may remove evidence of technical descriptors
+*  Remove/Leave punctuation
+    +  This may remove evidence of questions vs statements
 
 

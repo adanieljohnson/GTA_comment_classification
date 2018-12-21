@@ -11,9 +11,9 @@
 
 <meta name="author" content="Dan Johnson" />
 
-<meta name="date" content="2018-12-16" />
+<meta name="date" content="2018-12-21" />
 
-<title>Naive Bayes</title>
+<title>Naive Bayes Workflow</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -326,44 +326,56 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Naive Bayes</h1>
+<h1 class="title toc-ignore">Naive Bayes Workflow</h1>
 <h4 class="author"><em>Dan Johnson</em></h4>
-<h4 class="date"><em>12/16/2018</em></h4>
+<h4 class="date"><em>12/21/2018</em></h4>
 
 </div>
 
 
-<div id="demo-of-naive-bayes-nb-method" class="section level1">
-<h1>Demo of Naive Bayes (NB) Method</h1>
-<p>I copied the original <a href=https://rpubs.com/Billyhansen6/318412>demo web site by Billy Hansen</a> to show how this process should work. I then duplicated the code and modified it for analyzing TA comments.</p>
-<p>The initial trial was able to identify sub-categories of comments ~80% of the time. This is better than the inter-rater reliability of two human raters, but still low. For subsequent iterations of the NB method I plan to evaluate:</p>
+<div id="summary" class="section level2">
+<h2>Summary</h2>
+<p>This notebook documents a basic workflow for applying a naive Bayes model to terms in TA comments. I based it on a tutorial <a href="located%20here">https://rpubs.com/Billyhansen6/318412</a>. This is quoted from Hansen’s original tutorial: &gt;The objective of this project is to classify SMS messages as spam or ham (not spam). A Naive Bayes classifier approach will be used. This example is taken from chapter 4 of Machine Learning with R, Second Edition&quot;</p>
+<blockquote>
+<p>An example of the conditional probability that will be computed is as follows:</p>
+</blockquote>
+<p><span class="math display">\[P(Spam|Hospital) = P(Hospital|Spam)P(Spam)/P(Hospital)\]</span></p>
+<blockquote>
+<p>which is the formula for determining the probability that a message is spam given that it contains the word “Hospital” in the message.</p>
+</blockquote>
+<p>Lines ~30-205 are the baseline version of the workflow using single words. It correctly classifies comments in the top 4 sub-categories ~79% of the time. While that is close to minimum acceptable inter-rater reliability of two human readers, it is well below my goal of &gt;95% for use in routine automated analysis.</p>
+<p>Lines ~208-290 describe an alternative method using n-grams. When I tested this approach using 2-grams, classification was slightly worse, at 68.3% correct.</p>
+<p>Lines ~295-335 show how to use word clouds to visualize single word frequencies. I did not find this approach very useful.</p>
+<p>To keep this code clean for now I will run various permutations in a scratch version, then summarize findings starting on line #345. In these subsequent iterations I will evaluate:</p>
 <ul>
-<li>Variations on data pre-processing: stemmed versus unstemmed, numbers removed vs. not, etc.</li>
-<li>Comparing n-grams rather than single words</li>
-<li>Pair-wise comparison versus comparing multiple groups simultaneously</li>
-<li>Modifying the variables within the NB analysis itself.</li>
+<li>Different text pre-processing strategies: stemmed versus unstemmed, numbers removed vs. not, etc.</li>
+<li>Using n-grams rather than single words</li>
+<li>Making pair-wise comparison versus comparing multiple groups simultaneously</li>
+<li>Modifying the variables in the NB analysis itself.</li>
+</ul>
+<p>Finally, there are several things still missing or needed for this workflow:</p>
+<ul>
+<li>How to feed a text dataset in, and get a table of the predicted categories back out.</li>
+<li>How to store the values from the Bayes prediction table so I can use them in calculations rather than type them in by hand.</li>
+<li>How to randomize which comments are used for training, testing datasets.</li>
 </ul>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
-<div id="hansens-original-version" class="section level2">
-<h2>Hansen’s Original Version</h2>
-<p>The objective of this project is to classify SMS messages as spam or ham (not spam). A Naive Bayes classifier approach will be used. This example is taken from chapter 4 of Machine Learning with R, Second Edition&quot;</p>
-<p>An example of the conditional probability that will be computed is as follows:</p>
-<p><span class="math display">\[P(Spam|Hospital) = P(Hospital|Spam)P(Spam)/P(Hospital)\]</span></p>
-<p>which is the formula for determining the probability that a message is spam given that it contains the word “Hospital” in the message.</p>
-<div id="section-1" class="section level4">
-<h4> </h4>
 </div>
-</div>
-<div id="loading-libraries-and-data" class="section level2">
-<h2>Loading Libraries and Data</h2>
-<pre class="r"><code>library(tidyverse)
-library(tidytext)
-library(dplyr)
+<div id="initial-setup" class="section level2">
+<h2>Initial Setup</h2>
+<pre class="r"><code>library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ───────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
+## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
+## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
+## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
+<pre><code>## ── Conflicts ──────────────────────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(tidytext)
 library(tidyr)
-library(ggplot2)
-library(scales)
 library(tm)</code></pre>
 <pre><code>## Loading required package: NLP</code></pre>
 <pre><code>## 
@@ -375,245 +387,16 @@ library(tm)</code></pre>
 library(wordcloud)</code></pre>
 <pre><code>## Loading required package: RColorBrewer</code></pre>
 <pre class="r"><code>library(e1071)
-library(gmodels)
-library(readr)</code></pre>
-<pre class="r"><code>#Demo dataset of SMS messages
-sms_raw &lt;- read.table(&quot;~/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/data/SMSSpamCollection.txt&quot;, header = FALSE, sep = &quot;\t&quot;, quote = &quot;&quot;, col.names = c(&quot;type&quot;,&quot;text&quot;), stringsAsFactors = FALSE)</code></pre>
-<p>The data frame has 5574 observations marked as either spam or ham.</p>
-<pre class="r"><code>str(sms_raw)</code></pre>
-<pre><code>## &#39;data.frame&#39;:    5574 obs. of  2 variables:
-##  $ type: chr  &quot;ham&quot; &quot;ham&quot; &quot;spam&quot; &quot;ham&quot; ...
-##  $ text: chr  &quot;Go until jurong point, crazy.. Available only in bugis n great world la e buffet... Cine there got amore wat...&quot; &quot;Ok lar... Joking wif u oni...&quot; &quot;Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(&quot;| __truncated__ &quot;U dun say so early hor... U c already then say...&quot; ...</code></pre>
-<p>As seen above, the “type”&quot; element is a character.Change it to a factor for the analysis.</p>
-<pre class="r"><code>sms_raw$type &lt;- factor(sms_raw$type)
-str(sms_raw$type)</code></pre>
-<pre><code>##  Factor w/ 2 levels &quot;ham&quot;,&quot;spam&quot;: 1 1 2 1 1 2 1 1 2 2 ...</code></pre>
-<pre class="r"><code>table(sms_raw$type)</code></pre>
-<pre><code>## 
-##  ham spam 
-## 4827  747</code></pre>
-<p>Now the “type” variable is a factor with 2 levels. Of 5574 messages, 747 (about 13.4%) are spam.</p>
-<div id="section-2" class="section level4">
+library(gmodels)</code></pre>
+<div id="section-1" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="text-mining" class="section level2">
-<h2>Text Mining</h2>
-<p>For Naive Bayes to run effectively, the test data needs to be transformed. This begins with using “tm” to create a volitile coprus that contains the “text” vector from our data frame.</p>
-<pre class="r"><code>sms_corpus &lt;- VCorpus(VectorSource(sms_raw$text))
-print(sms_corpus)</code></pre>
-<pre><code>## &lt;&lt;VCorpus&gt;&gt;
-## Metadata:  corpus specific: 0, document level (indexed): 0
-## Content:  documents: 5574</code></pre>
-<p>Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.</p>
-<pre class="r"><code>inspect(sms_corpus[1:3])</code></pre>
-<pre><code>## &lt;&lt;VCorpus&gt;&gt;
-## Metadata:  corpus specific: 0, document level (indexed): 0
-## Content:  documents: 3
-## 
-## [[1]]
-## &lt;&lt;PlainTextDocument&gt;&gt;
-## Metadata:  7
-## Content:  chars: 111
-## 
-## [[2]]
-## &lt;&lt;PlainTextDocument&gt;&gt;
-## Metadata:  7
-## Content:  chars: 29
-## 
-## [[3]]
-## &lt;&lt;PlainTextDocument&gt;&gt;
-## Metadata:  7
-## Content:  chars: 155</code></pre>
-<p>Use “as.character” function to see what a message looks like.</p>
-<pre class="r"><code>as.character(sms_corpus[[3]])</code></pre>
-<pre><code>## [1] &quot;Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&amp;C&#39;s apply 08452810075over18&#39;s&quot;</code></pre>
-<p>In order to standardize the messages, the data set must be tranformed to all lower case letters. The words “Free”, “free”, and “FREE” should all be treated as the same word. Use the “tm_map”&quot; funtion in R, and use the “content_transformer” function to transform the text.</p>
-<pre class="r"><code>sms_corpus_clean &lt;- tm_map(sms_corpus, content_transformer(tolower))</code></pre>
-<p>Look at third message again to see if our data was transformed.</p>
-<pre class="r"><code>as.character(sms_corpus[[3]])</code></pre>
-<pre><code>## [1] &quot;Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry question(std txt rate)T&amp;C&#39;s apply 08452810075over18&#39;s&quot;</code></pre>
-<pre class="r"><code>as.character((sms_corpus_clean[[3]]))</code></pre>
-<pre><code>## [1] &quot;free entry in 2 a wkly comp to win fa cup final tkts 21st may 2005. text fa to 87121 to receive entry question(std txt rate)t&amp;c&#39;s apply 08452810075over18&#39;s&quot;</code></pre>
-<p>The message was indeed tranformed to all lowercase letters. Now to remove the numbers using the “removeNumbers” function.</p>
-<pre class="r"><code>sms_corpus_clean &lt;- tm_map(sms_corpus_clean, removeNumbers)</code></pre>
-<p>Remome words that appear often but don’t contribute to our objective. These words include “to”, “and”, “but” and “or”.</p>
-<pre class="r"><code>sms_corpus_clean &lt;- tm_map(sms_corpus_clean, removeWords, stopwords())</code></pre>
-<p>Remove punctuation as well using the “removePunctuation” function.</p>
-<pre class="r"><code>sms_corpus_clean &lt;- tm_map(sms_corpus_clean, removePunctuation)
-
-as.character((sms_corpus_clean[[3]]))</code></pre>
-<pre><code>## [1] &quot;free entry    wkly comp  win fa cup final tkts st may  text fa    receive entry questionstd txt ratetcs apply s&quot;</code></pre>
-<p>Perform “stemming” to the text data to strip the suffix from words like “jumping”, so the words “jumping” “jumps” and “jumped” are all transformed into “jump”. Stemming can be perfromed using the “tm” package with help from the “SnowballC” package.</p>
-<pre class="r"><code>sms_corpus_clean &lt;- tm_map(sms_corpus_clean, stemDocument)</code></pre>
-<p>And now the final step in text mining is to remove white space from the document.</p>
-<pre class="r"><code>sms_corpus_clean &lt;- tm_map(sms_corpus_clean, stripWhitespace)</code></pre>
-<pre class="r"><code>as.character(sms_corpus_clean[[3]])</code></pre>
-<pre><code>## [1] &quot;free entri wkli comp win fa cup final tkts st may text fa receiv entri questionstd txt ratetc appli s&quot;</code></pre>
-<p>Perform tokenization using the “DocumentTermMatrix” function. This creates a matrix in which the rows indicates documents (SMS messages in this case) and the columns indicate words. It should be noted that the “DocumentTermMaxtrix” function has the power to do all of the text mining above in one command.</p>
-<pre class="r"><code>sms_dtm &lt;- DocumentTermMatrix(sms_corpus_clean)</code></pre>
-<div id="section-3" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="data-preparation" class="section level2">
-<h2>Data Preparation</h2>
-<p>Split our data into training and testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. Divide our data set into 75% training and 25% testing.</p>
-<pre class="r"><code>.75 * 5574</code></pre>
-<pre><code>## [1] 4180.5</code></pre>
-<pre class="r"><code>.25 * 5574</code></pre>
-<pre><code>## [1] 1393.5</code></pre>
-<p>Because the dataset is random, the first 4180 messages can be used for the training set - there’s no need to randomize the data first.</p>
-<pre class="r"><code>sms_dtm_train &lt;- sms_dtm[1:4180, ]
-sms_dtm_test &lt;- sms_dtm[4181:5559, ]</code></pre>
-<p>Save vectors labeling rows in the training and testing vectors</p>
-<pre class="r"><code>sms_train_labels &lt;- sms_raw[1:4180, ]$type
-sms_test_labels &lt;- sms_raw[4181:5559,]$type</code></pre>
-<p>Make sure that the proportion of spam is similar in the training and testing data set.</p>
-<pre class="r"><code>prop.table(table(sms_train_labels))</code></pre>
-<pre><code>## sms_train_labels
-##       ham      spam 
-## 0.8648325 0.1351675</code></pre>
-<pre class="r"><code>prop.table(table(sms_test_labels))</code></pre>
-<pre><code>## sms_test_labels
-##       ham      spam 
-## 0.8694706 0.1305294</code></pre>
-<p>Each have approx. 13% spam.</p>
-<div id="section-4" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="visualization" class="section level2">
-<h2>Visualization</h2>
-<p>Create a wordcloud of the frequency of the words in the dataset using the package “wordcloud”.</p>
-<pre class="r"><code>wordcloud(sms_corpus_clean, max.words = 50, random.order = FALSE)</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<p>Compare wordclouds between spam and ham.</p>
-<pre class="r"><code>spam &lt;- subset(sms_raw, type == &quot;spam&quot;)
-ham &lt;- subset(sms_raw, type == &quot;ham&quot;)
-wordcloud(spam$text, max.words = 50, scale = c(3, 0.5))</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
-## tm::stopwords())): transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
-<pre class="r"><code>wordcloud(ham$text, max.words = 50, scale = c(3, 0.5))</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents
-
-## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-23-2.png" width="672" /></p>
-<div id="section-5" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="preparation-for-naive-bayes" class="section level2">
-<h2>Preparation for Naive Bayes</h2>
-<p>Remove words from the matrix that appear less than 5 times.</p>
-<pre class="r"><code>sms_freq_words &lt;- findFreqTerms(sms_dtm_train, 5)
-str(sms_freq_words)</code></pre>
-<pre><code>##  chr [1:1132] &quot;£wk&quot; &quot;abiola&quot; &quot;abl&quot; &quot;abt&quot; &quot;accept&quot; &quot;access&quot; &quot;account&quot; ...</code></pre>
-<p>Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.</p>
-<pre class="r"><code>sms_dtm_freq_train &lt;- sms_dtm_train[ , sms_freq_words]
-sms_dtm_freq_test &lt;- sms_dtm_test[ , sms_freq_words]</code></pre>
-<p>The naive bayes classifier works with categorical reatures, so we need to convert the matrix to “yes” and “no” categorical variables. To do this we’ll build a convert_counts function and apply it to our data.</p>
-<pre class="r"><code>convert_counts &lt;- function(x) {
-  x &lt;- ifelse(x &gt; 0, &quot;Yes&quot;, &quot;No&quot;)
-}</code></pre>
-<p>This replaces values greater than 0 with yes, and values not greater than 0 with no. Let’s apply it to our data.</p>
-<pre class="r"><code>sms_train &lt;- apply(sms_dtm_freq_train, MARGIN = 2, convert_counts)
-sms_test &lt;- apply(sms_dtm_freq_test, MARGIN = 2, convert_counts)</code></pre>
-<p>The resulting matrixes will be character type, with cells indicating “yes” or “no” if the word represented by the column appears in the message represented by the row.</p>
-<div id="section-6" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="train-model-on-the-data." class="section level2">
-<h2>Train Model on the Data.</h2>
-<p>Use the e1071 package to impliment the Naive Bayes algorithm on the data, and predict whether a message is likely to be spam or ham.</p>
-<pre class="r"><code>sms_classifier &lt;- naiveBayes(sms_train, sms_train_labels)</code></pre>
-<div id="section-7" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="predict-and-evaluate-the-model." class="section level2">
-<h2>Predict and Evaluate the Model.</h2>
-<pre class="r"><code>sms_test_pred &lt;- predict(sms_classifier, sms_test)</code></pre>
-<p>Evaluate the predition with the actual data using a crosstable from the gmodels package.</p>
-<pre class="r"><code>CrossTable(sms_test_pred, sms_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c(&#39;predicted&#39;, &#39;actual&#39;))</code></pre>
-<pre><code>## 
-##  
-##    Cell Contents
-## |-------------------------|
-## |                       N |
-## |           N / Row Total |
-## |           N / Col Total |
-## |-------------------------|
-## 
-##  
-## Total Observations in Table:  1379 
-## 
-##  
-##              | actual 
-##    predicted |       ham |      spam | Row Total | 
-## -------------|-----------|-----------|-----------|
-##          ham |      1192 |        20 |      1212 | 
-##              |     0.983 |     0.017 |     0.879 | 
-##              |     0.994 |     0.111 |           | 
-## -------------|-----------|-----------|-----------|
-##         spam |         7 |       160 |       167 | 
-##              |     0.042 |     0.958 |     0.121 | 
-##              |     0.006 |     0.889 |           | 
-## -------------|-----------|-----------|-----------|
-## Column Total |      1199 |       180 |      1379 | 
-##              |     0.869 |     0.131 |           | 
-## -------------|-----------|-----------|-----------|
-## 
-## </code></pre>
-<p>As shown in the table only 27/1379 messages were classified incorrectly. This means that the algorithm classifed the testing set as spam or ham with approx. 98% accuracy. That’s impressive. To improve the model, one might tamper with the Laplace value, colect more sms data, or try splitting the dataset randomly into training and testing. I suspect the accuracy would increase as the dataset gets bigger. The more data there is to train the algorith, the more effective it would be in predicting Spam or Ham.</p>
-<p>Show the 5 most frequent words in the sms data:</p>
-<pre class="r"><code>sack &lt;- TermDocumentMatrix(sms_corpus_clean)
-pack &lt;- as.matrix(sack)
-snack &lt;- sort(rowSums(pack), decreasing = TRUE)
-hack &lt;- data.frame(word = names(snack), freq=snack)
-head(hack, 5)</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["word"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["freq"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"call","2":"650","_rn_":"call"},{"1":"now","2":"481","_rn_":"now"},{"1":"get","2":"439","_rn_":"get"},{"1":"can","2":"392","_rn_":"can"},{"1":"will","2":"381","_rn_":"will"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
-</div>
-<p>And the 5 most frequent words from each class:</p>
-<pre class="r"><code>wordcloud(spam$text, max.words = 5, scale = c(3, 0.5))</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
-## tm::stopwords())): transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
-<pre class="r"><code>wordcloud(ham$text, max.words = 5, scale = c(3, 0.5))</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents
-
-## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-32-2.png" width="672" /></p>
-<p>As shown in the word clouds, the most frequent words from the spam messages are “call”, “free”, “now”, “mobile”, and “text”. And in the Ham messages, the 5 most frequent words are “can”, “get”, “just”, “will”, and “now”.</p>
-<hr />
-<hr />
-</div>
-</div>
-<div id="my-test-of-naive-bayes" class="section level1">
-<h1>My Test of Naive Bayes</h1>
-<div id="loading-data" class="section level2">
-<h2>Loading Data</h2>
-<p>This block reads full CSV into a starting dataframe named “base_data”. Next block isolates tables and rows into new dataframe “sms_raw2”, and renames the columns.</p>
-<pre class="r"><code>#library(tm)
-#library(SnowballC)
-#library(wordcloud)
-#library(e1071)
-#library(gmodels)
-#library(readr)</code></pre>
-<pre class="r"><code>#Read in CSV file named &quot;coded_full_comments_dataset_Spring18anon.csv&quot;.
+<div id="baseline-version-1.0-of-naive-bayes-nb-protocol" class="section level2">
+<h2>Baseline Version 1.0 of Naive Bayes (NB) Protocol</h2>
+<div id="initial-data-input" class="section level3">
+<h3>Initial Data Input</h3>
+<pre class="r"><code>#Read in TA comments from CSV file.
 base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon.csv&#39;)</code></pre>
 <pre><code>## Parsed with column specification:
 ## cols(
@@ -623,42 +406,36 @@ base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon
 ##   Rank = col_integer()
 ## )</code></pre>
 <pre><code>## See spec(...) for full column specifications.</code></pre>
-<pre class="r"><code>#Isolate rows to compare. 
-frequency_writing &lt;- filter(base_data,code.subject==&quot;2. Writing Quality&quot;|code.subject==&quot;3. Technical and Scientific&quot;|code.subject==&quot;4. Logic and Thinking&quot;)
+<pre class="r"><code>#Select rows representing the sub-groups to compare. 
+comments_subset &lt;- filter(base_data,code.subject==&quot;1. Basic Criteria&quot;|code.subject==&quot;2. Writing Quality&quot;|code.subject==&quot;3. Technical and Scientific&quot;|code.subject==&quot;4. Logic and Thinking&quot;)
 
 #Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
-sms_raw2 &lt;- frequency_writing %&gt;% select(23,22)
+comments_raw &lt;- comments_subset %&gt;% select(23,22)
 
 #Rename the columns.
-names(sms_raw2)[1] &lt;- &quot;type&quot;
-names(sms_raw2)[2] &lt;- &quot;text&quot;
+names(comments_raw)[1] &lt;- &quot;type&quot;
+names(comments_raw)[2] &lt;- &quot;text&quot;
 
-#Simplify the coding terms
-sms_raw2[,1] &lt;- ifelse(sms_raw2[,1] == &quot;2. Writing Quality&quot;, &quot;2_Writing&quot;, ifelse(sms_raw2[,1] == &quot;3. Technical and Scientific&quot;, &quot;3_Technical&quot;, ifelse(sms_raw2[,1] == &quot;4. Logic and Thinking&quot;,&quot;4_Logic&quot;,99)))
+#Simplify coding terms
+comments_raw[,1] &lt;- ifelse(comments_raw[,1] == &quot;1. Basic Criteria&quot;,&quot;1_Basic&quot;, ifelse(comments_raw[,1] == &quot;2. Writing Quality&quot;,&quot;2_Writing&quot;, ifelse(comments_raw[,1] == &quot;3. Technical and Scientific&quot;,&quot;3_Technical&quot;, ifelse(comments_raw[,1] == &quot;4. Logic and Thinking&quot;,&quot;4_Logic&quot;,99))))
 
 #Change &quot;type&quot; element from character to a factor for analysis.
-sms_raw2$type &lt;- factor(sms_raw2$type)
-str(sms_raw2$type)</code></pre>
-<pre><code>##  Factor w/ 3 levels &quot;2_Writing&quot;,&quot;3_Technical&quot;,..: 2 1 2 2 2 2 3 3 3 2 ...</code></pre>
-<pre class="r"><code>table(sms_raw2$type)</code></pre>
+comments_raw$type &lt;- factor(comments_raw$type)
+str(comments_raw$type)</code></pre>
+<pre><code>##  Factor w/ 4 levels &quot;1_Basic&quot;,&quot;2_Writing&quot;,..: 3 2 3 3 3 3 4 4 4 3 ...</code></pre>
+<pre class="r"><code>table(comments_raw$type)</code></pre>
 <pre><code>## 
-##   2_Writing 3_Technical     4_Logic 
-##        2578        5409        1142</code></pre>
-<div id="section-8" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="text-transformation-steps" class="section level2">
-<h2>Text Transformation Steps</h2>
-<p>This begins with using “tm” package in R to create a volitile coprus that contains the “text” vector from our data frame.</p>
-<pre class="r"><code>#library(tm)
-sms_corpus2 &lt;- VCorpus(VectorSource(sms_raw2$text))
-print(sms_corpus2)</code></pre>
+##     1_Basic   2_Writing 3_Technical     4_Logic 
+##         211        2578        5409        1142</code></pre>
+<p>Data set must be converted to a volative corpus using “tm” library then transformed.</p>
+<pre class="r"><code>#Create the volatile coprus that contains the &quot;text&quot; vector from data frame.
+comments_corpus &lt;- VCorpus(VectorSource(comments_raw$text))
+print(comments_corpus)</code></pre>
 <pre><code>## &lt;&lt;VCorpus&gt;&gt;
 ## Metadata:  corpus specific: 0, document level (indexed): 0
-## Content:  documents: 9129</code></pre>
-<p>Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.</p>
-<pre class="r"><code>inspect(sms_corpus2[1:3])</code></pre>
+## Content:  documents: 9340</code></pre>
+<pre class="r"><code>#Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.
+inspect(comments_corpus[1:3])</code></pre>
 <pre><code>## &lt;&lt;VCorpus&gt;&gt;
 ## Metadata:  corpus specific: 0, document level (indexed): 0
 ## Content:  documents: 3
@@ -677,128 +454,114 @@ print(sms_corpus2)</code></pre>
 ## &lt;&lt;PlainTextDocument&gt;&gt;
 ## Metadata:  7
 ## Content:  chars: 70</code></pre>
-<p>Use “as.character” function to see what a message looks like.</p>
-<pre class="r"><code>as.character(sms_corpus2[[3]])</code></pre>
+<pre class="r"><code>#Use &quot;as.character&quot; function to see what a message looks like.
+as.character(comments_corpus[[3]])</code></pre>
 <pre><code>## [1] &quot;Is this the most concise way to communicate no significant difference?&quot;</code></pre>
-<p>In order to standardize the messages, the data set must be tranformed to all lower case letters. The words “Free”, “free”, and “FREE” should all be treated as the same word. Use the “tm_map”&quot; funtion in R, and use the “content_transformer” function to transform the text.</p>
-<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus2, content_transformer(tolower))</code></pre>
-<p>Look at third message again to see if our data was transformed.</p>
-<pre class="r"><code>as.character(sms_corpus2[[3]])</code></pre>
-<pre><code>## [1] &quot;Is this the most concise way to communicate no significant difference?&quot;</code></pre>
-<pre class="r"><code>as.character((sms_corpus_clean2[[3]]))</code></pre>
-<pre><code>## [1] &quot;is this the most concise way to communicate no significant difference?&quot;</code></pre>
-<p>This removes numbers. <strong>May not want to do.</strong></p>
-<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, removeNumbers)</code></pre>
-<p>Stopword removal takes out words that appear often but don’t contribute to our objective. These words include “to”, “and”, “but” and “or”. <strong>One of variables to test out.</strong></p>
-<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, removeWords, stopwords())</code></pre>
-<p>Remove punctuation as well using the “removePunctuation” function. <strong>Try not doing this.</strong></p>
-<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, removePunctuation)
+<p>The OPTIONAL data transforms using “tm_map”&quot; and “content_transformer” functions. Switch between “{r}” and “{}” to turn a transformation block off or on.</p>
+<pre class="r"><code>#Convert to all lower case letters.
+comments_corpus_clean &lt;- tm_map(comments_corpus, content_transformer(tolower))</code></pre>
+<pre class="r"><code>#Remove numbers. 
+comments_corpus_clean &lt;- tm_map(comments_corpus_clean, removeNumbers)</code></pre>
+<pre class="r"><code>#Stopword removal. 
+comments_corpus_clean &lt;- tm_map(comments_corpus_clean, removeWords, stopwords())</code></pre>
+<pre class="r"><code>#Remove punctuation using the &quot;removePunctuation&quot; function. 
+#This step removes evidence of questions, so may remove data.
+comments_corpus_clean &lt;- tm_map(comments_corpus_clean, removePunctuation)</code></pre>
+<pre class="r"><code>#Stemming the text data to strip the suffix from words.  
+comments_corpus_clean &lt;- tm_map(comments_corpus_clean, stemDocument)</code></pre>
+<p>Final prep and data check.</p>
+<pre class="r"><code>#Final step removes white space from the document. This is NOT optional.
+comments_corpus_clean &lt;- tm_map(comments_corpus_clean, stripWhitespace)
 
-as.character((sms_corpus_clean2[[3]]))</code></pre>
-<pre><code>## [1] &quot;    concise way  communicate  significant difference&quot;</code></pre>
-<p>Perform “stemming” to the text data to strip the suffix from words. <strong>Try NOT doing this.</strong></p>
-<pre class="r"><code>#library(SnowballC)
-sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, stemDocument)</code></pre>
-<p>And now the final step in text mining is to remove white space from the document.</p>
-<pre class="r"><code>sms_corpus_clean2 &lt;- tm_map(sms_corpus_clean2, stripWhitespace)</code></pre>
-<pre class="r"><code>as.character(sms_corpus_clean2[[3]])</code></pre>
+#Look at an example of data.
+as.character((comments_corpus_clean[[3]]))</code></pre>
 <pre><code>## [1] &quot;concis way communic signific differ&quot;</code></pre>
-<p>Perform tokenization using the “DocumentTermMatrix” function. This creates a matrix in which the rows indicate documents (SMS messages in this case) and the columns indicate words. It should be noted that the “DocumentTermMaxtrix” function has the power to do all of the text mining above in one command.</p>
-<pre class="r"><code>sms_dtm2 &lt;- DocumentTermMatrix(sms_corpus_clean2)</code></pre>
-<div id="section-9" class="section level4">
+<div id="section-2" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="data-preparation-1" class="section level2">
-<h2>Data Preparation</h2>
-<p>Split our data into training and testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. Divide our data set into 75% training and 25% testing.</p>
-<pre class="r"><code>.75 * 9129</code></pre>
-<pre><code>## [1] 6846.75</code></pre>
-<pre class="r"><code>.25 * 9129</code></pre>
-<pre><code>## [1] 2282.25</code></pre>
+<div id="basic-tokenizer" class="section level3">
+<h3>Basic Tokenizer</h3>
+<p>This version uses the “DocumentTermMatrix” function to creates a matrix in which the rows indicate individual documents (individual TA comments) and the columns indicate presence or absence of the word that is the header for the column. Be careful not to confuse it with “TermDocumentMatrix”, which transposes the matrix.</p>
+<p>“DocumentTermMaxtrix” function also can perform all of the text prep above in one command.</p>
+<pre class="r"><code>comments_corpus_1gram &lt;- DocumentTermMatrix(comments_corpus_clean)
+comments_corpus_1gram_tidy &lt;- tidy(comments_corpus_1gram)
+inspect(comments_corpus_1gram)</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 9340, terms: 3340)&gt;&gt;
+## Non-/sparse entries: 61737/31133863
+## Sparsity           : 100%
+## Maximal term length: 66
+## Weighting          : term frequency (tf)
+## Sample             :
+##       Terms
+## Docs   can data figur hypothesi includ just need result sentenc use
+##   1499   0    1     0         0      1    0    1      0       1   1
+##   2986   0    0     1         0      3    1    0      3       0   0
+##   3187   1    1     2         0      0    0    0      1       0   0
+##   4079   0    1     2         0      0    0    1      0       0   0
+##   6239   1    2     4         0      0    0    1      0       0   1
+##   6288   1    1     0         0      3    0    1      0       0   1
+##   7974   3    0     0         0      0    0    0      0       0   0
+##   8990   1    0     0         1      1    1    0      0       1   2
+##   9149   1    2     0         0      0    1    0      0       1   1
+##   9156   0    0     0         1      1    0    0      0       0   0</code></pre>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="data-preparation" class="section level3">
+<h3>Data Preparation</h3>
+<p>Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data.</p>
+<pre class="r"><code>.75 * 9340 #Number of documents/rows in the dataset; product is #rows for training</code></pre>
+<pre><code>## [1] 7005</code></pre>
+<pre class="r"><code>.25 * 9340 #Product is #rows for testing set</code></pre>
+<pre><code>## [1] 2335</code></pre>
 <p>This code assumes comments are random. <strong>Probably want to try randomizing them.</strong></p>
-<pre class="r"><code>sms_dtm_train2 &lt;- sms_dtm2[1:6846, ]
-sms_dtm_test2 &lt;- sms_dtm2[6847:9129, ]</code></pre>
+<pre class="r"><code>comments_dtm_train &lt;- comments_corpus_1gram[1:7005, ]
+comments_dtm_test &lt;- comments_corpus_1gram[7006:9340, ]</code></pre>
 <p>Save vectors labeling rows in the training and testing vectors</p>
-<pre class="r"><code>sms_train_labels2 &lt;- sms_raw2[1:6846, ]$type
-sms_test_labels2 &lt;- sms_raw2[6847:9129,]$type</code></pre>
+<pre class="r"><code>comments_train_labels &lt;- comments_raw[1:7005, ]$type
+comments_test_labels &lt;- comments_raw[7006:9340,]$type</code></pre>
 <p>Make sure that the proportion of each sub-category is similar in the training and testing data set.</p>
-<pre class="r"><code>prop.table(table(sms_train_labels2))</code></pre>
-<pre><code>## sms_train_labels2
-##   2_Writing 3_Technical     4_Logic 
-##   0.2854221   0.5911481   0.1234297</code></pre>
-<pre class="r"><code>prop.table(table(sms_test_labels2))</code></pre>
-<pre><code>## sms_test_labels2
-##   2_Writing 3_Technical     4_Logic 
-##   0.2733246   0.5965834   0.1300920</code></pre>
-<div id="section-10" class="section level4">
+<pre class="r"><code>prop.table(table(comments_train_labels))</code></pre>
+<pre><code>## comments_train_labels
+##     1_Basic   2_Writing 3_Technical     4_Logic 
+##  0.02212705  0.27908637  0.57787295  0.12091363</code></pre>
+<pre class="r"><code>prop.table(table(comments_test_labels))</code></pre>
+<pre><code>## comments_test_labels
+##     1_Basic   2_Writing 3_Technical     4_Logic 
+##  0.02398287  0.26680942  0.58286938  0.12633833</code></pre>
+<div id="section-4" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="visualization-1" class="section level2">
-<h2>Visualization</h2>
-<p>Create a wordcloud of the frequency of the words in the dataset using the package “wordcloud”.</p>
-<pre class="r"><code>#library(wordcloud)
-wordcloud(sms_corpus_clean2, max.words = 50, random.order = FALSE)</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-51-1.png" width="672" /></p>
-<p>Compare wordclouds between 3 groups.</p>
-<pre class="r"><code>TWO &lt;- subset(sms_raw2, type == &quot;2_Writing&quot;)
-THREE &lt;- subset(sms_raw2, type == &quot;3_Technical&quot;)
-FOUR &lt;- subset(sms_raw2, type == &quot;4_Logic&quot;)
-
-wordcloud(TWO$text, max.words = 50, scale = c(3, 0.5))</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
-## tm::stopwords())): transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-52-1.png" width="672" /></p>
-<pre class="r"><code>wordcloud(THREE$text, max.words = 50, scale = c(3, 0.5))</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents
-
-## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-52-2.png" width="672" /></p>
-<pre class="r"><code>wordcloud(FOUR$text, max.words = 50, scale = c(3, 0.5))</code></pre>
-<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents
-
-## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
-## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-52-3.png" width="672" /></p>
-<div id="section-11" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="preparation-for-naive-bayes-1" class="section level2">
-<h2>Preparation for Naive Bayes</h2>
+<div id="preparation-for-naive-bayes" class="section level3">
+<h3>Preparation for Naive Bayes</h3>
 <p>Remove words from the matrix that appear less than 5 times.</p>
-<pre class="r"><code>sms_freq_words2 &lt;- findFreqTerms(sms_dtm_train2, 5)
-str(sms_freq_words2)</code></pre>
-<pre><code>##  chr [1:1034] &quot;’ll&quot; &quot;’re&quot; &quot;’ve&quot; &quot;“correct”&quot; &quot;“figur&quot; &quot;“group&quot; ...</code></pre>
+<pre class="r"><code>comments_freq_words &lt;- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)</code></pre>
+<pre><code>##  chr [1:1043] &quot;’ll&quot; &quot;’re&quot; &quot;’ve&quot; &quot;“correct”&quot; &quot;“figur&quot; &quot;“group&quot; ...</code></pre>
 <p>Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.</p>
-<pre class="r"><code>sms_dtm_freq_train2 &lt;- sms_dtm_train2[ , sms_freq_words2]
-sms_dtm_freq_test2 &lt;- sms_dtm_test2[ , sms_freq_words2]</code></pre>
+<pre class="r"><code>comments_dtm_freq_train &lt;- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test &lt;- comments_dtm_test[ , comments_freq_words]</code></pre>
 <p>The naive bayes classifier works with categorical features, so we need to convert the matrix to “yes” and “no” categorical variables. To do this we’ll build a convert_counts function and apply it to our data.</p>
 <pre class="r"><code>convert_counts2 &lt;- function(x) {
   x &lt;- ifelse(x &gt; 0, &quot;Yes&quot;, &quot;No&quot;)
 }</code></pre>
 <p>This replaces values greater than 0 with yes, and values not greater than 0 with no. Let’s apply it to our data.</p>
-<pre class="r"><code>sms_train2 &lt;- apply(sms_dtm_freq_train2, MARGIN = 2, convert_counts2)
-sms_test2 &lt;- apply(sms_dtm_freq_test2, MARGIN = 2, convert_counts2)</code></pre>
+<pre class="r"><code>comments_train &lt;- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test &lt;- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)</code></pre>
 <p>The resulting matrixes will be character type, with cells indicating “yes” or “no” if the word represented by the column appears in the message represented by the row.</p>
-<div id="section-12" class="section level4">
+<div id="section-5" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="train-model-predict-evaluate" class="section level2">
-<h2>Train Model, Predict, Evaluate</h2>
-<p>Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.</p>
-<pre class="r"><code>#library(e1071)
-#library(gmodels)
-sms_classifier2 &lt;- naiveBayes(sms_train2, sms_train_labels2)
-sms_test_pred2 &lt;- predict(sms_classifier2, sms_test2)
-CrossTable(sms_test_pred2, sms_test_labels2, prop.chisq = FALSE, prop.t = FALSE, dnn = c(&#39;predicted&#39;, &#39;actual&#39;))</code></pre>
+<div id="train-model-predict-evaluate" class="section level3">
+<h3>Train Model, Predict, Evaluate</h3>
+<p>Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group ONE, TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.</p>
+<pre class="r"><code>comments_classifier &lt;- naiveBayes(comments_train, comments_train_labels)
+comments_test_pred &lt;- predict(comments_classifier, comments_test)
+CrossTable(comments_test_pred, comments_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c(&#39;predicted&#39;, &#39;actual&#39;))</code></pre>
 <pre><code>## 
 ##  
 ##    Cell Contents
@@ -809,62 +572,302 @@ CrossTable(sms_test_pred2, sms_test_labels2, prop.chisq = FALSE, prop.t = FALSE,
 ## |-------------------------|
 ## 
 ##  
-## Total Observations in Table:  2283 
+## Total Observations in Table:  2335 
 ## 
 ##  
 ##              | actual 
-##    predicted |   2_Writing | 3_Technical |     4_Logic |   Row Total | 
-## -------------|-------------|-------------|-------------|-------------|
-##    2_Writing |         457 |         104 |          63 |         624 | 
-##              |       0.732 |       0.167 |       0.101 |       0.273 | 
-##              |       0.732 |       0.076 |       0.212 |             | 
-## -------------|-------------|-------------|-------------|-------------|
-##  3_Technical |         108 |        1198 |          43 |        1349 | 
-##              |       0.080 |       0.888 |       0.032 |       0.591 | 
-##              |       0.173 |       0.880 |       0.145 |             | 
-## -------------|-------------|-------------|-------------|-------------|
-##      4_Logic |          59 |          60 |         191 |         310 | 
-##              |       0.190 |       0.194 |       0.616 |       0.136 | 
-##              |       0.095 |       0.044 |       0.643 |             | 
-## -------------|-------------|-------------|-------------|-------------|
-## Column Total |         624 |        1362 |         297 |        2283 | 
-##              |       0.273 |       0.597 |       0.130 |             | 
-## -------------|-------------|-------------|-------------|-------------|
+##    predicted |     1_Basic |   2_Writing | 3_Technical |     4_Logic |   Row Total | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##      1_Basic |          42 |          10 |          23 |           6 |          81 | 
+##              |       0.519 |       0.123 |       0.284 |       0.074 |       0.035 | 
+##              |       0.750 |       0.016 |       0.017 |       0.020 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##    2_Writing |           5 |         449 |          95 |          60 |         609 | 
+##              |       0.008 |       0.737 |       0.156 |       0.099 |       0.261 | 
+##              |       0.089 |       0.721 |       0.070 |       0.203 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##  3_Technical |           8 |         106 |        1185 |          43 |        1342 | 
+##              |       0.006 |       0.079 |       0.883 |       0.032 |       0.575 | 
+##              |       0.143 |       0.170 |       0.871 |       0.146 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##      4_Logic |           1 |          58 |          58 |         186 |         303 | 
+##              |       0.003 |       0.191 |       0.191 |       0.614 |       0.130 | 
+##              |       0.018 |       0.093 |       0.043 |       0.631 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+## Column Total |          56 |         623 |        1361 |         295 |        2335 | 
+##              |       0.024 |       0.267 |       0.583 |       0.126 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
 ## 
 ## </code></pre>
-<p>Show the 5 most frequent words in the data:</p>
-<pre class="r"><code>sack2 &lt;- TermDocumentMatrix(sms_corpus_clean2)
-pack2 &lt;- as.matrix(sack2)
-snack2 &lt;- sort(rowSums(pack2), decreasing = TRUE)
-hack2 &lt;- data.frame(word = names(snack2), freq=snack2)
-head(hack2, 5)</code></pre>
-<div data-pagedtable="false">
-<script data-pagedtable-source type="application/json">
-{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["word"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["freq"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"need","2":"1350","_rn_":"need"},{"1":"result","2":"1007","_rn_":"result"},{"1":"use","2":"896","_rn_":"use"},{"1":"figur","2":"852","_rn_":"figur"},{"1":"includ","2":"677","_rn_":"includ"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
-  </script>
+<p>Calculate overall correct prediction rate.</p>
+<pre class="r"><code>(42+454+1186+185)/23.35</code></pre>
+<pre><code>## [1] 79.95717</code></pre>
+<hr />
 </div>
-<p>And the 5 most frequent words from each class:</p>
-<pre class="r"><code>wordcloud(TWO$text, max.words = 5, scale = c(3, 0.5))</code></pre>
+</div>
+<div id="modified-naive-bayes-nb-method-using-n-grams" class="section level2">
+<h2>Modified Naive Bayes (NB) Method Using N-grams</h2>
+<p>The tokenizer command block above only works for single words. The block below uses tm’s NLP commands to generate either 1-, 2-, or 3-grams with the same command. The only change needed is “#” in “(words(x), #)” below. For simplicity I left off all of the preparatory code up leading up to the final cleaned corpus.</p>
+<pre class="r"><code>NLP_Tokenizer &lt;- function(x) {
+      unlist(lapply(ngrams(words(x), 2), paste, collapse = &quot; &quot;), use.names = FALSE)
+}
+
+comments_dtm_2gram &lt;- DocumentTermMatrix(comments_corpus_clean, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_2gram_tidy &lt;- tidy(comments_dtm_2gram)
+inspect(comments_dtm_2gram)</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 9340, terms: 30478)&gt;&gt;
+## Non-/sparse entries: 58317/284606203
+## Sparsity           : 100%
+## Maximal term length: 71
+## Weighting          : term frequency (tf)
+## Sample             :
+##       Terms
+## Docs   citat format don’t need error bar figur caption make sure
+##   1499            0          1         0             0         0
+##   2986            0          0         0             0         0
+##   3187            0          0         0             0         0
+##   4079            0          0         2             0         0
+##   6239            0          0         0             0         0
+##   6288            0          0         0             0         0
+##   7974            0          0         0             0         0
+##   8990            0          0         0             0         0
+##   9149            0          0         0             0         0
+##   9156            0          0         0             0         0
+##       Terms
+## Docs   method section primari literatur raw data standard deviat
+##   1499              0                 0        0               0
+##   2986              0                 0        0               0
+##   3187              0                 0        0               0
+##   4079              0                 0        0               1
+##   6239              0                 0        0               0
+##   6288              0                 0        0               0
+##   7974              0                 0        0               0
+##   8990              0                 0        0               0
+##   9149              1                 0        0               0
+##   9156              0                 0        0               0
+##       Terms
+## Docs   statist test
+##   1499            0
+##   2986            0
+##   3187            0
+##   4079            0
+##   6239            0
+##   6288            0
+##   7974            0
+##   8990            0
+##   9149            2
+##   9156            0</code></pre>
+<div id="section-6" class="section level4">
+<h4> </h4>
+</div>
+<div id="data-preparation-1" class="section level3">
+<h3>Data Preparation</h3>
+<p>Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data.</p>
+<pre class="r"><code>.75 * 9340 #Number of rows in the dataset; product is #rows for training</code></pre>
+<pre><code>## [1] 7005</code></pre>
+<pre class="r"><code>.25 * 9340 #Product is #rows for testing set</code></pre>
+<pre><code>## [1] 2335</code></pre>
+<p>This code assumes comments are random. <strong>Probably want to try randomizing them.</strong></p>
+<pre class="r"><code>comments_dtm_train &lt;- comments_dtm_2gram[1:7005, ]
+comments_dtm_test &lt;- comments_dtm_2gram[7006:9340, ]</code></pre>
+<p>Save vectors labeling rows in the training and testing vectors</p>
+<pre class="r"><code>comments_train_labels &lt;- comments_raw[1:7005, ]$type
+comments_test_labels &lt;- comments_raw[7006:9340,]$type</code></pre>
+<p>Make sure that the proportion of each sub-category is similar in the training and testing data set.</p>
+<pre class="r"><code>prop.table(table(comments_train_labels))</code></pre>
+<pre><code>## comments_train_labels
+##     1_Basic   2_Writing 3_Technical     4_Logic 
+##  0.02212705  0.27908637  0.57787295  0.12091363</code></pre>
+<pre class="r"><code>prop.table(table(comments_test_labels))</code></pre>
+<pre><code>## comments_test_labels
+##     1_Basic   2_Writing 3_Technical     4_Logic 
+##  0.02398287  0.26680942  0.58286938  0.12633833</code></pre>
+<div id="section-7" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="preparation-for-naive-bayes-1" class="section level3">
+<h3>Preparation for Naive Bayes</h3>
+<p>Remove words from the matrix that appear less than 5 times.</p>
+<pre class="r"><code>comments_freq_words &lt;- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)</code></pre>
+<pre><code>##  chr [1:1323] &quot;– ’s&quot; &quot;’m assum&quot; &quot;’m confus&quot; &quot;’m sure&quot; &quot;’re go&quot; ...</code></pre>
+<p>Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.</p>
+<pre class="r"><code>comments_dtm_freq_train &lt;- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test &lt;- comments_dtm_test[ , comments_freq_words]</code></pre>
+<p>The naive bayes classifier works with categorical features, so we need to convert the matrix to “yes” and “no” categorical variables. To do this we’ll build a convert_counts function and apply it to our data.</p>
+<pre class="r"><code>convert_counts2 &lt;- function(x) {
+  x &lt;- ifelse(x &gt; 0, &quot;Yes&quot;, &quot;No&quot;)
+}</code></pre>
+<p>This replaces values greater than 0 with yes, and values not greater than 0 with no. Let’s apply it to our data.</p>
+<pre class="r"><code>comments_train &lt;- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test &lt;- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)</code></pre>
+<p>The resulting matrixes will be character type, with cells indicating “yes” or “no” if the word represented by the column appears in the message represented by the row.</p>
+<div id="section-8" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="train-model-predict-evaluate-1" class="section level3">
+<h3>Train Model, Predict, Evaluate</h3>
+<p>Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group ONE, TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.</p>
+<pre class="r"><code>comments_classifier &lt;- naiveBayes(comments_train, comments_train_labels)
+comments_test_pred &lt;- predict(comments_classifier, comments_test)
+CrossTable(comments_test_pred, comments_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c(&#39;predicted&#39;, &#39;actual&#39;))</code></pre>
+<pre><code>## 
+##  
+##    Cell Contents
+## |-------------------------|
+## |                       N |
+## |           N / Row Total |
+## |           N / Col Total |
+## |-------------------------|
+## 
+##  
+## Total Observations in Table:  2335 
+## 
+##  
+##              | actual 
+##    predicted |     1_Basic |   2_Writing | 3_Technical |     4_Logic |   Row Total | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##      1_Basic |          37 |           5 |          17 |           1 |          60 | 
+##              |       0.617 |       0.083 |       0.283 |       0.017 |       0.026 | 
+##              |       0.661 |       0.008 |       0.012 |       0.003 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##    2_Writing |           3 |         239 |          73 |          41 |         356 | 
+##              |       0.008 |       0.671 |       0.205 |       0.115 |       0.152 | 
+##              |       0.054 |       0.384 |       0.054 |       0.139 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##  3_Technical |          14 |         327 |        1234 |         142 |        1717 | 
+##              |       0.008 |       0.190 |       0.719 |       0.083 |       0.735 | 
+##              |       0.250 |       0.525 |       0.907 |       0.481 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+##      4_Logic |           2 |          52 |          37 |         111 |         202 | 
+##              |       0.010 |       0.257 |       0.183 |       0.550 |       0.087 | 
+##              |       0.036 |       0.083 |       0.027 |       0.376 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+## Column Total |          56 |         623 |        1361 |         295 |        2335 | 
+##              |       0.024 |       0.267 |       0.583 |       0.126 |             | 
+## -------------|-------------|-------------|-------------|-------------|-------------|
+## 
+## </code></pre>
+<pre class="r"><code>(34+214+1254+94)/23.35</code></pre>
+<pre><code>## [1] 68.35118</code></pre>
+<hr />
+<hr />
+<div id="section-9" class="section level4">
+<h4> </h4>
+</div>
+</div>
+</div>
+<div id="visualization" class="section level2">
+<h2>Visualization</h2>
+<p>This code generates a wordcloud of the frequency of single words in the dataset using the package “wordcloud”.</p>
+<pre class="r"><code>wordcloud(comments_corpus_clean, max.words = 50, random.order = FALSE)</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-32-1.png" width="672" /></p>
+<p>Compare wordclouds between 3 groups.</p>
+<pre class="r"><code>ONE &lt;- subset(comments_raw, type == &quot;1_Basic&quot;)
+TWO &lt;- subset(comments_raw, type == &quot;2_Writing&quot;)
+THREE &lt;- subset(comments_raw, type == &quot;3_Technical&quot;)
+FOUR &lt;- subset(comments_raw, type == &quot;4_Logic&quot;)
+
+wordcloud(ONE$text, max.words = 50, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
 ## tm::stopwords())): transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-59-1.png" width="672" /></p>
-<pre class="r"><code>wordcloud(THREE$text, max.words = 5, scale = c(3, 0.5))</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
+<pre class="r"><code>wordcloud(TWO$text, max.words = 50, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents
 
 ## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-59-2.png" width="672" /></p>
-<pre class="r"><code>wordcloud(FOUR$text, max.words = 5, scale = c(3, 0.5))</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-33-2.png" width="672" /></p>
+<pre class="r"><code>wordcloud(THREE$text, max.words = 50, scale = c(3, 0.5))</code></pre>
 <pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents
 
 ## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
 ## transformation drops documents</code></pre>
-<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-59-3.png" width="672" /></p>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-33-3.png" width="672" /></p>
+<pre class="r"><code>wordcloud(FOUR$text, max.words = 50, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-33-4.png" width="672" /></p>
+<p>Show the 5 most frequent words in the data:</p>
+<pre class="r"><code>comment_sack &lt;- TermDocumentMatrix(comments_corpus_clean)
+comment_pack &lt;- as.matrix(comment_sack)
+comment_snack &lt;- sort(rowSums(comment_pack), decreasing = TRUE)
+comment_hack &lt;- data.frame(word = names(comment_snack), freq=comment_snack)
+head(comment_hack, 10)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["word"],"name":[1],"type":["fctr"],"align":["left"]},{"label":["freq"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"need","2":"1402","_rn_":"need"},{"1":"result","2":"1071","_rn_":"result"},{"1":"use","2":"901","_rn_":"use"},{"1":"figur","2":"855","_rn_":"figur"},{"1":"includ","2":"697","_rn_":"includ"},{"1":"can","2":"629","_rn_":"can"},{"1":"hypothesi","2":"599","_rn_":"hypothesi"},{"1":"just","2":"586","_rn_":"just"},{"1":"data","2":"546","_rn_":"data"},{"1":"sentenc","2":"542","_rn_":"sentenc"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
 </div>
+<p>And the 5 most frequent words from each class:</p>
+<pre class="r"><code>wordcloud(ONE$text, max.words = 10, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, function(x) tm::removeWords(x,
+## tm::stopwords())): transformation drops documents</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-35-1.png" width="672" /></p>
+<pre class="r"><code>wordcloud(TWO$text, max.words = 10, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-35-2.png" width="672" /></p>
+<pre class="r"><code>wordcloud(THREE$text, max.words = 10, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-35-3.png" width="672" /></p>
+<pre class="r"><code>wordcloud(FOUR$text, max.words = 10, scale = c(3, 0.5))</code></pre>
+<pre><code>## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents
+
+## Warning in tm_map.SimpleCorpus(corpus, tm::removePunctuation):
+## transformation drops documents</code></pre>
+<p><img src="Naive_bayes_files/figure-html/unnamed-chunk-35-4.png" width="672" /></p>
+<div id="section-10" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="permutation-tests-of-naive-bayes-nb-method" class="section level2">
+<h2>Permutation Tests of Naive Bayes (NB) Method</h2>
+<p>Version 1.0 correctly identifies comment subcategories ~79% of the time when using single words, and 68.3% of the time when using 2-grams. Permutations to test:</p>
+<ul>
+<li>Compare 2-grams, 3-grams rather than single words</li>
+<li>Make pair-wise comparisons versus comparing multiple groups simultaneously.
+<ul>
+<li>Ex.: Basic vs. Not Basic (1_Basic vs. not 1_Basic)</li>
+</ul></li>
+<li>Modify the variables within the NB analysis itself.
+<ul>
+<li>Laplace constant (Y/N), Cutoff value for words removed from list.</li>
+</ul></li>
+<li>Do/Do not stem the terms
+<ul>
+<li>This may remove evidence of tense</li>
+</ul></li>
+<li>Remove/Leave stopwords</li>
+<li>Remove/Leave capitalization</li>
+<li>Remove/Leave numbers
+<ul>
+<li>This may remove evidence of technical descriptors</li>
+</ul></li>
+<li>Remove/Leave punctuation
+<ul>
+<li>This may remove evidence of questions vs statements</li>
+</ul></li>
+</ul>
 </div>
 
 <p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
