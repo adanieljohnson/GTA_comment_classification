@@ -10,7 +10,10 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ##Summary
-This is **Version 2.0.yn** of the basic workflow for classifying TA comments using a naive Bayes model. It is optimized for testing pair-wise assignment to categories (Yes/No decision) beginning with the most frequently encountered.
+This is **Version 2.0.yn** of a basic workflow for classifying TA comments using a naive Bayes model. It is optimized for testing pair-wise assignment to categories (Yes/No decision) beginning with the most frequently encountered:
+
+*  3_technical for the Subject category
+*  4_specific for the Structure category
 
 The main features and permutations to be evaluated are:
 
@@ -21,7 +24,7 @@ Additional working notes are located at the end of this page.
 ####\  
 
 ##Initial Setup
-Calling the required libraries.
+Calling required libraries.
 
 ```{r}
 library(tidyverse)
@@ -36,39 +39,336 @@ library(gmodels)
 
 ####\  
 
-##Version 2.0.yn of Naive Bayes (NB) Protocol
+##Version 2.0.r of Naive Bayes (NB) Protocol
 ###Initial Data Input
 ```{r}
 #Read in TA comments from CSV file.
-base_dataVERB <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVERB.csv')
+base_dataVerYN <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVerYN.csv')
 ```
 
 ###Extract, Organize Data Subset
 Extract comments and classification data subset
 ```{r}
 #Select rows representing the sub-groups to compare. 
-comments_subsetVERB <- filter(base_dataVERB,code.subject=="1_basic"|code.subject=="2_writing"|code.subject=="3_technical"|code.subject=="4_logic")
+comments_subsetVerYN <- filter(base_dataVerYN,code.subject=="1_basic"|code.subject=="2_writing"|code.subject=="3_technical"|code.subject=="4_logic")
 
 #Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
-comments_rawVERB <- comments_subsetVERB %>% select(23,24,22)
+comments_rawVerYN <- comments_subsetVerYN %>% select(23,24,22)
 
 #Rename the columns.
-names(comments_rawVERB)[1] <- "type"
-names(comments_rawVERB)[2] <- "locus"
-names(comments_rawVERB)[3] <- "text"
+names(comments_rawVerYN)[1] <- "subject"
+names(comments_rawVerYN)[2] <- "structure"
+names(comments_rawVerYN)[3] <- "text"
 
-#Change "type" element from character to a factor for analysis.
-comments_rawVERB$type <- factor(comments_rawVERB$type)
-str(comments_rawVERB$type)
-table(comments_rawVERB$type)
+#Change "subject" element from character to a factor for analysis.
+comments_rawVerYN$subject <- factor(comments_rawVerYN$subject)
+str(comments_rawVerYN$subject)
+table(comments_rawVerYN$subject)
+```
+
+```{r}
+#Change "structure" element from character to a factor for analysis.
+comments_rawVerYN$structure <- factor(comments_rawVerYN$structure)
+str(comments_rawVerYN$structure)
+table(comments_rawVerYN$structure)
+```
+
+```{r}
+#Generate a vector of ~10,000 numbers (be sure it can be generated consistently)
+#Adjust the number so it matches the number of rows in the original data frame
+#Next, set the seed for random numbers, and randomize the order of the vector
+vector <- 1:9340
+set.seed(123) #change this seed value, and the data are randomized in a new sequence.
+vector <- sample(vector)
+glimpse(vector)
+```
+
+```{r}
+#Append the vector as a new column to "comments_rawVerYN" with name "randomizer"
+#Sort rows of dataframe according to "randomizer" column using dplyer 'arrange' function. 
+comments_rawVerYN$randomizer <- c(vector)
+comments_rawVerYN_R <-comments_rawVerYN %>% arrange(randomizer)
+print(comments_rawVerYN_R)
+
+```
+
+Convert data set to a volative corpus using "tm" library.
+```{r}
+#Create the volatile corpus that contains the "text" vector from data frame.
+comments_corpusVerYN_R <- VCorpus(VectorSource(comments_rawVerYN_R$text))
+print(comments_corpusVerYN_R)
+
+#Check out the first few text comments in the new corpus, which is basically a list that can be manipulated with list operations.
+inspect(comments_corpusVerYN_R[1:3])
+
+#Use "as.character" function to see what a single text comment looks like.
+as.character(comments_corpusVerYN_R[[5]])
+```
+
+###Text Data Transformations
+The text data transforms are separated out as individual "tm_map"" and "content_transformer" functions to simplify the process of testing various combinations. Conversion to lower case and removing punctuation are the baseline set. Switch between "{r}" and "{}" to turn the other transformation blocks off or on. Removing extra white spaces must be the last transformation, and is required.
+
+```{r}
+#Convert text to all lower case letters.
+comments_corpus_cleanVerYN_R <- tm_map(comments_corpusVerYN_R, content_transformer(tolower))
+
+#Remove punctuation using the "removePunctuation" function. 
+#This step removes evidence of questions, so may remove data.
+comments_corpus_cleanVerYN_R <- tm_map(comments_corpus_cleanVerYN_R, removePunctuation)
+
+#Remove numerals. 
+#I am not sure this is beneficial; does it remove evidence indicating technical comments?
+comments_corpus_cleanVerYN_R <- tm_map(comments_corpus_cleanVerYN_R, removeNumbers)
+
+#Stopword removal. 
+#This is a standard cleanup step, but again may remove useful terms.
+#The "stopwords" file is a convention; other files can be substituted for it
+comments_corpus_cleanVerYN_R <- tm_map(comments_corpus_cleanVerYN_R, removeWords, stopwords())
+
+#The option to use stemming has been removed from this version.
+
+#Final step removes white space from the document. This is NOT an optional step.
+comments_corpus_cleanVerYN_R <- tm_map(comments_corpus_cleanVerYN_R, stripWhitespace)
+
+#Look at an example of cleaned text comment to see if it fits what is expected.
+as.character((comments_corpus_cleanVerYN_R[[5]]))
+```
+
+####\  
+
+##Basic Naive Bayes (NB) Method Using N-grams
+This code block uses tm's NLP commands. The same block can be used to assess 1-, 2-, or 3-grams. Only the "#" variable in "(words(x), #)" below needs to be changed. 
+
+```{r}
+NLP_Tokenizer <- function(x) {
+      unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
+}
+
+comments_dtm_1gram <- DocumentTermMatrix(comments_corpus_cleanVerYN_R, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_1gram_tidy <- tidy(comments_dtm_1gram)
+inspect(comments_dtm_1gram)
+```
+
+####\  
+
+###Data Preparation
+Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. 
+
+```{}
+.75 * 9340 #Number of rows in the dataset; product is #rows for training
+.25 * 9340 #Product is #rows for testing set
+```
+
+This code uses the comments in the order they are listed in the original file. Block for randomizing them was done earlier.
+```{r}
+comments_dtm_train <- comments_dtm_1gram[1:7005, ]
+comments_dtm_test <- comments_dtm_1gram[7006:9340, ]
+```
+
+Save vectors labeling rows in the training and testing vectors
+```{r}
+comments_train_labels_subject <- comments_rawVerYN_R[1:7005, ]$subject
+comments_test_labels_subject <- comments_rawVerYN_R[7006:9340,]$subject
+```
+
+```{r}
+comments_train_labels_structure <- comments_rawVerYN_R[1:7005, ]$structure
+comments_test_labels_structure <- comments_rawVerYN_R[7006:9340,]$structure
+```
+
+Make sure that the proportion of each sub-category is similar in the training and testing data sets.
+```{r}
+prop.table(table(comments_train_labels_subject))
+prop.table(table(comments_test_labels_subject))
+```
+
+```{r}
+prop.table(table(comments_train_labels_structure))
+prop.table(table(comments_test_labels_structure))
+```
+
+####\  
+
+###Preparation for Naive Bayes
+Remove words from the matrix that appear less than 5 times.
+```{r}
+comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)
+```
+
+Limit Document Term Matrix to only include words in the comments_freq_words vector. Using all the rows, but we want to limit the columns to these words in the frequency vector.
+```{r}
+comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
+```
+
+The basic e1071 naive bayes classifier works with categorical features, so the matrix must be converted "yes" and "no" categorical variables. This is done using a **convert_counts function** and applying it to the data. This replaces values greater than 0 with yes, and values not greater than 0 with no. 
+```{r}
+convert_counts2 <- function(x) {
+  x <- ifelse(x > 0, "Yes", "No")
+}
+
+comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
+```
+
+The resulting matrices have cells indicating "yes" or "no" if the word represented by the column appears in the text comment represented by the row.
+
+####\  
+
+###Train Model, Predict, Evaluate for Subject
+This block uses the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. It evaluates the prediction with the actual data using a crosstable from the gmodels package.
+```{r}
+comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject)
+comments_test_pred_subject <- predict(comments_classifier_subject, comments_test)
+CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+```
+
+The cross table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting subject.
+```{r}
+print("Overall subject accuracy")
+(14+54+1318+28)/23.35  #Need to find a way to calculate this automatically. 
 ```
 
 
+###Train Model, Predict, Evaluate for structure
+This is the same block as above but uses the "structure" data column.
+
 ```{r}
+comments_classifier_structure <- naiveBayes(comments_train, comments_train_labels_structure)
+comments_test_pred_structure <- predict(comments_classifier_structure, comments_test)
+CrossTable(comments_test_pred_structure, comments_test_labels_structure, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+```
+
+Again, a cross table shows how many of the predicted categories match the correct categories for structure.
+
+```{r}
+print("Overall structure accuracy")
+(66+64+949+5+1)/23.35  #Need to find a way to calculate this automatically. 
+```
+
+###OPTIONAL Output
+To make a table showing predicted categories for comments based on the Naive Bayes test, versus the actual label entered by a human observer, merge the two datasets into a single data frame. The full data frame will be too long to display; use "head" to check format, then output the full dataset to CSV for further review. By default the CSV file should be saved to the current working directory.
+
+```{}
+predicted_category_subject <- data.frame(comments_test_pred_subject,comments_test_labels_subject)
+head(predicted_category_subject)
+write.csv(predicted_category_subject, file = "PredictedCategorySubject_Data.csv")
+```
+
+```{}
+predicted_category_structure <- data.frame(comments_test_pred_structure,comments_test_labels_structure)
+head(predicted_category_structure)
+write.csv(predicted_category_structure, file = "PredictedCategoryStructure_Data.csv")
+```
+
+
+***
+START COMMENTS, OLD work notes
+***
+
+##Permutation Tests of Naive Bayes (NB) Method
+Using single words, Version 2.0.b correctly identifies comment "subject" ~80% of the time and comment "structure" ~59% of the time.
+
+Permutations to test with random subsets version (2.0.r):
+
+*  Compare 1-grams, 2-grams, 3-grams
+*  Compare outcomes for 3 independent randomized sets of 1-grams
+
+
+The pseudo-code block below can pull random lines from a data table, but does not work correctly on a document term matrix. The second problem is how to pull the training and test data sets out and process them identically. 
+
+```{}
+set.seed(1234) 		# ensures the same random set gets picked each time.
+
+comments_raw_dtm_train <- sample_frac(comments_raw, .75)	# sample_frac pulls out 75% of "comments_raw" dataset randomly using the sample sequence identified by set.seed(1234)
+
+comments_raw_dtm_test <- setdiff(comments_raw, comments_raw_dtm_train)	#setdiff creates a "test" dataset using anything NOT in the "comments_raw_dtm_train" subset of "comments_raw."
+```
+
+The solution was not to pull the data twice, but to randomly (but repeatably) shuffle the starting data table. How I solved this was:
+1. Create a vector of sequential numbers the same length as the number of data frame rows.
+2. Randomize the sequential numbers using set.seed to make pattern reproducible.
+3. Add the randomized numbers as a new column to the data frame.
+4. Re-order the data table to the randomizer column.
+
+This makes it easy to generate a new sequence of randomized training and test samples to run replicates. Only one number needs to be changed.
+
+
+```{}
+#Creates a data frame that compares predicted and actual labels for subject and structure
+tally <- data.frame("subject_label"=c(comments_test_labels_subject), "subject_predicted"=c(comments_test_pred_subject), "structure_label"=c(comments_test_labels_structure), "structure_predicted"=c(comments_test_pred_structure))
+#tally <- as.numeric(as.character(tally))
+```
+
+
+```{}
+if_else (tally(comments_test_labels_subject) != tally(comments_test_pred_subject),"YES","no")
+
+#glimpse(tally)
+
+#tally %>% mutate(match_subject=comments_test_labels_subject - comments_test_pred_subject)
+#tally %>% mutate(match_structure=comments_test_labels_structure - comments_test_pred_structure)
+```
+
+***
+END COMMENTS
+***
+
+
+
+
+####\  
+
+##Initial Setup
+Calling the required libraries.
+
+```{}
+library(tidyverse)
+library(tidytext)
+library(tidyr)
+library(tm)
+library(SnowballC)
+library(wordcloud)
+library(e1071)
+library(gmodels)
+```
+
+####\  
+
+##Version 2.0.yn of Naive Bayes (NB) Protocol
+###Initial Data Input
+```{}
+#Read in TA comments from CSV file.
+base_dataVerYN <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVerYN.csv')
+```
+
+###Extract, Organize Data Subset
+Extract comments and classification data subset
+```{}
+#Select rows representing the sub-groups to compare. 
+comments_subsetVerYN <- filter(base_dataVerYN,code.subject=="1_basic"|code.subject=="2_writing"|code.subject=="3_technical"|code.subject=="4_logic")
+
+#Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
+comments_rawVerYN <- comments_subsetVerYN %>% select(23,24,22)
+
+#Rename the columns.
+names(comments_rawVerYN)[1] <- "type"
+names(comments_rawVerYN)[2] <- "locus"
+names(comments_rawVerYN)[3] <- "text"
+
+#Change "type" element from character to a factor for analysis.
+comments_rawVerYN$type <- factor(comments_rawVerYN$type)
+str(comments_rawVerYN$type)
+table(comments_rawVerYN$type)
+```
+
+
+```{}
 #Change "locus" element from character to a factor for analysis.
-comments_rawVERB$locus <- factor(comments_rawVERB$locus)
-str(comments_rawVERB$locus)
-table(comments_rawVERB$locus)
+comments_rawVerYN$locus <- factor(comments_rawVerYN$locus)
+str(comments_rawVerYN$locus)
+table(comments_rawVerYN$locus)
 ```
 
 ***
@@ -82,57 +382,57 @@ Use set.seed(1234) to create a stable randomized set.
 ***
 
 Convert data set to a volative corpus using "tm" library.
-```{r}
+```{}
 #Create the volatile corpus that contains the "text" vector from data frame.
-comments_corpusVERB <- VCorpus(VectorSource(comments_rawVERB$text))
-print(comments_corpusVERB)
+comments_corpusVerYN <- VCorpus(VectorSource(comments_rawVerYN$text))
+print(comments_corpusVerYN)
 
 #Check out the first few text comments in the new corpus, which is basically a list that can be manipulated with list operations.
-inspect(comments_corpusVERB[1:3])
+inspect(comments_corpusVerYN[1:3])
 
 #Use "as.character" function to see what a single text comment looks like.
-as.character(comments_corpusVERB[[5]])
+as.character(comments_corpusVerYN[[5]])
 ```
 
 ###Text Data Transformations
 The text data transforms are separated out as individual "tm_map"" and "content_transformer" functions to simplify the process of testing various combinations. Conversion to lower case and removing punctuation are the baseline set. Switch between "{r}" and "{}" to turn the other transformation blocks off or on. Removing extra white spaces must be the last transformation, and is required.
 
-```{r}
+```{}
 #Convert text to all lower case letters.
-comments_corpus_cleanVERB <- tm_map(comments_corpusVERB, content_transformer(tolower))
+comments_corpus_cleanVerYN <- tm_map(comments_corpusVerYN, content_transformer(tolower))
 ```
 
-```{r}
+```{}
 #Remove punctuation using the "removePunctuation" function. 
 #This step removes evidence of questions, so may remove data.
-comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, removePunctuation)
+comments_corpus_cleanVerYN <- tm_map(comments_corpus_cleanVerYN, removePunctuation)
 ```
 
-```{r}
+```{}
 #Remove numerals. 
 #I am not sure this is beneficial; does it remove evidence indicating technical comments?
 
-comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, removeNumbers)
+comments_corpus_cleanVerYN <- tm_map(comments_corpus_cleanVerYN, removeNumbers)
 ```
 
-```{r}
+```{}
 #Stopword removal. 
 #This is a standard cleanup step, but again may remove useful terms.
 #The "stopwords" file is a convention; other files can be substituted for it
 
-comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, removeWords, stopwords())
+comments_corpus_cleanVerYN <- tm_map(comments_corpus_cleanVerYN, removeWords, stopwords())
 ```
 
 Option to stem terms has been removed from this version.
 
 
 Final prep and data check.
-```{r}
+```{}
 #Final step removes white space from the document. This is NOT an optional step.
-comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, stripWhitespace)
+comments_corpus_cleanVerYN <- tm_map(comments_corpus_cleanVerYN, stripWhitespace)
 
 #Look at an example of cleaned text comment to see if it fits what is expected.
-as.character((comments_corpus_cleanVERB[[5]]))
+as.character((comments_corpus_cleanVerYN[[5]]))
 ```
 
 ####\  
@@ -140,12 +440,12 @@ as.character((comments_corpus_cleanVERB[[5]]))
 ##Basic Naive Bayes (NB) Method Using N-grams
 This code block uses tm's NLP commands. The same block can be used to assess 1-, 2-, or 3-grams. Only the "#" variable in "(words(x), #)" below needs to be changed. 
 
-```{r}
+```{}
 NLP_Tokenizer <- function(x) {
       unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
 }
 
-comments_dtm_1gram <- DocumentTermMatrix(comments_corpus_cleanVERB, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_1gram <- DocumentTermMatrix(comments_corpus_cleanVerYN, control=list(tokenize = NLP_Tokenizer))
 comments_dtm_1gram_tidy <- tidy(comments_dtm_1gram)
 inspect(comments_dtm_1gram)
 ```
@@ -168,13 +468,13 @@ comments_dtm_test <- comments_dtm_1gram[7006:9340, ]
 
 Save vectors labeling rows in the training and testing vectors
 ```{}
-comments_train_labels_type <- comments_rawVERB[1:7005, ]$type
-comments_test_labels_type <- comments_rawVERB[7006:9340,]$type
+comments_train_labels_type <- comments_rawVerYN[1:7005, ]$type
+comments_test_labels_type <- comments_rawVerYN[7006:9340,]$type
 ```
 
 ```{}
-comments_train_labels_locus <- comments_rawVERB[1:7005, ]$locus
-comments_test_labels_locus <- comments_rawVERB[7006:9340,]$locus
+comments_train_labels_locus <- comments_rawVerYN[1:7005, ]$locus
+comments_test_labels_locus <- comments_rawVerYN[7006:9340,]$locus
 ```
 
 
@@ -195,13 +495,13 @@ prop.table(table(comments_test_labels_locus))
 
 ###Preparation for Naive Bayes
 Remove words from the matrix that appear less than 5 times.
-```{r}
+```{}
 comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
 str(comments_freq_words)
 ```
 
 Limit Document Term Matrix to only include words in the comments_freq_words vector. Using all the rows, but we want to limit the columns to these words in the frequency vector.
-```{r}
+```{}
 comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
 comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
 ```
@@ -209,7 +509,7 @@ comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
 
 The basic e1071 naive bayes classifier works with categorical features, so the matrix must be converted "yes" and "no" categorical variables. This is done using a **convert_counts function** and applying it to the data. This replaces values greater than 0 with yes, and values not greater than 0 with no. 
 
-```{r}
+```{}
 convert_counts2 <- function(x) {
   x <- ifelse(x > 0, "Yes", "No")
 }
@@ -224,7 +524,7 @@ The resulting matrices have cells indicating "yes" or "no" if the word represent
 
 ###Train Model, Predict, Evaluate for Type
 This block uses the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. It evaluates the prediction with the actual data using a crosstable from the gmodels package.
-```{r}
+```{}
 comments_classifier_type <- naiveBayes(comments_train, comments_train_labels_type)
 comments_test_pred_type <- predict(comments_classifier_type, comments_test)
 CrossTable(comments_test_pred_type, comments_test_labels_type, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
@@ -234,7 +534,7 @@ CrossTable(comments_test_pred_type, comments_test_labels_type, prop.chisq = FALS
 
 The cross table list how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting TYPE.
 
-```{r}
+```{}
 print("Overall TYPE accuracy")
 (14+45+1346+19)/23.35
 ```
@@ -243,7 +543,7 @@ print("Overall TYPE accuracy")
 ###Train Model, Predict, Evaluate for LOCUS
 This is the same block as above but uses the "Locus" data column.
 
-```{r}
+```{}
 comments_classifier_locus <- naiveBayes(comments_train, comments_train_labels_locus)
 comments_test_pred_locus <- predict(comments_classifier_locus, comments_test)
 CrossTable(comments_test_pred_locus, comments_test_labels_locus, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
@@ -251,7 +551,7 @@ CrossTable(comments_test_pred_locus, comments_test_labels_locus, prop.chisq = FA
 
 Again, a cross table shows how many of the predicted categories match the correct categories for LOCUS.
 
-```{r}
+```{}
 print("Overall LOCUS accuracy")
 (62+64+931+3)/23.35
 ```
