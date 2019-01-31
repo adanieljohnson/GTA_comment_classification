@@ -1,0 +1,384 @@
+---
+title: "Naive Bayes Workflow Ver 2.0"
+author: "Dan Johnson"
+date: "1/29/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Summary
+This notebook documents a basic workflow for applying a naive Bayes model to terms in TA comments. I based it on a tutorial [https://rpubs.com/Billyhansen6/318412](located here). This is quoted from Hansen's original tutorial:
+>The objective of this project is to classify SMS messages as spam or ham (not spam). A Naive Bayes classifier approach will be used. This example is taken from chapter 4 of Machine Learning with R, Second Edition"
+
+>An example of the conditional probability that will be computed is as follows: 
+
+$$P(Spam|Hospital) = P(Hospital|Spam)P(Spam)/P(Hospital)$$ 
+
+>which is the formula for determining the probability that a message is spam given that it contains the word "Hospital" in the message.
+
+Lines ~30-205 are the baseline version of the workflow using single words. It correctly classifies comments in the top 4 sub-categories  ~79% of the time. While that is close to minimum acceptable inter-rater reliability of two human readers, it is well below my goal of >95% for use in routine automated analysis. 
+
+Lines ~208-290 describe an alternative method using n-grams. When I tested this approach using 2-grams, classification was slightly worse, at 68.3% correct. 
+
+Lines ~295-335 show how to use word clouds to visualize single word frequencies. I did not find this approach very useful.
+
+To keep this code clean for now I will run various permutations in a scratch version, then summarize findings starting on line #345. In the subsequent iterations I will evaluate:
+
+*  Different text pre-processing strategies: stemmed versus unstemmed, numbers removed vs. not, etc.
+*  Using n-grams rather than single words
+*  Making pair-wise comparison versus comparing multiple groups simultaneously
+*  Modifying the variables in the NB analysis itself.
+
+Finally, there are several things still missing or needed for this workflow:
+
+*  How to feed a text dataset in, and get a table of the predicted categories back out.
+*  How to store the values from the Bayes prediction table so I can use them in calculations rather than type them in by hand.
+*  How to randomize which comments are used for training, testing datasets.
+
+Other pages examine other classifiers besides Naive Bayes.
+
+####\  
+
+##Initial Setup
+```{r}
+library(tidyverse)
+library(tidytext)
+library(tidyr)
+library(tm)
+library(SnowballC)
+library(wordcloud)
+library(e1071)
+library(gmodels)
+```
+
+####\  
+
+##Version 2.0 of Naive Bayes (NB) Protocol
+###Initial Data Input
+```{r}
+#Read in TA comments from CSV file.
+base_dataVERB <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVERB.csv')
+```
+
+###Extract, Organize Data Subset
+Extract comments and classification data subset
+```{r}
+#Select rows representing the sub-groups to compare. 
+comments_subsetVERB <- filter(base_dataVERB,code.subject=="1_basic"|code.subject=="2_writing"|code.subject=="3_technical"|code.subject=="4_logic")
+
+#Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
+comments_rawVERB <- comments_subsetVERB %>% select(23,24,22)
+
+#Rename the columns.
+names(comments_rawVERB)[1] <- "type"
+names(comments_rawVERB)[2] <- "locus"
+names(comments_rawVERB)[3] <- "text"
+
+#Change "type" element from character to a factor for analysis.
+comments_rawVERB$type <- factor(comments_rawVERB$type)
+str(comments_rawVERB$type)
+table(comments_rawVERB$type)
+```
+```{r}
+#Change "locus" element from character to a factor for analysis.
+comments_rawVERB$locus <- factor(comments_rawVERB$locus)
+str(comments_rawVERB$locus)
+table(comments_rawVERB$locus)
+```
+
+***
+***
+Here is where I need to add the column used to randomly assign the data to training or testing sets.
+
+Use set.seed(1234) to create a stable randomized set. 
+
+
+***
+***
+
+Convert data set to a volative corpus using "tm" library.
+```{r}
+#Create the volatile corpus that contains the "text" vector from data frame.
+comments_corpusVERB <- VCorpus(VectorSource(comments_rawVERB$text))
+print(comments_corpusVERB)
+
+#Check out the first few text comments in the new corpus, which is basically a list that can be manipulated with list operations.
+inspect(comments_corpusVERB[1:3])
+
+#Use "as.character" function to see what a single text comment looks like.
+as.character(comments_corpusVERB[[5]])
+```
+
+###Text Data Transformations
+The text data transforms are separated out as individual "tm_map"" and "content_transformer" functions to simplify the process of testing various combinations. Conversion to lower case and removing punctuation are the baseline set. Switch between "{r}" and "{}" to turn the other transformation blocks off or on. Removing extra white spaces must be the last transformation, and is required.
+
+```{r}
+#Convert text to all lower case letters.
+comments_corpus_cleanVERB <- tm_map(comments_corpusVERB, content_transformer(tolower))
+```
+
+```{r}
+#Remove punctuation using the "removePunctuation" function. 
+#This step removes evidence of questions, so may remove data.
+comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, removePunctuation)
+```
+
+```{}
+#Remove numerals. 
+#I am not sure this is beneficial; does it remove evidence indicating technical comments?
+
+comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, removeNumbers)
+```
+
+```{}
+#Stopword removal. 
+#This is a standard cleanup step, but again may remove useful terms.
+#The "stopwords" file is a convention; other files can be substituted for it
+
+comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, removeWords, stopwords())
+```
+
+***
+START BREAK POINT - Stemming vs. lemmatization
+***
+
+```{}
+#Stemming the text data to strip the suffix from words. 
+#My thinking is that stemming removes valuable tense data.I am unsure how valuable it is.
+#Looking to later versions, part-of-speech tagging and lemmatization may be the better method.
+
+comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, stemDocument)
+```
+
+***
+END BREAK POINT
+***
+
+Final prep and data check.
+```{r}
+#Final step removes white space from the document. This is NOT an optional step.
+comments_corpus_cleanVERB <- tm_map(comments_corpus_cleanVERB, stripWhitespace)
+
+#Look at an example of cleaned text comment to see if it fits what is expected.
+as.character((comments_corpus_cleanVERB[[5]]))
+```
+
+####\  
+
+##Basic Naive Bayes (NB) Method Using N-grams
+This code block uses tm's NLP commands. The same block can be used to assess 1-, 2-, or 3-grams. Only the "#" variable in "(words(x), #)" below needs to be changed. 
+
+```{r}
+NLP_Tokenizer <- function(x) {
+      unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
+}
+
+comments_dtm_1gram <- DocumentTermMatrix(comments_corpus_cleanVERB, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_1gram_tidy <- tidy(comments_dtm_1gram)
+inspect(comments_dtm_1gram)
+```
+
+####\  
+
+###Data Preparation
+Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. 
+
+```{r}
+.75 * 9340 #Number of rows in the dataset; product is #rows for training
+.25 * 9340 #Product is #rows for testing set
+```
+
+This code assumes comments are random. **Probably want to try randomizing them.**
+```{r}
+comments_dtm_train <- comments_dtm_1gram[1:7005, ]
+comments_dtm_test <- comments_dtm_1gram[7006:9340, ]
+```
+
+Save vectors labeling rows in the training and testing vectors
+```{r}
+comments_train_labels <- comments_rawVERB[1:7005, ]$type
+comments_test_labels <- comments_rawVERB[7006:9340,]$type
+```
+
+```{r}
+comments_train_labels_locus <- comments_rawVERB[1:7005, ]$locus
+comments_test_labels_locus <- comments_rawVERB[7006:9340,]$locus
+```
+
+
+Make sure that the proportion of each sub-category is similar in the training and testing data set.
+```{r}
+prop.table(table(comments_train_labels))
+prop.table(table(comments_test_labels))
+```
+
+```{r}
+prop.table(table(comments_train_labels_locus))
+prop.table(table(comments_test_labels_locus))
+```
+
+
+
+***
+START BREAK POINT
+***
+The above code block incorrectly uses sequential roww, not random rows.  I need to find a way to incorporate randomization. 
+
+The command block below can pull random lines from a data table, but does not work on a document term matrix. 
+
+```{}
+set.seed(1234) 		# ensures the same random set gets picked each time.
+
+comments_raw_dtm_train <- sample_frac(comments_raw, .75)	# sample_frac pulls out 75% of "comments_raw" dataset randomly using the sample sequence identified by set.seed(1234)
+
+comments_raw_dtm_test <- setdiff(comments_raw, comments_raw_dtm_train)	#setdiff creates a "test" dataset using anything NOT in the "comments_raw_dtm_train" subset of "comments_raw."
+```
+
+Ways I think will work to solve this:
+1. Embed a randomized identifier as another column, then pull the later datasets out using that identifier.
+2. Generate a vector of random words (test, train, test, train, train, train, test, train...)
+
+***
+END BREAK POINT
+***
+
+####\  
+
+###Preparation for Naive Bayes
+Remove words from the matrix that appear less than 5 times.
+```{r}
+comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)
+```
+
+Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.
+```{r}
+comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
+```
+
+
+The basic e1071 naive bayes classifier works with categorical features, so the matrix must be converted "yes" and "no" categorical variables. This is done using a **convert_counts function** and applying it to the data. This replaces values greater than 0 with yes, and values not greater than 0 with no. 
+
+```{r}
+convert_counts2 <- function(x) {
+  x <- ifelse(x > 0, "Yes", "No")
+}
+
+comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
+```
+
+The resulting matrices have cells indicating "yes" or "no" if the word represented by the column appears in the text comment represented by the row.
+
+####\  
+
+###Train Model, Predict, Evaluate
+Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. Evaluate the prediction with the actual data using a crosstable from the gmodels package.
+```{r}
+comments_classifier <- naiveBayes(comments_train, comments_train_labels)
+comments_test_pred <- predict(comments_classifier, comments_test)
+CrossTable(comments_test_pred, comments_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+```
+
+
+
+The cross table will list how many of the predicted categories are in their correct categories. Adding diagonally and dividing will calculate the percent accuracy.
+
+```{r}
+(44+473+1142+206)/23.35
+```
+
+
+To make a table showing predicted categories for comments based on the Naive Bayes test, versus the actual label entered by a human observer, merge the two datasets into a single data frame. The full data frame will be too long to display; use "head" to check format, then output the full dataset to CSV for further review. By default the CSV file should be saved to the current working directory.
+
+```{r}
+predicted_category <- data.frame(comments_test_pred,comments_test_labels)
+head(predicted_category)
+write.csv(predicted_category, file = "PredictedCategory_Data.csv")
+```
+
+
+
+***
+START BREAK POINT
+***
+1. The e1071 naive bayes classifier is binomial. Need to incorporate multinomial.
+2. Need to add prediction output.
+3. Is dropping numerical values down to categorical yes/no variables removing useful info?
+
+
+***
+END BREAK POINT
+***
+
+
+
+
+
+
+
+
+***
+***
+####\  
+
+##Visualization
+This code generates a wordcloud of the frequency of single words in the dataset using the package "wordcloud".
+```{r}
+wordcloud(comments_corpus_clean, max.words = 50, random.order = FALSE)
+```
+
+Compare wordclouds between 3 groups.
+```{r}
+ONE <- subset(comments_raw, type == "1_Basic")
+TWO <- subset(comments_raw, type == "2_Writing")
+THREE <- subset(comments_raw, type == "3_Technical")
+FOUR <- subset(comments_raw, type == "4_Logic")
+
+wordcloud(ONE$text, max.words = 50, scale = c(3, 0.5))
+wordcloud(TWO$text, max.words = 50, scale = c(3, 0.5))
+wordcloud(THREE$text, max.words = 50, scale = c(3, 0.5))
+wordcloud(FOUR$text, max.words = 50, scale = c(3, 0.5))
+```
+
+Show the 5 most frequent words in the data:
+```{r}
+comment_sack <- TermDocumentMatrix(comments_corpus_clean)
+comment_pack <- as.matrix(comment_sack)
+comment_snack <- sort(rowSums(comment_pack), decreasing = TRUE)
+comment_hack <- data.frame(word = names(comment_snack), freq=comment_snack)
+head(comment_hack, 10)
+```
+
+And the 5 most frequent words from each class:
+```{r}
+wordcloud(ONE$text, max.words = 10, scale = c(3, 0.5))
+wordcloud(TWO$text, max.words = 10, scale = c(3, 0.5))
+wordcloud(THREE$text, max.words = 10, scale = c(3, 0.5))
+wordcloud(FOUR$text, max.words = 10, scale = c(3, 0.5))
+```
+
+####\  
+
+##Permutation Tests of Naive Bayes (NB) Method
+Version 1.0 correctly identifies comment subcategories ~79% of the time when using single words, and 68.3% of the time when using 2-grams. Permutations to test:
+
+*  Compare 2-grams, 3-grams rather than single words
+*  Make pair-wise comparisons versus comparing multiple groups simultaneously. 
+    +  Ex.: Basic vs. Not Basic (1_Basic vs. not 1_Basic)
+*  Modify the variables within the NB analysis itself. 
+    +  Laplace constant (Y/N), Cutoff value for words removed from list.
+*  Do/Do not stem the terms
+    +  This may remove evidence of tense
+*  Remove/Leave stopwords
+*  Remove/Leave capitalization
+*  Remove/Leave numbers
+    +  This may remove evidence of technical descriptors
+*  Remove/Leave punctuation
+    +  This may remove evidence of questions vs statements
+
+

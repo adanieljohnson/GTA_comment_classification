@@ -81,177 +81,151 @@ str(comments_raw$type)
 table(comments_raw$type)
 ```
 
+
+
+
+
+##PROBLEM
+The set.seed command can pull random lines from a data table, but does not work on a document term matrix. 
+
+```{r}
+set.seed(1234) 		# ensures the same random set gets picked each time.
+
+comments_raw_dtm_train <- sample_frac(comments_raw, .75)	# sample_frac pulls out 75% of "comments_raw" dataset randomly using the sample sequence identified by set.seed(1234)
+
+comments_raw_dtm_test <- setdiff(comments_raw, comments_raw_dtm_train)	#setdiff creates a "test" dataset using anything NOT in the "comments_raw_dtm_train" subset of "comments_raw."
+```
+
 Data set must be converted to a volative corpus using "tm" library then transformed.
 ```{r}
 #Create the volatile coprus that contains the "text" vector from data frame.
-comments_corpus <- VCorpus(VectorSource(comments_raw$text))
-print(comments_corpus)
+comments_corpus_train <- VCorpus(VectorSource(comments_raw_dtm_train$text))
+print(comments_corpus_train)
 
 #Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.
-inspect(comments_corpus[1:3])
+inspect(comments_corpus_train[1:3])
 
 #Use "as.character" function to see what a message looks like.
-as.character(comments_corpus[[3]])
+as.character(comments_corpus_train[[3]])
 ```
 
-The OPTIONAL data transforms using "tm_map"" and "content_transformer" functions. Switch between "{r}" and "{}" to turn a transformation block off or on.
+
+```{r}
+#Create the volatile coprus that contains the "text" vector from data frame.
+comments_corpus_test <- VCorpus(VectorSource(comments_raw_dtm_test$text))
+print(comments_corpus_test)
+
+#Check out the first few messages in the new corpus, which is basically a list that can be manipulated with list operations.
+inspect(comments_corpus_test[1:3])
+
+#Use "as.character" function to see what a message looks like.
+as.character(comments_corpus_test[[3]])
+```
+
+***
+***
+The OPTIONAL data transforms start here. They use "tm_map"" and "content_transformer" functions. Switch between "{r}" and "{}" to turn a transformation block off or on.
 ```{r}
 #Convert to all lower case letters.
-comments_corpus_clean <- tm_map(comments_corpus, content_transformer(tolower))
-```
-
-```{r}
-#Remove numerals. 
-#I am not sure this is beneficial; does it remove evidence indicating technical comments?
-comments_corpus_clean <- tm_map(comments_corpus_clean, removeNumbers)
-```
-
-```{r}
-#Stopword removal. 
-comments_corpus_clean <- tm_map(comments_corpus_clean, removeWords, stopwords())
+#Pretty standard conversion.
+comments_corpus_clean_train <- tm_map(comments_corpus_train, content_transformer(tolower))
+comments_corpus_clean_test <- tm_map(comments_corpus_test, content_transformer(tolower))
 ```
 
 ```{r}
 #Remove punctuation using the "removePunctuation" function. 
 #This step removes evidence of questions, so may remove data.
-comments_corpus_clean <- tm_map(comments_corpus_clean, removePunctuation)
+comments_corpus_clean_train <- tm_map(comments_corpus_clean_train, removePunctuation)
+comments_corpus_clean_test <- tm_map(comments_corpus_clean_test, removePunctuation)
 ```
 
-```{r}
+
+
+```{}
+#Remove numerals. 
+#I am not sure this is beneficial; does it remove evidence indicating technical comments?
+comments_corpus_clean <- tm_map(comments_corpus_clean, removeNumbers)
+```
+
+```{}
+#Stopword removal. 
+#Can be refined by altering what reference file is used.
+comments_corpus_clean <- tm_map(comments_corpus_clean, removeWords, stopwords())
+```
+
+```{}
 #Stemming the text data to strip the suffix from words. 
 #My thinking is that stemming removes valuable tense data.I am unsure how valuable it is.
+#Alternative is using part-of-speech tagging and lemmatization instead.
 
 comments_corpus_clean <- tm_map(comments_corpus_clean, stemDocument)
 ```
 
-Final prep and data check.
+Final prep and data check for training set.
 ```{r}
 #Final step removes white space from the document. This is NOT an optional step.
-comments_corpus_clean <- tm_map(comments_corpus_clean, stripWhitespace)
+comments_corpus_clean_train <- tm_map(comments_corpus_clean_train, stripWhitespace)
 
 #Look at an example of data.
-as.character((comments_corpus_clean[[3]]))
+as.character((comments_corpus_clean_train[[3]]))
 ```
 
+
+Final prep and data check for testing set.
+```{r}
+#Final step removes white space from the document. This is NOT an optional step.
+comments_corpus_clean_test <- tm_map(comments_corpus_clean_test, stripWhitespace)
+
+#Look at an example of data.
+as.character((comments_corpus_clean_test[[3]]))
+```
 ####\  
 
-###Basic Tokenizer
-This version uses the "DocumentTermMatrix" function to creates a matrix in which the rows indicate individual documents (individual TA comments) and the columns indicate presence or absence of the word that is the header for the column. Be careful not to confuse it with "TermDocumentMatrix", which transposes the matrix.
-
-"DocumentTermMaxtrix" function also can perform all of the text prep above in one command. 
-
-```{r}
-comments_corpus_1gram <- DocumentTermMatrix(comments_corpus_clean)
-comments_corpus_1gram_tidy <- tidy(comments_corpus_1gram)
-inspect(comments_corpus_1gram)
-```
-
-####\  
-
-###Data Preparation
-Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. 
-```{r}
-.75 * 9340 #Number of documents/rows in the dataset; product is #rows for training
-.25 * 9340 #Product is #rows for testing set
-```
-
-This code assumes comments are random. **Probably want to try randomizing them.**
-```{r}
-comments_dtm_train <- comments_corpus_1gram[1:7005, ]
-comments_dtm_test <- comments_corpus_1gram[7006:9340, ]
-```
-
-Save vectors labeling rows in the training and testing vectors
-```{r}
-comments_train_labels <- comments_raw[1:7005, ]$type
-comments_test_labels <- comments_raw[7006:9340,]$type
-```
-
-Make sure that the proportion of each sub-category is similar in the training and testing data set.
-```{r}
-prop.table(table(comments_train_labels))
-prop.table(table(comments_test_labels))
-```
-
-####\  
-
-###Preparation for Naive Bayes
-Remove words from the matrix that appear less than 5 times.
-```{r}
-comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
-str(comments_freq_words)
-```
-
-Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.
-```{r}
-comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
-comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
-```
-
-The naive bayes classifier works with categorical features, so we need to convert the matrix to "yes" and "no" categorical variables. To do this we'll build a convert_counts function and apply it to our data.
-```{r}
-convert_counts2 <- function(x) {
-  x <- ifelse(x > 0, "Yes", "No")
-}
-```
-
-This replaces values greater than 0 with yes, and values not greater than 0 with no. Let's apply it to our data.
-```{r}
-comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
-comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
-```
-
-The resulting matrixes will be character type, with cells indicating "yes" or "no" if the word represented by the column appears in the message represented by the row.
-
-####\  
-
-###Train Model, Predict, Evaluate
-Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group ONE, TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.
-```{r}
-comments_classifier <- naiveBayes(comments_train, comments_train_labels)
-comments_test_pred <- predict(comments_classifier, comments_test)
-CrossTable(comments_test_pred, comments_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
-```
-
-Calculate overall correct prediction rate.
-```{r}
-(42+449+1185+186)/23.35
-```
-
-***
 ##Modified Naive Bayes (NB) Method Using N-grams
-The tokenizer command block above only works when using single words. The block below is an alternative method that uses tm's NLP commands to generate either 1-, 2-, or 3-grams with the same command. The only change needed is "#" in "(words(x), #)" below. For simplicity I left off all of the preparatory code up leading up to the final cleaned corpus.
+The tokenizer command block below uses tm's NLP commands to generate either 1-, 2-, or 3-grams with the same command. The only change needed is "#" in "(words(x), #)" below.
 
 ```{r}
 NLP_Tokenizer <- function(x) {
-      unlist(lapply(ngrams(words(x), 2), paste, collapse = " "), use.names = FALSE)
+      unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
 }
 
-comments_dtm_2gram <- DocumentTermMatrix(comments_corpus_clean, control=list(tokenize = NLP_Tokenizer))
-comments_dtm_2gram_tidy <- tidy(comments_dtm_2gram)
-inspect(comments_dtm_2gram)
+comments_dtm_ngram_train <- DocumentTermMatrix(comments_corpus_clean_train, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_ngram_train_tidy <- tidy(comments_dtm_ngram_train)
+inspect(comments_dtm_ngram_train)
+```
+
+
+```{r}
+NLP_Tokenizer <- function(x) {
+      unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
+}
+
+comments_dtm_ngram_test <- DocumentTermMatrix(comments_corpus_clean_test, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_ngram_test_tidy <- tidy(comments_dtm_ngram_test)
+inspect(comments_dtm_ngram_test)
 ```
 
 ####\  
 
 ###Data Preparation
-Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. 
 
 ```{r}
-.75 * 9340 #Number of rows in the dataset; product is #rows for training
-.25 * 9340 #Product is #rows for testing set
-```
-
-This code assumes comments are random. **Probably want to try randomizing them.**
-```{r}
-comments_dtm_train <- comments_dtm_2gram[1:7005, ]
-comments_dtm_test <- comments_dtm_2gram[7006:9340, ]
+#comments_dtm_train <- comments_dtm_ngram_train
+#comments_dtm_test <- comments_dtm_ngram_test
+print("Train")
+glimpse(comments_dtm_ngram_train)
+print("Test")
+glimpse(comments_dtm_ngram_test)
 ```
 
 Save vectors labeling rows in the training and testing vectors
 ```{r}
-comments_train_labels <- comments_raw[1:7005, ]$type
-comments_test_labels <- comments_raw[7006:9340,]$type
+comments_train_labels <- comments_raw_dtm_train$type
+comments_test_labels <- comments_raw_dtm_test$type
+print("Train")
+glimpse(comments_train_labels)
+print("Test")
+glimpse(comments_test_labels)
 ```
 
 Make sure that the proportion of each sub-category is similar in the training and testing data set.
@@ -263,16 +237,23 @@ prop.table(table(comments_test_labels))
 ####\  
 
 ###Preparation for Naive Bayes
-Remove words from the matrix that appear less than 5 times.
+Remove words from the training matrix that appear less than 5 times.
 ```{r}
-comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
-str(comments_freq_words)
+comments_freq_words_train <- findFreqTerms(comments_dtm_ngram_train, 5)
+str(comments_freq_words_train)
 ```
+
+Remove words from the test matrix that appear less than 5 times.
+```{r}
+comments_freq_words_test <- findFreqTerms(comments_dtm_ngram_test, 5)
+str(comments_freq_words_test)
+```
+
 
 Limit our Document Term Matrix to only include words in the sms_freq_vector. We want all the rows, but we want to limit the column to these words in the frequency vector.
 ```{r}
-comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
-comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
+comments_dtm_freq_train <- comments_dtm_ngram_train[ , comments_freq_words_train]
+comments_dtm_freq_test <- comments_dtm_ngram_test[ , comments_freq_words_test]
 ```
 
 The naive bayes classifier works with categorical features, so we need to convert the matrix to "yes" and "no" categorical variables. To do this we'll build a convert_counts function and apply it to our data.
@@ -286,6 +267,10 @@ This replaces values greater than 0 with yes, and values not greater than 0 with
 ```{r}
 comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
 comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
+print("Train")
+glimpse(comments_train)
+print("Test")
+glimpse(comments_test)
 ```
 
 The resulting matrixes will be character type, with cells indicating "yes" or "no" if the word represented by the column appears in the message represented by the row.
@@ -294,16 +279,24 @@ The resulting matrixes will be character type, with cells indicating "yes" or "n
 
 ###Train Model, Predict, Evaluate
 Use the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group ONE, TWO, THREE, or FOUR. Evaluate the prediction with the actual data using a crosstable from the gmodels package.
+
+***
+Here is where it breaks. It generates the comparison data (Step 1) and I can glimpse all the inputs and first output (see prior blocks). I just cannot run the prediction builder step. I keep getting:
+
+```
+Error in `[[<-.data.frame`(`*tmp*`, i, value = integer(0)) : 
+  replacement has 0 rows, data has 1946
+```
+
+
 ```{r}
 comments_classifier <- naiveBayes(comments_train, comments_train_labels)
+
 comments_test_pred <- predict(comments_classifier, comments_test)
-CrossTable(comments_test_pred, comments_test_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+
+CrossTable(comments_test_pred, comments_train_labels, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
 ```
 
-
-```{r}
-(34+214+1254+94)/23.35
-```
 
 ***
 ***

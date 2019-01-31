@@ -83,7 +83,7 @@ library(scales)
 ```{r}
 #This block reads in the full CSV into a starting dataframe named "base_data".
 #Subsequent analyses call in subsets of "base_data".
-base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anon.csv')
+base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVERB.csv')
 
 #If dataset imports correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the **Data Pre-Checks** table above.
 ```
@@ -156,7 +156,7 @@ For simplicity I reduced my analysis to just the four most common comment subjec
 
 ```{r}
 # Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
-frequency_writing <- filter(base_data, code.subject=="2. Writing Quality"|code.subject=="3. Technical and Scientific"|code.subject=="4. Logic and Thinking")
+frequency_writing <- filter(base_data, code.subject=="2_Writing"|code.subject=="3_Technical"|code.subject=="4_Logic")
 frequency_writing.subcolumns <- frequency_writing %>% select(1, 22:23)
 
 # Tokenize phrases, remove stop words listed in standard reference file.

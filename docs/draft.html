@@ -352,12 +352,12 @@ div.tocify {
 </div>
 <div id="deeper-text-analysis" class="section level2">
 <h2>Deeper Text Analysis</h2>
-<p>These linked pages summarize work to date on each method.</p>
+<p>These linked pages summarize work to date on individual methods.</p>
 <ul>
 <li>Naive Bayes: <a href="https://adanieljohnson.github.io/default_website/Naive_bayes.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayes.html</a></li>
-<li>Random Forest (link)</li>
-<li>Latent Dirichlet Allocation (link)</li>
-<li>Etc. (link)</li>
+<li>To Be Decided #1. (link)</li>
+<li>To Be Decided #2. (link)</li>
+<li>To Be Decided #3. (link)</li>
 <li>Etc. (link)</li>
 </ul>
 <div id="section" class="section level4">
@@ -367,7 +367,7 @@ div.tocify {
 </div>
 <div id="initial-dataset" class="section level1">
 <h1>Initial Dataset</h1>
-<p>My working dataset is an Excel table of 10,808 rows. One column has “TA comments” extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
+<p>The development dataset is an Excel table of 10,808 rows. One column has “TA comments” extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
 <p>Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings.</p>
 <div id="section-1" class="section level4">
 <h4> </h4>
@@ -378,11 +378,11 @@ div.tocify {
 </div>
 <div id="data-pre-checks" class="section level1">
 <h1>Data Pre-Checks</h1>
-<p>Prior to import, review data table in Excel. Check:</p>
+<p>Prior to import, review data table <strong>in Excel</strong>. Check:</p>
 <ol style="list-style-type: decimal">
 <li>Vocabulary terms used in coding columns matches criteria in “codebook_for_comments.rmd”</li>
 <li>Data have been de-identified and recoded using pre-assigned anonymous IDs.</li>
-<li>Data table headers are in snake_case, and match tabulated list below. The same list is in the file “code_column_names.rmd”</li>
+<li>Data table headers match those listed below. The same list is in the file “code_column_names.rmd”</li>
 </ol>
 <table>
 <thead>
@@ -517,6 +517,32 @@ subject&lt;-unique(base_data$code.subject)
 
 #Check that the list of &quot;code.structure&quot; terms extracted from the dataset and displayed here matches allowed terms in codebook.
 structure&lt;-unique(base_data$code.structure)</code></pre>
+<p>For recoding comment labels, I am considering recoding <strong>comment.subject</strong> as:</p>
+<pre><code>0_null
+1_basic
+2_writing
+3_technical
+4_logic
+5_exposition
+6_misconduct
+7_administrative
+8_nobasis
+9_split
+10_context
+11_flag
+12_narrative
+13_sciname</code></pre>
+<p>Recoding <strong>comment.structure</strong> as:</p>
+<pre><code>0_null
+1_pointer
+2_copyedit
+3_general
+4_specific
+5_rationale
+6_holistic
+7_idiomatic
+8_nobasis</code></pre>
+<p>Any obvious problems with these?</p>
 <div id="section-4" class="section level4">
 <h4> </h4>
 </div>
@@ -543,7 +569,7 @@ base_data_tokenized &lt;- frequency_writing.subcolumns %&gt;%
 #At this point the dataframe should have &quot;Unique.Record&quot; in column 1, &quot;code.subject&quot; in column 2, and the unnested &quot;word&quot; in column 3. All columns are class = &quot;character&quot;. Stop words listed in the &quot;stop_words&quot; R reference data file have been removed.</code></pre>
 <div id="comparing-pearson-correlations-of-word-frequencies" class="section level4">
 <h4>Comparing Pearson Correlations of Word Frequencies</h4>
-<p>If the words used by TAs in their comments differ between the categories, there should be fairly low correlations overall .</p>
+<p>If the words used by TAs in their comments differ between the categories, there should be fairly low correlations overall.</p>
 <pre class="r"><code>#Block below re-organizes the data for comparisons. This pattern sets &quot;2. Writing Quality&quot; as the first dataset, then all other data in remaining columns.
 #Groups by code.subject, calculated proportional frequency in each group.
 #Final step creates 4 columns: word, 2. Writing Quality, code.subject, proportion
@@ -770,7 +796,7 @@ word_ratios2v4 %&gt;%
 <p>I think this is less informative, but it does let me see the data more clearly.</p>
 <p>Basic strategy is to take all comments from base_data, unnest tokens, filter stopwords, count and sort remaining terms, then write back to a new datatable called ‘sortedwords.comments.all’. Calculate TOTAL words and store. Then calculate fractional frequencies for each word and store using mutate.</p>
 <p>I wrote this block so that, once CSV is imported, it does not require any of the code above. This is an early effort, so likely has some poorly developed code that could be refactored.</p>
-<pre><code># Call in tidyverse, other required libraries.
+<pre class="r"><code># Call in tidyverse, other required libraries.
 library(tidyverse)
 library(tidytext)
 library(dplyr)
@@ -904,21 +930,21 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-16-2.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-16-3.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
 <p>Graphs 4-6 are pair-wise comparisons of frequencies for sub-categories. Unlike the comparisons to overall frequency, most words are NOT clustered along the trendline, suggesting there are greater differences in word usage frequencies.</p>
 <pre class="r"><code>ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
@@ -926,21 +952,21 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-17-2.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-18-2.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="draft_files/figure-html/unnamed-chunk-17-3.png" width="672" /></p>
+<p><img src="draft_files/figure-html/unnamed-chunk-18-3.png" width="672" /></p>
 <div id="section-7" class="section level4">
 <h4> </h4>
 </div>
