@@ -24,7 +24,13 @@ This page describes to date on:
 ##Deeper Text Analysis
 These linked pages summarize work to date on individual methods.
 
-*  Naive Bayes: https://adanieljohnson.github.io/default_website/Naive_bayes.html
+Naive Bayes
+
+*  Baseline Method: https://adanieljohnson.github.io/default_website/Naive_bayesV2b.html
+*  Randomization Method: https://adanieljohnson.github.io/default_website/Naive_bayesV2r.html
+*  In/Outgroup Binning: https://adanieljohnson.github.io/default_website/Naive_bayesV2yn.html
+*  In/Outgroup Binning: https://adanieljohnson.github.io/default_website/Naive_bayes_Smry.html
+
 *  To Be Decided #1. (link)
 *  To Be Decided #2. (link)
 *  To Be Decided #3. (link)
