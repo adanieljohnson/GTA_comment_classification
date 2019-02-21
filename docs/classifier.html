@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+<meta name="author" content="Dan Johnson" />
+
+<meta name="date" content="2018-12-17" />
+
+<title>Classifier Development</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analyzing TA Comments in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="background.html">
+    <span class="fa fa-history"></span>
+     
+    Background
+  </a>
+</li>
+<li>
+  <a href="initial_exploration.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Data Exploration
+  </a>
+</li>
+<li>
+  <a href="classifier.html">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    Classifier
+  </a>
+</li>
+<li>
+  <a href="findings.html">
+    <span class="fa fa-chart-bar"></span>
+     
+    Findings
+  </a>
+</li>
+<li>
+  <a href="nextsteps.html">
+    <span class="fa fa-shoe-prints"></span>
+     
+    Next Steps
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Classifier Development</h1>
+<h4 class="author"><em>Dan Johnson</em></h4>
+<h4 class="date"><em>12/17/2018</em></h4>
+
+</div>
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>This page has three sections. <strong>Part 1</strong> describes the target dataset for this project. <strong>Part 2</strong> outlines the data pre-checks and import process. <strong>Part 3</strong> describes post-import validation developed for the target dataset, and how selected elements within the dataset are recoded for analysis.</p>
+<p>Initial visual exploration of the dataset is described here: <a href="https://adanieljohnson.github.io/default_website/initial_exploration.html" class="uri">https://adanieljohnson.github.io/default_website/initial_exploration.html</a></p>
+<p>These linked pages summarize work to date using categorical Naive Bayes as the text classification method. They provided a baseline from which I am evaluating other approaches.</p>
+<ul>
+<li>Baseline Method: <a href="https://adanieljohnson.github.io/default_website/Naive_bayesV2b.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayesV2b.html</a></li>
+<li>Randomization Method: <a href="https://adanieljohnson.github.io/default_website/Naive_bayesV2r.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayesV2r.html</a></li>
+<li>In/Outgroup Binning: <a href="https://adanieljohnson.github.io/default_website/Naive_bayesV2yn.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayesV2yn.html</a></li>
+<li>In/Outgroup Binning: <a href="https://adanieljohnson.github.io/default_website/Naive_bayes_Smry.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayes_Smry.html</a></li>
+</ul>
+<p>Other pages provide the theoretical background for the selected methods. Each deeper analysis method is described in detail on its own separate page. These are listed on the <strong>[LINK] Project Outline</strong> page.</p>
+<div id="section" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="part-1.-initial-dataset" class="section level1">
+<h1>Part 1. Initial Dataset</h1>
+<p>The development dataset is an Excel table of 10,808 rows. One column has “TA comments” extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
+<p>Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings <strong>[LINK]</strong>.</p>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="part-2.-data-pre-checks" class="section level1">
+<h1>Part 2. Data Pre-Checks</h1>
+<p>Prior to import, review the data table <strong>in Excel</strong>; check that:</p>
+<ol style="list-style-type: decimal">
+<li>Student and TA names have been recoded using pre-assigned anonymous IDs.</li>
+<li>Vocabulary terms used in coding columns matches criteria in “codebook_for_comments.rmd”</li>
+<li>Data table headers match those listed below. The same list is in the file “code_column_names.rmd”</li>
+</ol>
+<table style="width:83%;">
+<colgroup>
+<col width="18%" />
+<col width="31%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column Number</th>
+<th>Column Name</th>
+<th>Accepted Values or Format</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>unique.record</td>
+<td>Sp18.00001 (semester and year, then order in dataset)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>report.id</td>
+<td>R_0fanqHFhaY2yLT7 or similar</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>sort</td>
+<td>remnant of coding</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>report.title (empty)</td>
+<td>string</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>student</td>
+<td>Std_drVZ2x1W (format is Std_nnn)</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>course</td>
+<td>113, 114, or 214</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>ta</td>
+<td>TA_bc8EVX09 (format is TA_nnn)</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>lab</td>
+<td>113: allocation, betta; 114: manduca, frog; 214: enzymes (old) photosynthesis, physarum, cyanophage (new)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>tag</td>
+<td>first, second</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>type.TA</td>
+<td>submission, revision</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>grade.TA</td>
+<td>A, B, C, F</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>grading.time</td>
+<td>time in minutes</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>Rank</td>
+<td>remnant of coding</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>hypothesis.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>data.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>citation.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>interpretation.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>organization.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>techflaws.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>writing.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>comments.incorporated</td>
+<td>Yes, Somewhat, No</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>ta.comment</td>
+<td>text string</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td>code.subject</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>code.structure</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>code.locus</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="even">
+<td>26</td>
+<td>code.scope</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="odd">
+<td>27</td>
+<td>code.tone</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td>code.notes</td>
+<td>values in Ref. Tables</td>
+</tr>
+</tbody>
+</table>
+<p>Once all data are in correct format, export Excel file to CSV with name formatted as <strong>“coded_full_comments_dataset_SemYear.csv”</strong></p>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+<div id="initial-library-and-data-import" class="section level2">
+<h2>Initial Library and Data Import</h2>
+<pre class="r"><code># Call in tidyverse, other required libraries.
+library(tidyverse)
+library(tidytext)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)</code></pre>
+<pre class="r"><code>#This block reads in full CSV into a starting dataframe named &quot;base_data&quot;.
+#Subsequent analyses are performed on extracted subsets of &quot;base_data&quot;.
+base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anonVERB.csv&#39;)</code></pre>
+<p>If dataset imports correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the <strong>Data Pre-Checks</strong> table above.</p>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+</div>
+</div>
+<div id="part-3.-post-import-checks" class="section level1">
+<h1>Part 3. Post-Import Checks</h1>
+<p>Given some data points may be entered incorrectly by instructors or students, these post-import data checks help ensure data have been properly coded and columns contain valid entries only. (This process can be automated using the <code>janitor</code> data cleaning package.)</p>
+<pre class="r"><code>#&quot;Course&quot; column should only have entries that correspond to 113, 114, 214, NA. 
+course&lt;-unique(base_data$course)
+
+#Entries in &quot;TAs&quot; column should match the anonymous IDs that correspond to the TAs assigned to the relevant courses in the semester being analyzed. 
+#If there are incorrect or extra anonymous IDs in this list, the mostly likely source of the error is improper de-identification of the Excel file prior to import.
+ta&lt;-unique(base_data$ta)
+
+#&quot;Lab&quot; should only have entries that match the allowed limited keywords in codebook.
+lab&lt;-unique(base_data$lab)
+
+#It is impractical to validate all randomized identifiers. Instead look at the NUMBER of unique anonymous student IDs. Quantity should be within 10% of (but not more than) the combined enrollment of the 3 target courses for the semester.
+student&lt;-unique(base_data$student)
+
+#Check that the list of &quot;code.subject&quot; topics here matches allowed terms in codebook.
+subject&lt;-unique(base_data$code.subject)
+
+#Check that the list of &quot;code.structure&quot; terms extracted from the dataset and displayed here matches allowed terms in codebook.
+structure&lt;-unique(base_data$code.structure)</code></pre>
+<div id="section-4" class="section level4">
+<h4> </h4>
+</div>
+<div id="post-import-processing" class="section level2">
+<h2>Post-Import Processing</h2>
+<p>Comment labels used in the project codebook contain punctuation and spacing that complicates subsequent analysis. Rather than modify the project codebook or external processes, it is simpler to recode the problematic labels after import. For example, the following code extracts a subset of rows from the full dataset, reduces those to 3 columns, and renames the <strong>comment.subject</strong> column as <strong>subject</strong>. Four problematic code labels in the subject column are replaced with simpler terms.</p>
+<pre class="r"><code>#Read in TA comments from CSV file.
+base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon.csv&#39;)
+
+#Select rows representing the sub-groups to compare. 
+comments_subset &lt;- filter(base_data,code.subject==&quot;1. Basic Criteria&quot;|code.subject==&quot;2. Writing Quality&quot;|code.subject==&quot;3. Technical and Scientific&quot;|code.subject==&quot;4. Logic and Thinking&quot;)
+
+#Reduce larger dataframe to 3 required columns of data (subject, structure, and text of comment), and put columns in order needed.
+comments_raw &lt;- comments_subset %&gt;% select(23,24,22)
+
+#Rename the columns.
+names(comments_raw)[1] &lt;- &quot;subject&quot;
+names(comments_raw)[2] &lt;- &quot;structure&quot;
+names(comments_raw)[3] &lt;- &quot;text&quot;
+
+#Simplify coding terms used in &quot;subject&quot; column.
+comments_raw[,1] &lt;- ifelse(comments_raw[,1] == &quot;1. Basic Criteria&quot;,&quot;1_basic&quot;, ifelse(comments_raw[,1] == &quot;2. Writing Quality&quot;,&quot;2_writing&quot;, ifelse(comments_raw[,1] == &quot;3. Technical and Scientific&quot;,&quot;3_technical&quot;, ifelse(comments_raw[,1] == &quot;4. Logic and Thinking&quot;,&quot;4_logic&quot;,99))))
+
+#Change &quot;subject&quot; element from character to a factor for analysis.
+comments_raw$subject &lt;- factor(comments_raw$subject)
+str(comments_raw$subject)</code></pre>
+<pre><code>##  Factor w/ 4 levels &quot;1_basic&quot;,&quot;2_writing&quot;,..: 3 2 3 3 3 3 4 4 4 3 ...</code></pre>
+<pre class="r"><code>table(comments_raw$subject)</code></pre>
+<pre><code>## 
+##     1_basic   2_writing 3_technical     4_logic 
+##         211        2578        5409        1142</code></pre>
+<p>Most in-depth analyses will have a similar extraction and post-processing code block. In practice, it has proven easier to modify the post-processing code than to maintain multiple separate copies of the original CSV dataset for the different analyses.</p>
+</div>
+</div>
+
+<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

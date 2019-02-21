@@ -1,0 +1,428 @@
+---
+title: "Naive Bayes Analysis Ver 2r.2c"
+author: "Dan Johnson"
+date: "2/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Summary
+This workflow uses Naive Bayes to classify TA comments based on Subject and Structure. The major additions and revisions in **Version 2r.2c** are:
+
+*  Randomly selected data rows used for training and test datasets. 
+*  Final output matrix tables are more informative. 
+*  Addition of a back-analysis of entire dataset, not just testing sub-set.
+*  Final output CSV file is a tidy data table of the original comments, the hand-scored and predicted subject, and hand-scored and predicted structure. 
+
+####\  
+
+##Initial Setup
+Calling the required libraries.
+
+```{r libraries}
+library(tidyverse)
+library(tm)
+library(tidytext)
+library(e1071)
+library(caret)
+
+#library(RTextTools)
+#library(doMC)
+#registerDoMC(core=detectCores())
+#library(tidyr)
+#library(dplyr)
+#library(gmodels)
+```
+
+####\  
+
+##Version 2.0.r of Naive Bayes (NB) Protocol
+###Initial Data Input
+```{r data_input}
+#Read in TA comments from CSV file.
+base_dataVERB <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVERB.csv')
+```
+
+###Extract, Organize Data Subset
+Extract comments and classification data as subsets of CSV.
+```{r data_subsetting}
+#Select rows representing the sub-groups to compare. 
+comments_subsetVERB <- filter(base_dataVERB,code.subject=="1_basic"|code.subject=="2_writing"|code.subject=="3_technical"|code.subject=="4_logic")
+
+#Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
+comments_rawVERB <- comments_subsetVERB %>% select(23,24,22)
+
+#Rename the columns.
+names(comments_rawVERB)[1] <- "subject"
+names(comments_rawVERB)[2] <- "structure"
+names(comments_rawVERB)[3] <- "text"
+
+#Change "subject" element from character to a factor for analysis.
+comments_rawVERB$subject <- factor(comments_rawVERB$subject)
+str(comments_rawVERB$subject)
+table(comments_rawVERB$subject)
+
+#Change "structure" element from character to a factor for analysis.
+comments_rawVERB$structure <- factor(comments_rawVERB$structure)
+str(comments_rawVERB$structure)
+table(comments_rawVERB$structure)
+```
+
+```{r randomizer}
+#Generates a reproducible vector of ~10,000 randomly assorted numbers using set.seed 
+#Adjust the number so it matches the number of rows in the original data frame
+#Next, set the seed for random numbers, and randomize the order of the vector
+vector <- 1:9340 #second value must match number of rows in working dataset
+set.seed(123) #change this seed value, and the data are randomized in a new sequence.
+vector <- sample(vector)
+glimpse(vector)
+
+#Append the vector as a new column to "comments_rawVERB" with name "randomizer"
+#Sort rows of dataframe according to "randomizer" column using dplyer 'arrange' function. 
+comments_rawVERB$randomizer <- c(vector)
+comments_rawVERB_R <-comments_rawVERB %>% arrange(randomizer)
+print(comments_rawVERB_R)
+```
+
+```{r corpusmaker}
+#Convert data set to a volative corpus using "tm" library.
+#Create the volatile corpus that contains the "text" vector from data frame.
+comments_corpusVERB_R <- VCorpus(VectorSource(comments_rawVERB_R$text))
+print(comments_corpusVERB_R)
+
+#Check out the first few text comments in the new corpus, which is basically a list that can be manipulated with list operations.
+inspect(comments_corpusVERB_R[1:3])
+
+#Use "as.character" function to see what a single text comment looks like.
+as.character(comments_corpusVERB_R[[5]])
+```
+
+###Text Data Transformations
+The text data transforms are separated out as individual "tm_map"" and "content_transformer" functions to simplify the process of testing various combinations. Conversion to lower case and removing punctuation are the baseline set. Switch between "{r}" and "{}" to turn the other transformation blocks off or on. Removing extra white spaces must be the last transformation, and is required.
+
+```{r textcleanup}
+#Convert text to all lower case letters.
+comments_corpus_cleanVERB_R <- tm_map(comments_corpusVERB_R, content_transformer(tolower))
+
+#Remove punctuation using the "removePunctuation" function. 
+#This step removes evidence of questions, so may remove data.
+#THIS ALSO REMOVES EVIDENCE OF POINTER ITEMS
+comments_corpus_cleanVERB_R <- tm_map(comments_corpus_cleanVERB_R, removePunctuation)
+
+#Remove numerals. 
+#This step may remove evidence indicating technical comments
+comments_corpus_cleanVERB_R <- tm_map(comments_corpus_cleanVERB_R, removeNumbers)
+
+#Stopword removal. 
+#This is a standard cleanup step, but again may remove useful terms.
+#The "stopwords" file is a convention; other files can be substituted for it
+comments_corpus_cleanVERB_R <- tm_map(comments_corpus_cleanVERB_R, removeWords, stopwords())
+
+#The option to apply stemming has been removed from this version.
+
+#Final step removes white space from the document. This is NOT an optional step.
+comments_corpus_cleanVERB_R <- tm_map(comments_corpus_cleanVERB_R, stripWhitespace)
+
+#Look at an example of cleaned text comment to see if it fits what is expected.
+as.character((comments_corpus_cleanVERB_R[[5]]))
+```
+
+####\  
+
+##Basic Naive Bayes (NB) Method Using N-grams
+This code block uses tm's NLP commands. The same block can be used to assess 1-, 2-, or 3-grams by modifying the "#" variable in "(words(x), #)". 
+
+```{r tokenizer}
+NLP_Tokenizer <- function(x) {
+      unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
+}
+
+comments_dtm_1gram <- DocumentTermMatrix(comments_corpus_cleanVERB_R, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_1gram_tidy <- tidy(comments_dtm_1gram)
+inspect(comments_dtm_1gram)
+```
+
+####\  
+
+###Data Splitting
+Split data into 75% training and 25% testing sets, so that after Naive Bayes spam filter algorithm is built it can be applied to unseen data. 
+
+```{}
+#This is for convenience. It is not required if the number of training, test rows is known.
+.75 * 9340 #Number of rows in the dataset; product is #rows for training
+.25 * 9340 #Product is #rows for testing set
+```
+
+This code divides the previously randomized comments into training, testing, and re-analysis subsets of data.
+```{r divider}
+comments_dtm_all <- comments_dtm_1gram[1:9340, ]
+comments_dtm_train <- comments_dtm_1gram[1:7005, ]
+comments_dtm_test <- comments_dtm_1gram[7006:9340, ]
+```
+
+Saves 2 vectors that label the rows in the training and testing vectors
+```{r labeler}
+comments_all_labels_subject <- comments_rawVERB_R[1:9340,]$subject
+comments_train_labels_subject <- comments_rawVERB_R[1:7005, ]$subject
+comments_test_labels_subject <- comments_rawVERB_R[7006:9340,]$subject
+
+comments_all_labels_structure <- comments_rawVERB_R[1:9340,]$structure
+comments_train_labels_structure <- comments_rawVERB_R[1:7005, ]$structure
+comments_test_labels_structure <- comments_rawVERB_R[7006:9340,]$structure
+```
+
+The proportion of each sub-category should be similar (<1% difference) between the full dataset, and training and testing data subsets.
+```{r proportion_check}
+prop.table(table(comments_all_labels_subject))
+prop.table(table(comments_train_labels_subject))
+prop.table(table(comments_test_labels_subject))
+
+prop.table(table(comments_all_labels_structure))
+prop.table(table(comments_train_labels_structure))
+prop.table(table(comments_test_labels_structure))
+```
+
+####\  
+
+###Preparation for Naive Bayes
+Remove words from the matrix that appear less than 5 times.
+```{r common_words}
+comments_freq_words <- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)
+```
+
+Limit Document Term Matrix to only include words in the comments_freq_words vector. Using all the rows, but we want to limit the columns to these words in the frequency vector.
+```{r limit_dtm}
+comments_dtm_freq_all <- comments_dtm_all[ , comments_freq_words]
+comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
+```
+
+The basic e1071 naive bayes classifier works with categorical features, so the matrix must be converted "yes" and "no" categorical variables. This is done using a **convert_counts function** and applying it to the data. This replaces values greater than 0 with yes, and values not greater than 0 with no. 
+```{r convert_function}
+convert_counts2 <- function(x) {
+  x <- ifelse(x > 0, "Yes", "No")
+}
+```
+
+The resulting matrices have cells indicating "yes" or "no" if the word represented by the column appears in the text comment represented by the row.
+
+```{}
+# Function to KEEP word frequencies while still using the same variable names and code structure. The resulting matrices have cells with word frequencies instead.
+convert_counts2 <- function(x) {
+  y <- x
+}
+```
+
+
+
+```{r make_binary}
+comments_all <- apply(comments_dtm_freq_all, MARGIN = 2, convert_counts2)
+comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
+```
+
+####\  
+
+###Train Model, Predict, Evaluate for Subject
+This block uses the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. It evaluates the prediction with the actual data using a crosstable from the gmodels package.
+```{r bayes_training}
+comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
+comments_test_pred_subject <- predict(comments_classifier_subject, comments_test)
+comments_all_pred_subject <- predict(comments_classifier_subject, comments_all)
+
+comments_classifier_structure <- naiveBayes(comments_train, comments_train_labels_structure, laplace=1)
+comments_test_pred_structure <- predict(comments_classifier_structure, comments_test)
+comments_all_pred_structure <- predict(comments_classifier_structure, comments_all)
+
+
+# Create a truth table by tabulating the predicted class labels with the actual class labels 
+table("Predictions"= comments_test_pred_subject,  "Actual Subject Test" = comments_test_labels_subject )
+table("Predictions"= comments_all_pred_subject,  "Actual Subject All" = comments_all_labels_subject )
+table("Predictions"= comments_test_pred_structure,  "Actual Structure Test" = comments_test_labels_structure )
+table("Predictions"= comments_all_pred_structure,  "Actual Structure All" = comments_all_labels_structure )
+
+#The truth table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting subject. this is what the confusion matrix calculates. The faster way is to calculate a confusion matrix, which includes BOTH the truth table, and the final overall accuracy.
+
+#The Cross Table command below (from "gmodels") generates a more detailed output table with frequency values for each individual cell.
+#CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+```
+
+
+```{r reportOut}
+#"line" is just a spacer text for readability.
+line<-("**************************************************************")
+
+# Prepare the confusion matrix. 
+conf.mat1 <- confusionMatrix(comments_test_pred_subject, comments_test_labels_subject)
+conf.mat2 <- confusionMatrix(comments_all_pred_subject, comments_all_labels_subject)
+conf.mat3 <- confusionMatrix(comments_test_pred_structure, comments_test_labels_structure)
+conf.mat4 <- confusionMatrix(comments_all_pred_structure, comments_all_labels_structure)
+
+
+# This print-out has both the overall and by-group accuracy values.
+conf.mat1
+print (line)
+print ("Test, Subject")
+# This print-out has by-group accuracy values in a single column. 
+conf.mat1$byClass
+print (line)
+print ("Test, Subject")
+
+# This print-out is a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value.
+conf.mat1$overall
+print (line)
+print ("Test, Subject")
+
+# This outputs JUST the overall accuracy value. 
+conf.mat1$overall['Accuracy']
+print ("Test, Subject")
+
+# This print-out has both the overall and by-group accuracy values.
+conf.mat2
+print (line)
+print ("All, Subject")
+
+# This print-out has by-group accuracy values in a single column. 
+conf.mat2$byClass
+print (line)
+print ("All, Subject")
+
+# This print-out is a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value.
+conf.mat2$overall
+print (line)
+print ("All, Subject")
+
+# This outputs JUST the overall accuracy value. 
+conf.mat2$overall['Accuracy']
+print ("All, Subject")
+
+
+# This print-out has both the overall and by-group accuracy values.
+conf.mat3
+print (line)
+print ("Test, Structure")
+
+# This print-out has by-group accuracy values in a single column. 
+conf.mat3$byClass
+print (line)
+print ("Test, Structure")
+
+# This print-out is a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value.
+conf.mat3$overall
+print (line)
+print ("Test, Structure")
+
+# This outputs JUST the overall accuracy value. 
+conf.mat3$overall['Accuracy']
+print ("Test, Structure")
+
+# This print-out has both the overall and by-group accuracy values.
+conf.mat4
+print (line)
+print ("All, Structure")
+
+# This print-out has by-group accuracy values in a single column. 
+conf.mat4$byClass
+print (line)
+print ("All, Structure")
+
+# This print-out is a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value.
+conf.mat4$overall
+print (line)
+print ("All, Structure")
+
+# This outputs JUST the overall accuracy value. 
+print ("All, Structure")
+conf.mat4$overall['Accuracy']
+
+```
+
+####\  
+
+###Output for Review, Analysis
+The code block below creates a CSV file containing the original TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory.
+
+```{r writeCSV}
+#Creates a data frame that compares predicted and actual labels for subject and structure
+tallymatrix <- data.frame("text"=c(comments_rawVERB_R[1:9340,]$text),"subject_label"=c(comments_all_labels_subject), "subject_predicted"=c(comments_all_pred_subject),"structure_label"=c(comments_all_labels_structure), "structure_predicted"=c(comments_all_pred_structure))
+
+#Creates a summary counts table that compares hand-coded counts to Bayes-estimated counts.  
+final.tally <- table("Hand Coded Subject"=tallymatrix$subject_label, "Hand Coded Structure"=tallymatrix$structure_label)
+final.tally2 <- table("Bayes Predicted Subject"=tallymatrix$subject_predicted, "Bayes Predicted Structure"=tallymatrix$structure_predicted)
+
+#Write out the final data from the run to a CSV file. For reference, include the randomizer value used in the name of the file.
+write.csv(tallymatrix, file = "SandS_Matrix_Randomizer_123.csv")
+
+#Print to console the hand coded versus estimated counts as a 2-way contingency table of subject vs. structure.
+final.tally
+prop_tally<-prop.table(final.tally)
+print(prop_tally)
+print(line)
+print(line)
+final.tally2
+prop_tally2<-prop.table(final.tally2)
+print(prop_tally2)
+```
+
+***
+***
+
+This is an alternate method to get the same data tables out using ```tidy``` format. It seems much longer to me, so likely is over-written.
+```{r tidy_prediction_table}
+#Use broom::tidy to reorganize into a data frame.
+tidy_tally1 <-tidy(final.tally)
+tidy_tally2 <-tidy(final.tally2)
+tidy_tally3 <-tidy(final.tally)
+tidy_tally4 <-tidy(final.tally2)
+
+#Use mutate to add a proportion of total column. And yes, it calculates based on subgroups rather than whole column.
+prop_tally1<-mutate(tidy_tally1, prop = n/sum(n))
+prop_tally1<-select(prop_tally1, 1,2,4)
+prop_tally2<-mutate(tidy_tally2, prop = n/sum(n))
+prop_tally2<-select(prop_tally2, 1,2,4)
+prop_tally3<-mutate(tidy_tally3, prop = n/sum(n))
+prop_tally3<-select(prop_tally3, 1,2,4)
+prop_tally4<-mutate(tidy_tally4, prop = n/sum(n))
+prop_tally4<-select(prop_tally4, 1,2,4)
+
+#Spread tidy data into a readable table
+spread(prop_tally1,key=Hand.Coded.Structure, value=prop)
+spread(prop_tally2,key=Bayes.Predicted.Structure, value=prop)
+spread(prop_tally3,key=Hand.Coded.Subject, value=prop)
+spread(prop_tally4,key=Bayes.Predicted.Subject, value=prop)
+```
+
+```{r}
+#Calculate the sum of values for each group.
+proptallysum1<-prop_tally1 %>% group_by(Hand.Coded.Subject) %>% summarize(total=sum(prop))
+proptallysum1
+proptallysum2<-prop_tally2 %>% group_by(Bayes.Predicted.Subject) %>% summarize(total=sum(prop))
+proptallysum2
+proptallysum3<-prop_tally3 %>% group_by(Hand.Coded.Structure) %>% summarize(total=sum(prop))
+proptallysum3
+proptallysum4<-prop_tally4 %>% group_by(Bayes.Predicted.Structure) %>% summarize(total=sum(prop))
+proptallysum4
+
+```
+
+##Graph Outputs
+Plotting Hand-coding vs. Bayes
+
+Need to combine two datasets into one, and create subsets based on the 
+
+```{r}
+tidy(proptallysum1)
+ggplot(data=proptallysum1, aes(x=Hand.Coded.Subject, y=total, group=1))+
+  geom_line() +
+  geom_point()
+ 
+ggplot(data=proptallysum2, aes(x=Bayes.Predicted.Subject, y=total, group=1))+
+  geom_line() +
+  geom_point()
+ ```
+ 
+ 

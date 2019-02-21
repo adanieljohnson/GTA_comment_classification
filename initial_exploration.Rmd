@@ -300,10 +300,6 @@ broom::tidy(coroutput24)
 ```
 
 
-```{r}
-knitr::kable(coroutput23)
-```
-
 
 
 Comparing sub-groups 3_technical and 4_logic requires recreating the dataframe in slightly different format that excludes the data rows for 2_writing.
