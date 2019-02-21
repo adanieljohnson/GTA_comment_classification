@@ -7,45 +7,54 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops "along the way." Or, the instructional strategy is  haphazardly designed, implemented, and executed. Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills. 
+Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops "along the way." Or, the instructional strategy is  haphazardly designed, implemented, and executed. 
 
-Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These instructors may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively. 
+Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills. Technical writing training usually is part of a lab course associated with a lecture class. Many times lab sections are led by graduate teaching assistants or even advanced undergraduates. TAs may have under-developed writing skills themselves, lack pedagogical content knowledge needed to guide students effectively, or not have been explicitly trained to teach writing in a particular way. 
 
-In 2014 we launched an automated data collection process we call **SAWHET** that systematically collects structured writing and other data from student writers and graduate instructors. Our resarch goal is to better understand student and instructor behaviors within the technical writing instructional space. From this empirical basis our practical goal is to develop techniques for teaching technical writing that:
+In 2014 we launched a report data intake process we call **SAWHET** that systematically collects writing and other data from student writers and graduate instructors. Using these data we are mapping key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.
 
-*  Can be implemented at large scale by less experienced teaching assistants;
+Currently our structured database contains >5000 laboratory reports written by undergraduate students for introductory biology courses, all in standardized .docx and .txt formats. Additional data and metadata available for each report includes:
+
+*  All comments that a TA made on each report
+*  Context. Was it first or second report of the semester? Initial submission or revision? Course and topic prompt? Year in college of the author?
+*  Instructor information. Which TA provided feedback? What score was assigned? What was rationale for score?
+
+Our first goal is to better understand student and instructor behaviors within the technical writing instructional space. Our second and more practical goal is to develop techniques for teaching technical writing that:
+
+*  Embody best practices from 40+ years of research on "writing in the disciplines;"
 *  Emphasize student development through holistic coaching;
 *  Shift student and instructor attention away from copy-correction towards larger writing issues; and
-*  Embody other best practices from 40+ years of research literature on "writing in the disciplines."
+*  Can be implemented at scale by less experienced teaching assistants.
 
-We have a structured database of >5000 laboratory reports written by undergraduate students for introductory biology courses. In addition we have all comments that a TA made on the individual reports, plus associated metadata:
-
-*  Context. Was it first or second report of the semester? Initial submission or revision? What course and topic in the course? What year in college was the author?
-*  Instructor information. Which TA provided the feedback? What score was assigned, and what what the rationale behind that score?
-
-We are using multiple text-mining methods to map key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.
 
 ####\  
 
-## Context for This Project & Prior Work
-Students make greater gains as writers if instructors avoid telling students what to correct ("copy editing"), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a **global first, specific later** approach to grading undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students' writing improves, the TA can focus on smaller issues.   
+## Context for This Project
+From prior studies (REFs), we know students make greater gains as writers if instructors avoid telling students what to correct ("copy editing"), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a **global issues first, specific issues later** approach to correcting undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students' writing improves, the TA can focus on smaller issues. Our bins-based report grading protocol reinforces this strategy.     
 
-This strategy is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, **"what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?"**
+The coaching-oriented approach is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. Effort self-reporting by TAs is likely to be unreliable. We have repeatedly asked ourselves, **"what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?"**
 
-In Summer 2018, we began analyzing TAs' comments from student papers. We extracted and tabulated all comments from approximately 500 pairs of reports (initial submissions and revisions) collected during a single semester in 3 different courses. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent. In all, the final tabulated dataset included ~11,000 separate comments.
+####\  
+
+## Prior Work
+In 2018, we began trying to answer this question by analyzing TAs' comments from student papers directly. We extracted and tabulated all comments from approximately 500 pairs of reports. After initial data cleaning (removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent), we had a working dataset of ~11,000 separate comments.
 
 We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)
 
 Coded TA comments were sorted on two axes: 
 
-* __Subject__: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues
-* __Structure__: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?
+* **Subject**: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues
+* **Structure**: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?
 
-The sorted contingency table provided us with a relative estimate of TA effort.
+Raw counts for each subject/structure pair were converted to fractional frequencies. The final table (excerpt is shown below) provided us with a direct estimate of TA effort.
+
+![*Excerpted data from frequency table for hand-coded TA comments on student reports*](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/images/Hand_frequency_table.png)
 
 ####\  
 
 ## The Central Problem of This Project
-Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.
+Coding TA comments this way is informative but doing so by hand is unsustainable. Developing the codebook then rating the initial set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook in place, individual coders need training to achieve sufficient accuracy, and there is significant risk of "coding drift" over time. 
+
+Given 10-12,000 comments are generated EACH SEMESTER, an automated classification method is needed.
 
 ####\  
