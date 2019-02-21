@@ -1,0 +1,67 @@
+---
+title: "Notes on Building a Final Ensemble Protocol"
+author: "Dan Johnson"
+date: "2/14/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Overview
+This notebook summarizes my progress, thoughts while building a working Ensemble method for categorizing TA comments.
+
+####\  
+
+##Replicate Cycles Test of Naive Bayes
+One of my ideas was to see if I could refine Naive Bayes by running the same classifier with different randomized datasets, then putting individual outputs side by side and assigning final categories based on most frequent classification in the set. 
+
+To test this I ran 5 Subject classifier replicates using the code in *Naive_bayes_V2r_2b.rmd*, with 5 different ```set.seed``` values. The exported CSV files were combined to get a set of data with up to 5 classifier assignments for the same comment.
+
+Using multiple randomized NB training runs does not seem to help. First, it was rare for the  randomized runs to assign different incorrect classes. Second, when I compared 5 independently randomized runs by eye, the incorrectly categorized items were repeatedly put into the SAME incorrect group each time. Based on this, an Ensemble method using H-stacked categorical NB is unlikely to reduce overall errors in classification.
+
+Looking at the combined data DID provide other helpful insights into the overall classification procedure though. Naive Bayes does not seem to do well with comments that:
+
+*  Contain many or mostly punctuation symbols, such as:
+    +  : not ,
+    +  ?
+    +  ??
+    +  ???
+*  Are whole numbers
+    +  1
+    +  2
+    +  10
+*  Are one word questions or comments
+    +  because?
+    +  "and"
+*	 Are sentences enclosed in punctuation
+*  Are made up entirely of STOP/common words (I am not as sure on this one)
+
+####\  
+
+##Overall Accuracy
+I also looked at OVERALL accuracy of NB by recreating the 2-dimensional contingency table that I made when hand-coding, and comparing it side-by-side to NB classifications. From this I gained additional insights. 
+
+OVERALL, the 2-D Naive Bayes model performed very well for classifying comment Subject. When I re-ran the full original dataset (9340 comments) through the prediction model, NB estimates for Subject were within 1.5% of my hand-scored assignments. Structure classification was not as robust. Other observations:
+
+*  NB over-classified comments as "copyediting of technical issues" by 8-10%, and under-classified comments that should be marked as "specific technical issues" by almost same amount.
+*  Comments that belonged to groups making up less than 1-2% of all comments were more likely to be mis-classified. 
+*  Longer text comments seemed to be mis-classified more often. Follow-up methods to evaluate: 
+    +  Split longer comments into shorter phrases
+    +  Evaluate only the first 5-10 words of a comment
+
+It appears that Subject categories are more terms-centered, while Structure is based more on the sentiment and sentence structure of a comment. This suggests that I need to incorporate a sentiment classifier or PoS tagger step.
+
+####\  
+
+##Mixed Ensemble Method
+Based on the  seems like the most reasonable approach for maximum accuracy is going to be a mixed Ensemble method. The initial working model is to:
+
+Add a pre-screening step prior to implementing NB:
+
+*  Isolate "short-string" comments first. These are comments consisting of single words, two-word phrases, more punctuation than text, etc. These represent mostly pointers and copy-editing.
+*  Look for 2-grams with high frequencies in one particular category. (Ex., "basic criteria" 2-gram identifies a Basic Criteria comment.) 
+
+####\  
+

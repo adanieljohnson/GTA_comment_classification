@@ -11,7 +11,7 @@
 
 
 
-<title>Automated Classification of TA Comments on Student Writing</title>
+<title>Background for the Project</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -288,38 +288,31 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="background.html">
-    <span class="fa fa-history"></span>
+  <a href="course_notes.html">
+    <span class="fa fa-leaf"></span>
      
-    Background
+    Course Notes
   </a>
 </li>
 <li>
   <a href="pre_work.html">
-    <span class="fa fa-question-circle"></span>
+    <span class="fa fa-puzzle-piece"></span>
      
-    Data Exploration
+    Pre-Work
   </a>
 </li>
 <li>
   <a href="draft.html">
-    <span class="fa fa-puzzle-piece"></span>
+    <span class="fa fa-question-circle"></span>
      
-    Classifier
+    Draft
   </a>
 </li>
 <li>
   <a href="project.html">
-    <span class="fa fa-chart-bar"></span>
+    <span class="fa fa-archive"></span>
      
-    Findings
-  </a>
-</li>
-<li>
-  <a href="nextsteps.html">
-    <span class="fa fa-shoe-prints"></span>
-     
-    Next Steps
+    Project
   </a>
 </li>
       </ul>
@@ -331,50 +324,70 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Automated Classification of TA Comments on Student Writing</h1>
+<h1 class="title toc-ignore">Background for the Project</h1>
 
 </div>
 
 
-<div id="overview" class="section level2">
-<h2>Overview</h2>
-<p>I am interested in understanding how students develop technical writing skills in biology, and how we might improve that process by applying data science methods.</p>
-<p>My current NSF-sponsored project asks if and how scripted instruction, automated support, and holistic feedback accelerates student development as writers. One specific aim is to see if changing the structure and focus of <strong>instructors’ comments</strong> affects how students’ writing develops over time. To assess this we must extract instructor comments from student reports, categorize those comments according to their subject and structure, then correlate the types of comments TAs make with student performance.</p>
+<div id="background" class="section level1">
+<h1>Background</h1>
+<p>Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops “along the way.” Or, the instructional strategy is haphazardly designed, implemented, and executed. Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills.</p>
+<p>Technical writing training usually is part of a lab course associated with a lecture class. These lab sections may be be led by graduate teaching assistants or even advanced undergraduates. These instructors may have under-developed writing skills themselves, or lack pedagogical content knowledge needed to guide students effectively.</p>
+<p>In 2014 we launched an automated data collection process we call SAWHET that collects systematic observations and sample data from student writers and graduate instructors. Our resarch goal is to better understand student and instructor behaviors within the technical writing instructional space. Our practical goal is to develop techniques for teaching technical writing that:</p>
+<ul>
+<li>Can be implemented at large scale by less experienced teaching assistants;</li>
+<li>Emphasize student development through holistic coaching;</li>
+<li>Shift student and instructor attention away from simple copy-correction towards larger writing issues; and</li>
+<li>Embody other best practices outlined in nearly 40 years of research literature on “writing in the disciplines.”</li>
+</ul>
+<p>We have a structured database of &gt;5000 laboratory reports written by undergraduate students for introductory biology courses. In addition we have all comments that a TA made on the individual reports, plus associated metadata:</p>
+<ul>
+<li>Context. Was it first or second report of the semester? Initial submission or revision? What course and topic in the course? What year in college was the author?</li>
+<li>Instructor information. Which TA provided the feedback? What score was assigned, and what what the rationale behind that score?</li>
+</ul>
+<p>We are using multiple text-mining methods to map key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.</p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
-</div>
-<div id="prior-work" class="section level2">
-<h2>Prior Work</h2>
-<p>In Summer 2018, we extracted and tabulated ~11,000 TA comments from &gt;500 pairs (initial submissions and revised version) of short lab reports written by undergraduates in 3 different general biology lab courses during a single semester. Using an iteratively generated codebook, the 11,000 TA comments were sepparately classified in two categories:</p>
+<div id="context-for-this-project-prior-work" class="section level2">
+<h2>Context for This Project &amp; Prior Work</h2>
+<p>Students make greater gains as writers if instructors avoid telling students what to correct (“copy editing”), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a <strong>global first, specific later</strong> approach to grading undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students’ writing improves, the TA can focus on smaller issues.</p>
+<p>This strategy is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. One of our ongoing questions has been, <strong>“what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?”</strong></p>
+<p>In Summer 2018, we began analyzing TAs’ comments from student papers. We extracted and tabulated all comments from approximately 500 pairs of reports (initial submissions and revisions) collected during a single semester in 3 different courses. Initial data cleaning involved removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent. In all, the final tabulated dataset included ~11,000 separate comments.</p>
+<p>We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)</p>
+<p>Coded TA comments were sorted on two axes:</p>
 <ul>
-<li><strong>Subject</strong>: did the comment focus mainly on <strong>Basic Criteria, Technical Issues, Writing Quality, Logic and Thinking,</strong> or <strong>Other</strong> issues</li>
-<li><strong>Structure</strong>: did the comment <strong>Point</strong> to an error without providing other help, provide simple <strong>Copy Correction</strong>, provide declarative <strong>General or Specific Information</strong> only, or provide <strong>Holistic Coaching</strong> that fosters student thinking and long-term improvement?</li>
+<li><strong>Subject</strong>: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues</li>
+<li><strong>Structure</strong>: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?</li>
 </ul>
+<p>The sorted contingency table provided us with a relative estimate of TA effort.</p>
 <div id="section-1" class="section level4">
 <h4> </h4>
-<p>Counts of coded TA comments were tabulated into a 2-way contingency table that provided us with a direct measure of the most common types of comments TAs made on student work, and a relative estimate of which elements of writing TAs emphasize most often.</p>
-<p>While classifying TA comments this way is informative, doing so by hand is impractical: 10-12,000 comments need to be scored EACH semester.</p>
 </div>
+</div>
+<div id="the-central-problem-of-this-project" class="section level2">
+<h2>The Central Problem of This Project</h2>
+<p>Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.</p>
 <div id="section-2" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="specific-project-goals" class="section level2">
-<h2>Specific Project Goals</h2>
-<p>My project for the <strong>Faculty Learning Community for R</strong> was to create an automated comment classifier that could generate two-axis contingency tables comparable to the one generated using hand-coded data. This automated classifier will be used as part of the larger NSF-funded research project to:</p>
-<ul>
-<li>Improve both speed and consistency when classifying TA comments across multiple semesters.</li>
-<li>Monitor how the types and focus of TAs comments on student writing change over time.</li>
-</ul>
+</div>
+<div id="session-7-feb.-25-2019" class="section level1">
+<h1>Session 7 (Feb. 25, 2019)</h1>
 <div id="section-3" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="site-map" class="section level2">
-<h2>Site Map</h2>
-<p>Insert a text-based site map of the major pages and branch points here.</p>
+<div id="session-8-mar.-18-2019" class="section level1">
+<h1>Session 8 (Mar. 18, 2019)</h1>
 <div id="section-4" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="references" class="section level1">
+<h1>References</h1>
+<div id="section-5" class="section level4">
 <h4> </h4>
 </div>
 </div>

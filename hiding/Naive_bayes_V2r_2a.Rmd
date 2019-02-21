@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Workflow Ver 2.0.r"
 author: "Dan Johnson"
-date: "1/29/2019"
+date: "2/14/2019"
 output: html_document
 ---
 
@@ -10,22 +10,28 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ##Summary
-This is **Version 2.0.r** of the basic workflow for classifying TA comments using a naive Bayes model. It pre-processes text using the same command set as Ver 2.0.b. The "r" designates this version has been modified to be able to randomize which rows are selected for training and test datasets.
+This is **Version 2r.2a** of the basic workflow for classifying TA comments using a naive Bayes model. It pre-processes text using the same command set as Ver 2.0.b. The "r" designates this version has been modified to be able to randomize which rows are selected for training and test datasets.
+
+This updated version refines the final output tables so they are more informative.
 
 ####\  
 
 ##Initial Setup
 Calling the required libraries.
 
-```{}
+```{r}
 library(tidyverse)
-library(tidytext)
-library(tidyr)
 library(tm)
-library(SnowballC)
-library(wordcloud)
+library(tidytext)
 library(e1071)
-library(gmodels)
+
+#library(RTextTools)
+#library(caret)
+#library(doMC)
+#registerDoMC(core=detectCores())
+#library(tidyr)
+#library(dplyr)
+#library(gmodels)
 ```
 
 ####\  
@@ -69,7 +75,7 @@ table(comments_rawVERB$structure)
 #Adjust the number so it matches the number of rows in the original data frame
 #Next, set the seed for random numbers, and randomize the order of the vector
 vector <- 1:9340
-set.seed(123) #change this seed value, and the data are randomized in a new sequence.
+set.seed(567) #change this seed value, and the data are randomized in a new sequence.
 vector <- sample(vector)
 glimpse(vector)
 ```
@@ -105,6 +111,7 @@ comments_corpus_cleanVERB_R <- tm_map(comments_corpusVERB_R, content_transformer
 
 #Remove punctuation using the "removePunctuation" function. 
 #This step removes evidence of questions, so may remove data.
+#THIS ALSO REMOVES EVIDENCE OF POINTER ITEMS
 comments_corpus_cleanVERB_R <- tm_map(comments_corpus_cleanVERB_R, removePunctuation)
 
 #Remove numerals. 
@@ -132,7 +139,7 @@ This code block uses tm's NLP commands. The same block can be used to assess 1-,
 
 ```{r}
 NLP_Tokenizer <- function(x) {
-      unlist(lapply(ngrams(words(x), 3), paste, collapse = " "), use.names = FALSE)
+      unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
 }
 
 comments_dtm_1gram <- DocumentTermMatrix(comments_corpus_cleanVERB_R, control=list(tokenize = NLP_Tokenizer))
@@ -154,28 +161,33 @@ This code uses the comments in the order they are listed in the original file. B
 ```{r}
 comments_dtm_train <- comments_dtm_1gram[1:7005, ]
 comments_dtm_test <- comments_dtm_1gram[7006:9340, ]
+comments_dtm_all <- comments_dtm_1gram[1:9340, ]
 ```
 
 Save vectors labeling rows in the training and testing vectors
 ```{r}
 comments_train_labels_subject <- comments_rawVERB_R[1:7005, ]$subject
 comments_test_labels_subject <- comments_rawVERB_R[7006:9340,]$subject
+comments_all_labels_subject <- comments_rawVERB_R[1:9340,]$subject
 ```
 
 ```{r}
 comments_train_labels_structure <- comments_rawVERB_R[1:7005, ]$structure
 comments_test_labels_structure <- comments_rawVERB_R[7006:9340,]$structure
+comments_all_labels_structure <- comments_rawVERB_R[1:9340,]$structure
 ```
 
 Make sure that the proportion of each sub-category is similar in the training and testing data sets.
 ```{r}
 prop.table(table(comments_train_labels_subject))
 prop.table(table(comments_test_labels_subject))
+prop.table(table(comments_all_labels_subject))
 ```
 
 ```{r}
 prop.table(table(comments_train_labels_structure))
 prop.table(table(comments_test_labels_structure))
+prop.table(table(comments_all_labels_structure))
 ```
 
 ####\  
@@ -191,6 +203,7 @@ Limit Document Term Matrix to only include words in the comments_freq_words vect
 ```{r}
 comments_dtm_freq_train <- comments_dtm_train[ , comments_freq_words]
 comments_dtm_freq_test <- comments_dtm_test[ , comments_freq_words]
+comments_dtm_freq_all <- comments_dtm_all[ , comments_freq_words]
 ```
 
 The basic e1071 naive bayes classifier works with categorical features, so the matrix must be converted "yes" and "no" categorical variables. This is done using a **convert_counts function** and applying it to the data. This replaces values greater than 0 with yes, and values not greater than 0 with no. 
@@ -198,102 +211,144 @@ The basic e1071 naive bayes classifier works with categorical features, so the m
 convert_counts2 <- function(x) {
   x <- ifelse(x > 0, "Yes", "No")
 }
-
-comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
-comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
 ```
 
 The resulting matrices have cells indicating "yes" or "no" if the word represented by the column appears in the text comment represented by the row.
+
+```{}
+# Function to KEEP word frequencies while still using the same variable names and code structure. The resulting matrices have cells with word frequencies instead.
+convert_counts2 <- function(x) {
+  y <- x
+}
+```
+
+
+
+```{r}
+comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
+comments_all <- apply(comments_dtm_freq_all, MARGIN = 2, convert_counts2)
+```
 
 ####\  
 
 ###Train Model, Predict, Evaluate for Subject
 This block uses the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. It evaluates the prediction with the actual data using a crosstable from the gmodels package.
 ```{r}
-comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject)
+comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
 comments_test_pred_subject <- predict(comments_classifier_subject, comments_test)
-CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
+comments_all_pred_subject <- predict(comments_classifier_subject, comments_all)
+
+# Create a truth table by tabulating the predicted class labels with the actual class labels 
+table("Predictions"= comments_test_pred_subject,  "Actual" = comments_test_labels_subject )
+
+table("Predictions"= comments_all_pred_subject,  "Actual" = comments_all_labels_subject )
+
+#table("Predictions2"= comments_test_pred_structure,  "Actual" = comments_test_labels_structure )
+
+#The truth table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting subject. this is what the confusion matrix calculates. The faster way is to calculate a confusion matrix, which includes BOTH the truth table, and the final overall accuracy.
+
+#The Cross Table command below (from "gmodels") generates a more detailed output table with frequency values for each individual cell.
+#CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
 ```
 
-The cross table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting subject.
+
 ```{r}
-print("Overall subject accuracy")
-(14+54+1318+28)/23.35  #Need to find a way to calculate this automatically. 
+#"line" is just a spacer text for readability.
+line<-("**************************************************************")
+
+# Prepare the confusion matrix. 
+conf.mat <- confusionMatrix(comments_test_pred_subject, comments_test_labels_subject)
+conf.mat2 <- confusionMatrix(comments_all_pred_subject, comments_all_labels_subject)
+
+
+# This print-out has both the overall and by-group accuracy values.
+conf.mat2
+print (line)
+
+# This print-out has by-group accuracy values in a single column. 
+conf.mat2$byClass
+print (line)
+
+# This print-out is a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value.
+conf.mat2$overall
+print (line)
+
+# This outputs JUST the overall accuracy value. 
+conf.mat2$overall['Accuracy']
+
+# This print-out has both the overall and by-group accuracy values.
+conf.mat
+print (line)
+
+# This print-out has by-group accuracy values in a single column. 
+conf.mat$byClass
+print (line)
+
+# This print-out is a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value.
+conf.mat$overall
+print (line)
+
+# This outputs JUST the overall accuracy value. 
+conf.mat$overall['Accuracy']
+
 ```
 
 
 ###Train Model, Predict, Evaluate for structure
 This is the same block as above but uses the "structure" data column.
 
-```{r}
-comments_classifier_structure <- naiveBayes(comments_train, comments_train_labels_structure)
+```{}
+comments_classifier_structure <- naiveBayes(comments_train, comments_train_labels_structure, laplace=1)
 comments_test_pred_structure <- predict(comments_classifier_structure, comments_test)
 CrossTable(comments_test_pred_structure, comments_test_labels_structure, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
 ```
 
-Again, a cross table shows how many of the predicted categories match the correct categories for structure.
-
-```{r}
-print("Overall structure accuracy")
-(66+64+949+5+1)/23.35  #Need to find a way to calculate this automatically. 
-```
 
 ###OPTIONAL Output
-To make a table showing predicted categories for comments based on the Naive Bayes test, versus the actual label entered by a human observer, merge the two datasets into a single data frame. The full data frame will be too long to display; use "head" to check format, then output the full dataset to CSV for further review. By default the CSV file should be saved to the current working directory.
+Make a table showing original comments, predicted category for comment based on the Naive Bayes test, and the actual label entered by a human observer. Export to a CSV file, with the randomizer value in the name of the file. By default the CSV file should be saved to the current working directory.
 
-```{}
-predicted_category_subject <- data.frame(comments_test_pred_subject,comments_test_labels_subject)
-head(predicted_category_subject)
-write.csv(predicted_category_subject, file = "PredictedCategorySubject_Data.csv")
+```{r}
+#Creates a data frame that compares predicted and actual labels for subject and structure
+tallyall <- data.frame("text"=c(comments_rawVERB_R[1:9340,]$text),"subject_label"=c(comments_all_labels_subject), "subject_predicted"=c(comments_all_pred_subject))
+
+#Write a CSV file out with data from this run.
+write.csv(tallyall, file = "SubjectsAll_Randomizer_567.csv")
+
 ```
 
-```{}
-predicted_category_structure <- data.frame(comments_test_pred_structure,comments_test_labels_structure)
-head(predicted_category_structure)
-write.csv(predicted_category_structure, file = "PredictedCategoryStructure_Data.csv")
+```{r}
+#Creates a data frame that compares predicted and actual labels for subject and structure
+tally <- data.frame("text"=c(comments_rawVERB_R[7006:9340,]$text),"subject_label"=c(comments_test_labels_subject), "subject_predicted"=c(comments_test_pred_subject))
+
+#Write a CSV file out with data from this run.
+write.csv(tally, file = "Subjects_Randomizer_567.csv")
+
 ```
+
+
 
 
 ***
 START COMMENTS, OLD work notes
 ***
 
-##Permutation Tests of Naive Bayes (NB) Method
-Using single words, Version 2.0.b correctly identifies comment "subject" ~80% of the time and comment "structure" ~59% of the time.
+Make a table showing predicted categories for comments based on the Naive Bayes test, versus the actual label entered by a human observer, merge the two datasets into a single data frame. The full data frame will be too long to display; use "head" to check format, then output the full dataset to CSV for further review. By default the CSV file should be saved to the current working directory.
 
-Permutations to test with random subsets version (2.0.r):
-
-*  Compare 1-grams, 2-grams, 3-grams
-*  Compare outcomes for 3 independent randomized sets of 1-grams
-
-
-The pseudo-code block below can pull random lines from a data table, but does not work correctly on a document term matrix. The second problem is how to pull the training and test data sets out and process them identically. 
-
-```{}
-set.seed(1234) 		# ensures the same random set gets picked each time.
-
-comments_raw_dtm_train <- sample_frac(comments_raw, .75)	# sample_frac pulls out 75% of "comments_raw" dataset randomly using the sample sequence identified by set.seed(1234)
-
-comments_raw_dtm_test <- setdiff(comments_raw, comments_raw_dtm_train)	#setdiff creates a "test" dataset using anything NOT in the "comments_raw_dtm_train" subset of "comments_raw."
+```{r}
+predicted_category_subject <- data.frame(comments_test_pred_subject,comments_test_labels_subject)
+head(predicted_category_subject)
+write.csv(predicted_category_subject, file = "PredictedCategorySubject_Data.csv")
 ```
 
-The solution was not to pull the data twice, but to randomly (but repeatably) shuffle the starting data table. How I solved this was:
-1. Create a vector of sequential numbers the same length as the number of data frame rows.
-2. Randomize the sequential numbers using set.seed to make pattern reproducible.
-3. Add the randomized numbers as a new column to the data frame.
-4. Re-order the data table to the randomizer column.
-
-This makes it easy to generate a new sequence of randomized training and test samples to run replicates. Only one number needs to be changed.
-
-
-```{}
-#Creates a data frame that compares predicted and actual labels for subject and structure
-tally <- data.frame("subject_label"=c(comments_test_labels_subject), "subject_predicted"=c(comments_test_pred_subject), "structure_label"=c(comments_test_labels_structure), "structure_predicted"=c(comments_test_pred_structure))
-#tally <- as.numeric(as.character(tally))
+```{r}
+predicted_category_structure <- data.frame(comments_test_pred_structure,comments_test_labels_structure)
+head(predicted_category_structure)
+write.csv(predicted_category_structure, file = "PredictedCategoryStructure_Data.csv")
 ```
 
 
-```{}
+```{r}
 if_else (tally(comments_test_labels_subject) != tally(comments_test_pred_subject),"YES","no")
 
 #glimpse(tally)

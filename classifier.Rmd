@@ -1,5 +1,5 @@
 ---
-title: "Data Import and Initial Exploration"
+title: "Classifier Development"
 author: "Dan Johnson"
 date: "12/17/2018"
 output: html_document

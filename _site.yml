@@ -3,18 +3,21 @@ output_dir: "docs"
 navbar:
   title: "Analyzing TA Comments in R"
   right:
-  - text: "Course Notes"
-    icon: fa-leaf
-    href: course_notes.html
-  - text: "Pre-Work"
-    icon: fa-puzzle-piece
-    href: pre_work.html
-  - text: "Draft"
+  - text: "Background"
+    icon: fa-history
+    href: background.html
+  - text: "Data Exploration"
     icon: fa-question-circle
-    href: draft.html
-  - text: "Project"
-    icon: fa-archive
-    href: project.html
+    href: initial_exploration.html
+  - text: "Classifier"
+    icon: fa-puzzle-piece
+    href: classifier.html
+  - text: "Findings"
+    icon: fa-chart-bar
+    href: findings.html
+  - text: "Next Steps"
+    icon: fa-shoe-prints
+    href: nextsteps.html
 output:
   html_document:
     theme: journal
