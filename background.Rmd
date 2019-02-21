@@ -1,5 +1,5 @@
 ---
-title: "Background for the Project"
+title: "Background"
 bibliography: library.bib
 biblio-style: apalike
 ---
@@ -26,17 +26,15 @@ Our first goal is to better understand student and instructor behaviors within t
 *  Shift student and instructor attention away from copy-correction towards larger writing issues; and
 *  Can be implemented at scale by less experienced teaching assistants.
 
-
 ####\  
-
-## Context for This Project
+##Context for This Project
 From prior studies (REFs), we know students make greater gains as writers if instructors avoid telling students what to correct ("copy editing"), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a **global issues first, specific issues later** approach to correcting undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students' writing improves, the TA can focus on smaller issues. Our bins-based report grading protocol reinforces this strategy.     
 
 The coaching-oriented approach is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. Effort self-reporting by TAs is likely to be unreliable. We have repeatedly asked ourselves, **"what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?"**
 
 ####\  
 
-## Prior Work
+###Prior Work
 In 2018, we began trying to answer this question by analyzing TAs' comments from student papers directly. We extracted and tabulated all comments from approximately 500 pairs of reports. After initial data cleaning (removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent), we had a working dataset of ~11,000 separate comments.
 
 We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)
@@ -52,9 +50,24 @@ Raw counts for each subject/structure pair were converted to fractional frequenc
 
 ####\  
 
-## The Central Problem of This Project
+##Central Problem
 Coding TA comments this way is informative but doing so by hand is unsustainable. Developing the codebook then rating the initial set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook in place, individual coders need training to achieve sufficient accuracy, and there is significant risk of "coding drift" over time. 
 
 Given 10-12,000 comments are generated EACH SEMESTER, an automated classification method is needed.
+
+####\  
+
+##Work Plan
+
+1.  Compile initial dataset, and de-identify both TAs and students by replacing names with anonymous IDs.
+2.  Export TA comments, metadata from student reports as a "tidy" dataframe.
+3.  Explore comment data structure independently of classification to identify useful elements for feature engineering.
+4.  Write the initial Naive Bayes workflow for supervised text classification.
+5.  Assign TA comments to categories defined in our existing codebook, then compare outcomes from hand-coding versus automated classification.
+6.  Using features (#3) and comparison data from initial classification protocol (#4) as a guide, test iterations of the classifier method and optimize. 
+7.  Apply the optimized classifier to the original comment dataset, identify all comments that are being classified incorrectly, and look for patterns.
+8.  Write a small set of rule or REGEX pattern-based searches that can identify comments which are more likely to be classified incorrectly. 
+9.  Append rules/pattern-based pre-screening to the optimized Naive Bayes classifier.
+10.  Validate this vertical Ensemble Classifier on a subset of ~2000 TA comments extracted from a non-overlapping set of student lab reports.
 
 ####\  
