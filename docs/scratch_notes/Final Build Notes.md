@@ -12,17 +12,20 @@ With two remaining sessions, we might also begin to discuss our final project ef
 
 I'm looking forward to seeing everyone on Monday.
 
+#SHOW List
 
 
 
-####Confidentiality Problem
-My initial dataset contains confidential information that needs to be de-identified. How do I convert the data so it can be displayed on a public site?
+#HELP List
+1. Can you put 2 datasets on a single ggplot, or do you have to merge the data in one file first?
 
-Most direct solution is to write bridge scripts. The versions that actually read my data in private repo. The public versions of these scripts would have 1+ empty placeholder spaces in the key commands that read in the data. Script documentation would explain how others can modify the bridge script file paths.
+Spacing out reports in code. Use this in NB page, but it is clunky.
+```
+#"line" is just a spacer text for readability.
+line<-("**************************************************************")
+```
 
-I assume that without correct system paths, outside users would not be able to access them. I can provide the de-identified data publicly, without exposing the confidential data. 
 
-Any gaps or problems with this approach?
 
 ####\  
 

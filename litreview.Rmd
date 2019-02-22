@@ -9,50 +9,8 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-##Literature base
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-I found this summary, and a description of the approach at
-[https://www.tidytextmining.com/topicmodeling.html]():  
-
->"In text mining, we often have collections of documents, such as blog posts or news articles, that we’d like to divide into natural groups so that we can understand them separately. Topic modeling is a method for unsupervised classification of such documents, similar to clustering on numeric data, which finds natural groups of items even when we’re not sure what we’re looking for.
-
->"Latent Dirichlet allocation (LDA) is a particularly popular method for fitting a topic model. It treats each document as a mixture of topics, and each topic as a mixture of words. This allows documents to “overlap” each other in terms of content, rather than being separated into discrete groups, in a way that mirrors typical use of natural language."
-
-My challenge is that LDA clusters items based on its own analysis. My groups are already sorted based on the **existing coding book.** The individual groups are already labeled. 
-
-####\  
-
-**Option: Comparison Modeling Based on Twitter Strategies**  
-
-What if I treated each of the pre-defined sub-sets of comments I created using codebook analysis as if they were tweets from separate users? That approach is described here: 
-	https://www.tidytextmining.com/twitter.html
-
-Strategy would be:
-
-*  Un-nest tokens to create a tidy frame and remove stop words using anti-join
-*  Calculate word frequencies for each sub-type
-*  Compare frequencies by calculating log-odds ratios
-
-####\  
-
-**Option: Comparison Modeling Via Text Classification**  
-
-What if I treated each of the comments as text blocks where pre-defined words are more or less likely to be associated with the category. Jerid developed a Shiny app that does something similar:
-https://francojc.github.io/2015/08/15/generating-annotated-text-in-shiny/
-
-####\  
-
-**Option: Latent Dirichlet Allocation**  
+##Literature 
 
 
-# Session 4 (Dec. 3, 2018)
-Looking at Jerid's *Intro to Statistical Thinking* clarified some points in my approach. I definitely need to be thinking about this problem more in terms of unsupervised exploration. It did raise some follow-up questions: 
-
-*  A training set with 80% of the data seems excessive. If there is a large dataset, is there any cost or benefit to splitting to 33/33/34%, or even 25% x 4? The 80/20 and 60/20/20% also seems out of balance, but there is probably logic I do not see. 
-*  In the exploration phase, is re-sampling such a major concern?
-
-**Separate note:** thank you many times over for the Regex101 link! Writing regex correctly has long been a pain for me! This greatly simplifies the process.  
 
 ####\  

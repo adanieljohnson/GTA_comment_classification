@@ -1,5 +1,5 @@
 ---
-title: "Data Import & Checking"
+title: "Classifier Development"
 author: "Dan Johnson"
 date: "12/17/2018"
 output: html_document
@@ -9,26 +9,31 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 #Overview
-This page describes the target dataset, data pre-checks and import process, post-import validation, and how selected elements are recoded for analysis.  
+This page has three sections. **Part 1** describes the target dataset for this project. **Part 2** outlines the data pre-checks and import process. **Part 3** describes post-import validation developed for the target dataset, and how selected elements within the dataset are recoded for analysis.  
 
-Preliminary exploration of the dataset is described here: https://adanieljohnson.github.io/default_website/initial_exploration.html
+Initial visual exploration of the dataset is described here: https://adanieljohnson.github.io/default_website/initial_exploration.html
 
-Rationale and initial steps in development of the Classifier are described here: https://adanieljohnson.github.io/default_website/bayes_history.html
+These linked pages summarize work to date using categorical Naive Bayes as the text classification method. They provided a baseline from which I am evaluating other approaches.
 
-Code for the current version of the Naive Bayes Classifier is located here:
-https://adanieljohnson.github.io/default_website/NB_2r2c.html
+*  Baseline Method: https://adanieljohnson.github.io/default_website/Naive_bayesV2b.html
+*  Randomization Method: https://adanieljohnson.github.io/default_website/Naive_bayesV2r.html
+*  In/Outgroup Binning: https://adanieljohnson.github.io/default_website/Naive_bayesV2yn.html
+*  In/Outgroup Binning: https://adanieljohnson.github.io/default_website/Naive_bayes_Smry.html
+
+
+Other pages provide the theoretical background for the selected methods. Each deeper analysis method is described in detail on its own separate page. These are listed on the **[LINK] Project Outline** page.
 
 ####\  
 
-#Target Dataset
+#Part 1. Initial Dataset
 The development dataset is an Excel table of 10,808 rows. One column has "TA comments" extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
 
 Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings **[LINK]**. 
 
 ####\  
 
-#Pre-Check and Import
-Prior to import, review the data table **in Excel** and check that:
+#Part 2. Data Pre-Checks
+Prior to import, review the data table **in Excel**; check that:
 
 1.  Student and TA names have been recoded using pre-assigned anonymous IDs.
 2.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.rmd"
@@ -142,6 +147,4 @@ str(comments_raw$subject)
 table(comments_raw$subject)
 ```
 
-Most analyses will use a similar extraction and post-processing code block. In practice, it is easier to modify the post-processing code than to maintain multiple separate copies of the original CSV dataset for different analyses.
-
-####\  
+Most in-depth analyses will have a similar extraction and post-processing code block. In practice, it has proven easier to modify the post-processing code than to maintain multiple separate copies of the original CSV dataset for the different analyses.

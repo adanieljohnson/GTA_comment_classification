@@ -12,17 +12,22 @@ With two remaining sessions, we might also begin to discuss our final project ef
 
 I'm looking forward to seeing everyone on Monday.
 
+#SHOW List
+1.  Findings page
+2.  Plan for page progression
 
 
-
-####Confidentiality Problem
-My initial dataset contains confidential information that needs to be de-identified. How do I convert the data so it can be displayed on a public site?
-
-Most direct solution is to write bridge scripts. The versions that actually read my data in private repo. The public versions of these scripts would have 1+ empty placeholder spaces in the key commands that read in the data. Script documentation would explain how others can modify the bridge script file paths.
-
-I assume that without correct system paths, outside users would not be able to access them. I can provide the de-identified data publicly, without exposing the confidential data. 
-
-Any gaps or problems with this approach?
+#HELP List
+1. Can you put 2 datasets on a single ggplot, or do you have to merge the data in one file first?
+2. How much to include in site
+3. Spacing out reports in code. I used this in NB page, but it is clunky.
+```
+#"line" is just a spacer text for readability.
+line<-("**************************************************************")
+```
+4. Should LitReview be one long page, index of pages, or list of references?
+5. More on citation embedding please.
+6. How to approach pulling the four n-grams tables together in Initial Exploration. DON'T want to lose the unique values. Is the strategy to append to the end, then spread?
 
 ####\  
 
@@ -70,12 +75,9 @@ To answer these questions we must extract instructor comments from student writi
 My project for the R Faculty Learning Community was partly predictive in that I built a text classification workflow that automates the process of categorizing instructors' comments on student technical writing. My project also was (and continues to be) partly exploratory, in that I am asking: what additional information can be mined from TA comments, and how can those data inform our approaches to teaching technical writing? 
 
 
-
-
 0. Index page
 	Text of main page quickly outlines:
-		Background, rationale
-		Prior Work
+		Background, Rationale, Prior Work
 		Project Goals
 		Site Map
 
@@ -83,43 +85,41 @@ My project for the R Faculty Learning Community was partly predictive in that I 
 	Text of main page focuses on:
 		Student learning issues
 		Goals and challenges
+
+	Branches to Supporting Pages that focus on:
 		Text Classification generally
-
-	Branch and Supporting Pages focus on:
 		Specific Text Classification information
-		Classifier strategies
+		Summary of classifier strategies
 
-
-2. Initial Data Exploration
+2. Changed Draft to The Build
 	Text of main page focuses on:
 		Data Structure
+		Structuring the data
+
+	Branches to Supporting Pages that focus on:
+		Classifier method
+		Iterative refinements
+		Final model
+		
+		
+
+3. Initial Data Exploration
+	Text of main page focuses on:
 		Initial Exploration of structure
 		Features uncovered
 
-	Branch and Supporting Pages focus on:
+	Branches to Supporting Pages that focus on:
 		Reference tables pages
-		
-
-
-3. Change Draft to Classifier
-	Text of main page focuses on:
-		Classifier method
-		Structuring the data
-		Iterative refinements
-		Final model
-
-	Branch and Supporting Pages focus on:
-		
 		
 
 
 4. Change Project to Results/Findings
 	Text of main page focuses on:
 		Summary of initial exploration
-		Show final NB table, comparison to original
+		Showing final NB table, comparing predictions to original observations
 		
 
-	Branch and Supporting Pages focus on:
+	Branches to Supporting Pages that focus on:
 		
 		
 
@@ -129,22 +129,11 @@ My project for the R Faculty Learning Community was partly predictive in that I 
 		Plans to improve method
 		
 
-	Branch and Supporting Pages focus on:
+	Branches to Supporting Pages that focus on:
 		
 		
-
-background	Background
-pre_work	Data Exploration
-draft		Classifier
-project		Findings
-nextsteps	Next Steps
 
 # References
 
 ####\
-
-
-
-Developing the code book.
-
 

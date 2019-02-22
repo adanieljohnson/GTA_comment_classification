@@ -9,12 +9,12 @@ navbar:
   - text: "Lit Review"
     icon: fa-book
     href: litreview.html
-  - text: "Data Exploration"
-    icon: fa-question-circle
-    href: initial_exploration.html
   - text: "The Build"
     icon: fa-puzzle-piece
     href: classifier.html
+  - text: "Data Exploration"
+    icon: fa-question-circle
+    href: initial_exploration.html
   - text: "Findings"
     icon: fa-chart-bar
     href: findings.html

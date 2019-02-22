@@ -1,7 +1,7 @@
 ---
 title: "Naive Bayes Analysis Ver 2r.2c"
 author: "Dan Johnson"
-date: "2/14/2019"
+date: "2/21/2019"
 output: html_document
 ---
 
@@ -10,12 +10,12 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 ##Summary
-This workflow uses Naive Bayes to classify TA comments based on Subject and Structure. The major additions and revisions in **Version 2r.2c** are:
+This it the current Naive Bayes workflow used to classify TA comments based on Subject and Structure. Additions and revisions made to **Version 2r.2c** are:
 
-*  Randomly selected data rows used for training and test datasets. 
+*  Random selection of data rows used for training and test datasets. 
 *  Final output matrix tables are more informative. 
-*  Addition of a back-analysis of entire dataset, not just testing sub-set.
-*  Final output CSV file is a tidy data table of the original comments, the hand-scored and predicted subject, and hand-scored and predicted structure. 
+*  Addition of a back-analysis step that reviews entire dataset, not just testing sub-set.
+*  Outputs a tidy data table in CSV format that contains the original comments (pre-clean-up) plus their hand-scored and predicted subject and structure. 
 
 ####\  
 
@@ -28,27 +28,20 @@ library(tm)
 library(tidytext)
 library(e1071)
 library(caret)
-
-#library(RTextTools)
-#library(doMC)
-#registerDoMC(core=detectCores())
-#library(tidyr)
-#library(dplyr)
-#library(gmodels)
 ```
 
 ####\  
 
 ##Version 2.0.r of Naive Bayes (NB) Protocol
 ###Initial Data Input
-```{r data_input}
+```{r input data}
 #Read in TA comments from CSV file.
 base_dataVERB <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVERB.csv')
 ```
 
 ###Extract, Organize Data Subset
 Extract comments and classification data as subsets of CSV.
-```{r data_subsetting}
+```{r subset data}
 #Select rows representing the sub-groups to compare. 
 comments_subsetVERB <- filter(base_dataVERB,code.subject=="1_basic"|code.subject=="2_writing"|code.subject=="3_technical"|code.subject=="4_logic")
 
@@ -211,15 +204,15 @@ convert_counts2 <- function(x) {
 The resulting matrices have cells indicating "yes" or "no" if the word represented by the column appears in the text comment represented by the row.
 
 ```{}
-# Function to KEEP word frequencies while still using the same variable names and code structure. The resulting matrices have cells with word frequencies instead.
+# Alternate version of convert_function code block. This version KEEPs word frequencies while still using the same variable names and code structure. The resulting matrices have cells with word frequencies instead. 
+#Only works when the NB classifier is looking at ingroup/outgroup. Breaks on multiple categories.
+#
 convert_counts2 <- function(x) {
   y <- x
 }
 ```
 
-
-
-```{r make_binary}
+```{r apply_conversion}
 comments_all <- apply(comments_dtm_freq_all, MARGIN = 2, convert_counts2)
 comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
 comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
@@ -230,6 +223,7 @@ comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
 ###Train Model, Predict, Evaluate for Subject
 This block uses the e1071 package to implement Naive Bayes algorithm on the data, and predict whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. It evaluates the prediction with the actual data using a crosstable from the gmodels package.
 ```{r bayes_training}
+# Train the classifier on training data, then test on test subset and full dataset.
 comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
 comments_test_pred_subject <- predict(comments_classifier_subject, comments_test)
 comments_all_pred_subject <- predict(comments_classifier_subject, comments_all)
@@ -245,9 +239,11 @@ table("Predictions"= comments_all_pred_subject,  "Actual Subject All" = comments
 table("Predictions"= comments_test_pred_structure,  "Actual Structure Test" = comments_test_labels_structure )
 table("Predictions"= comments_all_pred_structure,  "Actual Structure All" = comments_all_labels_structure )
 
-#The truth table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting subject. this is what the confusion matrix calculates. The faster way is to calculate a confusion matrix, which includes BOTH the truth table, and the final overall accuracy.
+#The truth table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting subject. this is what the confusion matrix calculates. 
 
-#The Cross Table command below (from "gmodels") generates a more detailed output table with frequency values for each individual cell.
+#The faster way is to calculate a confusion matrix, which includes BOTH the truth table, and the final overall accuracy.
+
+#Alternatively, the Cross Table command below (from "gmodels" package) generates a more detailed output table with frequency values for each individual cell.
 #CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
 ```
 
@@ -410,19 +406,20 @@ proptallysum4
 ```
 
 ##Graph Outputs
-Plotting Hand-coding vs. Bayes
+Comparing outcome from Hand-coding vs. Bayes
 
-Need to combine two datasets into one, and create subsets based on the 
+Need to combine two datasets into one. 
 
 ```{r}
-tidy(proptallysum1)
-ggplot(data=proptallysum1, aes(x=Hand.Coded.Subject, y=total, group=1))+
-  geom_line() +
-  geom_point()
- 
+ggplot(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`,group=1))+
+  geom_line()
 ggplot(data=proptallysum2, aes(x=Bayes.Predicted.Subject, y=total, group=1))+
-  geom_line() +
-  geom_point()
- ```
+  geom_line()
+ggplot(data=proptallysum3, aes(x=Hand.Coded.Structure, y=total, group=1))+
+  geom_line()
+ggplot(data=proptallysum4, aes(x=Bayes.Predicted.Structure, y=total, group=1))+
+  geom_line()
+```
  
+
  
