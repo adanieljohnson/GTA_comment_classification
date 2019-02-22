@@ -7,6 +7,26 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+#Overview
+This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
+
+Structure of the initial dataset: https://adanieljohnson.github.io/default_website/datastructure.html
+
+Import and post-import data validation: https://adanieljohnson.github.io/default_website/dataimport.html
+
+####\  
+
+#Describe an Element
+
+
+####\  
+
+#Describe an Element
+
+
+####\  
+
+
 The first question to answer before making deeper comparisons is **are TAs' comments obviously different between sub-categories?** To that end, I ran three different analyses of word usage in TA comments.
 
 *  Pearson correlations for word use frequencies. This compares words found in all Subject sub-categories

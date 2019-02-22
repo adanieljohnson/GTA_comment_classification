@@ -1,13 +1,34 @@
 ---
 title: "Data Import & Checking"
 author: "Dan Johnson"
-date: "12/17/2018"
+date: "2/22/2019"
 output: html_document
 bibliography: library.bib
 biblio-style: apalike
 ---
 ```{r, child="_setup.Rmd"}
 ```
+
+#Overview
+This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
+
+Structure of the initial dataset: https://adanieljohnson.github.io/default_website/datastructure.html
+
+Import and post-import data validation: https://adanieljohnson.github.io/default_website/dataimport.html
+
+####\  
+
+#Describe an Element
+
+
+####\  
+
+#Describe an Element
+
+
+####\  
+
+
 #Overview
 This page describes the target dataset, data pre-checks and import process, post-import validation, and how selected elements are recoded for analysis.  
 

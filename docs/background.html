@@ -302,17 +302,17 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="initial_exploration.html">
-    <span class="fa fa-question-circle"></span>
-     
-    Data Exploration
-  </a>
-</li>
-<li>
   <a href="classifier.html">
     <span class="fa fa-puzzle-piece"></span>
      
     The Build
+  </a>
+</li>
+<li>
+  <a href="initial_exploration.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Data Exploration
   </a>
 </li>
 <li>
@@ -343,8 +343,8 @@ div.tocify {
 </div>
 
 
-<p>Undergraduate introductory STEM courses typically include technical writing training. Often it is treated as an incidental skill that each student develops “along the way.” Or, the instructional strategy is haphazardly designed, implemented, and executed.</p>
-<p>Adding to the challenge, faculty may not be directly responsible for helping students develop writing skills. Technical writing training usually is part of a lab course associated with a lecture class. Many times lab sections are led by graduate teaching assistants or even advanced undergraduates. TAs may have under-developed writing skills themselves, lack pedagogical content knowledge needed to guide students effectively, or not have been explicitly trained to teach writing in a particular way.</p>
+<p>Undergraduate introductory STEM courses often include technical writing training. Too often it is treated as an incidental skill that each student develops “along the way.” At other times the instructional strategy is haphazardly designed, implemented, and executed.</p>
+<p>Adding to the learning challenge, faculty may not be the ones helping students develop writing skills. If technical writing training is part of a lab course, graduate teaching assistants or even advanced undergraduates may be who teaches technical writing. TAs may have under-developed writing skills themselves, lack pedagogical content knowledge needed to guide students effectively, or not have been explicitly trained to teach writing in a particular way.</p>
 <p>In 2014 we launched a report data intake process we call <strong>SAWHET</strong> that systematically collects writing and other data from student writers and graduate instructors. Using these data we are mapping key features of student writing, as well as connections and correlations between those features. These insights then inform how we teach technical writing and train graduate instructors.</p>
 <p>Currently our structured database contains &gt;5000 laboratory reports written by undergraduate students for introductory biology courses, all in standardized .docx and .txt formats. Additional data and metadata available for each report includes:</p>
 <ul>
@@ -362,55 +362,38 @@ div.tocify {
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
-<div id="context-for-this-project" class="section level2">
-<h2>Context for This Project</h2>
-<p>From prior studies (REFs), we know students make greater gains as writers if instructors avoid telling students what to correct (“copy editing”), and use a coaching-oriented approach instead. To that end, we train graduate teaching assistants to use a <strong>global issues first, specific issues later</strong> approach to correcting undergraduate technical writing. We ask TAs to spend a limited block of time writing fewer comments that focus on broader issues. Ideally, TAs provide no more than 3-5 comments per text page, and comments should encourage student reflection. As students’ writing improves, the TA can focus on smaller issues. Our bins-based report grading protocol reinforces this strategy.</p>
-<p>The coaching-oriented approach is well-supported by prior research, but we are uncertain how well TAs can implement the recommended strategy. Effort self-reporting by TAs is likely to be unreliable. We have repeatedly asked ourselves, <strong>“what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?”</strong></p>
-<div id="section-1" class="section level4">
-<h4> </h4>
-</div>
-<div id="prior-work" class="section level3">
-<h3>Prior Work</h3>
-<p>In 2018, we began trying to answer this question by analyzing TAs’ comments from student papers directly. We extracted and tabulated all comments from approximately 500 pairs of reports. After initial data cleaning (removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent), we had a working dataset of ~11,000 separate comments.</p>
-<p>We next used a subset of 100 randomly selected comments to build an initial qualitative codebook for sorting comments into types. The initial codebook was re-tested using 1100 additional randomly selected comments. Using the final codebook, we sorted all 11,000 comments into separate categories (see LINK for complete codebook.)</p>
-<p>Coded TA comments were sorted on two axes:</p>
+<div id="context-prior-work" class="section level2">
+<h2>Context &amp; Prior Work</h2>
+<p>From prior studies (<em>see the Literature Reveiw for details</em>), we know students make greater gains as writers if instructors avoid telling students what to correct (“copy editing”), and use a coaching-oriented approach instead. To that end, our program trains graduate TAs to use a <strong>global issues / biggest issues first</strong> approach to correcting undergraduate technical writing. Ideally:</p>
+<ul>
+<li>TAs spend a shorter amount of time writing fewer comments that focus on broader issues.</li>
+<li>TAs provide no more than 3-5 comments per text page.</li>
+<li>Comments encourage student reflection and self-correction rather than prescribe specific changes.</li>
+<li>As students’ writing improves, TAs shift their focus to the next most-significant errors or issues.</li>
+</ul>
+<p>Our bins-based report grading protocol reinforces this feedback strategy.</p>
+<p>This holistic, coaching-oriented approach is well-supported by prior research, but we are uncertain how accurately TAs implement the recommended strategy. We have repeatedly asked ourselves, <strong>“what do TAs ACTUALLY spend most of their time and effort making comments about when they grade student writing?”</strong> Self-reported TA effort is likely to be unreliable. What is needed is a more direct measure of TA effort.</p>
+<p>In 2018, we began trying to analyze TAs’ comments from student papers directly. We extracted and tabulated all comments from approximately 500 pairs of reports. After initial data cleaning (removing duplicates, splitting comments addressing multiple independent writing issues, and removing comments lacking any context for judging intent), we had a working dataset of ~11,000 separate comments.</p>
+<p>We next used a subset of 110 randomly selected comments to build an initial qualitative codebook for classifying comments based on subject and structure. This initial codebook was tested and revised using blocks of 1100 additional randomly selected comments until the categories and criteria stabilized. Using the final codebook, we then sorted all 11,000 comments into separate categories (see PAGE_LINK for complete codebook.)</p>
+<p>TA comments were coded and sorted according to:</p>
 <ul>
 <li><strong>Subject</strong>: did the comment focus mainly on Basic criteria, Technical issues, Writing quality, Logic, or Other issues</li>
 <li><strong>Structure</strong>: was the comment mainly Copy correction, General or Specific information, Pointing to another resource, or Holistic coaching for improvement?</li>
 </ul>
-<p>Raw counts for each subject/structure pair were converted to fractional frequencies. The final table (excerpt is shown below) provided us with a direct estimate of TA effort.</p>
+<p>Raw counts for each subject/structure pair were then converted to fractional frequencies. The final frequency table (excerpted below) provided us with a direct estimate of TA effort and emphasis.</p>
 <div class="figure">
 <img src="images/Hand_frequency_table.png" alt="Excerpted data from frequency table for hand-coded TA comments on student reports" />
 <p class="caption"><em>Excerpted data from frequency table for hand-coded TA comments on student reports</em></p>
 </div>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="the-challenge" class="section level2">
+<h2>The Challenge</h2>
+<p>First, analyzing TA comments this way is informative but coding by hand is unsustainable. Developing the codebook then rating the initial set of 11,000 comments required nearly 80 hours of investigator effort. Given 10-12,000 comments are generated EACH SEMESTER, a faster classification method is essential for this NSF project to succeed.</p>
+<p>Second, even with the codebook in hand, individual coders need training to achieve sufficient accuracy, and there is significant risk of “coding drift” (changes in how code features are interpreted by a single rater over time). Automated classification would eliminate coder training and minimize potential for coding drift.</p>
 <div id="section-2" class="section level4">
-<h4> </h4>
-</div>
-</div>
-</div>
-<div id="central-problem" class="section level2">
-<h2>Central Problem</h2>
-<p>Coding TA comments this way is informative but doing so by hand is unsustainable. Developing the codebook then rating the initial set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook in place, individual coders need training to achieve sufficient accuracy, and there is significant risk of “coding drift” over time.</p>
-<p>Given 10-12,000 comments are generated EACH SEMESTER, an automated classification method is needed.</p>
-<div id="section-3" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="work-plan" class="section level2">
-<h2>Work Plan</h2>
-<ol style="list-style-type: decimal">
-<li>Compile initial dataset, and de-identify both TAs and students by replacing names with anonymous IDs.</li>
-<li>Export TA comments, metadata from student reports as a “tidy” dataframe.</li>
-<li>Explore comment data structure independently of classification to identify useful elements for feature engineering.</li>
-<li>Write the initial Naive Bayes workflow for supervised text classification.</li>
-<li>Assign TA comments to categories defined in our existing codebook, then compare outcomes from hand-coding versus automated classification.</li>
-<li>Using features (#3) and comparison data from initial classification protocol (#4) as a guide, test iterations of the classifier method and optimize.</li>
-<li>Apply the optimized classifier to the original comment dataset, identify all comments that are being classified incorrectly, and look for patterns.</li>
-<li>Write a small set of rule or REGEX pattern-based searches that can identify comments which are more likely to be classified incorrectly.</li>
-<li>Append rules/pattern-based pre-screening to the optimized Naive Bayes classifier.</li>
-<li>Validate this vertical Ensemble Classifier on a subset of ~2000 TA comments extracted from a non-overlapping set of student lab reports.</li>
-</ol>
-<div id="section-4" class="section level4">
 <h4> </h4>
 </div>
 </div>

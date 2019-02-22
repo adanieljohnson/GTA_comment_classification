@@ -1,0 +1,91 @@
+---
+title: "Data Structure"
+author: "Dan Johnson"
+date: "2/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Overview
+This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
+
+Structure of the initial dataset: https://adanieljohnson.github.io/default_website/datastructure.html
+
+Import and post-import data validation: https://adanieljohnson.github.io/default_website/dataimport.html
+
+####\  
+
+#Describe an Element
+
+
+####\  
+
+#Describe an Element
+
+
+####\  
+
+
+#Overview
+This page describes how the target dataset is structured.  
+
+How data are imported then validated for analysis is described here: https://adanieljohnson.github.io/default_website/dataimport.html
+
+Rationale and initial steps in development of the Classifier are described here: https://adanieljohnson.github.io/default_website/bayes_history.html
+
+Code for the current version of the Naive Bayes Classifier is located here:
+https://adanieljohnson.github.io/default_website/NB_2r2c.html
+
+####\  
+
+#Target Dataset
+The dataset being used to develop this project is an Excel table containing 10,808 TA comments extracted from student lab reports submitted during Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
+
+####\  
+
+#Pre-Check and Import
+Prior to import, review the data table **in Excel** and check that:
+
+1.  Student and TA names have been recoded using pre-assigned anonymous IDs.
+2.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.rmd"
+3.  Data table headers match those listed below. The same list is in the file "code_column_names.rmd"
+
+Column Number|Column Name|Accepted Values or Format
+------------|----------------------|-----------------------
+1|unique.record|Sp18.00001 (semester and year, then order in dataset)
+2|report.id|R_0fanqHFhaY2yLT7 or similar
+3|sort|remnant of coding
+4|report.title (empty)|string
+5|student|Std_drVZ2x1W (format is Std\_nnn)
+6|course|113, 114, or 214
+7|ta |TA_bc8EVX09 (format is TA\_nnn)
+8|lab|113: allocation, betta; 114: manduca, frog; 214: enzymes (old) photosynthesis, physarum, cyanophage (new)
+9|tag|first, second
+10|type.TA|submission, revision
+11|grade.TA|A, B, C, F
+12|grading.time|time in minutes
+13|Rank|remnant of coding
+14|hypothesis.ok|Yes, No
+15|data.ok|Yes, No
+16|citation.ok|Yes, No
+17|interpretation.ok|Yes, No
+18|organization.ok|Yes, No
+19|techflaws.ok|Yes, No
+20|writing.ok|Yes, No
+21|comments.incorporated|Yes, Somewhat, No
+22|ta.comment|text string
+23|code.subject|values in Ref. Tables
+24|code.structure|values in Ref. Tables
+25|code.locus|values in Ref. Tables
+26|code.scope|values in Ref. Tables
+27|code.tone|values in Ref. Tables
+28|code.notes|values in Ref. Tables
+
+
+Data were anonymized in Excel, replacing names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings **[LINK]**. 
+
+
+Once all data are in correct format, export Excel file to CSV with name formatted as **"coded_full_comments_dataset_SemYear.csv"**

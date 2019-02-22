@@ -11,7 +11,7 @@ navbar:
     href: litreview.html
   - text: "The Build"
     icon: fa-puzzle-piece
-    href: classifier.html
+    href: build.html
   - text: "Data Exploration"
     icon: fa-question-circle
     href: initial_exploration.html

@@ -1,13 +1,14 @@
 ---
-title: "Literature Review"
+title: "The Build"
 author: "Dan Johnson"
-date: "2/21/2019"
+date: "2/22/2019"
 output: html_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 #Overview
 This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
 
@@ -23,17 +24,6 @@ Import and post-import data validation: https://adanieljohnson.github.io/default
 ####\  
 
 #Describe an Element
-
-
-####\  
-
-
-#Technical Writing Instruction and Assessment
-
-
-
-#Text Classification Methods
-
 
 
 ####\  
