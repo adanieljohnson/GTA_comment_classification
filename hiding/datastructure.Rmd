@@ -1,5 +1,5 @@
 ---
-title: "Data Structure"
+title: "DROPPED"
 author: "Dan Johnson"
 date: "2/22/2019"
 output: html_document
@@ -10,38 +10,6 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 #Overview
-This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
-
-Structure of the initial dataset: https://adanieljohnson.github.io/default_website/datastructure.html
-
-Import and post-import data validation: https://adanieljohnson.github.io/default_website/dataimport.html
-
-####\  
-
-#Describe an Element
-
-
-####\  
-
-#Describe an Element
-
-
-####\  
-
-
-#Overview
-This page describes how the target dataset is structured.  
-
-How data are imported then validated for analysis is described here: https://adanieljohnson.github.io/default_website/dataimport.html
-
-Rationale and initial steps in development of the Classifier are described here: https://adanieljohnson.github.io/default_website/bayes_history.html
-
-Code for the current version of the Naive Bayes Classifier is located here:
-https://adanieljohnson.github.io/default_website/NB_2r2c.html
-
-####\  
-
-#Target Dataset
 The dataset being used to develop this project is an Excel table containing 10,808 TA comments extracted from student lab reports submitted during Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
 
 ####\  

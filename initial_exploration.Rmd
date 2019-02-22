@@ -1,5 +1,5 @@
 ---
-title: "Initial Explorations"
+title: "Initial Exploration"
 output: html_document
 ---
 
@@ -8,31 +8,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 #Overview
-This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
+The first question to answer before making deeper comparisons is, **are word frequencies different between TAs' comments from different sub-categories?** To that end, I ran three different analyses of word usage frequency.
 
-Structure of the initial dataset: https://adanieljohnson.github.io/default_website/datastructure.html
-
-Import and post-import data validation: https://adanieljohnson.github.io/default_website/dataimport.html
-
-####\  
-
-#Describe an Element
-
+*  __Pearson correlations for word use frequencies__. This only compares words found in all of the Subject sub-categories
+*  __Word frequency differences based on log-odds ratios__. This highlights terms that are the most different between sub-categories.
+*  __N-grams mapping__. This identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. 
 
 ####\  
-
-#Describe an Element
-
-
-####\  
-
-
-The first question to answer before making deeper comparisons is **are TAs' comments obviously different between sub-categories?** To that end, I ran three different analyses of word usage in TA comments.
-
-*  Pearson correlations for word use frequencies. This compares words found in all Subject sub-categories
-*  Word frequency differences based on log-odds ratios. This highlights terms that are the most different between sub-categories.
-*  Unique n-grams mapping. This identifies text strings, phrases, and rare terms that are unique (or nearly unique) to one sub-category.
-
 
 #Setup
 ```{r Libraries_1}
@@ -51,7 +33,7 @@ base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVERB.cs
 ####\  
 
 #Pearson Correlations of Word Frequencies
-##Are Shared Words Unequally Distributed?
+##Are Shared Words Used At Different Frequencies?
 This analysis takes all comments from base_data, tokenizes and filters stopwords, then counts and sorts fractional frequencies for each word in each category. **NOTE**: this analysis only compares word use for terms present in ALL sub-categories. If a word is MISSING from **any subcategory**, the data row for that word is pruned from the dataset. This eliminates all unique words in favor of words found in all sub-categories. 
 
 ```{r}
@@ -222,7 +204,7 @@ Graphs 4-6 show pair-wise comparisons between sub-categories. Unlike overall fre
 
 ####\  
 
-#Log-Odds Ratios
+#Log-Odds Ratios of Word Frequencies
 ##Which Words Are Shared LEAST Between Categories?
 Unlike the preceding analysis, log-odds ratio comparison does not eliminate unshared terms. Instead, it identifies which words are MOST likely to be used in one sub-category, but not another. For simplicity I reduced the analysis to just the four most common comment subjects. This has been the most informative preliminary visualization I have found so far. 
 
@@ -458,8 +440,10 @@ word_ratios2v4 %>%
 ####\  
 
 #N-Grams Mapping 
-##Which Terms, Phrases Are Unique to a Sub-Category?
+##Are Certain Terms and Phrases Unique to One Sub-Category?
+One of our earliest observations was that the n-gram "basic criteria" only appeared in TA comments from three different Subject sub-categories. This suggests certain terms and n-grams might be eliminated 
 
+However it w  the relative frequency was much higher
 ```{}
 #Pseudo-code
 Import comments

@@ -10,11 +10,13 @@ knitr::opts_chunk$set(echo = TRUE)
 ```
 
 #Overview
-This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
+This page links to sub-pages that describe how various components used in the project were built. Follow the links for details.
 
-Structure of the initial dataset: https://adanieljohnson.github.io/default_website/datastructure.html
+Extracting TAs' comments: https://adanieljohnson.github.io/default_website/docxcommentextraction.html
 
-Import and post-import data validation: https://adanieljohnson.github.io/default_website/dataimport.html
+Structure of development dataset; data import & validation: https://adanieljohnson.github.io/default_website/dataimport.html
+
+Current Naive Bayes classifier: https://adanieljohnson.github.io/default_website/NB_2r2c.html
 
 ####\  
 

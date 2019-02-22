@@ -1,0 +1,72 @@
+---
+title: "DOCX Comment Extraction"
+author: "Dan Johnson"
+date: "2/22/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Pseudo-Code and Sources
+Create a list of files to cycle through OR put all files to process in ONE folder.
+For each file, use 'read_docx', then 'docx_extract_all_cmnts'
+Use 'do.call("rbind", list(dataframes to merge))' to cycle through and append the extracted comments to ONE dataframe
+
+
+
+https://stackoverflow.com/questions/50439684/how-to-extract-plain-text-from-docx-file-using-r
+
+https://stackoverflow.com/questions/5965698/merge-unequal-dataframes-and-replace-missing-rows-with-0
+
+https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html
+
+https://www.dummies.com/programming/r/how-to-use-the-merge-function-with-data-sets-in-r/
+
+https://datascienceplus.com/combining-data-in-r-the-skill-of-merging-joining-and-stacking/
+
+https://www.rdocumentation.org/packages/analogue/versions/0.17-1/topics/join
+Load required Libraries
+```{r}
+library(docxtractr)
+```
+
+
+
+```{r}
+Commentframe1<-read_docx("/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/TestingReport.docx", track_changes = NULL)
+
+Commentframe2<-read_docx("/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/TestingCommentExtraction.docx", track_changes = NULL)
+
+comments1<-docx_extract_all_cmnts(Commentframe1, include_text = FALSE)
+comments2<-docx_extract_all_cmnts(Commentframe2, include_text = FALSE)
+
+#Merging more than two dataframes
+#To merge more than two dataframes within R, we can combine our rbind call with do.call.
+# > do.call("rbind", list(dataframes to merge))
+#
+#How this works:
+#  The 'do.call' function allows us to use any existing R functions, such as 'rbind', but instead of passing just two dataframes in this instance, we are able to pass multiple.
+#
+#Therefore, when used alongside rbind, we can use do.call to merge more than two dataframes at once.
+#
+#Putting this all together, we can merge our dataframes back together as follows:
+# > ufoMerged <- do.call("rbind", list(ufo1, ufo2, ufo3, ufo4))
+#
+#We can confirm our data has been successfully merged by checking the number of rows:
+#
+#> NROW(ufoMerged)
+#[1] 80332
+
+
+#comments1And2 <- rbind(comments1,comments2)
+do.call("rbind", list(comments1,comments2))
+
+write.csv2(comments1And2, file = "TAcomments.csv")
+```
+
+
+
+
+
