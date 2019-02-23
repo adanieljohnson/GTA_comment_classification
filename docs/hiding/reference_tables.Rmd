@@ -1,5 +1,5 @@
 ---
-title: "reference_tables"
+title: "Reference Tables"
 author: "Dan Johnson"
 date: "2/3/2019"
 output: html_document
@@ -9,8 +9,7 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## Reference Tables
-
+#TA Comment Categories
 Labels in **comment.subject** are routinely recoded as:
 
 0_null

@@ -9,6 +9,7 @@
 <meta name="generator" content="pandoc" />
 
 
+<meta name="author" content="Dan Johnson" />
 
 
 <title>Automated Classification of TA Comments on Student Writing</title>
@@ -339,51 +340,43 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Automated Classification of TA Comments on Student Writing</h1>
+<h4 class="author"><em>Dan Johnson</em></h4>
+<h4 class="date"><em>2/3/2019</em></h4>
 
 </div>
 
 
-<div id="overview" class="section level2">
-<h2>Overview</h2>
-<p>I am using classroom research and data science to better understand how students develop technical writing skills in large-enrollment biology courses.</p>
-<p>My current NSF-sponsored grant asks whether we can accelerate student development as writers using a mix of scripted active instruction, automated support of writing in progress, and holistic feedback. One specific question we have is how <strong>changing the structure and main focus of instructors’ comments</strong> affects students’ writing development over time. To answer this we extract instructor comments from student reports, categorize the comments according to their subject and structure, then correlate the types of comments instructors make with student performance.</p>
-<p>Classifying TA comments this way is informative, but doing so by hand is impractical: 10-12,000 comments need to be scored EACH semester. There also is a significant risk of “coding drift” over time, reducing accuracy.</p>
-<p>My project for the <strong>Faculty Learning Community for R</strong> was to create an automated comment classifier that could generate two-axis contingency tables comparable to the one generated using hand-coded data. This automated classifier will used within the larger NSF-funded research project to:</p>
+<div id="ta-comment-categories" class="section level1">
+<h1>TA Comment Categories</h1>
+<p>Labels in <strong>comment.subject</strong> are routinely recoded as:</p>
 <ul>
-<li>Improve both speed and consistency when classifying TA comments across multiple semesters.</li>
-<li>Monitor how the types and focus of TAs comments on student writing change over time.</li>
+<li>0_null</li>
+<li>1_basic</li>
+<li>2_writing</li>
+<li>3_technical</li>
+<li>4_logic</li>
+<li>5_exposition</li>
+<li>6_misconduct</li>
+<li>7_administrative</li>
+<li>8_nobasis</li>
+<li>9_split</li>
+<li>10_context</li>
+<li>11_flag</li>
+<li>12_narrative</li>
+<li>13_sciname</li>
 </ul>
-<div id="section" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="work-plan" class="section level2">
-<h2>Work Plan</h2>
-<p>The work plan for this project is:</p>
-<ol style="list-style-type: decimal">
-<li>Compile an initial dataset for testing, and de-identify both TAs and students by replacing names with anonymous IDs.</li>
-<li>Import TA comments and relevant metadata from student reports into R as a “tidy” dataframe.</li>
-<li>Use basic text analysis methods to explore comment data structure, n-gram frequencies, etc., and identify potentially useful elements for feature engineering.</li>
-<li>Write a baseline workflow using Naive Bayes for supervised text classification.</li>
-<li>Assign TA comments to categories using the NB classifier, then establish baseline accuracy values using the optimized NB classifier by comparing outcomes of automated classification to hand-coded results.</li>
-<li>Using features (from Step #3) and comparison data from NB classification protocol (from Step #5) as guides, further optimize the NB classifier method.</li>
-<li>When accuracy stabilizes, apply the optimized NB classifier to the original FULL comment dataset, identify all comments that are being classified incorrectly, and look for potential patterns.</li>
-<li>Write a small set of rule- or REGEX pattern-based searches that can identify comments which are more likely to be classified incorrectly.</li>
-<li>Append rules/pattern-based pre-screening to the optimized Naive Bayes classifier to create a vertical Ensemble Classifier.</li>
-<li>Validate the Ensemble Classifier using a subset of ~2000 new hand-coded TA comments extracted from a non-overlapping set of student lab reports. Compare automated results for new data set to hand-coded categories.</li>
-</ol>
-<p>Looking beyond the current project, I will be using the NB-based Ensemble Classifier as the control method for evaluating other text classifier strategies.</p>
-<div id="section-1" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="project-site-map" class="section level2">
-<h2>Project Site Map</h2>
-<p>Insert a text-based overview and site map of the major pages and branch points here.</p>
-<p>When appropriate, anchor pages branch to extended supporting documentation.</p>
-<div id="section-2" class="section level4">
-<h4> </h4>
-</div>
+<p>Labels in <strong>comment.structure</strong> are routinely recoded as:</p>
+<ul>
+<li>0_null</li>
+<li>1_pointer</li>
+<li>2_copyedit</li>
+<li>3_general</li>
+<li>4_specific</li>
+<li>5_rationale</li>
+<li>6_holistic</li>
+<li>7_idiomatic</li>
+<li>8_nobasis</li>
+</ul>
 </div>
 
 <p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>

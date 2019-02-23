@@ -1,12 +1,11 @@
 ---
 title: "The Build"
-author: "Dan Johnson"
+bibliography: library.bib
 date: "2/22/2019"
-output: html_document
+biblio-style: apalike
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_setup.Rmd"}
 ```
 
 #Overview

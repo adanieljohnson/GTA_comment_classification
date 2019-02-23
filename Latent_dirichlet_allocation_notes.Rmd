@@ -1,0 +1,251 @@
+---
+title: "Latent Dirichlet Analysis v1"
+author: "Dan Johnson"
+date: "12/14/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Sources:
+Primary
+https://eight2late.wordpress.com/2015/09/29/a-gentle-introduction-to-topic-modeling-using-r/
+
+```{r}
+#load text mining library
+library(tm)
+
+#set working directory (modify path as needed)
+setwd("/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/ta_comments_FLC/data/textmining/")
+
+#load files into corpus
+#get listing of .txt files in directory
+filenames <- list.files(getwd(),pattern="*.txt")
+
+#read files into a character vector
+files <- lapply(filenames,readLines)
+ 
+#create corpus from vector
+docs <- Corpus(VectorSource(files))
+
+#inspect a particular document in corpus
+writeLines(as.character(docs[[30]]))
+
+#start preprocessing
+#Transform to lower case
+docs <-tm_map(docs,content_transformer(tolower))
+
+#remove potentially problematic symbols
+toSpace <- content_transformer(function(x, pattern) { return (gsub(pattern, " ", x))})
+docs <- tm_map(docs, toSpace, "-")
+docs <- tm_map(docs, toSpace, "’")
+docs <- tm_map(docs, toSpace, "‘")
+docs <- tm_map(docs, toSpace, "•")
+docs <- tm_map(docs, toSpace, "“")
+docs <- tm_map(docs, toSpace, "”")
+
+#remove punctuation
+docs <- tm_map(docs, removePunctuation)
+#Strip digits
+docs <- tm_map(docs, removeNumbers)
+#remove stopwords
+docs <- tm_map(docs, removeWords, stopwords("english"))
+#remove whitespace
+docs <- tm_map(docs, stripWhitespace)
+#Good practice to check every now and then
+writeLines(as.character(docs[[30]]))
+#Stem document
+docs <- tm_map(docs,stemDocument)
+
+#fix up 1) differences between us and aussie english 2) general errors
+docs <- tm_map(docs, content_transformer(gsub),
+pattern = "organiz", replacement = "organ")
+docs <- tm_map(docs, content_transformer(gsub),
+pattern = "organis", replacement = "organ")
+docs <- tm_map(docs, content_transformer(gsub),
+pattern = "andgovern", replacement = "govern")
+docs <- tm_map(docs, content_transformer(gsub),
+pattern = "inenterpris", replacement = "enterpris")
+docs <- tm_map(docs, content_transformer(gsub),
+pattern = "team-", replacement = "team")
+
+#define and eliminate all custom stopwords
+myStopwords <- c("can", "say","one","way","use",
+"also","howev","tell","will",
+"much","need","take","tend","even",
+"like","particular","rather","said",
+"get","well","make","ask","come","end",
+"first","two","help","often","may",
+"might","see","someth","thing","point",
+"post","look","right","now","think","‘ve ",
+"‘re ","anoth","put","set","new","good",
+"want","sure","kind","larg","yes,","day","etc",
+"quit","sinc","attempt","lack","seen","awar",
+"littl","ever","moreov","though","found","abl",
+"enough","far","earli","away","achiev","draw",
+"last","never","brief","bit","entir","brief",
+"great","lot")
+docs <- tm_map(docs, removeWords, myStopwords)
+
+#inspect a document as a check
+writeLines(as.character(docs[[30]]))
+
+#Create document-term matrix
+dtm <- DocumentTermMatrix(docs)
+
+#convert rownames to filenames
+rownames(dtm) <- filenames
+
+#collapse matrix by summing over columns
+freq <- colSums(as.matrix(dtm))
+
+#length should be total number of terms
+length(freq)
+
+#create sort order (descending)
+ord <- order(freq,decreasing=TRUE)
+
+#List all terms in decreasing order of freq and write to disk
+freq[ord]
+write.csv(freq[ord],"word_freq.csv")
+```
+
+##Part 2
+
+```{r}
+#load topic models library
+library(topicmodels)
+ 
+#set working directory (modify path as needed)
+setwd("/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/ta_comments_FLC/data/textmining/")
+
+#Set parameters for Gibbs sampling
+burnin <- 4000
+iter <- 2000
+thin <- 500
+seed <-list(2003,5,63,100001,765)
+nstart <- 5
+best <- TRUE
+
+ 
+#Number of topics
+k <- 5
+
+#That done, we can now do the actual work – run the topic modelling algorithm on our corpus. Here is the code:
+
+#Run LDA using Gibbs sampling
+ldaOut <-LDA(dtm,k, method="Gibbs", control=list(nstart=nstart, seed = seed, best=best, burnin = burnin, iter = iter, thin=thin))
+
+#write out results
+#docs to topics
+ldaOut.topics <- as.matrix(topics(ldaOut))
+write.csv(ldaOut.topics,file=paste("LDAGibbs",k,"DocsToTopics.csv"))
+
+ 
+#top 6 terms in each topic
+ldaOut.terms <- as.matrix(terms(ldaOut,6))
+write.csv(ldaOut.terms,file=paste("LDAGibbs",k,"TopicsToTerms.csv"))
+
+ 
+#probabilities associated with each topic assignment
+topicProbabilities <- as.data.frame(ldaOut@gamma)
+write.csv(topicProbabilities,file=paste("LDAGibbs",k,"TopicProbabilities.csv"))
+
+ 
+#Find relative importance of top 2 topics
+topic1ToTopic2 <- lapply(1:nrow(dtm),function(x)
+sort(topicProbabilities[x,])[k]/sort(topicProbabilities[x,])[k-1])
+
+ 
+#Find relative importance of second and third most important topics
+topic2ToTopic3 <- lapply(1:nrow(dtm),function(x)
+sort(topicProbabilities[x,])[k-1]/sort(topicProbabilities[x,])[k-2])
+
+ 
+#write to file
+write.csv(topic1ToTopic2,file=paste("LDAGibbs",k,"Topic1ToTopic2.csv"))
+write.csv(topic2ToTopic3,file=paste("LDAGibbs",k,"Topic2ToTopic3.csv"))
+```
+
+***
+***
+
+##Other Examples of LDA Procedures
+https://rpubs.com/Junny31/318845
+https://rstudio-pubs-static.s3.amazonaws.com/266565_171416f6c4be464fb11f7d8200c0b8f7.html
+
+
+***
+***
+
+##Another Approach Comparing LDA (unsupervised) and tf-idf (supervised)
+
+https://www.kaggle.com/rtatman/nlp-in-r-topic-modelling
+>Latent Dirichlet (said like deer-ih-CLAY) allocation, more commonly shortened to LDA, is one unsupervised way of doing topic modeling. In machine learning, a problem is unsupervised if you don't have labeled examples of the thing you're trying to figure out.
+
+>LDA rests on the assumption that each document is going to have some subset of topics in it, and that each topic is associated with a certain subset of words. Imagine, for example, that you have three text ads:
+
+    One is for Chow-Chow Crunch, a new dog food
+    One is for Danny's Downhome Diner, a new restaurant
+    One is for Fifi's Chic Puppy Boutique, a store that sells dog accessories
+
+>Both the diner and the dog food ad will probably have words associated with the topic of food in them, like "tasty", "filling" or "delicious". Both the dog food and the pet store will probably have words associated with the topic of pets, like "canine", "pet" or "owner". And, because they're all ads, it likely that all three documents will have words associated with advertising in them, like "sale", "price" or "special".
+
+>The tricky part is that words can also belong to more than one topic. I just said that "special" could be associated with advertising... but it can also be associated with food, especially in terms like "blue plate special" or "chef's special".
+
+>What LDA outputs, then, is two estimates:
+
+    An estimate of how much each topic contributes to each document
+    An estimate of how much each word contributes to each topic
+
+>For exploratory analysis, especially if you have a large number of documents, the second estimate is usually more interesting. In order to make our lives easier (since we're going to ran an LDA several times) let's write a function that takes a text column from a data frame and returns a plot of the most informative words for a given number of topics.
+
+```{r}
+# function to get & plot the most informative terms by a specificed number
+# of topics, using LDA
+top_terms_by_topic_LDA <- function(input_text, # should be a columm from a dataframe
+                                   plot = T, # return a plot? TRUE by defult
+                                   number_of_topics = 4) # number of topics (4 by default)
+{    
+    # create a corpus (type of object expected by tm) and document term matrix
+    Corpus <- Corpus(VectorSource(input_text)) # make a corpus object
+    DTM <- DocumentTermMatrix(Corpus) # get the count of words/document
+
+    # remove any empty rows in our document term matrix (if there are any 
+    # we'll get an error when we try to run our LDA)
+    unique_indexes <- unique(DTM$i) # get the index of each unique value
+    DTM <- DTM[unique_indexes,] # get a subset of only those indexes
+    
+    # preform LDA & get the words/topic in a tidy text format
+    lda <- LDA(DTM, k = number_of_topics, control = list(seed = 1234))
+    topics <- tidy(lda, matrix = "beta")
+
+    # get the top ten terms for each topic
+    top_terms <- topics  %>% # take the topics data frame and..
+      group_by(topic) %>% # treat each topic as a different group
+      top_n(10, beta) %>% # get the top 10 most informative words
+      ungroup() %>% # ungroup
+      arrange(topic, -beta) # arrange words in descending informativeness
+
+    # if the user asks for a plot (TRUE by default)
+    if(plot == T){
+        # plot the top ten terms for each topic in order
+        top_terms %>% # take the top terms
+          mutate(term = reorder(term, beta)) %>% # sort terms by beta value 
+          ggplot(aes(term, beta, fill = factor(topic))) + # plot beta by theme
+          geom_col(show.legend = FALSE) + # as a bar plot
+          facet_wrap(~ topic, scales = "free") + # which each topic in a seperate plot
+          labs(x = NULL, y = "Beta") + # no x label, change y label 
+          coord_flip() # turn bars sideways
+    }else{ 
+        # if the user does not request a plot
+        # return a list of sorted terms instead
+        return(top_terms)
+    }
+}
+```
+
+
+

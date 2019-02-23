@@ -1,0 +1,650 @@
+---
+title: "Text Classification Primer"
+author: "Dan Johnson"
+date: "1/9/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For this text classification project I am using an initial codebook and corpus of hand-coded TA comments to test various approaches to semi- and fully automated classification methods and, if appropriate, revise the underlying classification scheme. 
+
+This page provides background on general mechanics of text classification and various classifier methods. Other pages describe the dataset structure [LINK] (TA comments corpus), and [LINK] development of the initial codebook. 
+
+#Workflow
+Text classification problems can be broken down into four overlapping sub-problems. Each piece may be more or less important to the overall problem, but all need to be considered:
+
+1.  Feature selection and engineering
+2.  Topic categorization and modeling
+3.  Selecting an appropriate text classifier method
+4.  Evaluating the outcomes
+
+
+
+##Feature Selection and Engineering
+This is the process of selecting, tabulating, calculating, or creating text-based features for subsequent evaluation. This includes:
+
+*  Identifying existing, directly observable text features within the dataset
+*  Engineering additional features using established NLP methods
+*	 Reverse engineering relevant features based on an empirically defined feature set.
+
+The features listed below are used regularly for natural language processing. Not all will be appropriate for all situations though; selecting, evaluating, comparing, and validating the appropriate features for the classification task is an iterative process, not a one-time decision.
+
+*  Count-based Vectors
+	+  Word Count – total number of words in the documents
+	+  Character Count – total number of characters in the documents
+	+  Punctuation Count – total number of punctuation marks in the documents
+	+  Upper Case Count – total number of upper case words in the documents
+	+  Title Word Count – total number of consecutive upper case (title) words in the documents
+*  Distribution and Frequency Calculations
+	+  Average word density of sentences 
+	+  Average length of the words used in the documents
+	+  TF-IDF
+	+  Reading level estimates (described below)
+*  Part of Speech Tagging and Frequency Distribution of Tags 
+	+ Noun Count
+	+ Verb Count
+	+ Adjective Count
+	+ Adverb Count
+	+ Pronoun Count
+*  Word Embedding (described below)
+
+Additional features are available for longer texts such as multi-sentence paragraphs.
+
+*  Word choices
+*  Lexical diversity (described below)
+*  Stance patterns - hedging, booster, generalization words or phrasing 
+*  Concision - comparisons of noun phrase density versus comment clause density
+*  Cohesion - use of words that are additive (also), countering (however), specify or emphasize (even, both, especially), connecting (former, latter)
+*  Civility and uncertainty - language that acknowledges limits of statement, critiques ideas not people, and makes fewer generalizations
+
+
+###Lexical Diversity
+This is not the same as word choices. This explanation is an excerpt from "quanteda: Quantitative Analysis of Textual Data", which describes how to use ```textstat_lexdiv``` to calculate lexical diversity. 
+https://rdrr.io/cran/quanteda/man/textstat_lexdiv.html
+http://quanteda.io/reference/textstat_lexdiv.html
+
+Consider a speaker, who uses the term "allow" multiple times throughout the speech, compared to an another speaker who uses terms "allow, concur, acquiesce, accede, and avow"" for the same word. The latter speech has more lexical diversity than the former. Lexical diversity is widely believed to be an important parameter to rate a document in terms of textual richness and effectiveness.
+
+Lexical diversity, in simple terms, is a measurement of the breadth and variety of vocabulary used in a document. The different measures of lexical diversity are TTR, MSTTR, MATTR, C, R, CTTR, U, S, K, Maas, HD-D, MTLD, and MTLD-MA.
+
+koRpus package in R also provides functions to estimate lexical diversity or complexity.
+https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781783551811/2/ch02lvl1sec16/lexical-diversity
+
+
+###Readability metrics
+These estimate the relative grade level or age of a typical reader who could comprehend 80+% (typically) of the text. Most readability metrics require longer blocks of text (100+ words) to achieve a stable score. They use some combination of word count, average syllables per word, and sentence length to estimate reading level. 
+
+The metrics differ in how appropriate they are for specific situations. Some were developed for general writing, others for specific school age groups, and still others for technical documents; the US Navy in particular developed a suite of metrics for evaluating their training documents. 
+
+The ```readability library``` (v0.1.1) is a collection of readability tools that utilize the ```syllable``` package for fast calculation of readability scores by grouping variables. It calculates Flesch Kincaid, Gunning Fog Index, Coleman Liau, SMOG, Automated Readability Index and an average of the 5 readability scores. These all are general scales; other scores may not be available in R packages.
+
+
+###Word Embedding
+**Word embedding** is a set of language modeling and feature learning techniques in natural language processing (NLP) where words or phrases from the vocabulary are mapped to vectors of real numbers. Conceptually it involves a mathematical embedding from a space with one dimension per word to a continuous vector space with a much lower dimension.
+
+Methods to generate the mapping include neural networks, dimensionality reduction, probabilistic models, knowledge base methods, and explicit representation in terms of the context in which words appear. The technique of representing words as vectors has roots in the 1960s with the development of the vector space model for information retrieval. 
+
+Word embeddings come in two different styles, one in which words are expressed as vectors of co-occurring words, and another in which words are expressed as vectors of linguistic contexts in which the words occur. Most new word embedding techniques rely on a neural network architecture instead of more traditional n-gram models and unsupervised learning. 
+
+One of the main limitations of word embeddings (word vector space models in general) is that possible meanings of a word are conflated into a single representation (a single vector in the semantic space). Sense embeddings are a solution to this problem: individual meanings of words are represented as distinct vectors in the space.
+
+Tools like **Principal Component Analysis (PCA)** and **T-Distributed Stochastic Neighbour Embedding (t-SNE)** are used to reduce the dimensionality of word vector spaces and visualize word embeddings and clusters.
+
+Software for training and using word embeddings includes Tomas Mikolov's Word2vec, Stanford University's GloVe, fastText, Gensim, AllenNLP's Elmo, Indra and Deeplearning4j. Three of these tools are described further below.
+
+
+####Word2vec
+Word2vec is a group of shallow, two-layer neural network models that produce word embeddings. The toolkit can train vector space models to reconstruct linguistic contexts of words. Word2vec takes as its input a large corpus of text and produces a vector space, typically of several hundred dimensions, with each unique word in the corpus being assigned a corresponding vector in the space. Word vectors are positioned in the vector space so words that share common contexts in the corpus are located in close proximity to one another in the space.
+
+The use of different model parameters and different corpus sizes can greatly affect the quality of a word2vec model. Accuracy can be improved in a number of ways, including the choice of model architecture (CBOW or Skip-Gram), increasing the training data set, increasing the number of vector dimensions, and increasing the window size of words considered by the algorithm. Each of these improvements comes with the cost of increased computational complexity and therefore increased model generation time.
+
+In models using large corpora and a high number of dimensions, the skip-gram model yields the highest overall accuracy, and consistently produces the highest accuracy on semantic relationships, as well as yielding the highest syntactic accuracy in most cases. However, the CBOW is less computationally expensive and yields similar accuracy results.
+
+Accuracy increases overall as the number of words used increases, and as the number of dimensions increases. Altszyler et al. (2017) studied Word2vec performance in two semantic tests for different corpus size. They found that Word2vec has a steep learning curve, outperforming another word-embedding technique (LSA) when it is trained with medium to large corpus size (more than 10 million words). However, with a small training corpus LSA showed better performance. Additionally they show that the best parameter setting depends on the task and the training corpus. Nevertheless, for skip-gram models trained in medium size corpora, with 50 dimensions, a window size of 15 and 10 negative samples seems to be a good parameter setting. 
+
+
+####fastText
+fastText is a Python-based library created by Facebook's AI Research (FAIR) lab for learning of word embeddings and text classification. The model allows to create an unsupervised learning or supervised learning algorithm for obtaining vector representations for words. fastText uses a neural network for word embedding.
+
+https://fasttext.cc/
+
+
+####GloVe
+GloVe, short for Global Vectors, is a model for distributed word representation. The model is an unsupervised learning algorithm for obtaining vector representations for words. Training is performed on aggregated global word-word co-occurrence statistics from a corpus, and the resulting representations showcase interesting linear substructures of the word vector space. It is developed as an open-source project at Stanford. Pre-trained word vectors data are made available under the Public Domain Dedication and License v1.0.
+
+GloVe uses Euclidean distance (or cosine similarity) between two word vector for measuring the linguistic or semantic similarity of the corresponding words. Sometimes, the nearest neighbors according to this metric reveal rare but relevant words that lie outside an average human's vocabulary. For example, here are the closest words to the target word **frog**:
+
+*  frog
+*  frogs
+*  toad
+*  litoria
+*  leptodactylidae
+*  rana
+*  lizard
+*  eleutherodactylus 
+
+The similarity metrics used for nearest neighbor evaluations produce a single scalar that quantifies the relatedness of two words. This simplicity can be problematic since two given words almost always exhibit more intricate relationships than can be captured by a single number. For example, man may be regarded as similar to woman in that both words describe human beings; on the other hand, the two words are often considered opposites since they highlight a primary axis along which humans differ from one another.
+
+In order to capture in a quantitative way the nuance necessary to distinguish man from woman, it is necessary for a model to associate more than a single number to the word pair. A natural and simple candidate for an enlarged set of discriminative numbers is the vector difference between the two word vectors. GloVe is designed in order that such vector differences capture as much as possible the meaning specified by the juxtaposition of two words.
+
+https://nlp.stanford.edu/projects/glove/
+
+
+##Sub-Problem Two: Topic Categorization and Modeling Methods
+Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already, or do they need to be established? What are the main topics   
+
+**Curated Categories** (my provisional term until I find the appropriate equivalent in current use) are established by subject matter experts. The established categories can be constructed from:
+
+*  A limited keywords vocabulary (National Library of Medicine MeSH categories for example)
+*  Disciplinary conventions or shared best practices (the Dublin Core is an example)
+*  Prior empirical studies
+*  The dataset itself, using *de novo* iterative coding. This process is described further here [LINK] and here [LINK].
+
+
+**Topic Modeling** is a group of techniques for identifying groups of words (the "topic")  that best summarize the information in a collection of documents. Topic modeling is an iterative/ generative process that does not require any prior knowledge of the documents or relationships.
+
+
+###Topic Modeling Methods to Identify Features
+####Latent Dirichlet Allocation
+(LDA) is a common method for generating topic model features. LDA is an iterative model which starts from a fixed number of topics. Each topic is represented as a distribution over words, and each document is then represented as a distribution over topics. Although the tokens themselves are meaningless, the probability distributions over words provided by the topics provide a sense of the different ideas contained in the documents. 
+
+####Brown Clustering
+A hierarchical clustering algorithm that is applied to text, grouping words into clusters that are assumed to be semantically related by virtue of their having been embedded in similar contexts.
+
+In natural language processing, Brown clustering or IBM clustering is a form of hierarchical clustering of words based on the contexts in which they occur. The intuition behind the method is that a class-based language model (also called cluster n-gram model), i.e. one where probabilities of words are based on the classes (clusters) of previous words, is used to address the data sparsity problem inherent in language modeling.
+
+Brown groups items (i.e., types) into classes, using a binary merging criterion based on the log-probability of a text under a class-based language model, i.e. a probability model that takes the clustering into account. 
+
+
+####Latent semantic analysis
+LSA is a technique in natural language processing of analyzing relationships between a set of documents and the terms they contain by producing a set of concepts related to the documents and terms. LSA assumes that words that are close in meaning will occur in similar pieces of text (the distributional hypothesis). A matrix containing word counts per paragraph (rows represent unique words and columns represent each paragraph) is constructed from a large piece of text and a mathematical technique called singular value decomposition (SVD) is used to reduce the number of rows while preserving the similarity structure among columns. Words are then compared by taking the cosine of the angle between the two vectors (or the dot product between the normalizations of the two vectors) formed by any two rows. Values close to 1 represent very similar words while values close to 0 represent very dissimilar words.
+
+In the context of its application to information retrieval, it is sometimes called latent semantic indexing (LSI).
+
+LSA can use a term-document matrix which describes the occurrences of terms in documents; it is a sparse matrix whose rows correspond to terms and whose columns correspond to documents. A typical example of the weighting of the elements of the matrix is tf-idf (term frequency–inverse document frequency): the weight of an element of the matrix is proportional to the number of times the terms appear in each document, where rare terms are upweighted to reflect their relative importance.
+
+Applications of LSA include:
+
+*  Comparing documents in low-dimensional space (data clustering, document classification).
+*  Finding relations between terms (synonymy and polysemy). Synonymy is the phenomenon where different words describe the same idea. Polysemy is the phenomenon where the same word has multiple meanings.
+*  Given a query of terms, translating it into the low-dimensional space, and find matching documents (information retrieval).
+*  Analyzing word association in text corpus.
+
+LSA overcomes two of the most problematic constraints of Boolean keyword queries: multiple words that have similar meanings (synonymy) and words that have more than one meaning (polysemy). 
+
+LSA is also used to perform automated document categorization. Document categorization is the assignment of documents to one or more predefined categories based on their similarity to the conceptual content of the categories. Several experiments have demonstrated that there are a number of correlations between the way LSI and humans process and categorize text.
+
+LSA uses example documents to establish the conceptual basis for each category. During categorization processing, the concepts contained in the documents being categorized are compared to the concepts contained in the example items, and a category (or categories) is assigned to the documents based on the similarities between the concepts they contain and the concepts that are contained in the example documents.
+
+LSA automatically adapts to new and changing terminology, and has been shown to be very tolerant of noise (i.e., misspelled words, typographical errors, unreadable characters, etc.).[24] This is especially important for applications using text derived from Optical Character Recognition (OCR) and speech-to-text conversion. LSA also deals effectively with sparse, ambiguous, and contradictory data.
+
+Text does not need to be in sentence form for LSA to be effective. It can work with lists, free-form notes, email, Web-based content, etc. As long as a collection of text contains multiple terms, LSA can be used to identify patterns in the relationships between the important terms and concepts contained in the text.
+
+
+##Sub-Problem Three: Choosing a Text Classifier Method
+The many methods for classifying texts fall into three general categories:
+
+*  Pattern matching strategies (does a particular phrase appear?)
+*  Algorithms (how closely does the query text meet pre-set criteria?)
+*  Neural networks (the network decides its own criteria, aka machine learning)
+
+This edited excerpt nicely describes the overall approach and problems of text classification. It is from: **xxxxx**
+
+
+Understanding how chatbots work can help us understand text classifiers, because the classifier is the fundamental piece that makes the chatbot work. Let’s look at the inner workings of a Multinomial Naive Bayes algorithm for text classification and natural language processing (NLP). 
+
+This classifier is “naive” because each word is treated as having no connection with other words in the sentence being classified. In other words it assumes independence between "features," in this case, words.
+
+For example, in the sentence “the fox jumped over the log”, there is no relationship between “jumped” and “fox” or “log”. In NLP, this collection of words is referred to as “a bag of words”. While this is incredibly naive, the classifier isn’t attempting to understand the meaning of a sentence, it’s trying to classify it.
+
+
+###Pattern Matchers
+Early chatbots used **pattern matching** to classify text and produce a response. This is often referred to as “brute force” as the author of the system needs to describe every pattern for which there is a response.
+
+A standard structure for these patterns is “AIML” (artificial intelligence markup language). Its use of the term “artificial intelligence” is quite an embellishment, but that’s another story.
+
+A simple pattern matching definition:
+```
+<aiml version = "1.0.1" encoding = "UTF-8"?>
+   <category>
+      <pattern> WHO IS ALBERT EINSTEIN </pattern>
+      <template>Albert Einstein was a German physicist.</template>
+   </category>
+   
+   <category>
+      <pattern> WHO IS Isaac NEWTON </pattern>
+      <template>Isaac Newton was a English physicist and mathematician.</template>
+   </category>
+   
+   <category>
+      <pattern>DO YOU KNOW WHO * IS</pattern>
+      <template>
+         <srai>WHO IS <star/></srai>
+      </template>
+   </category>
+</aiml>
+```
+
+The machine then produces:
+
+> Human: Do you know who Albert Einstein is
+> Robot: Albert Einstein was a German physicist.
+
+It knows who a physicist is only because his or her name has an associated pattern. Likewise it responds to anything solely because of an authored pattern. Given hundreds or thousands of patterns you might see a chatbot “persona” emerge.
+
+In 2000 a chatbot built by John Denning and colleagues using this approach was in the news for passing the "Turing test." It emulated the replies of a 13 year old boy from Ukraine (broken English and all). I met with John in 2015 and he made no false pretenses about the internal workings of this automaton. It may have been “brute force” but it proved a point: parts of a conversation can be made to appear “natural” using a sufficiently large definition of patterns. It proved Alan Turing’s assertion, that this question of a machine fooling humans was “meaningless”.
+
+An example of this approach used in building chatbots is PandoraBots, who claim over 285k chatbots have been constructed using their framework.
+
+Automated phone voice response systems that recognize patterns of spoken words and direct calls accordingly use a similar approach.  
+
+
+###Algorithm-Based Classification
+Creating a brute-force pattern matcher is daunting: for each unique input a pattern must be available to specify a response. An algorithm-based method approaches the problem mathematically. 
+
+One text classification algorithm is "Multinomial Naive Bayes." Given a training set of sentences, each belonging to a class (that is, a particular group), we can count the occurrence of each word in each class, account for its commonality and assign each word a score for each class. Factoring for commonality is important: matching the word “it” is considerably less meaningful than a match for the word “cheese”. When we input a new sentence, scores for each word in the new sentence are compared to scores for those same words in the training set. The class with the highest OVERALL score for the input sentence is the class to which the input sentence most likely belongs.
+
+Look at this sample training set:
+```
+class: weather
+    "is it nice outside?"
+    "how is it outside?"
+    "is the weather nice?"
+
+class: greeting
+    "how are you?"
+    "hello there"
+    "how is it going?"
+```
+
+Let’s classify a few sample input sentences:
+```
+input: "Hi there"
+ term: "hi" (no matches in either class)
+ term: "there" (matches a word in class: greeting)
+ classification: greeting (score=1)
+
+input: "What’s it like outside?"
+ term: "it" (matches words in class: weather (2), greeting(1))
+ term: "outside (class: weather (2) )
+ classification: weather (score=4)
+```
+
+Notice that the classification for "What’s it like outside" found a term in the "greeting" class but the term similarities to the "weather" class produced a higher score. By using an equation we are looking for word matches given some sample sentences for each class, and we avoid having to identify every pattern.
+
+The classification score produced identifies the class with the highest term matches (accounting for commonality of words) but this has limitations. A score is not the same as a probability, a score tells us which intent is most like the sentence but not the likelihood of it being a match. Thus it is difficult to apply a threshold for which classification scores to accept or not. Having the highest score from this type of algorithm only provides a relative basis, it may still be an inherently weak classification. Also the algorithm doesn’t account for what a sentence is not, it only counts what it is like. You might say this approach doesn’t consider what makes a sentence not a given class.
+
+Many text and spoken word frameworks use similar algorithms such as this to classify intent. Most of what’s taking place is word counting against training datasets. It’s "naive" but surprisingly effective.
+
+I will be using an algorithm-based classification strategy for this project. 
+
+
+###Neural Networks
+These methods are beyond the scope of this project. Anyone interested in knowing more can search online for information about:  
+
+*  Shallow Neural Networks
+*  Deep Neural Networks
+	+  Convolutional Neural Network (CNN)
+	+  Long Short Term Modelr (LSTM)
+	+  Gated Recurrent Unit (GRU)
+	+  Bidirectional RNN
+	+  Recurrent Convolutional Neural Network (RCNN)
+	+  Other Variants of Deep Neural Networks
+
+
+###Designing an Evaluation Workflow
+The workflow for comparing classification algorithms starts with identifying potentially usable classifier methods. Several approaches are described later. For each potential classifier method, the next steps are:
+
+*  Establish randomized training and test datasets
+*  Train the classifier algorithm, then evaluate that model on a test dataset
+*  Calculate an accuracy score using Gini index or similar method
+*  Select best performing classifiers and either refine, or operationalize for new datasets
+
+###Picking the Algorithm(s)
+Algorithms approach text classification several ways.
+
+The **bag of keywords approach** requires compiling a list of "key terms" that qualifies the type of content in question to a certain topic. If one or more qualifying keywords is present in a document, the document is assigned to the topic. One of the many problems with this approach is that identifying and organizing a list of terms (preferred, alternate, etc.) is labor intensive (much like simple pattern matching), and the natural ambiguity of language (one keyword can have different meanings) causes lots of false positives. This makes the bag of keywords approach not only not scalable, but also inaccurate.
+
+**Rules-based approaches** use linguistic rules that capture all of the elements and attributes of a document to assign it to a category. Rules can be written manually or generated by automatic analysis and then validated manually (reducing manual effort up to 90%). Rules can be understood and improved (unlike the black box system used with statistics-based algorithms). A rules-based approach is flexible, powerful (much more than a bag of keywords) and easy to express. This approach works best when combined with semantic technology that can uncover deeper connections within text (meaning, relevancy, relationship between concepts, etc.) 
+
+**Statistical approaches** use a “training set” of documents that covers the same topic to identify key features (usually words). The algorithm (Bayesian, LSA, etc.) calculates term frequencies, then builds implicit rules in order to classify other content. This approach has no understanding of meaning. In addition, systems using these types of text classification algorithms are essentially a “black box”; no one can explain why specific terms are selected by the algorithm or how they are being weighted. In the event the classification is incorrect, there is no accurate way to modify a rule for better results. 
+
+Algorithms also can be separated into un-supervised and supervised methods. 
+
+**Unsupervised learning** uses test data that has not been labeled, classified or categorized. Unsupervised learning identifies commonalities in the training data, then classifies new texts based on the presence or absence of such commonalities. 
+
+Unsupervised learning algorithms appearing frequently in literature are:
+
+*  Clustering
+	+  Hierarchical clustering
+	+  k-means
+	+  Mixture models
+*  Principal component analysis (PCA)
+
+
+**Supervised learning** uses labeled training data to defined important text features. In supervised learning, each example is a pair consisting of an input object (typically a vector) and a desired output value. A supervised learning algorithm analyzes the training data and produces an inferred function, which can be used for mapping new examples. . 
+
+Supervised text classification algorithms appearing regularly in the literature are:
+
+*  Naive Bayes
+	+  Binary independent NB
+	+  Multinomial NB
+*  Linear Classifier
+*  Logistic Regression
+*  Support vector machines
+	+  Basic SVM
+	+  SVM multiple classes
+	+  SVM multiple kernels
+*  Decision trees
+*  Linear Discriminant Analysis
+*  Nearest neighbor
+	+  k-Nearest Neighbor
+	+  Weighted k-Nearest Neighbor
+*  Similarity Learning
+*  Relevance feedback
+	+  Rocchio
+	+  Rocchio in a query zone
+*  Ensemble methods
+	+  Bagging based Models
+	+  Stacking based Models
+	+  Boosting based Models
+	+  Random Forest Models
+
+For reference I assembled short excerpts from online resources or published articles describing most of these methods.
+
+
+###Naive Bayes
+A classification technique based on Bayes’ Theorem with an assumption of independence among predictors. A Naive Bayes classifier assumes that the presence of a particular feature in a class is unrelated to the presence of any other feature here. NB can be run on:
+
+*  Word count or n-gram count vectors
+*  Word or n-gram level TF-IDF vectors
+*  Character Level TF-IDF vectors
+	+  Would be useful for evaluating use of "?" and "=" 
+
+Data are organized into 2 dictionaries: **corpus words** (each stemmed word and the # of occurances) and **class words** (each class and the list of stemmed words within it). The algorithm then uses these data structures to classify new text.
+
+
+###Linear Classifier
+The linear regression algorithm is one of the fundamental supervised machine-learning algorithms due to its relative simplicity and well-known properties.
+
+The goal of statistical classification is to use an object's characteristics to identify which class (or group) it belongs to. A linear classifier achieves this by making a classification decision based on the value of a linear combination of the characteristics. An object's characteristics are also known as feature values and are typically presented to the machine in a vector called a feature vector. Such classifiers work well for practical problems such as document classification, and more generally for problems with many variables (features), reaching accuracy levels comparable to non-linear classifiers while taking less time to train and use. 
+
+
+###Logistic Regression
+A logistic regression measures the relationship between the categorical dependent variable and one or more independent variables by estimating probabilities using a logistic/sigmoid function. LR can be run on:
+
+*  Word count or n-gram count vectors
+*  Word or n-gram level TF-IDF vectors
+*  Character Level TF-IDF vectors
+
+Resources for Logistic Regression 
+https://www.analyticsvidhya.com/blog/2015/10/basics-logistic-regression/
+
+R for logistic regression
+https://www.saedsayad.com/logistic_regression.htm
+
+
+###Support Vector Machine (SVM) Model
+This is a supervised machine learning algorithm which can be used for both classification or regression challenges. The model extracts a best possible hyper-plane / line that segregates the two classes. The only example I found of SVM was on Ngram Level TF-IDF Vectors. Support vector machines can be:
+
+*  Basic SVM
+*  SVM multiple classes
+*  SVM multiple kernels
+
+
+###Decision Trees
+Flowchart-like structures in which each internal node represents a "test" on an attribute (e.g. whether a coin flip comes up heads or tails), each branch represents the outcome of the test, and each leaf node represents a class label (decision taken after computing all attributes). The paths from root to leaf represent classification rules.
+
+In decision analysis, a decision tree and the closely related influence diagram are used as a visual and analytical decision support tool, where the expected values (or expected utility) of competing alternatives are calculated.
+
+A decision tree consists of three types of nodes:
+
+*  Decision nodes – typically represented by squares
+*  Chance nodes – typically represented by circles
+*  End nodes – typically represented by triangles
+
+Decision tree learning is the construction of a decision tree from class-labeled training tuples. A decision tree is a flow-chart-like structure, where each internal (non-leaf) node denotes a test on an attribute, each branch represents the outcome of a test, and each leaf (or terminal) node holds a class label. The topmost node in a tree is the root node. 
+
+The goal is to create a model that predicts the value of a target variable based on several input variables. An example is shown in the diagram at right. Each interior node corresponds to one of the input variables; there are edges to children for each of the possible values of that input variable. Each leaf represents a value of the target variable given the values of the input variables represented by the path from the root to the leaf.
+
+A decision tree is a simple representation for classifying examples. For this section, assume that all of the input features have finite discrete domains, and there is a single target feature called the "classification". Each element of the domain of the classification is called a class. A decision tree or a classification tree is a tree in which each internal (non-leaf) node is labeled with an input feature. The arcs coming from a node labeled with an input feature are labeled with each of the possible values of the target or output feature or the arc leads to a subordinate decision node on a different input feature. Each leaf of the tree is labeled with a class or a probability distribution over the classes. 
+
+A tree can be "learned" by splitting the source set into subsets based on an attribute value test. This process is repeated on each derived subset in a recursive manner called recursive partitioning. The recursion is completed when the subset at a node has all the same value of the target variable, or when splitting no longer adds value to the predictions. This process of top-down induction of decision trees (TDIDT) is an example of a greedy algorithm, and it is by far the most common strategy for learning decision trees from data.
+
+In data mining, decision trees can be described also as the combination of mathematical and computational techniques to aid the description, categorization and generalization of a given set of data. 
+
+
+###Linear Discriminant Analysis
+LDA works when the measurements made on independent variables for each observation are continuous quantities. When dealing with categorical independent variables, the equivalent technique is discriminant correspondence analysis. The statistical system R includes the packages: MASS, ade4, ca, vegan, ExPosition, andFactoMineR which perform correspondence analysis and multiple correspondence analysis.
+
+As the name indicates, discriminant correspondence analysis (DCA) is an extension of discriminant analysis (DA) and correspondence analysis (CA). Like discriminant analysis, the goal of DCA is to categorize observations in pre-defined groups, and like  correspondence analysis, it is used with nominal variables.The main idea behind DCA is to represent each group by thesum of its observations and to perform a simple CA on the groupsby variables matrix. The original observations are then projectedas  supplementary  elements and each observation is assigned to the closest group. The comparison between the a priori and the a posteriori classifications can be used to assess the quality of thendiscrimination. A similar procedure can be used to assign new observations to categories. The stability of the analysis can be evaluated using cross-validation techniques such as jackknifing or boot-strapping.
+
+For the R model: https://pbil.univ-lyon1.fr/ade4/ade4-html/discrimin.coa.html
+
+
+###k-Nearest Neighbors
+k-NN is a non-parametric method used for classification and regression. In both cases, the input consists of the k closest training examples in the feature space. The output depends on whether k-NN is used for classification or regression. In k-NN classification, the output is a class membership. An object is classified by a majority vote of its neighbors, with the object being assigned to the class most common among its k nearest neighbors (k is a positive integer, typically small). If k = 1, then the object is simply assigned to the class of that single nearest neighbor.
+
+
+###Similarity Learning
+Similarity learning is an area of supervised machine learning in artificial intelligence. It is closely related to regression and classification, but the goal is to learn from examples a similarity function that measures how similar or related two objects are. It has applications in ranking, in recommendation systems, visual identity tracking, face verification, and speaker verification. 
+
+
+###Relevance Feedback/Rocchio Algorithm
+Relevance feedback is a feature of some information retrieval systems. The idea behind relevance feedback is to take the results that are initially returned from a given query, to gather user feedback, and to use information about whether or not those results are relevant to perform a new query. We can usefully distinguish between three types of feedback: explicit feedback, implicit feedback, and blind or "pseudo" feedback. 
+
+The Rocchio algorithm is based on a method of relevance feedback. Like many other retrieval systems, the Rocchio feedback approach was developed using the Vector Space Model. The algorithm is based on the assumption that most users have a general conception of which documents should be denoted as relevant or non-relevant. Therefore, the user's search query is revised to include an arbitrary percentage of relevant and non-relevant documents as a means of increasing the search engine's recall, and possibly the precision as well. 
+
+For more:
+https://nlp.stanford.edu/IR-book/html/htmledition/rocchio-classification-1.html
+
+
+###Ensemble Methods
+The excerpt below nice describes how ensemble methods work. It is reprinted from: *Ensemble Methods Explained in Simple English*, by Tavish Srivastava, posted August 2, 2015.
+
+Ensemble modeling is a powerful way to improve the performance of your model. It usually pays off to apply ensemble learning over and above various models you might be building. 
+
+Example: I want to invest in a company XYZ. I am not sure about its performance though. So, I look for advice on whether the stock price will increase more than 6% per annum or not? I decide to approach various experts having diverse domain experience:
+
+>1.  Employee of Company XYZ: This person knows the internal functionality of the company and have the insider information about the functionality of the firm. But he lacks a broader perspective on how are competitors innovating, how is the technology evolving and what will be the impact of this evolution on Company XYZ’s product. In the past, he has been right 70% times.  
+  
+>1.  Financial Advisor of Company XYZ: This person has a broader perspective on how companies strategy will fair of in this competitive environment. However, he lacks a view on how the company’s internal policies are fairing off. In the past, he has been right 75% times.  
+  
+>1.  Stock Market Trader: This person has observed the company’s stock price over past 3 years. He knows the seasonality trends and how the overall market is performing. He also has developed a strong intuition on how stocks might vary over time. In the past, he has been right 70% times.  
+  
+>1.  Employee of a competitor: This person knows the internal functionality of the competitor firms and is aware of certain changes which are yet to be brought. He lacks a sight of company in focus and the external factors which can relate the growth of competitor with the company of subject. In the past, he has been right 60% of times.  
+  
+>1.  Market Research team in same segment: This team analyzes the customer preference of company XYZ’s product over others and how is this changing with time. Because he deals with customer side, he is unaware of the changes company XYZ will bring because of alignment to its own goals. In the past, they have been right 75% of times.  
+  
+>1.  Social Media Expert: This person can help us understand how has company XYZ has positioned its products in the market. And how are the sentiment of customers changing over time towards company. He is unaware of any kind of details beyond digital marketing. In the past, he has been right 65% of times.  
+
+
+Given the broad spectrum of access we have, we can probably combine all the information and make an informed decision. In a scenario when all the 6 experts/teams verify that it’s a good decision(assuming all the predictions are independent of each other), we will get a combined accuracy rate of:
+
+```
+		  1 - 30%*25%*30%*40%*25%*35%
+
+		= 1 - 0.07875 = 99.92125%
+```
+
+Assumption: The assumption used here that all the predictions are completely independent is slightly extreme as they are expected to be correlated. However, we see how we can be so sure by combining various predictions together.
+
+Let us now change the scenario slightly. This time we have 6 experts, all of them are employee of company XYZ working in the same division. Everyone has a propensity of 70% to advocate correctly.
+
+>*What if we combine all this advice together, can we still raise up our confidence to >99%?*
+
+Obviously not, as all the predictions are based on very similar set of information. They are certain to be influenced by similar set of information and the only variation in their advice would be due to their personal opinions & collected facts about the firm.
+
+Ensemble learning is the art of combining individual models together to improve the stability and predictive power of the model. 
+
+
+####Error Sources in Ensemble Learning (Variance vs. Bias)
+The error emerging from any model can be broken down into three components mathematically. 
+
+**Error of a model** Why is this important in the current context? To understand what really goes behind an ensemble model, we need to first understand what causes error in the model. 
+
+**Bias error** quantifies how much on an average the predicted values differ from the actual value. A high bias error means we have a under-performing model which keeps on missing important trends.
+
+**Variance** quantifies how much the predictions made on same observations differ from each other. A high variance model will over-fit on your training population and perform badly on any observation beyond training.
+
+Normally, as you increase the complexity of your model, you will see a reduction in error due to lower bias in the model. However, this only happens till a particular point. As you continue to make your model more complex, you end up **over-fitting your model** and hence your model will start suffering from high variance.
+
+A champion model should maintain a balance between these two types of errors. This is known as the **trade-off management of bias-variance errors.** Ensemble learning is one way to execute this trade off analysis.
+
+####Commonly used Ensemble learning techniques
+**Bagging** tries to implement similar learners on small sample populations and then takes a mean of all the predictions. In generalized bagging, you can use different learners on different population.  As you can expect this helps us to reduce the variance error.
+
+**Boosting** is an iterative technique which adjust the weight of an observation based on the last classification. If an observation was classified incorrectly, it tries to increase the weight of this observation and vice versa. Boosting in general decreases the bias error and builds strong predictive models. However, they may sometimes over fit on the training data.
+
+**Stacking** is a very interesting way of combining models. Here we use a learner to combine output from different learners. This can lead to decrease in either bias or variance error depending on the combining learner we use.
+
+
+####Random Forest Models
+Random Forest models are a type of ensemble models, particularly bagging models. They are part of the tree based model family. RF can be run on:
+
+*  Word count or n-gram count vectors
+*  Word level TF-IDF vectors
+
+Resources for Random Forest: 
+https://www.analyticsvidhya.com/blog/2014/06/introduction-random-forest-simplified/
+
+
+####Extreme Gradient Boosting Model
+Boosting models are another type of ensemble models part of tree based models. Boosting is a machine learning ensemble meta-algorithm for primarily reducing bias, and also variance in supervised learning, and a family of machine learning algorithms that convert weak learners to strong ones. A weak learner is defined to be a classifier that is only slightly correlated with the true classification (it can label examples better than random guessing). XGB can be run on:
+
+*  Word count or n-gram count vectors
+*  Word level TF-IDF vectors
+*  Character Level TF-IDF vectors
+
+
+
+
+###Hierarchical Clustering
+In data mining and statistics, hierarchical clustering (also called hierarchical cluster analysis or HCA) is a method of cluster analysis which seeks to build a hierarchy of clusters. 
+
+
+###k-Means Clustering
+k-means clustering is a method of vector quantization, originally from signal processing, that is popular for cluster analysis in data mining. k-means clustering aims to partition n observations into k clusters in which each observation belongs to the cluster with the nearest mean, serving as a prototype of the cluster. This results in a partitioning of the data space into Voronoi cells.
+
+The problem is computationally difficult (NP-hard); however, efficient heuristic algorithms converge quickly to a local optimum. These are usually similar to the expectation-maximization algorithm for mixtures of Gaussian distributions via an iterative refinement approach employed by both k-means and Gaussian mixture modeling. They both use cluster centers to model the data; however, k-means clustering tends to find clusters of comparable spatial extent, while the expectation-maximization mechanism allows clusters to have different shapes.
+
+The algorithm has a loose relationship to the k-nearest neighbor classifier, a popular machine learning technique for classification that is often confused with k-means due to the name. Applying the 1-nearest neighbor classifier the cluster centers obtained by k-means classifies new data into the existing clusters. This is known as nearest centroid classifier or Rocchio algorithm. 
+
+
+###Mixture Model
+In statistics, a mixture model is a probabilistic model for representing the presence of subpopulations within an overall population, without requiring that an observed data set should identify the sub-population to which an individual observation belongs. Formally a mixture model corresponds to the mixture distribution that represents the probability distribution of observations in the overall population. However, while problems associated with "mixture distributions" relate to deriving the properties of the overall population from those of the sub-populations, "mixture models" are used to make statistical inferences about the properties of the sub-populations given only observations on the pooled population, without sub-population identity information. 
+
+Topics in a document: Assume that a document is composed of N different words from a total vocabulary of size V, where each word corresponds to one of K possible topics. The distribution of such words could be modelled as a mixture of K different V-dimensional categorical distributions. A model of this sort is commonly termed a topic model. Note that expectation maximization applied to such a model will typically fail to produce realistic results, due (among other things) to the excessive number of parameters. Some sorts of additional assumptions are typically necessary to get good results. 
+
+A prior distribution is placed over the parameters describing the topic distributions, using a Dirichlet distribution with a concentration parameter that is set significantly below 1, so as to encourage sparse distributions (where only a small number of words have significantly non-zero probabilities).
+
+Some sort of additional constraint is placed over the topic identities of words, to take advantage of natural clustering.
+
+For example, a Markov chain could be placed on the topic identities (i.e., the latent variables specifying the mixture component of each observation), corresponding to the fact that nearby words belong to similar topics. (This results in a hidden Markov model, specifically one where a prior distribution is placed over state transitions that favors transitions that stay in the same state.)
+
+Another possibility is the latent Dirichlet allocation model, which divides up the words into D different documents and assumes that in each document only a small number of topics occur with any frequency.
+
+
+###Principal Component Analysis 
+PCA is a statistical procedure that uses an orthogonal transformation to convert a set of observations of possibly correlated variables (entities each of which takes on various numerical values) into a set of values of linearly uncorrelated variables called principal components. This transformation is defined in such a way that the first principal component has the largest possible variance (that is, accounts for as much of the variability in the data as possible), and each succeeding component in turn has the highest variance possible under the constraint that it is orthogonal to the preceding components. The resulting vectors (each being a linear combination of the variables and containing n observations) are an uncorrelated orthogonal basis set. PCA is sensitive to the relative scaling of the original variables.
+
+PCA is mostly used as a tool in exploratory data analysis and for making predictive models. It is often used to visualize genetic distance and relatedness between populations. PCA can be done by eigenvalue decomposition of a data covariance (or correlation) matrix or singular value decomposition of a data matrix, usually after a normalization step of the initial data. The normalization of each attribute consists of mean centering – subtracting each data value from its variable's measured mean so that its empirical mean (average) is zero – and, possibly, normalizing each variable's variance to make it equal to 1. The results of a PCA are usually discussed in terms of component scores, sometimes called factor scores (the transformed variable values corresponding to a particular data point), and loadings (the weight by which each standardized original variable should be multiplied to get the component score). If component scores are standardized to unit variance loadings must contain the data variance in them (and that is the magnitude of eigenvalues). If component scores are not standardized (therefore they contain the data variance) then loadings must be unit-scaled, ("normalized") and these weights are called eigenvectors; they are the cosines of orthogonal rotation of variables into principal components or back.
+
+PCA is the simplest of the true eigenvector-based multivariate analyses. Often, its operation can be thought of as revealing the internal structure of the data in a way that best explains the variance in the data. If a multivariate dataset is visualised as a set of coordinates in a high-dimensional data space (1 axis per variable), PCA can supply the user with a lower-dimensional picture, a projection of this object when viewed from its most informative viewpoint. This is done by using only the first few principal components so that the dimensionality of the transformed data is reduced.
+
+PCA is closely related to factor analysis. Factor analysis typically incorporates more domain specific assumptions about the underlying structure and solves eigenvectors of a slightly different matrix.
+
+PCA is also related to canonical correlation analysis (CCA). CCA defines coordinate systems that optimally describe the cross-covariance between two datasets while PCA defines a new orthogonal coordinate system that optimally describes variance in a single dataset.
+
+
+##Strategies for Improving Text Classification Models
+Accuracy can be improved using one or more of these strategies.
+
+1. Text Cleaning. Removing stopwords, punctuations marks, suffix variations etc. can  reduce the noise present in text data.
+
+2. Hstacking arrays of text / NLP features with text feature vectors in sequence horizontally (column wise). After extracting features initially, try combining different feature vectors to improve the accuracy of the classifier.
+
+3. Tuning the Classifier. Adjusting the parameters of the classifier is an important step towards a best fit model.
+
+4. Testing Different Ensemble Models. Stacking different models and blending their outputs can help to further improve the results. 
+
+5.  Weighting words: we can significantly improve our algorithm by accounting for the commonality of each word. The word “is” should carry a lower weigh than the word “sandwich” in most cases, because it is more common.
+
+
+
+
+
+##Evaluation
+How to evaluate the different components of the overall text classification problem.
+
+###Gini Index
+One of the most common methods for quantifying the discrimination level of a feature is the use of a measure known as the gini-index. 
+
+###Cohen's Kappa Score
+Cohen's kappa is a measure of interrater reliability used in social sciences. This excerpt from an R blog explains it.
+
+**Using kappa score for comparisons of groups and methods**
+https://www.personality-project.org/r/html/kappa.html
+https://www.r-bloggers.com/k-is-for-cohens-kappa/
+
+Last April, during the A to Z of Statistics, I blogged about Cohen’s kappa, a measure of interrater reliability. Cohen’s kappa is a way to assess whether two raters or judges are rating something the same way. And thanks to an R package called **irr**, it’s very easy to compute. But first, let’s talk about why you would use Cohen’s kappa and why it’s superior to a more simple measure of interrater reliability, interrater agreement.
+
+
+***
+***
+
+###Neural Networks
+A neural network is a mathematical model that is designed to behave similar to biological neurons and nervous system. These models are used to recognize complex patterns and relationships that exists within a labelled data. 
+
+Artificial neural networks, invented in the 1940’s, are a way of calculating an output from an input (a classification) using weighted connections (“synapses”) that are calculated from repeated iterations through training data. Each pass through the training data alters the weights such that the neural network produces the output with greater “accuracy” (lower error rate).
+
+There’s not much new about these structures, except today’s software is using much faster processors and can work with a lot more memory. The combination of working memory and speed is crucial when you’re doing hundreds of thousands of matrix multiplications (the neural network’s essential math operation).
+
+As in the prior method, each class is given with some number of example sentences. Once again each sentence is broken down by word (stemmed) and each word becomes an input for the neural network. The synaptic weights are then calculated by iterating through the training data thousands of times, each time adjusting the weights slightly to greater accuracy. By recalculating back across multiple layers (“back-propagation”) the weights of all synapses are calibrated while the results are compared to the training data output. These weights are like a ‘strength’ measure, in a neuron the synaptic weight is what causes something to be more memorable than not. You remember a thing more because you’ve seen it more times: each time the ‘weight’ increases slightly.
+
+At some point the adjustment reaches a point of diminishing returns, this is called “over-fitting” and going beyond this is counter-productive.
+
+The trained neural network is less code than an comparable algorithm but it requires a potentially large matrix of “weights”. In a relatively small sample, where the training sentences have 150 unique words and 30 classes this would be a matrix of 150x30. Imagine multiplying a matrix of this size 100,000 times to establish a sufficiently low error rate. This is where processing speed comes in.
+
+If the neural network sounds magnificently sophisticated, relax, it boils down to matrix multiplication and a formula for reducing values between -1 and 1 or some other minimal range. A middle-school math student could learn this in a few hours. The hard work is achieving clean training data.
+
+Just as there are variations in pattern matching code and in algorithms, there are variations in neural networks, some more complex than others. The basic machinery is the same. The essential work is that of classification.
+
+Networks are looking for patterns in collections of terms, each term is reduced to a token. In this machine words have no meaning except for their patterned existence within training data. The label “artificial intelligence” applied to such machinery is mostly BS.
+
+
+###Types of Neural Networks
+A shallow neural network contains mainly three types of layers – input layer, hidden layer, and output layer. 
+
+Deep Neural Networks are more complex neural networks in which the hidden layers performs much more complex operations than simple sigmoid or relu activations. Different types of deep learning models can be applied in text classification problems.
+
+
+####Convolutional Neural Network
+In Convolutional neural networks, convolutions over the input layer are used to compute the output. This results in local connections, where each region of the input is connected to a neuron in the output. Each layer applies different filters and combines their results.
+
+
+####Recurrent Neural Network: LSTM
+Unlike Feed-forward neural networks in which activation outputs are propagated only in one direction, the activation outputs from neurons propagate in both directions (from inputs to outputs and from outputs to inputs) in Recurrent Neural Networks. This creates loops in the neural network architecture which acts as a ‘memory state’ of the neurons. This state allows the neurons an ability to remember what have been learned so far.
+
+The memory state in RNNs gives an advantage over traditional neural networks but a problem called Vanishing Gradient is associated with them. In this problem, while learning with a large number of layers, it becomes really hard for the network to learn and tune the parameters of the earlier layers. To address this problem, A new type of RNNs called LSTMs (Long Short Term Memory) Models have been developed.
+
+
+####Recurrent Neural Network: GRU
+Gated Recurrent Units are another form of recurrent neural networks. 
+
+
+####Bidirectional RNN
+RNN layers can be wrapped in Bidirectional layers as well. 
+
+
+####Recurrent Convolutional Neural Network
+Once the essential architectures have been tried out, one can try different variants of these layers such as recurrent convolutional neural network. Another variants can be:
+
+*  Hierarchical Attention Networks
+*  Sequence to Sequence Models with Attention
+*  Bidirectional Recurrent Convolutional Neural Networks
+*  CNNs and RNNs with more number of layers
+

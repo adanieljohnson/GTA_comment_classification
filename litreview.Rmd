@@ -1,38 +1,22 @@
 ---
 title: "Literature Review"
-author: "Dan Johnson"
 date: "2/21/2019"
-output: html_document
+bibliography: library.bib
+biblio-style: apalike
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_setup.Rmd"}
 ```
+
 #Overview
-This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
+This page links out to sub-pages that describe various background topics. Follow the links for details.
 
-Structure of the initial dataset: https://adanieljohnson.github.io/default_website/datastructure.html
+Description: https://adanieljohnson.github.io/default_website/pagename.html
 
-Import and post-import data validation: https://adanieljohnson.github.io/default_website/dataimport.html
+Technical Writing Training
 
-####\  
+Text Classification Strategies
 
-#Describe an Element
-
-
-####\  
-
-#Describe an Element
-
-
-####\  
-
-
-#Technical Writing Instruction and Assessment
-
-
-
-#Text Classification Methods
 
 
 

@@ -1,0 +1,64 @@
+---
+title: "Base Model Classifier"
+author: "Dan Johnson"
+date: "2/13/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(caret)
+library(tm)
+library(arm)
+```
+
+```{r}
+# Training data.
+#data2 <- c('Cats like to chase mice.', 'Dogs like to eat big bones.')
+
+data_train <- c('A filter excludes all light, but the red wavelength. Not the other way around.','A good control here would have been to soak the plates in water.','A myogram is a representation of the temporal curse of a contraction. It is not something that you use to record the data.','A one-tailed paired t-test is more appropriate here, please re-analyze the data.','A one-way ANOVA test should’ve been used first. Then if there was significance, use the Tukey-Kramer post hoc test to see which treatments different significantly from each other or not. Since excel doesn’t give you p-values in Tukey-Kramer, then you can use a two-sample t test to determine what the p-values are from the groups that are significant','A paired t-test is more appropriate for your data, as it takes into account the fact that you used the same fish for both treatments.','A photo of the plants would help support this!','A sentence about why you are using this organism would be good.','A separate chart for standard deviation is not needed as you have it already as a bar on your graphs.','A t-test is not necessary to calculate the SD. The SD is a descriptor of the sample, it indicates the amount of dispersion of the set of data values.','Above, you say that you measured masses. But you only talk about the results for length here. Would be good to show the data for all of the measurements you talk about in the methods section','Absorbance of what? What’s being absorbed? (This needs more context.)','According to statistics they are similar, not slightly different','According to this, the eight caterpillars were treated with Martin’s IGR','According to your formula (before - after treatment) this value should be positive because the contraction was stronger before the injection. So correct this.','ACh is not involved in the propagation of the action potential. It is involved in the synapse and it is required for the generation of an AP in the muscle.','Adapt really isn’t the right word here; it refers to a specific evolutionary process as opposed to the plasticity of a trait','Add a sentence about why you used Rana pipiens as a subject','Add a sentence or more about Rana pipiens and why you are using it.','Adding an x-axis label does not mean you should remove the labels clarifying which is control and which is experimental (“treated”). If you don’t wish to have too much text, you could also make control and experimental different colors and add a key showing what the different colors mean.','Additionally, the way is written could be improved. Because you didn’t get statistical significant, then you could conclude that the results did not support the hypothesis.','After the class explanation, try doing one t-test for all the data.  Let me know if you need help.','Again, detail for the methods section.','Again, error bars? What do they mean?','Again, I’d revisit this, since we’re just talking about absorption via spec here—not the chloroplasts’ absorption of light.','Again, no need to mention the null','Again, this can all go in your methods. The independent and dependent variable are made clear already by saying that you will be testing the effects of Martins IGR.  I understand that you are just trying to state them explicitly, as the resource guide tells you to, but this is unnecessary.','Again, this should be percent change—not absorbance—plotted if you want to report percent change values in your results section. You don’t need to include the blank, but all of these data points should have individual error bars since you had replicates.','Again, what do your error bars represent?','Again, what we labeled the tubes isn’t important','Agar and Water amounts remain constant throughout control and test plates')
+          #,'Agar and Water amounts remain constant throughout your control and treatment plates. For treatment group, you added 4ml of 20x test compound solution on top of it.','Ah, but it is a single cell! (Isn’t Physarum cool?!)','Ah, so a good control here would have been covering the control PDA plates with water and allowing them to soak for 10 minutes too.','Ah, so it didn’t move directly towards the Physarum. Here it’s important to make that distinction in how you took measurements in your methods section. Did you go based on leading edge? If so, this data point would probably be inconclusive in the results section. Did you go based on a central axis upon which you took measurements? Instead, that’d be different.','All information that is not common knowledge needs to be cited.','All of them or are you referring to Martin’s IGR?','All of these tables are not needed. The first two are summed up in your figures and the second two should be in paragraph form in the results.','All of this should be saved for the discussion.  It talks to much about why you did things rather than the cold results.','All the legs received the lidocaine treatment. Write this in accordance to that.','All these are the results of the experiment.')
+          
+data_test <- c('All these caterpillar pictures are nice, but if you’re going to include them, you need to reference them somewhere in your report, generally in methods','All these numbers are confusing and make your result section hard to follow.','All these should be your results. That is written exactly like it should be in the results.','All this should be in the methods section.','All three amongst each other or the three treatments against the control?','All your error bars seem incorrect, as you don’t need error bars when each bar is one individual','Almost perfect','Also check that your standard deviation bars are reflecting the correct values, they look like they are the same size and they shouldn’t be.','Also citation','Also clean the image up a bit and delete the “Chart area” box','Also include the ANOVA and post hoc test results as a figure so you can cite your table in your results to show where you got your p-value from','Also include the proportions of water and agar in these plates','Also include your t-statistic and degrees of freedom','Also introduce statistical tests you performed to analyze the data','Also introduce the stat test you performed to analyze your data as final sentence in methods data.','Also mention briefly what you will actually be doing in the experiment','Also refence your figures when you use them as leverage in the discussion.','Also the error bars are not placed correctly','Also there’s some problems with your error bars. See me if you need help making the graphs','Also These graphs both say Experimental Group on the x axis.  This data is not a good choice to show in a figure because you don’t have any data for the tetany.  Instead of showing a graph, show a figure which can be a photo, a diagram, things like that.  It will need a caption but the in depth description of the figure could be put in the intro/discussion based on what you choose.For example:  you could show a diagram of a myogram of normal contraction and of tetany and use it to explain what happened to the leg.  This would count as a figure and would be a strong addition to the paper.','Also your stats say there is no difference between the two groups','Also- oat plants do flower.')
+```
+
+
+```{r}
+corpus <- VCorpus(VectorSource(data_train))
+
+# Create a document term matrix.
+tdm <- DocumentTermMatrix(corpus, list(removePunctuation = TRUE, stopwords = TRUE, stemming = TRUE, removeNumbers = TRUE))
+
+# Convert to a data.frame for training and assign a classification (factor) to each document.
+train <- as.matrix(tdm)
+train <- cbind(train, c(0, 1))
+colnames(train)[ncol(train)] <- 'y'
+train <- as.data.frame(train)
+train$y <- as.factor(train$y)
+```
+
+```{r}
+# Train.
+fit <- train(y ~ ., data = train, method = 'bayesglm')
+```
+
+```{r}
+# Check accuracy on training.
+predict(fit, newdata = train)
+```
+
+```{r}
+# Test data.
+corpus2 <- VCorpus(VectorSource(data_test))
+tdm2 <- DocumentTermMatrix(corpus2, control = list(dictionary = Terms(tdm), removePunctuation = TRUE, stopwords = TRUE, stemming = TRUE, removeNumbers = TRUE))
+test2 <- as.matrix(tdm2)
+
+# Check accuracy on test.
+predict(fit, newdata = test2)
+```
+
+
+

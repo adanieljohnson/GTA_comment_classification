@@ -1,0 +1,49 @@
+Index (index)
+	Name (name)
+
+#Overview
+This page outlines the process for building various components used in the project. Details of each  component are provided in these sub-pages.
+
+How data are imported then validated for analysis is described here: https://adanieljohnson.github.io/default_website/dataimport.html
+
+
+
+Background (background)
+	Name (name)
+	Name (name)
+	Name (name)
+
+Lit Review (litreview)
+	Name (name)
+	Name (name)
+	Name (name)
+
+The Build (build)
+	Name (datastructure)
+	Name (dataimport)
+	Current Classifier (NB_2r2c)
+
+
+
+Data Exploration (initial_exploration)
+	Name (name)
+	Name (name)
+	Name (name)
+
+
+Findings (findings)
+	Name (name)
+	Name (name)
+	Name (name)
+
+Next Steps (nextsteps)
+	Name (name)
+	Name (name)
+	Name (name)
+
+
+#Overview
+What page covers.
+Links to other pages.
+
+#Content

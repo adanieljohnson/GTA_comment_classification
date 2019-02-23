@@ -1,12 +1,11 @@
 ---
-title: "Notes on Building a Final Ensemble Protocol"
-author: "Dan Johnson"
-date: "2/14/2019"
-output: html_document
+title: "Final Ensemble Protocol"
+date: "2/22/2019"
+bibliography: library.bib
+biblio-style: apalike
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_setup.Rmd"}
 ```
 
 #Overview

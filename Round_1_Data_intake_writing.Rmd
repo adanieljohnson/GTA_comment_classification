@@ -1,0 +1,101 @@
+---
+title: "Round 2 for Data Intake Method"
+author: "Dan Johnson"
+date: "11/24/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Preparing and Pre-Checking the Initial Dataset
+
+Call in tidyverse, other libraries.
+```{r Libraries}
+library(tidyverse)
+library(tidytext)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+```
+
+CSV file named "base_data.csv" already has correctly organized text and meta-data. First block reads in CSV, then filters and pulls rows and columns to a new working file.
+
+```{r}
+# Read CSV.
+base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18.csv')
+head(base_data)
+
+# Isolate table rows to compare.
+frequency_writing <- filter(base_data, code.subject=="2. Writing Quality"|code.subject=="3. Technical and Scientific"|code.subject=="4. Logic and Thinking")
+
+#Reduce larger dataframe to just 3 required columns of data  
+frequency_writing.subcolumns <- frequency_writing %>% select(1, 22:24)
+```
+
+Next block tokenizes the TA comments as individual words and removes stop words.
+
+```{r}
+# Tokenize phrases, remove stop words listed in standard reference file.
+base_data_tokenized_writing <- frequency_writing.subcolumns %>% 
+  unnest_tokens(word,ta.comment) %>% 
+  anti_join(stop_words)
+```
+
+At this point the four-column tibble has "UniqueID" in column 1, "code.subject" in column 2, "code.structure" in column 3, and the unnested "words" in column 4. All four columns are class = "character". Stop words from the R "stop_words" data file have been removed.
+
+```{r}
+#Groups by code.subject, calculated proportional frequency in each group.
+#Final step creates 4 columns; 2 are for 1. Basic Criteria data, others for 
+#remaining three data sets. Stats will compare 1. BC against others.
+base_data_tokenized_writing_sorted <- base_data_tokenized_writing %>% 
+  group_by(code.subject) %>%
+  count(code.subject, word, sort=TRUE) %>% 
+  mutate(proportion = n / sum(n)) %>% 
+  select(-n) %>% 
+  spread(code.subject, proportion) %>% 
+  gather(code.subject, proportion, `3. Technical and Scientific`:`4. Logic and Thinking`)
+```
+
+"base_data_tokenized_writing_sorted" is the final 4-column dataframe with individual words in column 1, "1. Basic Criteria" proportion in column 2, "code.subject" in column 3, and "proportion" in column 4. Columns 1 and 3 are class = "character", 2 and 4 are numeric ranges. 
+
+This structure is needed in order to compare word (in Column 1) frequencies for 1. Basic Criteria (Column 2) as Y values against the frequencies of those same words (in Column 4) as X axes. Which subset of the X values to use is coded in Column 3.
+
+
+## Analysis
+These three steps determine the Pearson correlation between the frequency of words in Basic Criteria versus the other three groups.
+
+```{r}
+cor.test(data = base_data_tokenized_writing_sorted[base_data_tokenized_writing_sorted$code.subject == "3. Technical and Scientific",], 
+         ~ proportion + `2. Writing Quality`)
+```
+
+```{r}
+cor.test(data = base_data_tokenized_writing_sorted[base_data_tokenized_writing_sorted$code.subject == "4. Logic and Thinking",], 
+         ~ proportion + `2. Writing Quality`)
+```
+
+If the words used by TAs in comments are not different between the categories, there should be fairly high correlation.
+
+The final step generates a graphical comparison of word frequencies. 
+
+```{r}
+# Expect a warning about rows with missing values being removed
+ggplot(base_data_tokenized_writing_sorted, aes(x = proportion, y = `2. Writing Quality`, color = abs(`2. Writing Quality` - proportion))) +
+  geom_abline(color = "gray40", lty = 2) +
+  geom_jitter(alpha = 0.1, size = 2.5, width = 0.3, height = 0.3) +
+  geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
+  scale_x_log10(labels = percent_format()) +
+  scale_y_log10(labels = percent_format()) +
+  scale_color_gradient(limits = c(0, 0.001), low = "darkslategray4", high = "gray75") +
+  facet_wrap(~code.subject, ncol = 1) +
+  theme(legend.position="none") +
+  labs(y = "Writing Quality", x = NULL)
+  #ggsave("plot.png", width = 6, height = 10)
+```
+
+
+If the words used by TAs in comments are not different between the categories, the slopes of the lines in the three comparison graphs should be close to 1, with intercepts approaching zero.
+

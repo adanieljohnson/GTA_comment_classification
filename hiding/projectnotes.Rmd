@@ -1,0 +1,41 @@
+---
+title: "Project Notes"
+author: "Dan Johnson"
+date: "10/26/2018"
+output: html_document
+bibliography: library.bib
+biblio-style: apalike
+---
+```{r, child="_setup.Rmd"}
+```
+
+##General Approach to Initial Dataset
+This excerpt from *Text Mining with R: A Tidy Approach* (Julia Silge and David Robinson) summarizes how extended text (in this case, TA comments) can be organized as a tidy matrix.*All emphases are mine.*
+
+>We thus define the tidy text format as being a table with one-token-per-row. A token is a **meaningful unit of text**, such as a word, that we are interested in using for analysis, and tokenization is the process of splitting text into tokens. 
+
+>This one-token-per-row structure is in contrast to the ways text is often stored in current analyses, perhaps as strings or in a document-term matrix. For tidy text mining, the token that is stored in each row is most often a single word, **but can also be an n-gram, sentence, or paragraph** . In the tidytext package, we provide functionality to tokenize by commonly used units of text like these and convert to a one-term-per-row format.
+
+Using tidy format (vs. other common text data formats) better maintains relationships between individual comments and metadata, which simplifies subsequent analysis.
+
+####\  
+
+## How to create files in R, then push to GitHub as a complete repo
+Instructions for doing it on this website. [https://cfss.uchicago.edu/git05.html]()
+
+####\  
+
+
+####\  
+
+
+####\  
+
+
+####\  
+
+
+####\  
+
+
+
