@@ -1,0 +1,601 @@
+﻿comment,Subject,"Structure, Orient",Locus,Scope,Tone
+critical level?,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Hypothesis comes before methods,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Is this the most concise way to communicate no significant difference? ,3. Technical and Scientific,Specific info,Reflective,Within Report,FLAG
+"Try to use more parentheticals e.g. (t = , p = , df = ) etc.",3. Technical and Scientific,General info,Directive,Within Report,Neutral
+"Just cite your figures at the end of the sentence e.g. (figure 1, figure 2). ",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Make sure you mention error bars,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"More or less, but you should think of resource allocation in terms of the chemistry of photosynthesis. What’s the limiting reactant in a high light environment? Why might a plant prioritize collection of the limiting reactant?",4. Logic and Thinking,Holistic,Reflective,Within Report,FLAG
+Really solid first lab report. You do have some minor content errors. ,5. Praise or Concern,General info,Directive,Within Report,FLAG
+Make sure your explanation of R:S is consistent in your introduction; your hypothesis does not correspond to the literature that you present. ,4. Logic and Thinking,Specific info,Corrective,Within Report,FLAG
+You also need to explain light availability in terms of cellular functions and its potential impact on resource allocation specifically. ,4. Logic and Thinking,Holistic,Directive,Within Report,Neutral
+You omit standard deviations from your results and you spend too much time in your discussion explaining p-values (you can assume that your reader can interpret significance without saying that the p-value was higher than the critical value). ,3. Technical and Scientific,General info,Corrective,Within Report,FLAG
+I liked how clear your writing was and that you used relatively simple language to explain complex concepts. ,5. Praise or Concern,Holistic,Explanatory,Within Report,Positive
+"With some tweaking, this will be a very strong lab report.B",12. Narrative Comments,General info,Directive,Within Report,Positive
+Remember R:S = R/S. This statement is contradictory to your explanation of resource allocation. ,4. Logic and Thinking,Specific info,Directive,Within Report,FLAG
+replicate,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+SDs?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+This belongs in the methods section,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+What cell functions do light fulfill? An unfamiliar reader needs more background about light and its role in resource allocation in order to make sense of your hypothesis ,3. Technical and Scientific,Holistic,Reflective,Within Report,FLAG
+"Hmm, you set up the end of your discussion like you had a big connection to make to ecology and evolution, and this is a pretty vague statement. Think a little more deeply about this point and include a specific connection between behavior and fitness, or something along those lines. ",4. Logic and Thinking,Holistic,Directive,Within Report,Positive
+I don’t understand this sentence.Please include more in-depth descriptions of your fake fish. ,3. Technical and Scientific,Specific info,Corrective,Within Report,FLAG
+How are you defining authentic/unauthentic?,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+I think you mean groups (each interaction of fish is a trial in this situation),2. Writing Quality,Specific info,Directive,Within Report,FLAG
+"Ok, I hope I see evidence of this in your discussion!",2. Writing Quality,General info,Reflective,Within Report,Positive
+Specify exactly which value you ran the tests on. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Two things, this is a sentence fragment, and also when you cite things in a scientific paper you should not include quotes, they must be paraphrased. Even if you use quotation marks, it’s still not acceptable in scientific literature. ",2. Writing Quality,General info,Corrective,Within Report,Neutral
+"You should use this citation to set up the rationale for your hypothesis, so I will look forward to that in the revised version. ",4. Logic and Thinking,Specific info,Directive,Beyond Report,FLAG
+"We believe this is because…. (here you present this as a fact, and I can think of other cues that were also missing when you presented the fish with the fakes). Can you also think of them? Including those may allow you to make an even more convincing argument. ",4. Logic and Thinking,Holistic,Reflective,Within Report,FLAG
+Average value for graphs should final day avg - first day avg for every caterpillar and then avg of the three differencesAdd error bars,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Check in the bio core guide which is the correct format of in-text citations.,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Coloration of the larvae,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+delete,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Do not quote other papers,2. Writing Quality,General info,Corrective,Within Report,Neutral
+food,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Hypothesis are not proven correct or incorrect. The observed data could support or not the hypothesis.  ,2. Writing Quality,General info,Directive,Within Report,Neutral
+"I don’t understand how is this study explaining your results. What is your interpretation based on what they did? If you can make the link between this study and the study of the other researchers, then it will be more clear. ",4. Logic and Thinking,Specific info,Reflective,Within Report,FLAG
+Include these with their corresponding means.,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+interpret ???,4. Logic and Thinking,Pointer,Corrective,Within Report,Neutral
+Mention standard deviation,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Methods should be written in past tense.,2. Writing Quality,General info,Directive,Within Report,Neutral
+Omit this,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Report the mean ± SD. You should always report those values together. ,3. Technical and Scientific,Copy Correction,Directive,Beyond Report,Neutral
+Rewrite this sentence. Find a better way to explain this idea because it is confusing.,2. Writing Quality,General info,Corrective,Within Report,FLAG
+That difference was not enforced by the t-test because there was not statistical significance.,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+That hormones regulate,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+The standard deviation is not another important figure. ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+this is ambiguous ,2. Writing Quality,General info,Directive,Within Report,FLAG
+"This is not quite right. JH only decreases during the last larval instar (5th), during the first four instars JH remains high and there are molts. ",3. Technical and Scientific,Specific info,Explanatory,Within Report,FLAG
+"This is OK for the figure legend, but not for the results section.",3. Technical and Scientific,General info,Directive,Within Report,FLAG
+unnecessary,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+writting,2. Writing Quality,Pointer,Neutral,Within Report,Neutral
+"You are missing an entire section, the Abstract. Don’t forget to include that because missing a section will lead to fail this evaluation.",1. Basic Criteria,General info,Directive,Within Report,FLAG
+you are missing the error bars,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+you can mention this earlier when you talked about the IGR and its use as a pesticide. ,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+you can omit this,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+"You don’t say the entire title of the figure, just say figure 1",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+You should cite the lab manual for this because you got that information from there. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Instead of saying: In case study 1, you could say: previous studies described the use of Insect Growth Regulators as alternative pesticides ",2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Give the values! They’ll better illustrate your point,3. Technical and Scientific,Specific info,Directive,Within Report,Positive
+Great caption!,5. Praise or Concern,General info,Explanatory,Within Report,Positive
+Great introduction! You did a fantastic job of walking your reader through your thought process,5. Praise or Concern,Specific info,Directive,Within Report,Positive
+This is kind of strange phrasing. Just say that seeds were grown. ,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+This is much improved. ,5. Praise or Concern,No basis to judge,Explanatory,Beyond Report,Positive
+Your introduction was great and the rest of the paper was very solid. ,5. Praise or Concern,General info,Explanatory,Within Report,Positive
+"The only notable issue was in the discussion, which introduced differences between potted and natural plants, but never specifically explained the effect. In the future, make sure you explain every explanation thoroughly and specifically!",4. Logic and Thinking,Specific info,Directive,Beyond Report,Neutral
+"True, but why?",4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+What’s the difference? How does it relate to your study? You need to be more specific. ,4. Logic and Thinking,General info,Reflective,Within Report,Neutral
+"Check spelling and grammar throughout. You have some missing and misspelled words, as well as places where you use the wrong homophone. ",2. Writing Quality,General info,Corrective,Within Report,Neutral
+Based on what observations? ,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+How many tails? ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+How much?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Need a title that relates to your experiment – ask your peers for ideas if you need some. ,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Refer to the figure number. ,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"These are good examples, what is this concept called? Be specific. ",4. Logic and Thinking,Holistic,Reflective,Within Report,Positive
+This figure is not informative. You should instead show a figure of the R:S length and weight ratios for your control and experimental plants.  ,3. Technical and Scientific,Specific info,Directive,Within Report,FLAG
+"You should not have the exact same graph as your labmates, so make it on your own. ",6. Misconduct,Specific info,Directive,Within Report,Negative-reasonable
+Your figure caption also should be much more descriptive. ,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+"This is a pretty good start to your introduction, but it doesn’t tell me anything about what previous studies looking at salinity in particular have found. Look for that research and integrate it into your intro to contextualize your experiment and hypothesis. ",4. Logic and Thinking,Holistic,Directive,Within Report,FLAG
+Use citation style in the lab resource guide/like was on the resource guide quiz. ,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+"What concentration? Remember, you should include all of the details necessary so that someone could recreate your experiment later. ",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Write this as if you were writing a scientific journal article instead of a lab notebook- avoid phrases like, “this lab.”",2. Writing Quality,General info,Directive,Within Report,Neutral
+"You say there is a statistical significance, but these p-values are not significant. Which is true? ",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"Try something like, “The average R:S ratio for weight of sun plants was 0.635 ± 0.223”",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Choose one to include,  not both. ",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Don’t need this figure, it is summed up nicely by the other one.",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"Don’t use quotations, just paraphrase",2. Writing Quality,General info,Directive,Within Report,Neutral
+Good figure. Remember the caption goes below the figure.,11. FLAG,Copy Correction,Corrective,Within Report,Positive
+"Grade: 3  TFGood job, just needs a few changes.",12. Narrative Comments,General info,Directive,Within Report,Positive
+Include averages that correspond to this statement the p-value here,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Include this in paragraph form in your results section.,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Make this clear that this is your hypothesis.,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Raw data,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+Reference your figures ,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+What mean?  You should include the means that are important to your discussion here in paragraph form.,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"You can keep this, just make sure the significant digits are correct.",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Cite these as written journal articles (see resource guide) ,3. Technical and Scientific,General info,Explanatory,Within Report,FLAG
+"Ha, ok it’s great that you’re excited but here just say whether your hypothesis was supported or not. ",3. Technical and Scientific,Copy Correction,Directive,Within Report,Positive
+Move this to the end of the intro after you’ve built up a good argument for why this hypothesis might be true. ,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Ok so now, put this in context of evolution and animal behavior to wrap up your report. ",4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"Okay I see why you included this (because you needed a reference) but it’s not helping you support your hypothesis. Can you find a better source that actually talks about shelter? There are lots of fish that hide in coral reefs for shelter, for example. Looking at some articles about them may be a better resource.Overall, this is better than your plant introductions were, so I see improvement here.  ",4. Logic and Thinking,Holistic,Reflective,Beyond Report,Positive
+"Pretend like you are writing a scientific journal article, not a lab notebook- avoid phrases like this one. ",2. Writing Quality,Holistic,Directive,Within Report,Neutral
+"Report results of t-test as shown in the resource guide. Ex: “We found a significant difference between x and y (t=, df= , p=). ",3. Technical and Scientific,General info,Explanatory,Within Report,Neutral
+"Start by talking about the fish you used, not the tanks. ",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"To compare what, exactly. The number of red manes for a single fish? For both fish added together? Something else? ",3. Technical and Scientific,Holistic,Reflective,Within Report,Neutral
+What do the error bars represent? ,3. Technical and Scientific,Copy Correction,Reflective,Within Report,Neutral
+What’s up with the y-axis? ,3. Technical and Scientific,Specific info,Corrective,Within Report,FLAG
+"Also check that your standard deviation bars are reflecting the correct values, they look like they are the same size and they shouldn’t be. ",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Grade: 4Good job with the figures!  However you didn’t referenced them in the paper.  ,12. Narrative Comments,Specific info,Corrective,Within Report,Positive
+"Not specific enough, raw data",3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Raw data,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+This report will have to receive a 1/4 since it’s not done yet. But you can correct it for the 2nd submission ,1. Basic Criteria,General info,Explanatory,Within Report,Negative-reasonable
+Use peer reviewed/primary literature,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Be careful with your language. Adaptations and phenotypic plasticity are not the same concept.,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Do not support,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Don’t lead with the purpose of the experiment. Remember, start broad and get more specific.",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Good point, but you need to back it up with scientific literature.",2. Writing Quality,Specific info,Directive,Within Report,Positive
+You also need to use a more scientific tone. ,2. Writing Quality,General info,Directive,Within Report,Neutral
+Never use quotes in scientific writing,2. Writing Quality,General info,Corrective,Within Report,Neutral
+Statistics? How do you know whether or not they were significantly different?,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+This is not proper citation format. None of these sources are primary literature. You need to search for peer-reviewed research articles. Come to see me if you need help with research,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+This is the same information available in your figureds,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+This lab report needs a lot of work.,5. Praise or Concern,General info,Directive,Within Report,FLAG
+"You need to expand on your explanation of plant allocation in the introduction, paying particular attention to the effect of soil nutrient availability on root growth. ",4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Your methods need to explain your analysis methods and your results need to include statistics. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"You don’t really use primary literature in any section, although I’ll give it a pass because it’s the first lab report. Make sure all articles you cite are peer-reviewed from here on out. ",1. Basic Criteria,General info,Directive,Within Report,Negative-reasonable
+Your discussion would have been strong had you used actual primary literature.,1. Basic Criteria,General info,Directive,Within Report,FLAG
+Your citations need to be in a different format. ,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+You also need to focus on using scientific language throughout the lab report.,2. Writing Quality,General info,Corrective,Within Report,Neutral
+Vermiculite,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+What about statisitics?,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Why? What about sand promotes root vegetable growth? ,4. Logic and Thinking,Holistic,Reflective,Within Report,FLAG
+You need to introduce all elements of your hypothesis before you formally state your hypothesis.,4. Logic and Thinking,General info,Directive,Within Report,Neutral
+You should reorganize the figure so that treatments are next to one another to make comparisons easier. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Grade: 1 TFSo, this paper is almost the same as Madeleine’s Report (and vice-versa) so you can both look at her report for my comments.  Do not do this again. If you do, it will be plagiarism. ",12. Narrative Comments,General info,Explanatory,Within Report,Negative-reasonable
+All these numbers are confusing and make your result section hard to follow. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Amplitude of  contraction,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+At what voltage. That is important for this figure. ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Consider the y-axis: Amplitude of Contraction (V),3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+redaction,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+This sentence looks incomplete. ,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+"You don’t need to mention all these, that information is included in the figure. ",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+You should include that was obtained at different voltages of stimulation. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Are these averaged values? Where are the SD,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Citation formatting,3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+Citations,3. Technical and Scientific,General info,Corrective,Within Report,FLAG
+Different doses,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Do not cite your hypothesis,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Do not use separate sentences for statistics,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Hypotheses are neither correct nor incorrect. The data support or make you reject the hypothesis, but that does not mean it was correct or incorrect.",2. Writing Quality,General info,Directive,Within Report,Neutral
+Passive voice is recommended,2. Writing Quality,General info,Directive,Within Report,Neutral
+This is not a figure legend. You need to explain the figure information here,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+And what effect(s) do you predict (hypothesize) that it will have?,4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+Good discussion,5. Praise or Concern,General info,Explanatory,Within Report,Positive
+I actually liked your first couple sentences in the first draft intro. Why replace them?,2. Writing Quality,Holistic,Reflective,Beyond Report,Positive
+"Be more specific about what you mean here, what is the exact thing you are measuring?",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Careful using this term, unless it was actually exponential growth",3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+Describe activity,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+For manduca sexta is it better to keep in in a pupal phase or an adult?,4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+How and with what?,3. Technical and Scientific,No basis to judge,Directive,Within Report,Neutral
+State your statistical test but you do not report the results of it in this section. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"There are several things wrong with this chart, I count at least 3, try to fix this and then meet with me to go over it.",3. Technical and Scientific,Holistic,Reflective,Within Report,FLAG
+They were 4th instar larvae,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+This is an observation,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Try to be a little more precise here,2. Writing Quality,General info,Directive,Within Report,Neutral
+Try to clean up this sentence,2. Writing Quality,General info,Directive,Within Report,Neutral
+What exactly do you mean by this?,2. Writing Quality,No basis to judge,Reflective,Within Report,Neutral
+What is in azamax and how exactly does it work?,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+"What lead you to think this? How would manipulating 20E levels affect growth, go past just “timing of molt”",4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+What makes you think that?,4. Logic and Thinking,General info,Reflective,Within Report,Neutral
+What relation do these have to 20E and what do they control?,4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+Why would prolonging the pupal stage make it lose weight? Does that make sense?,4. Logic and Thinking,Holistic,Reflective,Within Report,FLAG
+You can use the actual stats and numbers here if you want,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+You need to include a figure caption,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+"A lot of this information leading up to this was more results and observations. I need to see interpretation of why you think you got these results, go into the biology of it, talk about previous studies that saw similar or dissimilar things",4. Logic and Thinking,General info,Directive,Within Report,Neutral
+Change in weight,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+You can state your p-value again to back this statement up,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+A good concluding sentence here would be appreciated,2. Writing Quality,General info,Directive,Within Report,FLAG
+Citation format is [last name of first author : year],3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+"Hi Adela, This is a much better report, nice job! You fixed pretty much everything I needed you to, and did enough to improve your grade - B",12. Narrative Comments,General info,Explanatory,Beyond Report,Positive
+"It’s good that you have an explanation now, but just logically thinking this out – if JH allows for longer larval growth durations, wouldn’t the weight of the treatment group be higher?",4. Logic and Thinking,Specific info,Reflective,Beyond Report,FLAG
+"Much better. A note for the future, whenever you list averages, you should also have +/- a standard deviation",3. Technical and Scientific,Copy Correction,Directive,Beyond Report,Positive
+Remember to reiterate your statistical results in your figure caption,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+This is actually an excellent counter argument to the point I brought up in your intro - nice,4. Logic and Thinking,Specific info,Explanatory,Within Report,Positive
+Check this amount,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Don’t use titles in figures, and you can shorten that y-axis",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Look at the core resource guide and your primary literature for inspiration on what kind of things go into a figure caption, this one is missing some components",3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Meaning what will happen to your measurable variable? ,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+Also talk more about what those studies did and found and how they relate to your own. ,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"Also, introduce your study organism",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Push yourself on this discussion, what does this mean for the greater scientific community, why should we care about this study or similar ones?",4. Logic and Thinking,Holistic,Reflective,Within Report,FLAG
+Tell me tstat and df as well,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+What are these averages  and standard deviations of?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"You don’t need this table, just the graph will do",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Grade: 3 TFGood improvement Abby, but your figure captions need to be more informative. ",12. Narrative Comments,Specific info,Directive,Beyond Report,Positive
+These Captions need more information in them.,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Get the Author and cite ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Re-organize the data to plot change in weight for control vs treatment groups,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+The goal is to “understand patterns/outcomes” not “prove”.,4. Logic and Thinking,General info,Explanatory,Within Report,Neutral
+Use academic search engines to get peer reviewed sources.,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+"We cite Authors, not publishers",3. Technical and Scientific,General info,Explanatory,Within Report,Neutral
+You need few sentences for background to give room for other important information,2. Writing Quality,General info,Directive,Within Report,Neutral
+Your objective first before hypothesis,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Are these averaged values? Where are the SD?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Are these averaged values? Where are the SD? ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Are these questions different?,2. Writing Quality,Holistic,Corrective,Within Report,Neutral
+Citations,3. Technical and Scientific,General info,Corrective,Within Report,FLAG
+Do not use a table to report the statistical outcome,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Include the main obtained results in the Abstract.,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Statistical Analysis,3. Technical and Scientific,Specific info,Corrective,Within Report,FLAG
+This figure is repeated,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Also include your statistical results in the caption and state the main conclusion the statistics give you (i.e. control and treatment final weights are different). ,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+And because you have a caption your figure does not need a title,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+Be sure to reference your graphs somewhere in this section ,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Because your Table and Figure basically state the same data, I would just have the graph",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"Citation format is [last name : year], even for the lab manual. You can write [Johnson : 2018]",3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+Excellent!,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+Good!,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+"Hi Caroline, Overall this is really great, especially for your first lab report! A lot of my comments are small changes, so take them into account for the revision and you should do well! - B",12. Narrative Comments,General info,Directive,Beyond Report,Positive
+I would make this two sentences so it’s a little clearer that the last part is your hypothesis,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"I would reiterate your p-value in the first sentence or two, to state your hypothesis is supported because your results are significant (p&lt;0.05)",3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+"Is there a way to have all control and all treatment groups the same color? If not, a better legend on the graph that states controls are blue and treatments are red would be better. ",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"They were in the Incubator – which keeps the caterpillars warm, so it does the opposite of a refrigerator! ",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"IGR stands for “Insect Growth Regulator” not “analog” or “mimic”, which are the words you are looking for here. ",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+…because?,4. Logic and Thinking,No basis to judge,Reflective,Within Report,Neutral
+Not necessary,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Not quite true,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+See p.42 in the BioCore Resource Guide for correct in-text citation format (not the same as the annotation exercise),3. Technical and Scientific,General info,Directive,Within Report,Neutral
+What does this mean? (Clarification of title),2. Writing Quality,No basis to judge,Corrective,Within Report,Neutral
+Where are your error bars? (and remember to put what they represent in the caption). ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"You should refer people to your tables/figures when talking about the results they show (this section), not just later in the discussion. ",3. Technical and Scientific,General info,Directive,Within Report,Neutral
+good,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+I would just leave this as “Was not significantly different” as the word “significant” carries a statistical meaning and implies that it could have been due to chance.,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+Make sure to include standard deviation bars,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Two sample t-test,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"all these caterpillar pictures are nice, but if you’re going to include them, you need to reference them somewhere in your report, generally in methods",3. Technical and Scientific,Specific info,Directive,Within Report,FLAG
+"as long as you state your full statistical results in your results section, you do not need this figure",3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+Awesome!,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+Can you think of a biological reason why your results may have occurred?,4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+Citation format is [last name : year] ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+Did you use 4 containers or 8 if there’s one per living space?,3. Technical and Scientific,Copy Correction,Reflective,Within Report,Neutral
+"Hi Christina, So overall this is a really well written report. Some things could be added to your discussion and your figures need some tweaking, but other than that everything is minor corrections. Take my comments into account and you should get a good grade on the revision! - C",12. Narrative Comments,General info,Directive,Beyond Report,Positive
+it’s a little difficult to read this with all the colors being so different. Is it possible to get all treatment groups to be one color and all controls to be another? ,3. Technical and Scientific,Copy Correction,Reflective,Within Report,Positive
+"Also, your graph doesn’t need a title, because everything you say in a title should go in the figure caption",3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+p-value,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Reference your graphs in this section,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"same here, no title. ",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Also, make sure you label the y-axis. ",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Finally, those standard deviations for each group look to be the same, which shouldn’t be the case. Make sure you’re setting each bar to have it’s own standard deviation",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"When reporting your averages, you should also write +/- your standard deviations",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Why is this a helpful organism to study hormone regulation in?,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+"You need to report the t-value, degrees of freedom, and the p-value in your results. The p-value is the most important here",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"As creating the schedule is of less interest to the reader than having a consistent feeding schedule, I may only say they were fed at 4pm each day for seven days.",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"As stated above, any time you graph an average, standard deviation error bars would be needed. As such, this graph would need 14 standard deviation bars total.",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"As you’re more interested in the total difference in mass rather than the change for each day, you could use a bar graph showing the difference between final/initial mass (Your current graph works too but, you will want to quantify the difference in growth in some way).",3. Technical and Scientific,Specific info,Directive,Within Report,FLAG
+Be more specific about this. Does this mean they couldn’t molt? Molted much more often?,2. Writing Quality,Holistic,Directive,Within Report,Neutral
+"Because the day isn’t as important for your experiment (There’s no reason why we’d expect the caterpillars to behave differently in terms of feeding for a certain day), I would recommend having a graph with the average food eaten across all days rather than  having it broken up into 7 days.",3. Technical and Scientific,Specific info,Directive,Within Report,FLAG
+"In addition, any time you have an average graphed, you will need standard deviation bars (The standard deviation error bar option on excel doesn’t work properly, take a look at the resource guide or email me to learn how to add it properly)",3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+Incubator (at 27C),3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Roughly 50 microliter (µL),3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+This is not needed as most people reading this will be able to assume the caterpillars were differentiable somehow.,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,FLAG
+Try looking for the active ingredient in Precor. It uses a JH analogue rather than JH itself.,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Try looking in the resource guide under the citations section for how to cite the lab manual.,3. Technical and Scientific,General info,Explanatory,Within Report,Neutral
+"You could also rephrase this as “In (scientific name of flies), it was shown that…”",2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+You only need to say what statistical test was used. ,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Chart is not needed,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Chart not needed,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+I would exclude this isn’t an actual citation and the readers do not have access to this specific case study.,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+I would leave this as “Martin’s IGR” as you explain the dilution later on in the methods,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+There’s always some uncertainties in science and words such as “prove” and “correct” should be avoided.,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+And this,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Grade: 3 TFGreat job!  Just needs a little fixing.,12. Narrative Comments,General info,Directive,Within Report,Positive
+Great abstract,5. Praise or Concern,General info,Explanatory,Within Report,Positive
+Great figures,5. Praise or Concern,General info,Explanatory,Within Report,Positive
+"Great intro, but is a little long.  Try to look it over and see what the most important things are and don’t worry about the rest so much.",2. Writing Quality,General info,Directive,Within Report,Positive
+Maybe try a different data analysis. Calculate the change in length from day 1 -8 and run a t-test on those values,3. Technical and Scientific,Specific info,Directive,Within Report,FLAG
+Save the for the discussion,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Some of this stuff would fit better in the results, then you can reference it in your discussion when you want to use it as evidence for your argument.",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+This is almost significant. Maybe using weight change would be more effective,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+This section is a little long. Try to shorten this if you can by stating some of the observations in the results and referencing them in the discussion.,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+What statistics test did you run? And on what data?,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"You are right to think this data my be invalid, but you should leave those sentences for the discussion, however you are right to include the findings in your results.",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"You should have a short paragraph that sums up your results.  Include things like the average change in weight or length, your statistics results, and anything else you might bring up in your discussion as evidence.",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Caterpillar,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+List the p-value again,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Rework how these are written, average 1.155 +/- 0.92. And make it consistent, average than standard dev",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"What is this, another caterpillar/moth or holometabolous insect, get a little more specific in the future",4. Logic and Thinking,Specific info,Directive,Beyond Report,Neutral
+You can add the p-value here to help support your statement,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+You can condense this into one sentence in the future just summarizing it. ,2. Writing Quality,General info,Directive,Within Report,Neutral
+"Your hypothesis should be the last sentence of the intro, either move this into methods or put it before the hypothesis",2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Cite,3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+Discuss the results based on what you did and the results obtained. The error part can be discussed at the end as areas of improvement if you have to do the experiment again.,4. Logic and Thinking,Copy Correction,Directive,Within Report,Neutral
+I would put the hypothesis in biological context here rather than stats. What is the reasoning behind your hypothesis? This usually comes from previous studies.,4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+Take to discussion,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Use the means (average) for each group to graph your data. You were looking for the effect of IGR between 2 groups and not between replicates. As you can see in Fig. 1; the groups next to each other are not experimentally paired.,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+You had 2. Control vs Experimental.,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"Your reader would like to know what is Manduca sexta and why is it a good model organism for your experiment, before the objective. Minor error",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Remember to include the title of the graph immediately after the figure number. Then you can continue with the rest of the caption. ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"This belongs in the methods, not the intro. Just begin your intro with the next sentence. ",2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+"This belongs in your figure caption/legend, not here. ",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"This introduction needs citations! Without them, this lab report will fail. Since your reports are otherwise very good, please see me if you’re confused about the citation requirement because I don’t want to repeatedly give you a bad grade on an otherwise decent report for this one thing. ",1. Basic Criteria,General info,Directive,Within Report,Negative-reasonable
+You could include a sentence (or less) about why you predicted this. ,4. Logic and Thinking,Copy Correction,Corrective,Within Report,Neutral
+"You should refer people to your figures in this section. Remember that in the report, they are not together. ",3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Check the citation format ,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Need some more info here about how clay might affect resource availability. ,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"The overwhelming majority of this information should go in the results section. In the discussion, you should just interpret the results and draw inference about your hypothesis, then compare to other studies and discuss biological mechanisms ",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"This information all counts as “methods”. Here, you should state the general trends and the p values. Then refer to the figures and tables in the text ",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+good,5. Praise or Concern,No basis to judge,Neutral,Within Report,Positive
+Good caption!,5. Praise or Concern,General info,Explanatory,Within Report,Positive
+Can you state this more directly?,2. Writing Quality,Specific info,Directive,Within Report,FLAG
+"Did this study measure resource allocation? What were their results, specifically?",4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+DID you assume this? Or are you referring to the results of the study you mentioned in the introduction? ,4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+I don’t think most of this paragraph is really necessary – focus only on the results of the experiment that you did. You can refer to the studies that you cited in the intro for support. ,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Followed by Tukey-KramerYou don’t need to include the final sentence here,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+I would move this to the end of your introduction. ,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+"In what way, why? Which resources might be lacking in a sandy environment versus a soil one?",4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+"Instead of this long discussion of potential errors in your experiment, can you spend more time talking about the potential implications or applications of your study? Why do we need to know how crop plants respond to different soil types? ",4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+Refer to figure again.Report the results of your ANOVA properly (see resource guide) – need the p-value in the results section.  ,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Also need the results of Tukey-Kramer test. Please also include means ± sd for R:S ratios for each group. ,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Try something like, Mean R:S ratios for length and weight for the three groups in the experiment. ",2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+There were/were not significant differences (include p-values). Error bars represent standard deviation. ,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Well, there is, but your group didn’t do that, right? ",8. No basis to judge,No basis to judge,,,
+?,4. Logic and Thinking,Pointer,Neutral,Within Report,Neutral
+“or”,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Add a comma after ANOVA. Commas were also needed throughout the report as well. Be sure to check for grammar and punctuation mistakes,2. Writing Quality,Copy Correction,Directive,Within Report,Neutral
+"Again, more information needs to go here. This would be almost acceptable for a lab notebook entry, but not for a lab report.",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Avoid colloquial language,2. Writing Quality,General info,Directive,Within Report,Neutral
+Be sure to proofread before submitting for small mistakes like these throughout your report,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Because of this finding, relate it back to the bigger picture? Why is this significant?",4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Colloquial language,2. Writing Quality,General info,Corrective,Within Report,Neutral
+Delete gridlines,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Error bars?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Be more careful about how the image looks, so by still having the “percent change” selected and “plot” still in the image, it doesn’t look cleaned up. They’re small but easy fixes",3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+Don’t need this,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+How? (Clarify a  source in introduction),4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Include table of ANOVA and post hoc test results,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"More needs to be said here overall. As a reader, I was left asking myself “why” a lot. So add more detail, do more background info if you need to, and just be more thorough in your explanations.",4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+You also tend to write really short sentences that makes your report read really choppy. Adding detail will help with this. So ask yourself “why” and “how” to help you out.,2. Writing Quality,General info,Reflective,Within Report,Neutral
+Of what? (Abstract wording),2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+"Overall you need to work on writing quality and more detail. This is the bare minimum of what should be included in a lab report, but there needs to be more for full credit",2. Writing Quality,General info,Directive,Within Report,Negative-reasonable
+Provide numbers to emphasize how big the difference is,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+This is incorrect. Recheck this (Methods correction),3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+This section contains a lot of fragments. Either combine the sentences somehow or continue the thought the make it a complete sentence,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Through what? (Abstract wording),2. Writing Quality,No basis to judge,Corrective,Within Report,Neutral
+Title should VERY briefly state the main takeaway of your experiment,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+What is this made of? (Methods clarification 1),3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+What is this made of? (Methods clarification 2),3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Which one? (Abstract wording),2. Writing Quality,No basis to judge,Corrective,Within Report,Neutral
+Which one? Post hoc test?,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Why?,4. Logic and Thinking,General info,Reflective,Within Report,Neutral
+Write this section in past tense. Also use the actual symbols instead of writing out words like “degrees Celsius” or “microliters”,2. Writing Quality,General info,Directive,Within Report,FLAG
+You can cite your own figures in this section.,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+You can potentially condense this sentence into one so that it doesn’t read robotically.,2. Writing Quality,General info,Corrective,Within Report,Neutral
+"You need at least 5 primary resources, not including the lab manual",11. FLAG,Copy Correction,Directive,Within Report,FLAG
+Your citations should support your findings in that it should explain why your results were surprising/not surprising.,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Also introduce statistical tests you performed to analyze the data,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Are you sure it is the correct tense for this section? Check with other primary lit,2. Writing Quality,Holistic,Reflective,Within Report,Neutral
+Avoid this recipe style of writing methods section because that’s not how it is used in a scientific literature. Check primary literature on similar experiments to see how they wrote their methods section and revise.,2. Writing Quality,General info,Directive,Within Report,Neutral
+Cross check again (technical error),3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Informal. Revise to make it formal. Use your best judgement to locate other informal/colloquial terms/texts/formats used elsewhere in the report and revise accordingly.,2. Writing Quality,Holistic,Directive,Within Report,FLAG
+Needs citation,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Procedural error could be one reason. Maybe the chloroplasts were not successfully isolated. Recall that you did not actually look through the microscope and calculated relative chloroplast density this time. It could be error at maintaining the temp during the experiments. Explore possible reasons!,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Refer to figures. Include your t-test results to justify.,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Remove Table# to avoid confusion. Provide your t-test stat results when you interpret %change.,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Revise this statement to make more formal,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Wrong tense,2. Writing Quality,General info,Corrective,Within Report,Neutral
+Also introduce statistical tests you performed to analyze the data,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Are you sure it is the correct tense for this section? Check with other primary lit,2. Writing Quality,Holistic,Reflective,Within Report,Neutral
+Avoid this recipe style of writing methods section because that’s not how it is used in a scientific literature. Check primary literature on similar experiments to see how they wrote their methods section and revise.,2. Writing Quality,General info,Directive,Within Report,Neutral
+Informal. Revise to make it formal. Use your best judgement to locate other informal/colloquial terms/texts/formats used elsewhere in the report and revise accordingly.,2. Writing Quality,Holistic,Directive,Within Report,Neutral
+Needs citation,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Procedural error could be one reason. Maybe the chloroplasts were not successfully isolated. Recall that you did not actually look through the microscope and calculated relative chloroplast density this time. It could be error at maintaining the temp during the experiments. Explore possible reasons!,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Refer to figures. Include your t-test results to justify.,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Revise this statement to make more formal,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Wrong tense,2. Writing Quality,General info,Corrective,Within Report,Neutral
+"Grade: 3 TFGood job, just need to change a few things.",12. Narrative Comments,General info,Explanatory,Within Report,Positive
+I like this,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+Include a some results values and the statistics,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Include the respective stats values associated with the figure,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"This is a good figure and sums up the other figure nicely, so you only need to include this one.",3. Technical and Scientific,Specific info,Explanatory,Within Report,Positive
+This is unclear,2. Writing Quality,General info,Corrective,Within Report,Neutral
+This raw data and should not be included.,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+"This section should be in paragraph form, not numbered.",2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+This should be in paragraph for in your results.,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+This should be included in sentence form in your results.  ,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Referencing the stats values here (in the discussion) would help make this a strong argument.,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+What is the dilution?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Be careful of the wording since this ends up meaning you had 104mL total rather than 100mL total. It would be 4mL diluted in water for 100mL total volume.,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+Error bars formatted incorrectly,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Error bars improperly formatted,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Error bars missing,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"I’m assuming this is from the lab manual. Make sure to cite this (Johnson, 2018)",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+Outside sources missing (basic criteria),1. Basic Criteria,General info,Corrective,Within Report,Neutral
+"Although we do want to show significant differences usually, it’s an unspoken rule that you don’t just state “We are going after significance” as that shouldn’t be the goal of science.",3. Technical and Scientific,General info,Explanatory,Within Report,Neutral
+I probably wouldn’t even include anything about labeling.,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+I would try to avoid “obviously” as it can seem demeaning to readers that did not arrive at this conclusion.,2. Writing Quality,Copy Correction,Directive,Within Report,
+Standard deviations mean nothing without an average,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+Standard deviations? Stats?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+The null hypothesis cannot be rejected. That is the language you should use,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Can you explain the coloration of the bars – what is represented by red, what is green? What do the error bars show? ",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"Check spelling throughout:ResourcesThere = theirWhere = wereAll of the blue underlines need to be corrected, they indicate areas where you have used the wrong word.",2. Writing Quality,Copy Correction,Directive,Within Report,Neutral
+"Also, this and the next sentence are “big picture” and would flow better toward the end of the discussion. ",2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+Citation?,3. Technical and Scientific,Specific info,Corrective,Within Report,FLAG
+This and the next sentence are “big picture” and would flow better toward the end of the discussion. ,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+"Include a topic sentence at the beginning of this paragraph, something like, “Mung bean plants were planted and grown in sunlight and shade for two weeks.” Then you can talk about the details. This type of sentence will orient the reader to where you are heading with the paragraph.How did you exclude the sunlight? This can be more specific",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Is this a strong ending? Remember we want to bring it out to the big picture, and connect back to the introduction. Rework the structure of the discussion to leave the reader with a strong impression of why your work is important. ",4. Logic and Thinking,Specific info,Directive,Within Report,FLAG
+"Only length and weight, or do you mean ratios?",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Say something about the difference in coloration here,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"The ozone-sunlight-plant allocation connection is an interesting idea, can you develop it a little more? What is the connection between chloroplasts and stems as opposed to chloroplasts and roots?",4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+"This should be condensed:The mean weight ratios for plants in sunlight was 0.83 ± 0.16, and in shade was 0.57 ± 0.04 (and so on… means and std dev need to be stated together). ",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Which mung bean is further along? The purple ones? This sentence and the one further below basically repeat each other- can you combine? ,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+"Your figures don’t need titles, because they will have captions. ",3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+"Again, what kind of growth? Roots? Shoots?",3. Technical and Scientific,Holistic,Reflective,Within Report,Neutral
+Cite some literature backing up these claims,3. Technical and Scientific,General info,Directive,Within Report,FLAG
+"Good detail, but you can be more concise",2. Writing Quality,General info,Directive,Within Report,Positive
+Hypothesis comes before methods,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+"Remember, start your abstract broadly. You need a sentence or two of background before you state the purpose of the experiment. ",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Start by explaining underlying biological concepts, not the study system. Field peas are a means to an end, not the focal point of your study. What biological concepts were you trying to learn about? ",2. Writing Quality,Holistic,Reflective,Within Report,Neutral
+These are raw data; you should only include mean R:S data and SD. Figures also better represent data visually than do tables,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"This is a solid start, but there are some necessary technical edits. ",5. Praise or Concern,General info,Corrective,Within Report,FLAG
+You need to do a better job of explaining the underlying biology of the experiment in introduction. ,2. Writing Quality,General info,Corrective,Within Report,FLAG
+Your methods and results sections can be made much more concise. ,2. Writing Quality,General info,Directive,Within Report,Neutral
+"You present a solid biological mechanism in the discussion, but you need to expand on your explanation with primary literature. ",4. Logic and Thinking,Specific info,Directive,Within Report,Positive
+Figures do a better job of communicating trends in data than do tables. ,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+You should not present raw data in your tables,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"Overall, your lab report was very well written, and with some editing this will be a strong lab repot.B",12. Narrative Comments,General info,Directive,Beyond Report,Positive
+Use parentheses. They will save words.,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+What does R:S tell us about growth? Why is it important to measure?,4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+What effect does temperature have on plant growth?,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+What kind of growth? Roots? Shoots? Be specific.,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Why? What does the length ratio tell you that the mass ratio does not? Be specific. ,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+Figures not cited and data not well presented.,3. Technical and Scientific,General info,Corrective,Within Report,Negative-reasonable
+"Hi Caroline, Nice work! I see you took all my comments into account, which I appreciate. I had two minor tweaks to your figure caption (see below), but aside from that this is pretty great. You did enough to improve your grade! - A",12. Narrative Comments,General info,Explanatory,Beyond Report,Positive
+"It’s good that you changed the colors, but the legend on the figure itself should say blue –treatment and red-control as well",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Positive
+"When you state averages for a group, you usually state average +/- the standard deviation for that group",3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+"Careful of interpreting results in the results section, wait till discussion to say this",1. Basic Criteria,Specific info,Corrective,Within Report,Neutral
+Clean up this abstract to reflect your experiment which was on growth,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+fourth,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Give the mL added to the food and the percent concentration,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Here is where you state if your hypothesis was supported or not. ,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Is that what you hypothesized and measured?,4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+"It’s not so much dependent on it, they operate separately but both act on development",3. Technical and Scientific,General info,Explanatory,Within Report,Neutral
+None of this should be in your figure caption,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Not unsuccessful you just didn’t get a significant difference,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Once again,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+P-value,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Report the standard deviations as well,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+The data did not suggest that unless you saw them begin to pupate,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+This is interpretation of results don’t state this here. State if the p-value is significant but do not make a comment on the hypotheses. ,1. Basic Criteria,Specific info,Directive,Within Report,Neutral
+What? (Unclear wording in discussion),2. Writing Quality,No basis to judge,Corrective,Within Report,Neutral
+Where is the evidence for this?,4. Logic and Thinking,General info,,Within Report,Neutral
+Why would weight increase? What is the connection between JH and weight?,4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+"You gave them a brand of insecticide called Precor which contained methoprene which is a JH analogue, they’re not all the same thing",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Also you should not have a title in your figure. ,11. FLAG,Copy Correction,Corrective,Within Report,FLAG
+You need a figure that represents the statistical test you did which is not this one,3. Technical and Scientific,Copy Correction,Directive,Within Report,FLAG
+?,4. Logic and Thinking,Pointer,Neutral,Within Report,Neutral
+Change language,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+change this,8. No basis to judge,Copy Correction,Corrective,Within Report,Neutral
+change this language,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Condense some of this,2. Writing Quality,General info,Directive,Within Report,Neutral
+Intro needs to be substantially condensed and focused more about experiments dealing with different wavelengths – the scholarship is good but the way the ideas are presented could be improved,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Make the writing more percise,2. Writing Quality,General info,Directive,Within Report,Neutral
+minimal (word choice),2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+not necessary. In scientific papers we give the authors the benefit that they probably labeled tubes correctly. Remove this,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+or at least confirm the wavelength with  proper equipment,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+paired t-test? This is missing from the method,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+percisiond (word choice),2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Perhaps a little too broad,2. Writing Quality,General info,Directive,Within Report,Neutral
+put the formula for this somewhere,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+Remove and end more broad,2. Writing Quality,General info,Directive,Within Report,Neutral
+remove this and the rest is rest has a good flow,2. Writing Quality,Copy Correction,Corrective,Within Report,Neutral
+Also citation,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+This doesn’t mean what I think you are trying to say,2. Writing Quality,General info,Corrective,Within Report,Neutral
+this is all good but add some info about how studying this at a cellular level will illuminate all of this,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Too much background for the abstract,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Be careful about your sources. Generally for scientific uses, you want to cite scholarly sources (Scientific articles or .edu/.gov)",2. Writing Quality,General info,Explanatory,Within Report,Neutral
+Be careful of the wording since this ends up meaning you had 104mL total rather than 100mL total. It would be 4mL diluted in water for 100mL total volume.,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+Error bars improperly formatted,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Be more specific about the differences. That way, your p-values make more sense. ",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+You can also cut down on the words here for sure. E.g. average R:S mass was greater in treatment group than in control group (Figure 1). ,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Great content in this intro, but you can still improve stylistically. You have a few run-on sentences in here and your tone seems forced. The best science writing is simple, concise, and able to be understood by anyone. ",2. Writing Quality,General info,Directive,Within Report,Positive
+Just say use! Simple language is always better.,2. Writing Quality,Copy Correction,Directive,Within Report,Neutral
+Make sure you include the alpha value (0.05),3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Make sure you include the year in brackets after this sentence!,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Make sure you mention a mechanism. What does mycorrhizae do to facilitate uptake?,4. Logic and Thinking,Specific info,Reflective,Within Report,Neutral
+"OVERALLSolid first effort, but there’s still plenty of work to be done. ",5. Praise or Concern,General info,Directive,Beyond Report,FLAG
+You report different p-values throughout the paper and have data in your figures that is not reflective of your p-values and is not different that the means and standard deviations that you report. ,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+"Finally, you need to clean up your writing throughout the body of the lab report.",2. Writing Quality,General info,Corrective,Within Report,Neutral
+Try to explain your results in your discussion with more biology; provide a mechanism and explain why length but not mass changed between groups. ,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"There are a lot of run-on sentences, which is usually a symptom of trying to sound scientific. Keep your language and sentence structure simple",2. Writing Quality,General info,Corrective,Within Report,FLAG
+Stay focused on resource allocation in plants. This sentence doesn’t get any closer to your hypothesis,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+The means and SDs you report in your caption are different from those displayed by the graph. ,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+You also should not represent the same data in a figure and a table. These p-values are also different from the ones you reported in your lab report.,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+These are raw data. You only need to report average R:S mass and average R:S length ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Why do plants show more dramatic effects than animals? Be specific!,4. Logic and Thinking,Holistic,Directive,Within Report,Neutral
+"You misinterpreted your p-values here. Remember, p-values boil down to the probability that the observed results occurred due to chance (unofficial definition, but it helps to think about it this way).",3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+Can you be more precise? What did you average?,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Can you specify the analyzed variable in that graph and the treatments instead of saying between the two graphs?,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Cause-effect relation. AP are generated because of an increase in the influx of Na+, not the opposite ",3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+Citation formatting,3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+Citation formatting,3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+Citations are required in this section,3. Technical and Scientific,General info,Corrective,Within Report,FLAG
+Did you have a control group?,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Figure captions should be self-sufficient, you could specify the studied species and he size of your samples. ",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+How did you measure those phases in the myogram? Definition of each phase ,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"In the axon, most of the Ca++ entering the cell is extracellular. In the muscle, Ca++ ions come from the sarcoplasmic reticulum",3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+Just focus on the biological explanations of the results. ,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+There were not control and test groups,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+This is not the proper way to report statistical results,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral
+This is unnecessary. Focus on the biological explanations. (Discussion),4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"This is very general. You can be more specific, emphasizing the studied contractile phase",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+This process also requires Ca++. What happen in the muscle after ACh binds the receptor? ,3. Technical and Scientific,Holistic,Reflective,Within Report,Neutral
+This requires a citation,2. Writing Quality,Specific info,Corrective,Within Report,Neutral
+What are these settings? The stimuli properties,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+What did you do again to measure twitch duration and relaxation period? The muscle was stimulated after the injection. ,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+What is the effect of TEA? That is necessary to understand the hypothesis,3. Technical and Scientific,Holistic,Reflective,Within Report,Neutral
+"What is the stimuli to open Ca++ channels, the arrival of an AP or the opening of K+ channels? You should be precise.",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Where is the repolarization occurring? You didn’t mention the repolarization in the muscle. ,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Again, this should be percent change—not absorbance—plotted if you want to report percent change values in your results section. You don’t need to include the blank, but all of these data points should have individual error bars since you had replicates.",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+By what? (Clarification in introduction),2. Writing Quality,Specific info,Reflective,Within Report,Neutral
+"Did you exclude this data point? If so, I need Q-test results.",11. FLAG,Idiomatic,Corrective,Within Report,FLAG
+Good intro with solid support! ,5. Praise or Concern,Specific info,Explanatory,Within Report,Positive
+"I would add bio background info, as well as reorganize this a bit.",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+"Your hypothesis should be towards the end, and try to embed your (in)dependent variables in there as well.",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"Good, succinct abstract!",5. Praise or Concern,Specific info,Explanatory,Within Report,Positive
+Good.,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+I’d give a bit of background information on the light-dependent reactions of photosynthesis before you introduce Atrazine.,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"If you are reporting percent change analyses here, that should be represented in your figure (which should be referenced in this section) as well. ",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Interesting.,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+No tables! Word these results in your results section.,3. Technical and Scientific,Specific info,Directive,Within Report,Negative-no warning
+One of the very first things you need in your discussion was a statement relaying whether or not your hypothesis was supported.,1. Basic Criteria,Specific info,Corrective,Within Report,Neutral
+Please refer to the BioCore Resource Guide to format your in-text citations.,3. Technical and Scientific,General info,Explanatory,Within Report,Neutral
+Really good methods section!,5. Praise or Concern,General info,,Within Report,Positive
+So maybe we don’t have as robust a protocol for chloroplast extraction for kale as we do spinach?,3. Technical and Scientific,Holistic,Reflective,Within Report,Neutral
+"So…this isn’t a bad title at all, but you do want something that’s going to make people want to read your paper, and inconclusive isn’t enticing. ",2. Writing Quality,Specific info,Explanatory,Within Report,Positive
+The figure legend should tell me what I’m supposed to get out of this figure.,3. Technical and Scientific,General info,Directive,Within Report,Neutral
+"This section needs a lot of work and reads incomplete. If you have questions about what goes in the discussion, please let me know!",2. Writing Quality,Specific info,Directive,Within Report,Negative-reasonable
+"We never prove things, no matter how hard we try…",2. Writing Quality,General info,Explanatory,Within Report,FLAG
+What clear errors?,3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+What kind? (Un)paired? Tails? Let me know before you submit the revision so I can catch you if you make a mistake.,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Why? (Color!),3. Technical and Scientific,No basis to judge,Directive,Within Report,Neutral
+"You took % change of the average absorbances first, right? So that goes first!",3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"any time you have an average graphed, you will need standard deviation bars (The standard deviation error bar option on excel doesn’t work properly, take a look at the resource guide or email me to learn how to add it properly). For this graph, as you averaged 7 times for experimental and 7 for control, you would need 14 total standard deviation bars.",3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+"As you’re more interested in the total difference in mass rather than the change for each day, you could use a bar graph showing the difference between final/initial mass (Your current graph works too but, you will want to quantify the difference in growth in some way).",3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Azamax works as an Ecdysterone blocker,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+"By definition, an IGR inhibits the insect’s regular life cycle.",11. FLAG,Specific info,Corrective,Within Report,FLAG
+"I would say what you used instead (Azamax, IGR, or exdysterone blocker)",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"In both the introduction and discussion, you listed a lot of the effects of JH as an attribute of ecdysterone. I would recommend looking again at the role of ecdysterone in the Manduca’s normal life cycle.",3. Technical and Scientific,Holistic,Reflective,Within Report,Neutral
+Missing outside sources (Basic Criteria),1. Basic Criteria,General info,Corrective,Within Report,Neutral
+Roughly 40µL,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+This doesn’t seem to have much to do with the rest of your paper.,4. Logic and Thinking,General info,Directive,Within Report,Neutral
+This is an interpretation. This should be in the discussion (Organizational flaw. Basic Criteria),1. Basic Criteria,Specific info,Corrective,Within Report,Neutral
+You may have ecdysterone confused with JH.,3. Technical and Scientific,Specific info,Corrective,Within Report,Neutral
+Good,5. Praise or Concern,No basis to judge,Explanatory,Within Report,Positive
+Grade: 3Good job on the corrections but there are still some mistakes here and there.  ,12. Narrative Comments,General info,Directive,Beyond Report,Positive
+Having just one standard deviation value for two sets of data doesn’t make sense numerically.,3. Technical and Scientific,Copy Correction,Explanatory,Within Report,Neutral
+How much of this was injected into the leg?,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+What about the standard deviation of this one.,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Careful in the future about getting too methody, this is right on the edge, keep it kind of vague in the intro",2. Writing Quality,Specific info,Corrective,Within Report,FLAG
+Citation format needs to be fixed,3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+"So this is the t-stat, it is more important to have a p-value in here",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+State the p-value as p < 0.01,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+Still need to see the standard deviations,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"This is still methods, doesn’t need to be in a figure caption",3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+This needs to be in mL,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+10 g,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"According to this, JH profile will present peaks of secretion just before each molting. Is that in correspondence with the information in your lab manual and the lectures? Remember that both hormones (ecdysone and JH) do not have the same pattern of secretion. ",3. Technical and Scientific,Holistic,Reflective,Within Report,Neutral
+"Are these questions different or are you asking the same twice? Please, avoid repeating information. ",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Can you be more precise than around 9g? Can you use descriptive statistic (mean and SD) for this?,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Can you be more precise with the title? It is ambiguous,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Can you specify the statistical test used?,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Citations format. This should be the Journal name, the number and pages Ex: Journal of Experimental Biology. 61: 481-491 ",3. Technical and Scientific,Copy Correction,Corrective,Within Report,FLAG
+Did you consider using this information to support the first portion of your results? ,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+Do not assume that you did it wrong and avoid speculating about possible errors.,4. Logic and Thinking,General info,Directive,Within Report,Neutral
+Do not quote other papers,2. Writing Quality,General info,Corrective,Within Report,Neutral
+Do you think is necessary to explain this or is something you need to know to conduct the analysis?,3. Technical and Scientific,Holistic,Directive,Within Report,Neutral
+Format for in-text citation.Ex: … was conducted by Nijhout and Williams [1974].,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+How can you say that the species is good for this specific experiment if you didn’t mention the experiment yet? Consider the order of your ideas.,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+How can you support this statement? Statistical outcome! You could also refer to Table 1 here.,3. Technical and Scientific,Specific info,Explanatory,Within Report,Neutral
+"In general, avoid writing in first person. Impersonal writing using passive voice is more recommended in your lab reports.",2. Writing Quality,General info,Directive,Within Report,Neutral
+"In the discussion you should interpret your results based on previous studies, without analyzing the significance of those studies. ",4. Logic and Thinking,Specific info,Corrective,Within Report,Neutral
+"This study, didn’t affect the same hormone than you, so their findings are not the best explanation for your findings. ",4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"Although you can mention that previous researchers found similar results than you by affecting the secretion of JH instead, I will recommend you look for another source. ",4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+"Is this information necessary in the Introduction? Your la report should include the biological hypothesis, but these are the null and alternative hypothesis for the statistical analysis. Are those the same? Check the BioCore Guide for the differences between biological and statistical hypothesis",2. Writing Quality,Specific info,Explanatory,Within Report,Neutral
+Is this necessary?,2. Writing Quality,Copy Correction,Directive,Within Report,Neutral
+Same problem with the Standard deviation,8. No basis to judge,No basis to judge,Corrective,Within Report,Neutral
+The abstract should be more about your results and the home message of your own experiment. Save the results from other studies for the discussion.,2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Standard deviations are the same. Check the excel tutorial (BioCore Guide/ Displaying data/ Graphs) to learn how to specify the standard deviation values for each group (Control and Experimental),3. Technical and Scientific,General info,Explanatory,Within Report,Neutral
+Use numbers with units. Ex: 9 g,3. Technical and Scientific,General info,Corrective,Within Report,Neutral
+Where are the physical observations that you mentioned I the methods? That should be part of the results because those were direct observations of the animals.,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+"Work on this statement, you can be more specific with the first portion of your sentence.",2. Writing Quality,Copy Correction,Directive,Within Report,Neutral
+You already mentioned this information,2. Writing Quality,Copy Correction,Directive,Within Report,Neutral
+Be specific. What was the effect?,3. Technical and Scientific,Specific info,Directive,Within Report,Neutral
+Can you really conclude that there is no change? What if something just went wrong? There’s a lot of literature out there stating the opposite… ,4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+"Also, what does this mean for agriculture? You mentioned it in the introduction, so you should mention it again the discussion. ",4. Logic and Thinking,Holistic,Reflective,Within Report,Neutral
+"Great caption, nice figure.",5. Praise or Concern,General info,Explanatory,Within Report,Positive
+Make sure you mention the alpha value,3. Technical and Scientific,Copy Correction,Corrective,Within Report,Neutral
+"Not necessarily. There’s plenty of water in the rainforest and sunlight in the desert. What’s important for plant allocation is the distribution of resource scarcity, not the scarcity itself. ",3. Technical and Scientific,Specific info,Reflective,Within Report,Neutral
+"OVERALLOlivia, your introduction, methods, and results section were all very solid. The intro does need to be reorganized to improve the clarity of your reasoning, but it is otherwise very solid. Unfortunately, you fell off the rails a bit in the discussion You need to expand upon your points and support your claims with primary literature (a basic criterion). F",12. Narrative Comments,Specific info,Directive,Within Report,FLAG
+"This is a good point, but it belongs earlier in the paragraph. I would use this as a justification for investigating the effects of wavelength on allocation strategy. ",2. Writing Quality,Specific info,Directive,Within Report,Neutral
+Which functions? Be specific and use some primary literature to support your points. ,4. Logic and Thinking,Specific info,Directive,Within Report,Neutral
+You don’t need to include the p-values of other studies,3. Technical and Scientific,Copy Correction,Directive,Within Report,Neutral

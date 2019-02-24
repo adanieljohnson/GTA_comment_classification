@@ -1,0 +1,255 @@
+---
+title: "Comments Codebook"
+date: "2/23/2019"
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+We evaluating TAs’ comments on student reports to see if and how their comments change as students get more feedback from automated system. 
+
+To build the data table, commented reports from a single semester (MS Word .docx format) were processed using BaSH scripts to extract relevant file data (author, ID#, etc.) and individual TA comments from the raw XML, and write the data to a single CSV file. TA comments containing multiple points or suggestions were replicated and edited to produce a working data table with only one comment per entry row. 
+
+Inclusion and exclusion criteria for assigning TA comments to categories and sub-categories was established iteratively using two training sets of 120 and 1200 comments selected randomly from the full dataset of ~11,000. Each main category (Subject, Structure, etc.) was divided into 4-8 loosely defined provisional sub-categories.Each comment from the 120-item training set was assigned to a provisional sub-category within each category. Sub-categories from different main categories were not mutually exclusive; for example, if a comment was assigned to the “Writing Quality” sub-category under the “Subject” category, that comment could be assigned to any of the provisional sub-categories in “Structure,” any of the sub-categories in “Locus,” etc.
+
+When comments could not be assigned with high confidence to a provisional sub-category, defining features of existing provisional sub-categories were refined further and, if necessary, additional provisional sub-categories established. Then the previously assigned comments were re-evaluated using the updated criteria, until all 120 comments in the training set could be assigned reliably. 
+
+Once stable sub-categories were established, examples of TA comments belonging to each sub-category were extracted from the main dataset and combined with finalized criteria to form a working code scheme. The working code scheme was tested and refined again by categorizing the second training set of 1200 comments, to produce the final coding scheme. 
+
+To score the full data table, the 1200 scored training comments were rejoined with the unscored comments, and all comments alphabetized. This distributed scored comments randomly within the larger data table, and identified comments with similar wording. This final integrated dataset was used to score the full set of TA comments.
+
+####\  
+
+#Subject Category
+Is primary emphasis of the comment on:
+
+*  Fundamental pieces
+*  How to communicate generally?
+*  How to collect, analyze and present data correctly?
+*  The underlying rationale for the report/experiment?
+*  Other issues?
+
+Below are the choices for identifying the subject of the comment. Criteria for basic, technical, and writing choices are the same as used in the report grading rubric. To simplify sorting, administrative tags used to mark comments for further processing are included in this category.
+
+**Code.Subject** Term|Description
+--------------------|-------------------------------------
+0. Null | Used to reset a previously tagged comment
+1. Basic Criteria | Relates to 1 or more of 5 basic criteria
+2. Writing Quality | Relates to writing mechanics, quality
+3. Technical and Scientific | Relates to a technical element
+4. Logic and Thinking | Focuses on logic and argument
+5. Praise or Concern | Statements directly to student, either positive or negative. Focused on student mindset more than text.
+6. Misconduct | Focuses on plagiarism, academic misconduct issue
+7. Policy, Administrative | Reiterates a standing class or course policy
+8. No basis to judge | Cannot tell from text or context what comment means.
+9. Split | If 2+ comments are together, duplicate line, split it, then annotate
+10. Check Context | Go back and look at original document, then re-code
+11. Flag | Comment is not appropriate for some reason. Includes factual errors, non-standard policies, deviations from norms.
+12. Narrative Comments | Comment broadly addresses report
+13. Scientific Name | Comment specifically about use of scientific names
+14. Other | Comment does not meet any of above criteria
+
+####\  
+
+**0. Null** is an administrative marker used to reset a comment.
+
+**1. Basic Criteria** establish whether report is ready for grading, or unacceptably flawed. Comments in this category focus on the 5 basic requirements that ALL scientific writing must meet, plus the academic honesty requirement. Includes all comments about:
+
+*  Written work represents the student’s own scientific research or work; not copied.
+*  There is a clear rationale, hypothesis, or purpose of the study PRESENT (quality is scored later.)
+*  Written work is complete, appropriately organized for audience, and all essential elements are present.
+*  Summarized data are PRESENT. Data have been analyzed in some way.
+*  There is an interpretation of the results.
+*  Discussion states clearly whether or not hypothesis is supported and why.
+*  Study is based within a larger body of literature; citations in Introduction, Discussion.
+
+**2. Writing Quality** comments focus on written communication issues, including general conventions of scientific writing as a genre. Includes all comments on:
+
+*  Writing style is appropriate for the target audience.
+*  Style, format, organization of writing matches the expectations of a scientific audience.
+*  Clear, concise wording.
+*  Precise language appropriate to scientific audience.
+*  Technically presented; avoids casual, imprecise, emotional language.
+*  Written work is free of major writing errors (spelling, grammar, punctuation.)
+*  Citations are presented consistently and professionally throughout the text and in the list of works cited section.
+*  Citations are presented consistently, professionally in text and Works Cited section.
+
+Comments about the following belong here.
+
+*  Repeated info 
+*  Errors in referencing figures, tables
+*  Word choice generally (not tech. vocab.)
+*  Extraneous information
+*  “Include a sentence about…”
+*  What goes in which sections
+*  HTML code-based errors are writing quality pointers (should catch in general editing)
+*  General to specific
+*  “Include a sentence about…” can be categorized many ways. Most often will be general writing, but could be logic or technical.
+
+**3. Technical and Scientific Issues** comments focus on whether: methods are communicated clearly and correctly; data and analyses are clear, appropriate, accurate, and unbiased; and mechanics specific to technical writing and data presentation are executed correctly. Includes all comments such as:
+
+*  Methods are appropriately defined and explained, given the student’s research question.
+*  The data analysis is clear, appropriate, accurate and unbiased.
+*  Statistical summaries are executed, interpreted, and reported correctly.
+*  Data are summarized, reported, displayed correctly.
+*  Tables and figures are clear, effective, and informative.
+*  Errors in interpreting data belong here, not in Logic.
+*  Numbers and units
+*  Reporting raw data
+*  Why the particular study organism goes here.
+*  Corrections to:
+*  Use of technical terms
+*  Factual information
+*  Prove vs. support goes here.
+
+**4. Logic and Thinking** comments are not part of our lab report grading model currently, but still important to assess. Comments tagged with this subject focus on: 1) quality, accuracy of claim-evidence-reasoning chain; 2) use of hypothetico-deductive reasoning model; 3) consistency of arguments with internal, external evidence. Includes all comments about:
+
+*  Written work clearly articulates the student’s thinking regarding research goals.
+*  Research question is clear.
+*  Rationale, background for research question is clear.
+*  Work is placed in context of RELEVANT scientific literature.
+*  Cited literature support, develop a larger argument.
+*  Statement of hypothesis is clear, appropriately organized.
+*  Written work is logically consistent.
+*  Student’s thought process about how parts connect is clear.
+*  Logic that connects the arguments and conclusions is sound, clear.
+*  All parts contribute to understanding outcomes. No distracting arguments.
+*  Written work interprets the results skillfully, conservatively.
+*  Implications of the findings are placed in a reasonable context.
+*  Strong, integrated ending goes here, BUT if comment is about language rather than thinking, goes under Writing.
+
+####\  
+
+#Structure Category
+Is the comment idiomatic or informative? Is there general or specific information contained in comment? Is it instructional only, or does the comment foster broader thinking?
+
+**Code.Structure** Term|Description
+--------------------|-------------------------------------
+0. Null | Used to reset a previously tagged comment
+1. Pointer | Simple notation indicating an error
+2. Copy Correction | Simple instructions for single correction
+3. General info | Provides general instructions
+4. Specific info | Provides specific instructions
+5. Rationale | Comment contains process info only
+6. Holistic | Comment has both content and process info
+7. Idiomatic | Comment does not match standard requirements
+8. No basis to judge | Not enough information to categorize
+
+**1. Pointer** is simple notation indicating there is an error, or that a correction is needed. Includes comments like:
+
+*  ??
+*  Misspelling, typo, format, check, etc.
+*  *Repeated phrase. (Only points to immediate error; compare to below)
+
+**2. Copy correction** comments provide specific instructions for correcting or modifying copy in ONE SPECIFIC location, but do not address the logic or reason. Includes comments like:
+
+*  Stylistic corrections, word choices
+*  An apostrophe makes this a possessive noun, not a plural one. 
+*  Colloquial (word choice) (but no explanation)
+*  No direct quotes. Paraphrase.
+*  Always capitalize “P”
+*  Use this particular wording
+*  Instructions to add or delete a word, phrase, image, element
+*  Omit/delete/remove \_\_\_.
+*  Add \_\_\_(description)\_\_\_. 
+*  Unnecessary/ redundant
+*  Provide specific data or information this way (p value, statistical tests, etc.)
+*  Add/remove error bars
+*  Citations and cross-references
+*  Include a citation here. OR, This must be cited.
+*  Citation format OR Citation format is [last name for first author : year]
+*  Instructions on correcting a single SPECIFIC citation directly
+*  Refer to this figure, table, etc. 
+*  Not true (corrects error of fact without further information.)
+*  Delete this repeated phrase. (Specific change to make.)
+
+**3. General info** comments share GENERAL instructions or knowledge, but have no guidance on where specific changes are needed or how to apply, and offer no underlying rationale. Includes comments like:
+
+*  For your lab report you should be concise and straight forward. 
+*  Just include the relevant information.
+*  Some sections are missing (not clear which ones)
+*  Ambiguous, awkward
+*  Rewrite this/ condense this/ avoid this word or term generally
+*  *Avoid repeating phrases. (More instructive than above but not specific)
+*  Tense, voice rules in general go in this group
+*  Methods should be past tense
+*  General corrections to citations, references without providing specifics
+*  Use citation style in lab resource guide, & like was on the writing quiz.
+*  See p.42 in the BioCore Resource Guide for correct in-text citation format 
+*  Need citations IN THIS SECTION (specific when points to spot IN A section)
+*  Reference your figures and tables.
+*  Raw data (is specific only if provides additional context.)
+*  Avoid recipe style (with no further explanation)
+*  Numbers need units
+*  What about statistics?
+*  Comment on using loaded words: prove, significant, 
+
+**4. Specific info** comments provide SPECIFIC corrective info/context, but lack a starting point for broader thinking. Includes comments like:
+
+*  Provides clear organization for whole section.
+*  Put x, then y, then z.
+*  Defines larger specific changes in text.
+*  At the end of the discussion indicate possible implications of your experiment at a broader scale
+*  Did not say if hypothesis was supported (specific b/c of content, context)
+*  Add this missing section; you are missing the \_\_\_ section. 
+*  \_\_\_Section\_\_\_ should contain \_\_\_x\_\_\_.
+*  Move/add \_\_\_ to BEFORE/AFTER \_\_\_. 
+*  What does “X” (error bars) mean? (simple interpretation)
+*  Clarify this step in procedure or analysis
+*  Move a specific table of data to text, or vice versa.
+*  Do not interpret your results in Results section (specific b/c of guidance)
+*  You need to explain \_\_\_ better. (More specific instructions that just “awkward” or “revise”.
+*  *Avoid repeating phrases. Change the order, make it nicer to read. (Clear way to implement instructions, relative to two examples above, but does not invite deeper thought.)
+*  You should try to paraphrase anything more than 2-3 words, although if it is an incredibly common phrase, you can use it without fear of plagiarism. 
+*  This specific citation is not relevant to your argument/ point.
+*  Avoid recipe style. Look at other articles to see how they did it.
+*  Corrections to data presentation
+*  Raw data. Need to summarize.
+*  These numbers need units or additional information.
+*  *Not true. Look in \_\_\_x\_\_\_ to learn more. (Provides a source for details)
+
+**5. Rationale** comments are a question or statement that prompts for, points to, or guides thinking, but lacks any context. Uncommon. Includes comments like:
+
+*  Why, when, how? What is your reasoning?
+
+**6. Holistic** comments have BOTH specific knowledge/info and guidance/rationale that invites thinking. Specific comments provide both sources for information (what) plus invitation to think (why) in combination. General comments have BOTH general knowledge/info and guidance/rationale. More open ended, will require deeper thought. (General information to guide thought (what) plus invitation to think (why)). Expect these to be most challenging to write and to respond to. Includes comments like:
+
+*  Did you mean for each leg before and after the injection?
+*  What is this in the moth life cycle?
+*  Are you sure it is the correct tense for this section? Check with other primary lit.
+*  Any primary literature sources ( articles) that deal with interspecific interactions in betta fish? It would be very useful to cite and talk about those here, if there are.
+*  Why is this a helpful species to study?
+
+####\  
+
+####Contingency Table For Holistic Scores
+
+Scores need to have BOTH information and process (what and why) to be holistic
+
+\ | Process ("why" or “thinking” part) |
+---- | ---- | ----
+**Amt. Info Provided**| *Absent* | *Present*
+*Limited or None* | Idiomatic, Pointer, Null | Rationale
+*General* | General info | Holistic - general
+*Specific* | Specific info | Holistic - specific
+
+####\  
+
+**7. Idiomatic** comments point out discipline-dependent or personally idiomatic issues we do not grade on. Includes personal preferences, outlier issues, comments about italics, underlines, etc. Includes comments like:
+
+*  Always use correct format for scientific names, i.e., italicize or underline. 
+(Idiomatic because not required in our grading scheme. Incidentally, this is not accurate form either, which is one answer to ongoing arguments.)
+*  You provided both scientific and common names for your plant species, so can use common names throughout the rest of the report including the title and abstract. Revise accordingly. (Idiomatic because this is not standard to all fields)
+
+####\  
+
+##Example of How to Parse a Comment
+**Original TA comment:**
+
+Ah, so it didn’t move directly towards the Physarum. Here it’s important to make that distinction in how you took measurements in your methods section. Did you go based on leading edge? If so, this data point would probably be inconclusive in the results section. Did you go based on a central axis upon which you took measurements? Instead, that’d be different.
+
+There are two questions in the comment, which suggests that it is a holistic comment to pull knowledge out through thinking. However, the TA comment provides some interpretation in the next sentence. So this comment is seeking or providing specific information, while also directly fostering student’s deeper thinking. It would be tagged as “Holistic."
+
+

@@ -1,0 +1,79 @@
+1. Basic
+Demo		15
+Training	20
+Cross-check	25
+Total		211
+
+11. Flag	
+Demo		
+Training	
+Cross-check	
+Total		
+
+2. Writing
+Demo		20
+Training	20
+Cross-check	90
+Total		2574
+Copy 724	25	45
+General 776 25	45
+Holistic 99 5	4
+No Basis to Judge 33	3
+Pointer 62	5	
+Specific 880	30	60
+
+
+3. Technical
+Demo		20
+Training	20
+Cross-check	540
+Total		5405
+Copy 2225
+General 667
+Holistic 66
+No basis 57
+Pointer 18
+Specific  2372
+
+
+4. Logic
+Demo		20
+Training	20
+Cross-check	
+Total		
+Copy 44
+General 331
+Holistic 204
+No basis 10
+Pointer 10
+Specific  524
+
+
+Praise or Concern
+Demo		
+Training	
+Cross-check	
+Total		
+
+General 221
+Holistic 4
+No basis 135
+Specific  77
+
+
+8. No basis to judge
+Demo		10
+Training	20
+Cross-check	49
+Total		486
+
+Scientific name
+Demo		10
+Training	20
+Cross-check	15
+Total		121
+
+136 Demo Comments
+159 Training Comments
+1089 Cross-check Comments
+

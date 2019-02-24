@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Comments Codebook</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analyzing TA Comments in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="background.html">
+    <span class="fa fa-history"></span>
+     
+    Background
+  </a>
+</li>
+<li>
+  <a href="litreview.html">
+    <span class="fa fa-book"></span>
+     
+    Lit Review
+  </a>
+</li>
+<li>
+  <a href="build.html">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    The Build
+  </a>
+</li>
+<li>
+  <a href="initial_exploration.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Data Exploration
+  </a>
+</li>
+<li>
+  <a href="findings.html">
+    <span class="fa fa-chart-bar"></span>
+     
+    Findings
+  </a>
+</li>
+<li>
+  <a href="nextsteps.html">
+    <span class="fa fa-shoe-prints"></span>
+     
+    Next Steps
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Comments Codebook</h1>
+<h4 class="date"><em>2/23/2019</em></h4>
+
+</div>
+
+
+<p>We evaluating TAs’ comments on student reports to see if and how their comments change as students get more feedback from automated system.</p>
+<p>To build the data table, commented reports from a single semester (MS Word .docx format) were processed using BaSH scripts to extract relevant file data (author, ID#, etc.) and individual TA comments from the raw XML, and write the data to a single CSV file. TA comments containing multiple points or suggestions were replicated and edited to produce a working data table with only one comment per entry row.</p>
+<p>Inclusion and exclusion criteria for assigning TA comments to categories and sub-categories was established iteratively using two training sets of 120 and 1200 comments selected randomly from the full dataset of ~11,000. Each main category (Subject, Structure, etc.) was divided into 4-8 loosely defined provisional sub-categories.Each comment from the 120-item training set was assigned to a provisional sub-category within each category. Sub-categories from different main categories were not mutually exclusive; for example, if a comment was assigned to the “Writing Quality” sub-category under the “Subject” category, that comment could be assigned to any of the provisional sub-categories in “Structure,” any of the sub-categories in “Locus,” etc.</p>
+<p>When comments could not be assigned with high confidence to a provisional sub-category, defining features of existing provisional sub-categories were refined further and, if necessary, additional provisional sub-categories established. Then the previously assigned comments were re-evaluated using the updated criteria, until all 120 comments in the training set could be assigned reliably.</p>
+<p>Once stable sub-categories were established, examples of TA comments belonging to each sub-category were extracted from the main dataset and combined with finalized criteria to form a working code scheme. The working code scheme was tested and refined again by categorizing the second training set of 1200 comments, to produce the final coding scheme.</p>
+<p>To score the full data table, the 1200 scored training comments were rejoined with the unscored comments, and all comments alphabetized. This distributed scored comments randomly within the larger data table, and identified comments with similar wording. This final integrated dataset was used to score the full set of TA comments.</p>
+<div id="section" class="section level4">
+<h4> </h4>
+</div>
+<div id="subject-category" class="section level1">
+<h1>Subject Category</h1>
+<p>Is primary emphasis of the comment on:</p>
+<ul>
+<li>Fundamental pieces</li>
+<li>How to communicate generally?</li>
+<li>How to collect, analyze and present data correctly?</li>
+<li>The underlying rationale for the report/experiment?</li>
+<li>Other issues?</li>
+</ul>
+<p>Below are the choices for identifying the subject of the comment. Criteria for basic, technical, and writing choices are the same as used in the report grading rubric. To simplify sorting, administrative tags used to mark comments for further processing are included in this category.</p>
+<table style="width:82%;">
+<colgroup>
+<col width="29%" />
+<col width="52%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Code.Subject</strong> Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0. Null</td>
+<td>Used to reset a previously tagged comment</td>
+</tr>
+<tr class="even">
+<td>1. Basic Criteria</td>
+<td>Relates to 1 or more of 5 basic criteria</td>
+</tr>
+<tr class="odd">
+<td>2. Writing Quality</td>
+<td>Relates to writing mechanics, quality</td>
+</tr>
+<tr class="even">
+<td>3. Technical and Scientific</td>
+<td>Relates to a technical element</td>
+</tr>
+<tr class="odd">
+<td>4. Logic and Thinking</td>
+<td>Focuses on logic and argument</td>
+</tr>
+<tr class="even">
+<td>5. Praise or Concern</td>
+<td>Statements directly to student, either positive or negative. Focused on student mindset more than text.</td>
+</tr>
+<tr class="odd">
+<td>6. Misconduct</td>
+<td>Focuses on plagiarism, academic misconduct issue</td>
+</tr>
+<tr class="even">
+<td>7. Policy, Administrative</td>
+<td>Reiterates a standing class or course policy</td>
+</tr>
+<tr class="odd">
+<td>8. No basis to judge</td>
+<td>Cannot tell from text or context what comment means.</td>
+</tr>
+<tr class="even">
+<td>9. Split</td>
+<td>If 2+ comments are together, duplicate line, split it, then annotate</td>
+</tr>
+<tr class="odd">
+<td>10. Check Context</td>
+<td>Go back and look at original document, then re-code</td>
+</tr>
+<tr class="even">
+<td>11. Flag</td>
+<td>Comment is not appropriate for some reason. Includes factual errors, non-standard policies, deviations from norms.</td>
+</tr>
+<tr class="odd">
+<td>12. Narrative Comments</td>
+<td>Comment broadly addresses report</td>
+</tr>
+<tr class="even">
+<td>13. Scientific Name</td>
+<td>Comment specifically about use of scientific names</td>
+</tr>
+<tr class="odd">
+<td>14. Other</td>
+<td>Comment does not meet any of above criteria</td>
+</tr>
+</tbody>
+</table>
+<div id="section-1" class="section level4">
+<h4> </h4>
+<p><strong>0. Null</strong> is an administrative marker used to reset a comment.</p>
+<p><strong>1. Basic Criteria</strong> establish whether report is ready for grading, or unacceptably flawed. Comments in this category focus on the 5 basic requirements that ALL scientific writing must meet, plus the academic honesty requirement. Includes all comments about:</p>
+<ul>
+<li>Written work represents the student’s own scientific research or work; not copied.</li>
+<li>There is a clear rationale, hypothesis, or purpose of the study PRESENT (quality is scored later.)</li>
+<li>Written work is complete, appropriately organized for audience, and all essential elements are present.</li>
+<li>Summarized data are PRESENT. Data have been analyzed in some way.</li>
+<li>There is an interpretation of the results.</li>
+<li>Discussion states clearly whether or not hypothesis is supported and why.</li>
+<li>Study is based within a larger body of literature; citations in Introduction, Discussion.</li>
+</ul>
+<p><strong>2. Writing Quality</strong> comments focus on written communication issues, including general conventions of scientific writing as a genre. Includes all comments on:</p>
+<ul>
+<li>Writing style is appropriate for the target audience.</li>
+<li>Style, format, organization of writing matches the expectations of a scientific audience.</li>
+<li>Clear, concise wording.</li>
+<li>Precise language appropriate to scientific audience.</li>
+<li>Technically presented; avoids casual, imprecise, emotional language.</li>
+<li>Written work is free of major writing errors (spelling, grammar, punctuation.)</li>
+<li>Citations are presented consistently and professionally throughout the text and in the list of works cited section.</li>
+<li>Citations are presented consistently, professionally in text and Works Cited section.</li>
+</ul>
+<p>Comments about the following belong here.</p>
+<ul>
+<li>Repeated info</li>
+<li>Errors in referencing figures, tables</li>
+<li>Word choice generally (not tech. vocab.)</li>
+<li>Extraneous information</li>
+<li>“Include a sentence about…”</li>
+<li>What goes in which sections</li>
+<li>HTML code-based errors are writing quality pointers (should catch in general editing)</li>
+<li>General to specific</li>
+<li>“Include a sentence about…” can be categorized many ways. Most often will be general writing, but could be logic or technical.</li>
+</ul>
+<p><strong>3. Technical and Scientific Issues</strong> comments focus on whether: methods are communicated clearly and correctly; data and analyses are clear, appropriate, accurate, and unbiased; and mechanics specific to technical writing and data presentation are executed correctly. Includes all comments such as:</p>
+<ul>
+<li>Methods are appropriately defined and explained, given the student’s research question.</li>
+<li>The data analysis is clear, appropriate, accurate and unbiased.</li>
+<li>Statistical summaries are executed, interpreted, and reported correctly.</li>
+<li>Data are summarized, reported, displayed correctly.</li>
+<li>Tables and figures are clear, effective, and informative.</li>
+<li>Errors in interpreting data belong here, not in Logic.</li>
+<li>Numbers and units</li>
+<li>Reporting raw data</li>
+<li>Why the particular study organism goes here.</li>
+<li>Corrections to:</li>
+<li>Use of technical terms</li>
+<li>Factual information</li>
+<li>Prove vs. support goes here.</li>
+</ul>
+<p><strong>4. Logic and Thinking</strong> comments are not part of our lab report grading model currently, but still important to assess. Comments tagged with this subject focus on: 1) quality, accuracy of claim-evidence-reasoning chain; 2) use of hypothetico-deductive reasoning model; 3) consistency of arguments with internal, external evidence. Includes all comments about:</p>
+<ul>
+<li>Written work clearly articulates the student’s thinking regarding research goals.</li>
+<li>Research question is clear.</li>
+<li>Rationale, background for research question is clear.</li>
+<li>Work is placed in context of RELEVANT scientific literature.</li>
+<li>Cited literature support, develop a larger argument.</li>
+<li>Statement of hypothesis is clear, appropriately organized.</li>
+<li>Written work is logically consistent.</li>
+<li>Student’s thought process about how parts connect is clear.</li>
+<li>Logic that connects the arguments and conclusions is sound, clear.</li>
+<li>All parts contribute to understanding outcomes. No distracting arguments.</li>
+<li>Written work interprets the results skillfully, conservatively.</li>
+<li>Implications of the findings are placed in a reasonable context.</li>
+<li>Strong, integrated ending goes here, BUT if comment is about language rather than thinking, goes under Writing.</li>
+</ul>
+</div>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="structure-category" class="section level1">
+<h1>Structure Category</h1>
+<p>Is the comment idiomatic or informative? Is there general or specific information contained in comment? Is it instructional only, or does the comment foster broader thinking?</p>
+<table>
+<thead>
+<tr class="header">
+<th><strong>Code.Structure</strong> Term</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>0. Null</td>
+<td>Used to reset a previously tagged comment</td>
+</tr>
+<tr class="even">
+<td>1. Pointer</td>
+<td>Simple notation indicating an error</td>
+</tr>
+<tr class="odd">
+<td>2. Copy Correction</td>
+<td>Simple instructions for single correction</td>
+</tr>
+<tr class="even">
+<td>3. General info</td>
+<td>Provides general instructions</td>
+</tr>
+<tr class="odd">
+<td>4. Specific info</td>
+<td>Provides specific instructions</td>
+</tr>
+<tr class="even">
+<td>5. Rationale</td>
+<td>Comment contains process info only</td>
+</tr>
+<tr class="odd">
+<td>6. Holistic</td>
+<td>Comment has both content and process info</td>
+</tr>
+<tr class="even">
+<td>7. Idiomatic</td>
+<td>Comment does not match standard requirements</td>
+</tr>
+<tr class="odd">
+<td>8. No basis to judge</td>
+<td>Not enough information to categorize</td>
+</tr>
+</tbody>
+</table>
+<p><strong>1. Pointer</strong> is simple notation indicating there is an error, or that a correction is needed. Includes comments like:</p>
+<ul>
+<li>??</li>
+<li>Misspelling, typo, format, check, etc.</li>
+<li>*Repeated phrase. (Only points to immediate error; compare to below)</li>
+</ul>
+<p><strong>2. Copy correction</strong> comments provide specific instructions for correcting or modifying copy in ONE SPECIFIC location, but do not address the logic or reason. Includes comments like:</p>
+<ul>
+<li>Stylistic corrections, word choices</li>
+<li>An apostrophe makes this a possessive noun, not a plural one.</li>
+<li>Colloquial (word choice) (but no explanation)</li>
+<li>No direct quotes. Paraphrase.</li>
+<li>Always capitalize “P”</li>
+<li>Use this particular wording</li>
+<li>Instructions to add or delete a word, phrase, image, element</li>
+<li>Omit/delete/remove ___.</li>
+<li>Add ___(description)___.</li>
+<li>Unnecessary/ redundant</li>
+<li>Provide specific data or information this way (p value, statistical tests, etc.)</li>
+<li>Add/remove error bars</li>
+<li>Citations and cross-references</li>
+<li>Include a citation here. OR, This must be cited.</li>
+<li>Citation format OR Citation format is [last name for first author : year]</li>
+<li>Instructions on correcting a single SPECIFIC citation directly</li>
+<li>Refer to this figure, table, etc.</li>
+<li>Not true (corrects error of fact without further information.)</li>
+<li>Delete this repeated phrase. (Specific change to make.)</li>
+</ul>
+<p><strong>3. General info</strong> comments share GENERAL instructions or knowledge, but have no guidance on where specific changes are needed or how to apply, and offer no underlying rationale. Includes comments like:</p>
+<ul>
+<li>For your lab report you should be concise and straight forward.</li>
+<li>Just include the relevant information.</li>
+<li>Some sections are missing (not clear which ones)</li>
+<li>Ambiguous, awkward</li>
+<li>Rewrite this/ condense this/ avoid this word or term generally</li>
+<li>*Avoid repeating phrases. (More instructive than above but not specific)</li>
+<li>Tense, voice rules in general go in this group</li>
+<li>Methods should be past tense</li>
+<li>General corrections to citations, references without providing specifics</li>
+<li>Use citation style in lab resource guide, &amp; like was on the writing quiz.</li>
+<li>See p.42 in the BioCore Resource Guide for correct in-text citation format</li>
+<li>Need citations IN THIS SECTION (specific when points to spot IN A section)</li>
+<li>Reference your figures and tables.</li>
+<li>Raw data (is specific only if provides additional context.)</li>
+<li>Avoid recipe style (with no further explanation)</li>
+<li>Numbers need units</li>
+<li>What about statistics?</li>
+<li>Comment on using loaded words: prove, significant,</li>
+</ul>
+<p><strong>4. Specific info</strong> comments provide SPECIFIC corrective info/context, but lack a starting point for broader thinking. Includes comments like:</p>
+<ul>
+<li>Provides clear organization for whole section.</li>
+<li>Put x, then y, then z.</li>
+<li>Defines larger specific changes in text.</li>
+<li>At the end of the discussion indicate possible implications of your experiment at a broader scale</li>
+<li>Did not say if hypothesis was supported (specific b/c of content, context)</li>
+<li>Add this missing section; you are missing the ___ section.</li>
+<li>___Section___ should contain ___x___.</li>
+<li>Move/add ___ to BEFORE/AFTER ___.</li>
+<li>What does “X” (error bars) mean? (simple interpretation)</li>
+<li>Clarify this step in procedure or analysis</li>
+<li>Move a specific table of data to text, or vice versa.</li>
+<li>Do not interpret your results in Results section (specific b/c of guidance)</li>
+<li>You need to explain ___ better. (More specific instructions that just “awkward” or “revise”.</li>
+<li>*Avoid repeating phrases. Change the order, make it nicer to read. (Clear way to implement instructions, relative to two examples above, but does not invite deeper thought.)</li>
+<li>You should try to paraphrase anything more than 2-3 words, although if it is an incredibly common phrase, you can use it without fear of plagiarism.</li>
+<li>This specific citation is not relevant to your argument/ point.</li>
+<li>Avoid recipe style. Look at other articles to see how they did it.</li>
+<li>Corrections to data presentation</li>
+<li>Raw data. Need to summarize.</li>
+<li>These numbers need units or additional information.</li>
+<li>*Not true. Look in ___x___ to learn more. (Provides a source for details)</li>
+</ul>
+<p><strong>5. Rationale</strong> comments are a question or statement that prompts for, points to, or guides thinking, but lacks any context. Uncommon. Includes comments like:</p>
+<ul>
+<li>Why, when, how? What is your reasoning?</li>
+</ul>
+<p><strong>6. Holistic</strong> comments have BOTH specific knowledge/info and guidance/rationale that invites thinking. Specific comments provide both sources for information (what) plus invitation to think (why) in combination. General comments have BOTH general knowledge/info and guidance/rationale. More open ended, will require deeper thought. (General information to guide thought (what) plus invitation to think (why)). Expect these to be most challenging to write and to respond to. Includes comments like:</p>
+<ul>
+<li>Did you mean for each leg before and after the injection?</li>
+<li>What is this in the moth life cycle?</li>
+<li>Are you sure it is the correct tense for this section? Check with other primary lit.</li>
+<li>Any primary literature sources ( articles) that deal with interspecific interactions in betta fish? It would be very useful to cite and talk about those here, if there are.</li>
+<li>Why is this a helpful species to study?</li>
+</ul>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+<div id="contingency-table-for-holistic-scores" class="section level4">
+<h4>Contingency Table For Holistic Scores</h4>
+<p>Scores need to have BOTH information and process (what and why) to be holistic</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Process (“why” or “thinking” part)</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Amt. Info Provided</strong></td>
+<td><em>Absent</em></td>
+<td><em>Present</em></td>
+</tr>
+<tr class="even">
+<td><em>Limited or None</em></td>
+<td>Idiomatic, Pointer, Null</td>
+<td>Rationale</td>
+</tr>
+<tr class="odd">
+<td><em>General</em></td>
+<td>General info</td>
+<td>Holistic - general</td>
+</tr>
+<tr class="even">
+<td><em>Specific</em></td>
+<td>Specific info</td>
+<td>Holistic - specific</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="section-4" class="section level4">
+<h4> </h4>
+<p><strong>7. Idiomatic</strong> comments point out discipline-dependent or personally idiomatic issues we do not grade on. Includes personal preferences, outlier issues, comments about italics, underlines, etc. Includes comments like:</p>
+<ul>
+<li>Always use correct format for scientific names, i.e., italicize or underline. (Idiomatic because not required in our grading scheme. Incidentally, this is not accurate form either, which is one answer to ongoing arguments.)</li>
+<li>You provided both scientific and common names for your plant species, so can use common names throughout the rest of the report including the title and abstract. Revise accordingly. (Idiomatic because this is not standard to all fields)</li>
+</ul>
+</div>
+<div id="section-5" class="section level4">
+<h4> </h4>
+</div>
+<div id="example-of-how-to-parse-a-comment" class="section level2">
+<h2>Example of How to Parse a Comment</h2>
+<p><strong>Original TA comment:</strong></p>
+<p>Ah, so it didn’t move directly towards the Physarum. Here it’s important to make that distinction in how you took measurements in your methods section. Did you go based on leading edge? If so, this data point would probably be inconclusive in the results section. Did you go based on a central axis upon which you took measurements? Instead, that’d be different.</p>
+<p>There are two questions in the comment, which suggests that it is a holistic comment to pull knowledge out through thinking. However, the TA comment provides some interpretation in the next sentence. So this comment is seeking or providing specific information, while also directly fostering student’s deeper thinking. It would be tagged as “Holistic.”</p>
+</div>
+</div>
+
+<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
