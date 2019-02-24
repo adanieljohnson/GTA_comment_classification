@@ -1,5 +1,5 @@
 ---
-title: "Comments Codebook"
+title: "The TA Comments Codebook"
 date: "2/23/2019"
 bibliography: library.bib
 biblio-style: apalike
@@ -8,11 +8,13 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-We evaluating TAs’ comments on student reports to see if and how their comments change as students get more feedback from automated system. 
+We classify TAs’ comments on student reports to see if and how their comments change as students get more feedback from automated system. 
 
-To build the data table, commented reports from a single semester (MS Word .docx format) were processed using BaSH scripts to extract relevant file data (author, ID#, etc.) and individual TA comments from the raw XML, and write the data to a single CSV file. TA comments containing multiple points or suggestions were replicated and edited to produce a working data table with only one comment per entry row. 
+To build a TA comments data table, commented reports from a single semester (MS Word .docx format) are processed using R or BaSH scripts to extract relevant file data (author, ID#, etc.) and individual TA comments from the raw XML, and write the data to a single CSV file. TA comments containing multiple points or suggestions were replicated and edited to produce a working data table with only one comment per entry row. 
 
-Inclusion and exclusion criteria for assigning TA comments to categories and sub-categories was established iteratively using two training sets of 120 and 1200 comments selected randomly from the full dataset of ~11,000. Each main category (Subject, Structure, etc.) was divided into 4-8 loosely defined provisional sub-categories.Each comment from the 120-item training set was assigned to a provisional sub-category within each category. Sub-categories from different main categories were not mutually exclusive; for example, if a comment was assigned to the “Writing Quality” sub-category under the “Subject” category, that comment could be assigned to any of the provisional sub-categories in “Structure,” any of the sub-categories in “Locus,” etc.
+Inclusion and exclusion criteria for assigning TA comments to categories and sub-categories were established iteratively using two training sets of 120 and 1200 comments selected randomly from the full dataset of ~11,000. Each main category (Subject, Structure, etc.) was divided into 4-8 loosely defined provisional sub-categories.Each comment from the 120-item training set was assigned to a provisional sub-category within each category. 
+
+Note: sub-categories from different main categories are not mutually exclusive; for example, if a comment is assigned to the “Writing Quality” sub-category under the “Subject” category, that comment can be assigned to any of the provisional sub-categories in “Structure,” any of the sub-categories in “Locus,” etc.
 
 When comments could not be assigned with high confidence to a provisional sub-category, defining features of existing provisional sub-categories were refined further and, if necessary, additional provisional sub-categories established. Then the previously assigned comments were re-evaluated using the updated criteria, until all 120 comments in the training set could be assigned reliably. 
 
@@ -248,7 +250,7 @@ Scores need to have BOTH information and process (what and why) to be holistic
 ##Example of How to Parse a Comment
 **Original TA comment:**
 
-Ah, so it didn’t move directly towards the Physarum. Here it’s important to make that distinction in how you took measurements in your methods section. Did you go based on leading edge? If so, this data point would probably be inconclusive in the results section. Did you go based on a central axis upon which you took measurements? Instead, that’d be different.
+>Ah, so it didn’t move directly towards the Physarum. Here it’s important to make that distinction in how you took measurements in your methods section. Did you go based on leading edge? If so, this data point would probably be inconclusive in the results section. Did you go based on a central axis upon which you took measurements? Instead, that’d be different.
 
 There are two questions in the comment, which suggests that it is a holistic comment to pull knowledge out through thinking. However, the TA comment provides some interpretation in the next sentence. So this comment is seeking or providing specific information, while also directly fostering student’s deeper thinking. It would be tagged as “Holistic."
 

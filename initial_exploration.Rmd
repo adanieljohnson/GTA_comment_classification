@@ -1,18 +1,26 @@
 ---
 title: "Initial Exploration"
-output: html_document
+date: "2/21/2019"
+bibliography: library.bib
+biblio-style: apalike
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_setup.Rmd"}
 ```
 
 #Overview
-The first question to answer before making deeper comparisons is, **are word frequencies different between TAs' comments from different sub-categories?** To that end, I ran three different analyses of word usage frequency.
+The first question to answer before making deeper comparisons is, **are word frequencies different between TAs' comments from different sub-categories?** This page describes the methods used for this initial exploration. 
+
+Results of these analyses are discussed on this page: https://adanieljohnson.github.io/default_website/findings.html
+
+####\  
+
+#The Analyses
+I ran three different analyses of word usage frequency.
 
 *  __Pearson correlations for word use frequencies__. This only compares words found in all of the Subject sub-categories
 *  __Word frequency differences based on log-odds ratios__. This highlights terms that are the most different between sub-categories.
-*  __N-grams mapping__. This identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. 
+*  __N-grams mapping__ (*draft*). This identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. 
 
 ####\  
 
@@ -441,11 +449,10 @@ word_ratios2v4 %>%
 
 #N-Grams Mapping 
 ##Are Certain Terms and Phrases Unique to One Sub-Category?
-One of our earliest observations was that the n-gram "basic criteria" only appeared in TA comments from three different Subject sub-categories. This suggests certain terms and n-grams might be eliminated 
+One of our earliest observations was that the n-gram "basic criteria" only appeared in TA comments from three different Subject sub-categories. Of these, the phrase made up <0.5% of comments in two categories, but in the third category, "basic criteria" made up >5% of all comments. This suggests that the "basic criteria" n-gram is essentially diagnostic for that sub-category. This suggests other terms and n-grams that are eliminated in the previous two methods may be equally diagnostic for one sub-category.
 
-However it w  the relative frequency was much higher
+The block below describes a pseudo-code approach.
 ```{}
-#Pseudo-code
 Import comments
 Tokenize the comments as 1-, 2, 3-grams
 Add counts within subset, calculate frequency

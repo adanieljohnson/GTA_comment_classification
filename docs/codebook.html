@@ -11,7 +11,7 @@
 
 
 
-<title>Comments Codebook</title>
+<title>The TA Comments Codebook</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -338,15 +338,16 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Comments Codebook</h1>
+<h1 class="title toc-ignore">The TA Comments Codebook</h1>
 <h4 class="date"><em>2/23/2019</em></h4>
 
 </div>
 
 
-<p>We evaluating TAs’ comments on student reports to see if and how their comments change as students get more feedback from automated system.</p>
-<p>To build the data table, commented reports from a single semester (MS Word .docx format) were processed using BaSH scripts to extract relevant file data (author, ID#, etc.) and individual TA comments from the raw XML, and write the data to a single CSV file. TA comments containing multiple points or suggestions were replicated and edited to produce a working data table with only one comment per entry row.</p>
-<p>Inclusion and exclusion criteria for assigning TA comments to categories and sub-categories was established iteratively using two training sets of 120 and 1200 comments selected randomly from the full dataset of ~11,000. Each main category (Subject, Structure, etc.) was divided into 4-8 loosely defined provisional sub-categories.Each comment from the 120-item training set was assigned to a provisional sub-category within each category. Sub-categories from different main categories were not mutually exclusive; for example, if a comment was assigned to the “Writing Quality” sub-category under the “Subject” category, that comment could be assigned to any of the provisional sub-categories in “Structure,” any of the sub-categories in “Locus,” etc.</p>
+<p>We classify TAs’ comments on student reports to see if and how their comments change as students get more feedback from automated system.</p>
+<p>To build a TA comments data table, commented reports from a single semester (MS Word .docx format) are processed using R or BaSH scripts to extract relevant file data (author, ID#, etc.) and individual TA comments from the raw XML, and write the data to a single CSV file. TA comments containing multiple points or suggestions were replicated and edited to produce a working data table with only one comment per entry row.</p>
+<p>Inclusion and exclusion criteria for assigning TA comments to categories and sub-categories were established iteratively using two training sets of 120 and 1200 comments selected randomly from the full dataset of ~11,000. Each main category (Subject, Structure, etc.) was divided into 4-8 loosely defined provisional sub-categories.Each comment from the 120-item training set was assigned to a provisional sub-category within each category.</p>
+<p>Note: sub-categories from different main categories are not mutually exclusive; for example, if a comment is assigned to the “Writing Quality” sub-category under the “Subject” category, that comment can be assigned to any of the provisional sub-categories in “Structure,” any of the sub-categories in “Locus,” etc.</p>
 <p>When comments could not be assigned with high confidence to a provisional sub-category, defining features of existing provisional sub-categories were refined further and, if necessary, additional provisional sub-categories established. Then the previously assigned comments were re-evaluated using the updated criteria, until all 120 comments in the training set could be assigned reliably.</p>
 <p>Once stable sub-categories were established, examples of TA comments belonging to each sub-category were extracted from the main dataset and combined with finalized criteria to form a working code scheme. The working code scheme was tested and refined again by categorizing the second training set of 1200 comments, to produce the final coding scheme.</p>
 <p>To score the full data table, the 1200 scored training comments were rejoined with the unscored comments, and all comments alphabetized. This distributed scored comments randomly within the larger data table, and identified comments with similar wording. This final integrated dataset was used to score the full set of TA comments.</p>
@@ -697,7 +698,9 @@ div.tocify {
 <div id="example-of-how-to-parse-a-comment" class="section level2">
 <h2>Example of How to Parse a Comment</h2>
 <p><strong>Original TA comment:</strong></p>
+<blockquote>
 <p>Ah, so it didn’t move directly towards the Physarum. Here it’s important to make that distinction in how you took measurements in your methods section. Did you go based on leading edge? If so, this data point would probably be inconclusive in the results section. Did you go based on a central axis upon which you took measurements? Instead, that’d be different.</p>
+</blockquote>
 <p>There are two questions in the comment, which suggests that it is a holistic comment to pull knowledge out through thinking. However, the TA comment provides some interpretation in the next sentence. So this comment is seeking or providing specific information, while also directly fostering student’s deeper thinking. It would be tagged as “Holistic.”</p>
 </div>
 </div>

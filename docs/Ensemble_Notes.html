@@ -11,7 +11,7 @@
 
 
 
-<title>The Build</title>
+<title>Final Ensemble Protocol</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -338,7 +338,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">The Build</h1>
+<h1 class="title toc-ignore">Final Ensemble Protocol</h1>
 <h4 class="date"><em>2/22/2019</em></h4>
 
 </div>
@@ -346,19 +346,71 @@ div.tocify {
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>This page links to sub-pages that describe how various components used in the project were built. Follow the links for details.</p>
-<p>Extracting TAs’ comments: <a href="https://adanieljohnson.github.io/default_website/docxcommentextraction.html" class="uri">https://adanieljohnson.github.io/default_website/docxcommentextraction.html</a></p>
-<p>Codebook for TAs’ comments: <a href="https://adanieljohnson.github.io/default_website/codebook.html" class="uri">https://adanieljohnson.github.io/default_website/codebook.html</a></p>
-<p>Structure of development dataset; data import &amp; validation: <a href="https://adanieljohnson.github.io/default_website/dataimport.html" class="uri">https://adanieljohnson.github.io/default_website/dataimport.html</a></p>
-<p>Current Naive Bayes classifier: <a href="https://adanieljohnson.github.io/default_website/NB_2r2c.html" class="uri">https://adanieljohnson.github.io/default_website/NB_2r2c.html</a></p>
+<p>This notebook summarizes my progress, thoughts while building a working Ensemble method for categorizing TA comments.</p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
-</div>
-<div id="describe-an-element" class="section level1">
-<h1>Describe an Element</h1>
+<div id="replicate-cycles-test-of-naive-bayes" class="section level2">
+<h2>Replicate Cycles Test of Naive Bayes</h2>
+<p>One of my ideas was to see if I could refine Naive Bayes by running the same classifier with different randomized datasets, then putting individual outputs side by side and assigning final categories based on most frequent classification in the set.</p>
+<p>To test this I ran 5 Subject classifier replicates using the code in <em>Naive_bayes_V2r_2b.rmd</em>, with 5 different <code>set.seed</code> values. The exported CSV files were combined to get a set of data with up to 5 classifier assignments for the same comment.</p>
+<p>Using multiple randomized NB training runs does not seem to help. First, it was rare for the randomized runs to assign different incorrect classes. Second, when I compared 5 independently randomized runs by eye, the incorrectly categorized items were repeatedly put into the SAME incorrect group each time. Based on this, an Ensemble method using H-stacked categorical NB is unlikely to reduce overall errors in classification.</p>
+<p>Looking at the combined data DID provide other helpful insights into the overall classification procedure though. Naive Bayes does not seem to do well with comments that:</p>
+<ul>
+<li>Contain many or mostly punctuation symbols, such as:
+<ul>
+<li>: not ,</li>
+<li>?</li>
+<li>??</li>
+<li>???</li>
+</ul></li>
+<li>Are whole numbers
+<ul>
+<li>1</li>
+<li>2</li>
+<li>10</li>
+</ul></li>
+<li>Are one word questions or comments
+<ul>
+<li>because?</li>
+<li>“and”</li>
+</ul></li>
+<li>Are sentences enclosed in punctuation</li>
+<li>Are made up entirely of STOP/common words (I am not as sure on this one)</li>
+</ul>
 <div id="section-1" class="section level4">
 <h4> </h4>
+</div>
+</div>
+<div id="overall-accuracy" class="section level2">
+<h2>Overall Accuracy</h2>
+<p>I also looked at OVERALL accuracy of NB by recreating the 2-dimensional contingency table that I made when hand-coding, and comparing it side-by-side to NB classifications. From this I gained additional insights.</p>
+<p>OVERALL, the 2-D Naive Bayes model performed very well for classifying comment Subject. When I re-ran the full original dataset (9340 comments) through the prediction model, NB estimates for Subject were within 1.5% of my hand-scored assignments. Structure classification was not as robust. Other observations:</p>
+<ul>
+<li>NB over-classified comments as “copyediting of technical issues” by 8-10%, and under-classified comments that should be marked as “specific technical issues” by almost same amount.</li>
+<li>Comments that belonged to groups making up less than 1-2% of all comments were more likely to be mis-classified.</li>
+<li>Longer text comments seemed to be mis-classified more often. Follow-up methods to evaluate:
+<ul>
+<li>Split longer comments into shorter phrases</li>
+<li>Evaluate only the first 5-10 words of a comment</li>
+</ul></li>
+</ul>
+<p>It appears that Subject categories are more terms-centered, while Structure is based more on the sentiment and sentence structure of a comment. This suggests that I need to incorporate a sentiment classifier or PoS tagger step.</p>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="mixed-ensemble-method" class="section level2">
+<h2>Mixed Ensemble Method</h2>
+<p>Based on the seems like the most reasonable approach for maximum accuracy is going to be a mixed Ensemble method. The initial working model is to:</p>
+<p>Add a pre-screening step prior to implementing NB:</p>
+<ul>
+<li>Isolate “short-string” comments first. These are comments consisting of single words, two-word phrases, more punctuation than text, etc. These represent mostly pointers and copy-editing.</li>
+<li>Look for 2-grams with high frequencies in one particular category. (Ex., “basic criteria” 2-gram identifies a Basic Criteria comment.)</li>
+</ul>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
 </div>
 </div>
 

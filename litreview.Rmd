@@ -15,8 +15,7 @@ Description: https://adanieljohnson.github.io/default_website/pagename.html
 
 Technical Writing Training
 
-Text Classification Strategies
-
+Text Classification Strategies:  https://adanieljohnson.github.io/default_website/Text_classifier_models.html
 
 
 
