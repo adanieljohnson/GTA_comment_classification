@@ -13,6 +13,6 @@ The supporting literature for this project is broad and convoluted. Rather than 
 
 Fundamental Principles and Practices of Technical Writing Training:  https://adanieljohnson.github.io/default_website/pagename.html 
 
-Primer on Text Classification Strategies:  https://adanieljohnson.github.io/default_website/Text_classifier_models.html
+Primer on Text Classification Strategies:  https://adanieljohnson.github.io/default_website/Text_Classifier_Models.html
 
 ####\  
