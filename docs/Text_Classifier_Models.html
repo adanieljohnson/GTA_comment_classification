@@ -344,38 +344,32 @@ div.tocify {
 </div>
 
 
-<div id="overview" class="section level1">
-<h1>Overview</h1>
 <p>This page provides general background on theory and approaches to text classification. Links below connect to sub-pages that describe more specific topics. Follow the links for details.</p>
-<p>Topic Categorization and Modeling Methods: <a href="https://adanieljohnson.github.io/default_website/Topic_categorization.html" class="uri">https://adanieljohnson.github.io/default_website/Topic_categorization.html</a></p>
-<p>Choosing a Text Classifier Method: <a href="https://adanieljohnson.github.io/default_website/Choosing_classifier.html" class="uri">https://adanieljohnson.github.io/default_website/Choosing_classifier.html</a></p>
-<p>Designing a Classifier Evaluation Workflow: <a href="https://adanieljohnson.github.io/default_website/Classifier_comparison.html" class="uri">https://adanieljohnson.github.io/default_website/Classifier_comparison.html</a></p>
-<p>Strategies for Improving, Evaluating Text Classifiers: <a href="https://adanieljohnson.github.io/default_website/Improving_classifier.html" class="uri">https://adanieljohnson.github.io/default_website/Improving_classifier.html</a></p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
-</div>
 <div id="basic-workflow" class="section level1">
 <h1>Basic Workflow</h1>
-<p>Text classification problems can be broken down into four overlapping sub-problems. Each piece may be more or less important to the overall problem, but all need to be considered:</p>
+<p>Text classification problems can be broken down into four overlapping sub-problems. Each piece may be more or less important to the overall problem, but all need to be considered.</p>
 <ol style="list-style-type: decimal">
-<li>Feature selection and engineering</li>
-<li>Topic categorization and modeling</li>
-<li>Selecting an appropriate text classifier method</li>
-<li>Evaluating the outcomes</li>
+<li>Feature selection and engineering (described here)</li>
+<li>Topic categorization and modeling (<a href="https://adanieljohnson.github.io/default_website/Topic_categorization.html" class="uri">https://adanieljohnson.github.io/default_website/Topic_categorization.html</a>)</li>
+<li>Selecting an appropriate text classifier method (<a href="https://adanieljohnson.github.io/default_website/Choosing_classifier.html" class="uri">https://adanieljohnson.github.io/default_website/Choosing_classifier.html</a>)</li>
+<li>Evaluating the outcomes, and improving the classifier ( <a href="https://adanieljohnson.github.io/default_website/Improving_classifier.html" class="uri">https://adanieljohnson.github.io/default_website/Improving_classifier.html</a>)</li>
 </ol>
 <div id="section-1" class="section level4">
 <h4> </h4>
 </div>
-<div id="feature-selection-and-engineering" class="section level2">
-<h2>Feature Selection and Engineering</h2>
+</div>
+<div id="feature-selection-and-engineering" class="section level1">
+<h1>Feature Selection and Engineering</h1>
 <p>This is the process of selecting, tabulating, calculating, or creating text-based features for subsequent evaluation. This includes:</p>
 <ul>
 <li>Identifying existing, directly observable text features within the dataset</li>
 <li>Engineering additional features using established NLP methods</li>
-<li>Reverse engineering relevant features based on an empirically defined feature set.</li>
+<li>Reverse engineering relevant features based on an empirically defined feature set</li>
 </ul>
-<p>The features listed below are used regularly for natural language processing. Not all will be appropriate for all situations though; selecting, evaluating, comparing, and validating the appropriate features for the classification task is an iterative process, not a one-time decision.</p>
+<p>The features listed below are used routinely in natural language processing. Not all will be appropriate for all situations though; <strong>selecting, evaluating, comparing, and validating appropriate features for a classification task is an iterative process, not a one-time decision.</strong></p>
 <ul>
 <li>Count-based Vectors
 <ul>
@@ -390,7 +384,7 @@ div.tocify {
 <li>Average word density of sentences</li>
 <li>Average length of the words used in the documents</li>
 <li>TF-IDF</li>
-<li>Reading level estimates (described below)</li>
+<li>Reading level estimates, readability (described below)</li>
 </ul></li>
 <li>Part of Speech Tagging and Frequency Distribution of Tags
 <ul>
@@ -402,9 +396,9 @@ div.tocify {
 </ul></li>
 <li>Word Embedding (described below)</li>
 </ul>
-<p>Additional features are available for longer texts such as multi-sentence paragraphs.</p>
+<p>Additional features are available for longer texts such as multi-sentence paragraphs. These features require analysis of sentence structure, syntax, parts of speech patterns, etc.</p>
 <ul>
-<li>Word choices</li>
+<li>Word choices (vocabulary range)</li>
 <li>Lexical diversity (described below)</li>
 <li>Stance patterns - hedging, booster, generalization words or phrasing</li>
 <li>Concision - comparisons of noun phrase density versus comment clause density</li>
@@ -414,22 +408,25 @@ div.tocify {
 <div id="section-2" class="section level4">
 <h4> </h4>
 </div>
-<div id="lexical-diversity" class="section level3">
-<h3>Lexical Diversity</h3>
-<p>This is not the same as word choices. This explanation is an excerpt from “quanteda: Quantitative Analysis of Textual Data”, which describes how to use <code>textstat_lexdiv</code> to calculate lexical diversity. <a href="https://rdrr.io/cran/quanteda/man/textstat_lexdiv.html" class="uri">https://rdrr.io/cran/quanteda/man/textstat_lexdiv.html</a> <a href="http://quanteda.io/reference/textstat_lexdiv.html" class="uri">http://quanteda.io/reference/textstat_lexdiv.html</a></p>
+</div>
+<div id="some-feature-engineering-methods" class="section level1">
+<h1>Some Feature Engineering Methods</h1>
+<div id="lexical-diversity" class="section level2">
+<h2>Lexical Diversity</h2>
+<p>This is different from simple word frequencies The following explanation is an excerpt from “quanteda: Quantitative Analysis of Textual Data”, which describes how to use <code>textstat_lexdiv</code> to calculate lexical diversity. <a href="https://rdrr.io/cran/quanteda/man/textstat_lexdiv.html" class="uri">https://rdrr.io/cran/quanteda/man/textstat_lexdiv.html</a> <a href="http://quanteda.io/reference/textstat_lexdiv.html" class="uri">http://quanteda.io/reference/textstat_lexdiv.html</a></p>
 <blockquote>
 <p>Consider a speaker, who uses the term “allow” multiple times throughout the speech, compared to an another speaker who uses terms “allow, concur, acquiesce, accede, and avow”&quot; for the same word. The latter speech has more lexical diversity than the former. Lexical diversity is widely believed to be an important parameter to rate a document in terms of textual richness and effectiveness.</p>
 </blockquote>
 <blockquote>
 <p>Lexical diversity, in simple terms, is a measurement of the breadth and variety of vocabulary used in a document. The different measures of lexical diversity are TTR, MSTTR, MATTR, C, R, CTTR, U, S, K, Maas, HD-D, MTLD, and MTLD-MA.</p>
 </blockquote>
-<p>koRpus package in R also provides functions to estimate lexical diversity or complexity. <a href="https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781783551811/2/ch02lvl1sec16/lexical-diversity" class="uri">https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781783551811/2/ch02lvl1sec16/lexical-diversity</a></p>
+<p>koRpus package in R also provides functions to estimate lexical diversity or complexity. For more about this package, go to <a href="https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781783551811/2/ch02lvl1sec16/lexical-diversity" class="uri">https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781783551811/2/ch02lvl1sec16/lexical-diversity</a></p>
 <div id="section-3" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="readability-metrics" class="section level3">
-<h3>Readability metrics</h3>
+<div id="readability-metrics" class="section level2">
+<h2>Readability metrics</h2>
 <p>These estimate the relative grade level or age of a typical reader who could comprehend 80+% (typically) of the text. Most readability metrics require longer blocks of text (100+ words) to achieve a stable score. They use some combination of word count, average syllables per word, and sentence length to estimate reading level.</p>
 <p>The metrics differ in how appropriate they are for specific situations. Some were developed for general writing, others for specific school age groups, and still others for technical documents; the US Navy in particular developed a suite of metrics for evaluating their training documents.</p>
 <p>The <code>readability library</code> (v0.1.1) is a collection of readability tools that utilize the <code>syllable</code> package for fast calculation of readability scores by grouping variables. It calculates Flesch Kincaid, Gunning Fog Index, Coleman Liau, SMOG, Automated Readability Index and an average of the 5 readability scores. These all are general scales; other scores may not be available in R packages.</p>
@@ -437,12 +434,13 @@ div.tocify {
 <h4> </h4>
 </div>
 </div>
-<div id="word-embedding" class="section level3">
-<h3>Word Embedding</h3>
-<p><strong>Word embedding</strong> is a set of language modeling and feature learning techniques in natural language processing (NLP) where words or phrases from the vocabulary are mapped to vectors of real numbers. Conceptually it involves a mathematical embedding from a space with one dimension per word to a continuous vector space with a much lower dimension.</p>
+<div id="word-embedding" class="section level2">
+<h2>Word Embedding</h2>
+<p><strong>Word embedding</strong> is a set of language modeling and feature learning techniques in natural language processing (NLP) where words or phrases from the vocabulary are mapped to vectors of real numbers. The vectors then serve as engineered features for subsequent classifier functions.</p>
+<p>Conceptually it involves a mathematical embedding from a space with one dimension per word to a continuous vector space with a much lower dimension.</p>
 <p>Methods to generate the mapping include neural networks, dimensionality reduction, probabilistic models, knowledge base methods, and explicit representation in terms of the context in which words appear. The technique of representing words as vectors has roots in the 1960s with the development of the vector space model for information retrieval.</p>
 <p>Word embeddings come in two different styles, one in which words are expressed as vectors of co-occurring words, and another in which words are expressed as vectors of linguistic contexts in which the words occur. Most new word embedding techniques rely on a neural network architecture instead of more traditional n-gram models and unsupervised learning.</p>
-<p>One of the main limitations of word embeddings (word vector space models in general) is that possible meanings of a word are conflated into a single representation (a single vector in the semantic space). Sense embeddings are a solution to this problem: individual meanings of words are represented as distinct vectors in the space.</p>
+<p>One of the main limitations of word embeddings (and word vector space models in general) is that possible meanings of a word are conflated into a single representation (a single vector in the semantic space). Sense embeddings are a solution to this problem: individual meanings of words are represented as distinct vectors in the space.</p>
 <p>Tools like <strong>Principal Component Analysis (PCA)</strong> and <strong>T-Distributed Stochastic Neighbour Embedding (t-SNE)</strong> are used to reduce the dimensionality of word vector spaces and visualize word embeddings and clusters.</p>
 <p>Software for training and using word embeddings includes Tomas Mikolov’s Word2vec, Stanford University’s GloVe, fastText, Gensim, AllenNLP’s Elmo, Indra and Deeplearning4j. Three of these tools are described further below.</p>
 <div id="section-5" class="section level4">
@@ -486,7 +484,6 @@ div.tocify {
 </div>
 <div id="section-8" class="section level4">
 <h4> </h4>
-</div>
 </div>
 </div>
 </div>

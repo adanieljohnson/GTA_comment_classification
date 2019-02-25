@@ -7,38 +7,28 @@ biblio-style: apalike
 
 ```{r, child="_setup.Rmd"}
 ```
-
-#Overview
 This page provides general background on theory and approaches to text classification. Links below connect to sub-pages that describe more specific topics. Follow the links for details.
-
-Topic Categorization and Modeling Methods: https://adanieljohnson.github.io/default_website/Topic_categorization.html
-
-Choosing a Text Classifier Method: https://adanieljohnson.github.io/default_website/Choosing_classifier.html
-
-Designing a Classifier Evaluation Workflow: https://adanieljohnson.github.io/default_website/Classifier_comparison.html
-
-Strategies for Improving, Evaluating Text Classifiers: https://adanieljohnson.github.io/default_website/Improving_classifier.html
 
 ####\  
 
 #Basic Workflow
-Text classification problems can be broken down into four overlapping sub-problems. Each piece may be more or less important to the overall problem, but all need to be considered:
+Text classification problems can be broken down into four overlapping sub-problems. Each piece may be more or less important to the overall problem, but all need to be considered. 
 
-1.  Feature selection and engineering
-2.  Topic categorization and modeling
-3.  Selecting an appropriate text classifier method
-4.  Evaluating the outcomes
+1.  Feature selection and engineering (described here)
+2.  Topic categorization and modeling (https://adanieljohnson.github.io/default_website/Topic_categorization.html)
+3.  Selecting an appropriate text classifier method (https://adanieljohnson.github.io/default_website/Choosing_classifier.html)
+4.  Evaluating the outcomes, and improving the classifier ( https://adanieljohnson.github.io/default_website/Improving_classifier.html)
 
 ####\  
 
-##Feature Selection and Engineering
+#Feature Selection and Engineering
 This is the process of selecting, tabulating, calculating, or creating text-based features for subsequent evaluation. This includes:
 
 *  Identifying existing, directly observable text features within the dataset
 *  Engineering additional features using established NLP methods
-*	 Reverse engineering relevant features based on an empirically defined feature set.
+*	 Reverse engineering relevant features based on an empirically defined feature set
 
-The features listed below are used regularly for natural language processing. Not all will be appropriate for all situations though; selecting, evaluating, comparing, and validating the appropriate features for the classification task is an iterative process, not a one-time decision.
+The features listed below are used routinely in natural language processing. Not all will be appropriate for all situations though; **selecting, evaluating, comparing, and validating appropriate features for a classification task is an iterative process, not a one-time decision.**
 
 *  Count-based Vectors
 	+  Word Count – total number of words in the documents
@@ -50,7 +40,7 @@ The features listed below are used regularly for natural language processing. No
 	+  Average word density of sentences 
 	+  Average length of the words used in the documents
 	+  TF-IDF
-	+  Reading level estimates (described below)
+	+  Reading level estimates, readability (described below)
 *  Part of Speech Tagging and Frequency Distribution of Tags 
 	+ Noun Count
 	+ Verb Count
@@ -59,9 +49,9 @@ The features listed below are used regularly for natural language processing. No
 	+ Pronoun Count
 *  Word Embedding (described below)
 
-Additional features are available for longer texts such as multi-sentence paragraphs.
+Additional features are available for longer texts such as multi-sentence paragraphs. These features require analysis of sentence structure, syntax, parts of speech patterns, etc. 
 
-*  Word choices
+*  Word choices (vocabulary range)
 *  Lexical diversity (described below)
 *  Stance patterns - hedging, booster, generalization words or phrasing 
 *  Concision - comparisons of noun phrase density versus comment clause density
@@ -70,8 +60,9 @@ Additional features are available for longer texts such as multi-sentence paragr
 
 ####\  
 
-###Lexical Diversity
-This is not the same as word choices. This explanation is an excerpt from "quanteda: Quantitative Analysis of Textual Data", which describes how to use ```textstat_lexdiv``` to calculate lexical diversity. 
+#Some Feature Engineering Methods
+##Lexical Diversity
+This is different from simple word frequencies The following explanation is an excerpt from "quanteda: Quantitative Analysis of Textual Data", which describes how to use ```textstat_lexdiv``` to calculate lexical diversity. 
 https://rdrr.io/cran/quanteda/man/textstat_lexdiv.html
 http://quanteda.io/reference/textstat_lexdiv.html
 
@@ -79,12 +70,12 @@ http://quanteda.io/reference/textstat_lexdiv.html
 
 >Lexical diversity, in simple terms, is a measurement of the breadth and variety of vocabulary used in a document. The different measures of lexical diversity are TTR, MSTTR, MATTR, C, R, CTTR, U, S, K, Maas, HD-D, MTLD, and MTLD-MA.
 
-koRpus package in R also provides functions to estimate lexical diversity or complexity.
+koRpus package in R also provides functions to estimate lexical diversity or complexity. For more about this package, go to 
 https://subscription.packtpub.com/book/big_data_and_business_intelligence/9781783551811/2/ch02lvl1sec16/lexical-diversity
 
 ####\  
 
-###Readability metrics
+##Readability metrics
 These estimate the relative grade level or age of a typical reader who could comprehend 80+% (typically) of the text. Most readability metrics require longer blocks of text (100+ words) to achieve a stable score. They use some combination of word count, average syllables per word, and sentence length to estimate reading level. 
 
 The metrics differ in how appropriate they are for specific situations. Some were developed for general writing, others for specific school age groups, and still others for technical documents; the US Navy in particular developed a suite of metrics for evaluating their training documents. 
@@ -93,14 +84,16 @@ The ```readability library``` (v0.1.1) is a collection of readability tools that
 
 ####\  
 
-###Word Embedding
-**Word embedding** is a set of language modeling and feature learning techniques in natural language processing (NLP) where words or phrases from the vocabulary are mapped to vectors of real numbers. Conceptually it involves a mathematical embedding from a space with one dimension per word to a continuous vector space with a much lower dimension.
+##Word Embedding
+**Word embedding** is a set of language modeling and feature learning techniques in natural language processing (NLP) where words or phrases from the vocabulary are mapped to vectors of real numbers. The vectors then serve as engineered features for subsequent classifier functions. 
+
+Conceptually it involves a mathematical embedding from a space with one dimension per word to a continuous vector space with a much lower dimension. 
 
 Methods to generate the mapping include neural networks, dimensionality reduction, probabilistic models, knowledge base methods, and explicit representation in terms of the context in which words appear. The technique of representing words as vectors has roots in the 1960s with the development of the vector space model for information retrieval. 
 
 Word embeddings come in two different styles, one in which words are expressed as vectors of co-occurring words, and another in which words are expressed as vectors of linguistic contexts in which the words occur. Most new word embedding techniques rely on a neural network architecture instead of more traditional n-gram models and unsupervised learning. 
 
-One of the main limitations of word embeddings (word vector space models in general) is that possible meanings of a word are conflated into a single representation (a single vector in the semantic space). Sense embeddings are a solution to this problem: individual meanings of words are represented as distinct vectors in the space.
+One of the main limitations of word embeddings (and word vector space models in general) is that possible meanings of a word are conflated into a single representation (a single vector in the semantic space). Sense embeddings are a solution to this problem: individual meanings of words are represented as distinct vectors in the space.
 
 Tools like **Principal Component Analysis (PCA)** and **T-Distributed Stochastic Neighbour Embedding (t-SNE)** are used to reduce the dimensionality of word vector spaces and visualize word embeddings and clusters.
 

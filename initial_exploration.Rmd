@@ -8,19 +8,18 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-#Overview
-The first question to answer before making deeper comparisons is, **are word frequencies different between TAs' comments from different sub-categories?** This page describes the methods used for this initial exploration. 
+The first question to answer before making deeper comparisons is, **are word frequencies different between TAs' comments from different sub-categories?** This page describes the methods used for initial exploration of the TA comments dataset. 
 
-Results of these analyses are discussed on this page: https://adanieljohnson.github.io/default_website/findings.html
+Results of these analyses are discussed in depth on this page: https://adanieljohnson.github.io/default_website/findings.html
 
 ####\  
 
 #The Analyses
-I ran three different analyses of word usage frequency.
+I ran three different analyses of word use frequency. For simplicity I reduced the analysis to just the four most common comment subjects. 
 
-*  __Pearson correlations for word use frequencies__. This only compares words found in all of the Subject sub-categories
-*  __Word frequency differences based on log-odds ratios__. This highlights terms that are the most different between sub-categories.
-*  __N-grams mapping__ (*draft*). This identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. 
+*  __Pearson correlations for word use frequencies__. This method compares the **absolute frequencies** for words found in **ALL** of the Subject sub-categories.
+*  __Word frequency differences based on log-odds ratios__. This method highlights terms that are the **most different between sub-categories**. Again, this method compares frequencies for words found in **ALL** of the Subject sub-categories.
+*  __N-grams mapping__ (***Draft***). This method identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. Unlike the other two methods, this one does not drop terms which are missing from one or more groups.
 
 ####\  
 
@@ -49,7 +48,7 @@ This analysis takes all comments from base_data, tokenizes and filters stopwords
 base_data_tokenized <- base_data %>% 
   unnest_tokens(word,ta.comment)
 
-#ALTERNATIVE METHOD for pulling out stopwords.  
+#Stopwords removal.  
 sortedwords.comments.all <- base_data_tokenized %>%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, "'"),
@@ -135,7 +134,12 @@ sortedwords.logic.fraction <- sortedwords.logic %>% as_tibble() %>% mutate(
 )
 ```
 
-The next block joins the individual data tables for each subset in a larger file using column named 'word'. Columns get confusing names so they are renamed. 
+The next block joins the individual data tables for each subset in a larger file using column named 'word'. Columns get confusing names so they are renamed. The graphs compare frequencies for ~770 words that appear in ALL three sub-categories: Writing, Technical, and Logic.
+
+Graphs 1-3 show frequencies in individual groups versus word frequency overall. Generally, frequency of terms in the whole set of comments should be similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup (Graph 3) are far from the best-fit line, suggesting they are under-used for comments in that sub-category.
+
+Graphs 4-6 show pair-wise comparisons between sub-categories. Unlike overall frequency, most words are NOT clustered along the best-fit line, suggesting there is still more variation in word use between sub-categories.
+
 ```{r}
 total <- merge(sortedwords.comments.all.fraction,sortedwords.technical.fraction,by="word") 
 total2 <- merge(total,sortedwords.writing.fraction,by="word")
@@ -159,10 +163,7 @@ total6 <- total5 %>% as_tibble() %>% mutate(
   logic.wt = (logic.count *100)/all.count
 )
 
-```
-
-The following six graphs compare frequencies for ~770 words that appear in ALL three sub-categories: Writing, Technical, and Logic.
-```{r}
+#Plot graphs
 ggplot(total6, aes(`all.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
@@ -206,17 +207,11 @@ ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_abline(color = "red")
 ```
 
-Graphs 1-3 show frequencies in individual groups versus word frequency overall. Generally, frequency of terms in the whole set of comments should be similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup (Graph 3) are far from the best-fit line, suggesting they are under-used for comments in that sub-category.
-
-Graphs 4-6 show pair-wise comparisons between sub-categories. Unlike overall frequency, most words are NOT clustered along the best-fit line, suggesting there is still more variation in word use between sub-categories.
-
 ####\  
 
 #Log-Odds Ratios of Word Frequencies
 ##Which Words Are Shared LEAST Between Categories?
-Unlike the preceding analysis, log-odds ratio comparison does not eliminate unshared terms. Instead, it identifies which words are MOST likely to be used in one sub-category, but not another. For simplicity I reduced the analysis to just the four most common comment subjects. This has been the most informative preliminary visualization I have found so far. 
-
-This code block is based on a method for comparing word usage frequencies between two separate Twitter users [https://www.tidytextmining.com/twitter.html](described here.) If the words used by TAs in their comments differ between sub-categories, there should be fairly low Pearson correlations between word frequencies.
+Log-odds ratio comparison identifies the words that have the greatest difference in usage between the two groups being compared. This code block is based on a method for comparing word usage frequencies between two separate Twitter users [https://www.tidytextmining.com/twitter.html](described here.) If the words used by TAs in their comments differ between sub-categories, there should be fairly low Pearson correlations between word frequencies.
 
 ```{r}
 # Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.

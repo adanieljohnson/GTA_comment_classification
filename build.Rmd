@@ -8,19 +8,18 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-#Overview
-This page links to sub-pages that describe the build process for various components used in the overall project. Follow the links for details.
+This page links to sub-pages describing how various components used in the overall project were constructed. Follow the links for details.
 
-Extracting TAs' comments (*draft*): https://adanieljohnson.github.io/default_website/docxcommentextraction.html
+Extracting TAs' Comments (***Draft***): https://adanieljohnson.github.io/default_website/docxcommentextraction.html
 
-Codebook for classifying TAs' comments: https://adanieljohnson.github.io/default_website/codebook.html
+Codebook for Classifying TAs' Comments: https://adanieljohnson.github.io/default_website/codebook.html
 
-Structure of development dataset; data import & validation: https://adanieljohnson.github.io/default_website/dataimport.html
+Structure of Development Dataset; Data Import & Validation: https://adanieljohnson.github.io/default_website/dataimport.html
 
-Initial exploration of the data: https://adanieljohnson.github.io/default_website/initial_exploration.html
+Initial Exploration of the Dataset: https://adanieljohnson.github.io/default_website/initial_exploration.html
 
-Current version of the Naive Bayes classifier: https://adanieljohnson.github.io/default_website/NB_2r2c.html
+Current Version of the Naive Bayes Comment Classifier: https://adanieljohnson.github.io/default_website/NB_2r2c.html
 
-Expanding the Naive Bayes classifier to an Ensemble Model (*draft*): https://adanieljohnson.github.io/default_website/Ensemble_Notes.html
+Embedding the Naive Bayes Classifier in an Ensemble Model (***Draft***): https://adanieljohnson.github.io/default_website/Ensemble_Notes.html
 
 ####\  
