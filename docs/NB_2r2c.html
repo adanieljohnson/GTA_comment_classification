@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>Naive Bayes Classifier</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analyzing TA Comments in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="background.html">
+    <span class="fa fa-history"></span>
+     
+    Background
+  </a>
+</li>
+<li>
+  <a href="litreview.html">
+    <span class="fa fa-book"></span>
+     
+    Lit Review
+  </a>
+</li>
+<li>
+  <a href="build.html">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    The Build
+  </a>
+</li>
+<li>
+  <a href="initial_exploration.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Data Exploration
+  </a>
+</li>
+<li>
+  <a href="findings.html">
+    <span class="fa fa-chart-bar"></span>
+     
+    Findings
+  </a>
+</li>
+<li>
+  <a href="nextsteps.html">
+    <span class="fa fa-shoe-prints"></span>
+     
+    Next Steps
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">Naive Bayes Classifier</h1>
+<h4 class="date"><em>2/24/2019</em></h4>
+
+</div>
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>This is the current version of the Naive Bayes workflow used to classify TA comments based on Subject and Structure. Features of <strong>Version 2r.2c</strong>:</p>
+<ul>
+<li>Data rows used for training and test datasets are assigned randomly but reproducibly using ‘set.seed’.</li>
+<li>Detailed final output matrix tables.</li>
+<li>Back-analysis evaluates both a testing sub-set and the entire input dataset.</li>
+<li>Outputs a tidy data table in CSV format with unmodified original comments, and hand-scored and NB-predicted Subject and Structure assignments.</li>
+</ul>
+<p>This page outlines Ver 2r.2c of NB Classifier and the process for building various components used in the project. Details of each component are provided in these sub-pages.</p>
+<p>For structure of the initial dataset see: <a href="https://adanieljohnson.github.io/default_website/datastructure.html" class="uri">https://adanieljohnson.github.io/default_website/datastructure.html</a></p>
+<p>For import and post-import data validation see: <a href="https://adanieljohnson.github.io/default_website/dataimport.html" class="uri">https://adanieljohnson.github.io/default_website/dataimport.html</a></p>
+<div id="section" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="initial-setup" class="section level1">
+<h1>Initial Setup</h1>
+<p>Calling required libraries.</p>
+<pre class="r"><code>library(tidyverse)
+library(tm)
+library(tidytext)
+library(e1071)
+library(caret)</code></pre>
+<p>Import the initial dataset. Then extract comments and classification data as subsets of CSV.</p>
+<pre class="r"><code>#Read in TA comments from CSV file.
+base_dataVERB &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anonVERB.csv&#39;)
+
+#Select rows representing the sub-groups to compare. 
+comments_subsetVERB &lt;- filter(base_dataVERB,code.subject==&quot;1_basic&quot;|code.subject==&quot;2_writing&quot;|code.subject==&quot;3_technical&quot;|code.subject==&quot;4_logic&quot;)
+
+#Reduce larger dataframe to 2 required columns of data, and put columns in order needed.
+comments_rawVERB &lt;- comments_subsetVERB %&gt;% select(23,24,22)
+
+#Rename the columns.
+names(comments_rawVERB)[1] &lt;- &quot;subject&quot;
+names(comments_rawVERB)[2] &lt;- &quot;structure&quot;
+names(comments_rawVERB)[3] &lt;- &quot;text&quot;
+
+#Change &quot;subject&quot; element from character to a factor for analysis.
+comments_rawVERB$subject &lt;- factor(comments_rawVERB$subject)
+str(comments_rawVERB$subject)</code></pre>
+<pre><code>##  Factor w/ 4 levels &quot;1_basic&quot;,&quot;2_writing&quot;,..: 3 2 3 3 3 3 4 4 4 3 ...</code></pre>
+<pre class="r"><code>table(comments_rawVERB$subject)</code></pre>
+<pre><code>## 
+##     1_basic   2_writing 3_technical     4_logic 
+##         211        2578        5409        1142</code></pre>
+<pre class="r"><code>#Change &quot;structure&quot; element from character to a factor for analysis.
+comments_rawVERB$structure &lt;- factor(comments_rawVERB$structure)
+str(comments_rawVERB$structure)</code></pre>
+<pre><code>##  Factor w/ 7 levels &quot;1_pointer&quot;,&quot;2_copyedit&quot;,..: 2 4 4 3 2 2 5 4 5 3 ...</code></pre>
+<pre class="r"><code>table(comments_rawVERB$structure)</code></pre>
+<pre><code>## 
+##   1_pointer  2_copyedit   3_general  4_specific  6_holistic 7_idiomatic 
+##          91        2997        1881        3894         370           7 
+##   8_nobasis 
+##         100</code></pre>
+<p>Randomize data used for training and testing sets. This block of code generates a reproducible vector of ~10,000 randomly assorted numbers using set.seed, then writes the vector back to data table.</p>
+<pre class="r"><code>#Adjust the number so it matches the number of rows in the original data frame
+#Next, set the seed for random numbers, and randomize the order of the vector
+vector &lt;- 1:9340 #second value must match number of rows in working dataset
+set.seed(123) #change this seed value, and the data are randomized in a new sequence.
+vector &lt;- sample(vector)
+glimpse(vector)</code></pre>
+<pre><code>##  int [1:9340] 2686 7362 3820 8245 8781 426 4930 8329 5146 4261 ...</code></pre>
+<pre class="r"><code>#Append the vector as a new column to &quot;comments_rawVERB&quot; with name &quot;randomizer&quot;
+#Sort rows of dataframe according to &quot;randomizer&quot; column using dplyer &#39;arrange&#39; function. 
+comments_rawVERB$randomizer &lt;- c(vector)
+comments_rawVERB_R &lt;-comments_rawVERB %&gt;% arrange(randomizer)
+print(comments_rawVERB_R)</code></pre>
+<pre><code>## # A tibble: 9,340 x 4
+##    subject    structure text                                    randomizer
+##    &lt;fct&gt;      &lt;fct&gt;     &lt;chr&gt;                                        &lt;int&gt;
+##  1 3_technic… 4_specif… The commitment pulse occurs during the…          1
+##  2 2_writing  2_copyed… This is not a scientific term                    2
+##  3 3_technic… 4_specif… Another potential reason could be erro…          3
+##  4 3_technic… 4_specif… I would rather focus on improving the …          4
+##  5 3_technic… 4_specif… What is the stimuli to open Ca++ chann…          5
+##  6 3_technic… 2_copyed… Try something like, “The average R:S r…          6
+##  7 2_writing  4_specif… This goes in methods, but why’d you us…          7
+##  8 2_writing  4_specif… Instead of saying that the obtained re…          8
+##  9 3_technic… 2_copyed… Just refer to the study, not the autho…          9
+## 10 2_writing  1_pointer ?                                               10
+## # ... with 9,330 more rows</code></pre>
+<p>Convert data set to a volative corpus using “tm” library.</p>
+<pre class="r"><code>#Create the volatile corpus that contains the &quot;text&quot; vector from data frame.
+comments_corpusVERB_R &lt;- VCorpus(VectorSource(comments_rawVERB_R$text))
+print(comments_corpusVERB_R)</code></pre>
+<pre><code>## &lt;&lt;VCorpus&gt;&gt;
+## Metadata:  corpus specific: 0, document level (indexed): 0
+## Content:  documents: 9340</code></pre>
+<pre class="r"><code>#Check out the first few text comments in the new corpus, which is basically a list that can be manipulated with list operations.
+inspect(comments_corpusVERB_R[1:3])</code></pre>
+<pre><code>## &lt;&lt;VCorpus&gt;&gt;
+## Metadata:  corpus specific: 0, document level (indexed): 0
+## Content:  documents: 3
+## 
+## [[1]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 55
+## 
+## [[2]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 29
+## 
+## [[3]]
+## &lt;&lt;PlainTextDocument&gt;&gt;
+## Metadata:  7
+## Content:  chars: 357</code></pre>
+<pre class="r"><code>#Use &quot;as.character&quot; function to see what a single text comment looks like.
+as.character(comments_corpusVERB_R[[5]])</code></pre>
+<pre><code>## [1] &quot;What is the stimuli to open Ca++ channels, the arrival of an AP or the opening of K+ channels? You should be precise.&quot;</code></pre>
+</div>
+<div id="text-data-transformations" class="section level1">
+<h1>Text Data Transformations</h1>
+<p>The text data transforms in this code block are intentially separate “tm_map”&quot; and “content_transformer” functions. This simplifies the process of testing how various combinations affect classification. Converting the text to lower case and removing punctuation are the baseline transformations. Switch between “{r}” and “{}” to turn other transformation blocks off or on as desired. <strong>Removing extra white spaces must be the last transformation, and is required.</strong></p>
+<pre class="r"><code>#Convert text to all lower case letters.
+comments_corpus_cleanVERB_R &lt;- tm_map(comments_corpusVERB_R, content_transformer(tolower))
+
+#Remove punctuation using the &quot;removePunctuation&quot; function. 
+#This step removes evidence of questions, so may remove data.
+#THIS ALSO REMOVES EVIDENCE OF POINTER ITEMS
+comments_corpus_cleanVERB_R &lt;- tm_map(comments_corpus_cleanVERB_R, removePunctuation)
+
+#Remove numerals. 
+#This step may remove evidence indicating technical comments
+comments_corpus_cleanVERB_R &lt;- tm_map(comments_corpus_cleanVERB_R, removeNumbers)
+
+#Stopword removal. 
+#This is a standard cleanup step, but again may remove useful terms.
+#The &quot;stopwords&quot; file is a convention; other files can be substituted for it
+comments_corpus_cleanVERB_R &lt;- tm_map(comments_corpus_cleanVERB_R, removeWords, stopwords())
+
+#The option to apply stemming has been removed from this version. Stemming reduced accuracy in all trials. Future iterations should examine lemmatization instead.
+
+#Final step removes white space from the document. This is NOT an optional step.
+comments_corpus_cleanVERB_R &lt;- tm_map(comments_corpus_cleanVERB_R, stripWhitespace)
+
+#Look at an example of cleaned text comment to see if cleaned comment matches what is expected. Change the value inside double brackets to look at a different comment.
+as.character((comments_corpus_cleanVERB_R[[5]]))</code></pre>
+<pre><code>## [1] &quot; stimuli open ca channels arrival ap opening k channels precise&quot;</code></pre>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="tokenize-the-n-grams" class="section level1">
+<h1>Tokenize the N-Grams</h1>
+<p>This code block uses tm’s NLP commands to assess different n-grams. For single words, change the “#” variable in “(words(x), #)” to “1”. Use other values to change the n-gram size. Data are stored in document-term matrix (dtm) format.</p>
+<pre class="r"><code>NLP_Tokenizer &lt;- function(x) {
+      unlist(lapply(ngrams(words(x), 1), paste, collapse = &quot; &quot;), use.names = FALSE)
+}
+
+comments_dtm_1gram &lt;- DocumentTermMatrix(comments_corpus_cleanVERB_R, control=list(tokenize = NLP_Tokenizer))
+comments_dtm_1gram_tidy &lt;- tidy(comments_dtm_1gram)
+inspect(comments_dtm_1gram)</code></pre>
+<pre><code>## &lt;&lt;DocumentTermMatrix (documents: 9340, terms: 4837)&gt;&gt;
+## Non-/sparse entries: 62771/45114809
+## Sparsity           : 100%
+## Maximal term length: 69
+## Weighting          : term frequency (tf)
+## Sample             :
+##       Terms
+## Docs   can data don’t figure hypothesis include just need results use
+##   1023   1    2     0      0          0       0    1    0       0   0
+##   1700   1    0     0      0          1       1    1    0       0   0
+##   1986   0    1     0      1          0       0    0    0       0   0
+##   5606   0    0     0      0          1       0    0    0       0   0
+##   582    3    0     0      0          0       0    0    0       0   0
+##   5937   0    0     0      1          0       3    1    0       2   0
+##   7257   1    1     0      2          0       0    0    0       1   0
+##   7325   1    2     1      4          0       0    0    1       0   1
+##   8865   1    1     1      0          0       1    0    1       0   0
+##   9224   0    1     1      0          0       1    0    1       0   0</code></pre>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="split-data-to-training-testing-sets" class="section level1">
+<h1>Split Data to Training, Testing Sets</h1>
+<p>This code splits data into 75% training and 25% testing sets, so that after Naive Bayes algorithm is trained it can be tested on unseen data.</p>
+<pre><code>#This is for convenience. It is not required if the number of training, test rows is known.
+.75 * 9340 #Number of rows in the dataset; product is #rows for training
+.25 * 9340 #Product is #rows for testing set</code></pre>
+<p>This code divides the previously randomized comments into training, testing, and re-analysis subsets of data.</p>
+<pre class="r"><code>comments_dtm_all &lt;- comments_dtm_1gram[1:9340, ]
+comments_dtm_train &lt;- comments_dtm_1gram[1:7005, ]
+comments_dtm_test &lt;- comments_dtm_1gram[7006:9340, ]</code></pre>
+<p>This saves 3 vectors containing labels for the rows in the training and testing vectors</p>
+<pre class="r"><code>comments_all_labels_subject &lt;- comments_rawVERB_R[1:9340,]$subject
+comments_train_labels_subject &lt;- comments_rawVERB_R[1:7005, ]$subject
+comments_test_labels_subject &lt;- comments_rawVERB_R[7006:9340,]$subject
+
+comments_all_labels_structure &lt;- comments_rawVERB_R[1:9340,]$structure
+comments_train_labels_structure &lt;- comments_rawVERB_R[1:7005, ]$structure
+comments_test_labels_structure &lt;- comments_rawVERB_R[7006:9340,]$structure</code></pre>
+<p>This checks the proportions of sub-categories in training and testing groups. The proportion of each sub-category should be similar (&lt;1% difference) between the full dataset, and training and testing data subsets.</p>
+<pre class="r"><code>prop.table(table(comments_all_labels_subject))</code></pre>
+<pre><code>## comments_all_labels_subject
+##     1_basic   2_writing 3_technical     4_logic 
+##  0.02259101  0.27601713  0.57912206  0.12226981</code></pre>
+<pre class="r"><code>prop.table(table(comments_train_labels_subject))</code></pre>
+<pre><code>## comments_train_labels_subject
+##     1_basic   2_writing 3_technical     4_logic 
+##  0.02226981  0.27551749  0.58129907  0.12091363</code></pre>
+<pre class="r"><code>prop.table(table(comments_test_labels_subject))</code></pre>
+<pre><code>## comments_test_labels_subject
+##     1_basic   2_writing 3_technical     4_logic 
+##   0.0235546   0.2775161   0.5725910   0.1263383</code></pre>
+<pre class="r"><code>prop.table(table(comments_all_labels_structure))</code></pre>
+<pre><code>## comments_all_labels_structure
+##    1_pointer   2_copyedit    3_general   4_specific   6_holistic 
+## 0.0097430407 0.3208779443 0.2013918630 0.4169164882 0.0396145610 
+##  7_idiomatic    8_nobasis 
+## 0.0007494647 0.0107066381</code></pre>
+<pre class="r"><code>prop.table(table(comments_train_labels_structure))</code></pre>
+<pre><code>## comments_train_labels_structure
+##   1_pointer  2_copyedit   3_general  4_specific  6_holistic 7_idiomatic 
+## 0.009136331 0.325053533 0.200000000 0.415132049 0.039971449 0.000856531 
+##   8_nobasis 
+## 0.009850107</code></pre>
+<pre class="r"><code>prop.table(table(comments_test_labels_structure))</code></pre>
+<pre><code>## comments_test_labels_structure
+##    1_pointer   2_copyedit    3_general   4_specific   6_holistic 
+## 0.0115631692 0.3083511777 0.2055674518 0.4222698073 0.0385438972 
+##  7_idiomatic    8_nobasis 
+## 0.0004282655 0.0132762313</code></pre>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="preparing-data-for-naive-bayes-training" class="section level1">
+<h1>Preparing Data for Naive Bayes Training</h1>
+<p>Remove words from the document-term matrix that appear less than 5 times.</p>
+<pre class="r"><code>comments_freq_words &lt;- findFreqTerms(comments_dtm_train, 5)
+str(comments_freq_words)</code></pre>
+<pre><code>##  chr [1:1330] &quot;’ll&quot; &quot;’re&quot; &quot;’ve&quot; &quot;“correct”&quot; &quot;“figure&quot; &quot;“group&quot; ...</code></pre>
+<p>Limit document-term matrix to words in the comments_freq_words vector. We are using all of the rows, but we want to limit the columns to these words in the frequency vector.</p>
+<pre class="r"><code>comments_dtm_freq_all &lt;- comments_dtm_all[ , comments_freq_words]
+comments_dtm_freq_train &lt;- comments_dtm_train[ , comments_freq_words]
+comments_dtm_freq_test &lt;- comments_dtm_test[ , comments_freq_words]</code></pre>
+<p>The e1071 Naive Bayes classifier works with categorical features, so the matrix must be converted “yes” and “no” categorical variables. This is done using a <strong>convert_counts function</strong> and applying it to the data. This replaces values greater than 0 with yes, and values not greater than 0 with no.</p>
+<pre class="r"><code>convert_counts2 &lt;- function(x) {
+  x &lt;- ifelse(x &gt; 0, &quot;Yes&quot;, &quot;No&quot;)
+}</code></pre>
+<p>The resulting matrices have cells indicating “yes” or “no” if the word represented by the column appears in the text comment represented by the row.</p>
+<p>Below is an <strong>alternate version</strong> of convert_function code block that KEEPs word frequencies while still using the same variable names and code structure. The processed matrices have cells with word frequencies instead of categorical yes/no values. This block only works for binary classification (ingroup/outgroup). It breaks when applied to data with multiple categories.</p>
+<pre><code>convert_counts2 &lt;- function(x) {
+  y &lt;- x
+}</code></pre>
+<p>Applies whichever “convert_counts2” function is currently active.</p>
+<pre class="r"><code>comments_all &lt;- apply(comments_dtm_freq_all, MARGIN = 2, convert_counts2)
+comments_train &lt;- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
+comments_test &lt;- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)</code></pre>
+<div id="section-4" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="train-model-predict-evaluate-for-subject" class="section level1">
+<h1>Train Model, Predict, Evaluate for Subject</h1>
+<p>This block predicts whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic.</p>
+<pre class="r"><code># Train the classifier on training data, then test on test dataset, and full dataset.
+comments_classifier_subject &lt;- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
+comments_test_pred_subject &lt;- predict(comments_classifier_subject, comments_test)
+comments_all_pred_subject &lt;- predict(comments_classifier_subject, comments_all)
+
+comments_classifier_structure &lt;- naiveBayes(comments_train, comments_train_labels_structure, laplace=1)
+comments_test_pred_structure &lt;- predict(comments_classifier_structure, comments_test)
+comments_all_pred_structure &lt;- predict(comments_classifier_structure, comments_all)</code></pre>
+<p>A truth table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting Subject.</p>
+<pre class="r"><code># Create a truth table by tabulating the predicted class labels with the actual class labels 
+table(&quot;Predictions&quot;= comments_test_pred_subject,  &quot;Actual Subject Test&quot; = comments_test_labels_subject )</code></pre>
+<pre><code>##              Actual Subject Test
+## Predictions   1_basic 2_writing 3_technical 4_logic
+##   1_basic          28         3          11       0
+##   2_writing        11       479         113      70
+##   3_technical      14       119        1168      58
+##   4_logic           2        47          45     167</code></pre>
+<pre class="r"><code>table(&quot;Predictions&quot;= comments_all_pred_subject,  &quot;Actual Subject All&quot; = comments_all_labels_subject )</code></pre>
+<pre><code>##              Actual Subject All
+## Predictions   1_basic 2_writing 3_technical 4_logic
+##   1_basic         100        10          38       4
+##   2_writing        54      1952         369     246
+##   3_technical      49       460        4819     179
+##   4_logic           8       156         183     713</code></pre>
+<pre class="r"><code>table(&quot;Predictions&quot;= comments_test_pred_structure,  &quot;Actual Structure Test&quot; = comments_test_labels_structure )</code></pre>
+<pre><code>##              Actual Structure Test
+## Predictions   1_pointer 2_copyedit 3_general 4_specific 6_holistic
+##   1_pointer           0          2         0          3          0
+##   2_copyedit         27        583       129        271         19
+##   3_general           0         43       277        121         11
+##   4_specific          0         91        66        538         37
+##   6_holistic          0          1         8         51         23
+##   7_idiomatic         0          0         0          0          0
+##   8_nobasis           0          0         0          2          0
+##              Actual Structure Test
+## Predictions   7_idiomatic 8_nobasis
+##   1_pointer             0         0
+##   2_copyedit            0        25
+##   3_general             1         6
+##   4_specific            0         0
+##   6_holistic            0         0
+##   7_idiomatic           0         0
+##   8_nobasis             0         0</code></pre>
+<pre class="r"><code>table(&quot;Predictions&quot;= comments_all_pred_structure,  &quot;Actual Structure All&quot; = comments_all_labels_structure )</code></pre>
+<pre><code>##              Actual Structure All
+## Predictions   1_pointer 2_copyedit 3_general 4_specific 6_holistic
+##   1_pointer           0          6         0         12          0
+##   2_copyedit         90       2522       440       1023         52
+##   3_general           0        133      1167        414         48
+##   4_specific          1        320       245       2277        114
+##   6_holistic          0         16        28        156        156
+##   7_idiomatic         0          0         0          0          0
+##   8_nobasis           0          0         1         12          0
+##              Actual Structure All
+## Predictions   7_idiomatic 8_nobasis
+##   1_pointer             0         0
+##   2_copyedit            2        86
+##   3_general             1        12
+##   4_specific            4         2
+##   6_holistic            0         0
+##   7_idiomatic           0         0
+##   8_nobasis             0         0</code></pre>
+<pre class="r"><code>#An alternative is to use the Cross Table command (from &quot;gmodels&quot; package) to generate a more detailed output table with frequency values for each individual cell.
+#CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c(&#39;predicted&#39;, &#39;actual&#39;))</code></pre>
+<p>The faster method is to calculate a confusion matrix, which displays BOTH the truth table, and the final overall accuracy. A confusion matrix can be queried for specific values.</p>
+<pre class="r"><code>#&quot;line&quot; is just spacer text for improving readability.
+line&lt;-(&quot;**************************************************************&quot;)
+
+# Prepare the confusion matrix. 
+conf.mat1 &lt;- confusionMatrix(comments_test_pred_subject, comments_test_labels_subject)
+conf.mat2 &lt;- confusionMatrix(comments_all_pred_subject, comments_all_labels_subject)
+conf.mat3 &lt;- confusionMatrix(comments_test_pred_structure, comments_test_labels_structure)
+conf.mat4 &lt;- confusionMatrix(comments_all_pred_structure, comments_all_labels_structure)
+
+
+#These commands show how to print out individual pieces of the confusion matrix. They show both the overall and by-group accuracy values for Subject x Test Subset.
+conf.mat1</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##              Reference
+## Prediction    1_basic 2_writing 3_technical 4_logic
+##   1_basic          28         3          11       0
+##   2_writing        11       479         113      70
+##   3_technical      14       119        1168      58
+##   4_logic           2        47          45     167
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.7889          
+##                  95% CI : (0.7717, 0.8053)
+##     No Information Rate : 0.5726          
+##     P-Value [Acc &gt; NIR] : &lt; 2e-16         
+##                                           
+##                   Kappa : 0.631           
+##  Mcnemar&#39;s Test P-Value : 0.03925         
+## 
+## Statistics by Class:
+## 
+##                      Class: 1_basic Class: 2_writing Class: 3_technical
+## Sensitivity                 0.50909           0.7392             0.8736
+## Specificity                 0.99386           0.8850             0.8086
+## Pos Pred Value              0.66667           0.7117             0.8595
+## Neg Pred Value              0.98823           0.8983             0.8268
+## Prevalence                  0.02355           0.2775             0.5726
+## Detection Rate              0.01199           0.2051             0.5002
+## Detection Prevalence        0.01799           0.2882             0.5820
+## Balanced Accuracy           0.75148           0.8121             0.8411
+##                      Class: 4_logic
+## Sensitivity                 0.56610
+## Specificity                 0.95392
+## Pos Pred Value              0.63985
+## Neg Pred Value              0.93828
+## Prevalence                  0.12634
+## Detection Rate              0.07152
+## Detection Prevalence        0.11178
+## Balanced Accuracy           0.76001</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs the by-group accuracy values in a single column for Subject x Test Subset. 
+conf.mat1$byClass</code></pre>
+<pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
+## Class: 1_basic       0.5090909   0.9938596      0.6666667      0.9882250
+## Class: 2_writing     0.7391975   0.8850030      0.7117385      0.8983153
+## Class: 3_technical   0.8735976   0.8086172      0.8594555      0.8268443
+## Class: 4_logic       0.5661017   0.9539216      0.6398467      0.9382835
+##                    Precision    Recall        F1 Prevalence Detection Rate
+## Class: 1_basic     0.6666667 0.5090909 0.5773196  0.0235546     0.01199143
+## Class: 2_writing   0.7117385 0.7391975 0.7252082  0.2775161     0.20513919
+## Class: 3_technical 0.8594555 0.8735976 0.8664688  0.5725910     0.50021413
+## Class: 4_logic     0.6398467 0.5661017 0.6007194  0.1263383     0.07152034
+##                    Detection Prevalence Balanced Accuracy
+## Class: 1_basic               0.01798715         0.7514753
+## Class: 2_writing             0.28822270         0.8121002
+## Class: 3_technical           0.58201285         0.8411074
+## Class: 4_logic               0.11177730         0.7600116</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Subject x Test Subset.
+conf.mat1$overall</code></pre>
+<pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
+##   7.888651e-01   6.310203e-01   7.717402e-01   8.052621e-01   5.725910e-01 
+## AccuracyPValue  McnemarPValue 
+##  1.467772e-107   3.925158e-02</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs JUST the overall accuracy value for Subject x Test Subset. 
+conf.mat1$overall[&#39;Accuracy&#39;]</code></pre>
+<pre><code>##  Accuracy 
+## 0.7888651</code></pre>
+<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs both the overall and by-group accuracy values for Subject x All Data.
+conf.mat2</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##              Reference
+## Prediction    1_basic 2_writing 3_technical 4_logic
+##   1_basic         100        10          38       4
+##   2_writing        54      1952         369     246
+##   3_technical      49       460        4819     179
+##   4_logic           8       156         183     713
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.812           
+##                  95% CI : (0.8039, 0.8199)
+##     No Information Rate : 0.5791          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.6683          
+##  Mcnemar&#39;s Test P-Value : 1.025e-11       
+## 
+## Statistics by Class:
+## 
+##                      Class: 1_basic Class: 2_writing Class: 3_technical
+## Sensitivity                 0.47393           0.7572             0.8909
+## Specificity                 0.99430           0.9011             0.8250
+## Pos Pred Value              0.65789           0.7448             0.8751
+## Neg Pred Value              0.98792           0.9068             0.8461
+## Prevalence                  0.02259           0.2760             0.5791
+## Detection Rate              0.01071           0.2090             0.5160
+## Detection Prevalence        0.01627           0.2806             0.5896
+## Balanced Accuracy           0.73412           0.8291             0.8580
+##                      Class: 4_logic
+## Sensitivity                 0.62434
+## Specificity                 0.95767
+## Pos Pred Value              0.67264
+## Neg Pred Value              0.94819
+## Prevalence                  0.12227
+## Detection Rate              0.07634
+## Detection Prevalence        0.11349
+## Balanced Accuracy           0.79101</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs by-group accuracy values in a single column for Subject x All Data. 
+conf.mat2$byClass</code></pre>
+<pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
+## Class: 1_basic       0.4739336   0.9943039      0.6578947      0.9879190
+## Class: 2_writing     0.7571761   0.9010648      0.7447539      0.9068314
+## Class: 3_technical   0.8909225   0.8249809      0.8750681      0.8460736
+## Class: 4_logic       0.6243433   0.9576726      0.6726415      0.9481884
+##                    Precision    Recall        F1 Prevalence Detection Rate
+## Class: 1_basic     0.6578947 0.4739336 0.5509642 0.02259101     0.01070664
+## Class: 2_writing   0.7447539 0.7571761 0.7509136 0.27601713     0.20899358
+## Class: 3_technical 0.8750681 0.8909225 0.8829241 0.57912206     0.51595289
+## Class: 4_logic     0.6726415 0.6243433 0.6475931 0.12226981     0.07633833
+##                    Detection Prevalence Balanced Accuracy
+## Class: 1_basic               0.01627409         0.7341188
+## Class: 2_writing             0.28062099         0.8291204
+## Class: 3_technical           0.58961456         0.8579517
+## Class: 4_logic               0.11349036         0.7910079</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Subject x All Data.
+conf.mat2$overall</code></pre>
+<pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
+##   8.119914e-01   6.683222e-01   8.039172e-01   8.198706e-01   5.791221e-01 
+## AccuracyPValue  McnemarPValue 
+##   0.000000e+00   1.025480e-11</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs JUST the overall accuracy value for Subject x All Data. 
+conf.mat2$overall[&#39;Accuracy&#39;]</code></pre>
+<pre><code>##  Accuracy 
+## 0.8119914</code></pre>
+<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code># This block outputs both the overall and by-group accuracy values for Structure x Test Subset.
+conf.mat3</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##              Reference
+## Prediction    1_pointer 2_copyedit 3_general 4_specific 6_holistic
+##   1_pointer           0          2         0          3          0
+##   2_copyedit         27        583       129        271         19
+##   3_general           0         43       277        121         11
+##   4_specific          0         91        66        538         37
+##   6_holistic          0          1         8         51         23
+##   7_idiomatic         0          0         0          0          0
+##   8_nobasis           0          0         0          2          0
+##              Reference
+## Prediction    7_idiomatic 8_nobasis
+##   1_pointer             0         0
+##   2_copyedit            0        25
+##   3_general             1         6
+##   4_specific            0         0
+##   6_holistic            0         0
+##   7_idiomatic           0         0
+##   8_nobasis             0         0
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.6086          
+##                  95% CI : (0.5884, 0.6284)
+##     No Information Rate : 0.4223          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.4299          
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: 1_pointer Class: 2_copyedit Class: 3_general
+## Sensitivity                  0.000000            0.8097           0.5771
+## Specificity                  0.997834            0.7084           0.9019
+## Pos Pred Value               0.000000            0.5531           0.6035
+## Neg Pred Value               0.988412            0.8931           0.8918
+## Prevalence                   0.011563            0.3084           0.2056
+## Detection Rate               0.000000            0.2497           0.1186
+## Detection Prevalence         0.002141            0.4514           0.1966
+## Balanced Accuracy            0.498917            0.7590           0.7395
+##                      Class: 4_specific Class: 6_holistic
+## Sensitivity                     0.5456           0.25556
+## Specificity                     0.8562           0.97327
+## Pos Pred Value                  0.7350           0.27711
+## Neg Pred Value                  0.7205           0.97025
+## Prevalence                      0.4223           0.03854
+## Detection Rate                  0.2304           0.00985
+## Detection Prevalence            0.3135           0.03555
+## Balanced Accuracy               0.7009           0.61441
+##                      Class: 7_idiomatic Class: 8_nobasis
+## Sensitivity                   0.0000000        0.0000000
+## Specificity                   1.0000000        0.9991319
+## Pos Pred Value                      NaN        0.0000000
+## Neg Pred Value                0.9995717        0.9867124
+## Prevalence                    0.0004283        0.0132762
+## Detection Rate                0.0000000        0.0000000
+## Detection Prevalence          0.0000000        0.0008565
+## Balanced Accuracy             0.5000000        0.4995660</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
+<pre class="r"><code># This block outputs by-group accuracy values in a single column for Structure x Test Subset. 
+conf.mat3$byClass</code></pre>
+<pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
+## Class: 1_pointer     0.0000000   0.9978336      0.0000000      0.9884120
+## Class: 2_copyedit    0.8097222   0.7083591      0.5531309      0.8930523
+## Class: 3_general     0.5770833   0.9018868      0.6034858      0.8917910
+## Class: 4_specific    0.5456389   0.8561898      0.7349727      0.7205240
+## Class: 6_holistic    0.2555556   0.9732739      0.2771084      0.9702487
+## Class: 7_idiomatic   0.0000000   1.0000000            NaN      0.9995717
+## Class: 8_nobasis     0.0000000   0.9991319      0.0000000      0.9867124
+##                    Precision    Recall        F1   Prevalence
+## Class: 1_pointer   0.0000000 0.0000000       NaN 0.0115631692
+## Class: 2_copyedit  0.5531309 0.8097222 0.6572717 0.3083511777
+## Class: 3_general   0.6034858 0.5770833 0.5899894 0.2055674518
+## Class: 4_specific  0.7349727 0.5456389 0.6263097 0.4222698073
+## Class: 6_holistic  0.2771084 0.2555556 0.2658960 0.0385438972
+## Class: 7_idiomatic        NA 0.0000000        NA 0.0004282655
+## Class: 8_nobasis   0.0000000 0.0000000       NaN 0.0132762313
+##                    Detection Rate Detection Prevalence Balanced Accuracy
+## Class: 1_pointer      0.000000000          0.002141328         0.4989168
+## Class: 2_copyedit     0.249678801          0.451391863         0.7590407
+## Class: 3_general      0.118629550          0.196573876         0.7394851
+## Class: 4_specific     0.230406852          0.313490364         0.7009144
+## Class: 6_holistic     0.009850107          0.035546039         0.6144147
+## Class: 7_idiomatic    0.000000000          0.000000000         0.5000000
+## Class: 8_nobasis      0.000000000          0.000856531         0.4995660</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
+<pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x Test Subset.
+conf.mat3$overall</code></pre>
+<pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
+##   6.085653e-01   4.299106e-01   5.884285e-01   6.284293e-01   4.222698e-01 
+## AccuracyPValue  McnemarPValue 
+##   3.105959e-73            NaN</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
+<pre class="r"><code># This block outputs JUST the overall accuracy value for Structure x Test Subset. 
+conf.mat3$overall[&#39;Accuracy&#39;]</code></pre>
+<pre><code>##  Accuracy 
+## 0.6085653</code></pre>
+<pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
+<pre class="r"><code># This block outputs both the overall and by-group accuracy values for Structure x All Data.
+conf.mat4</code></pre>
+<pre><code>## Confusion Matrix and Statistics
+## 
+##              Reference
+## Prediction    1_pointer 2_copyedit 3_general 4_specific 6_holistic
+##   1_pointer           0          6         0         12          0
+##   2_copyedit         90       2522       440       1023         52
+##   3_general           0        133      1167        414         48
+##   4_specific          1        320       245       2277        114
+##   6_holistic          0         16        28        156        156
+##   7_idiomatic         0          0         0          0          0
+##   8_nobasis           0          0         1         12          0
+##              Reference
+## Prediction    7_idiomatic 8_nobasis
+##   1_pointer             0         0
+##   2_copyedit            2        86
+##   3_general             1        12
+##   4_specific            4         2
+##   6_holistic            0         0
+##   7_idiomatic           0         0
+##   8_nobasis             0         0
+## 
+## Overall Statistics
+##                                           
+##                Accuracy : 0.6555          
+##                  95% CI : (0.6457, 0.6651)
+##     No Information Rate : 0.4169          
+##     P-Value [Acc &gt; NIR] : &lt; 2.2e-16       
+##                                           
+##                   Kappa : 0.4956          
+##  Mcnemar&#39;s Test P-Value : NA              
+## 
+## Statistics by Class:
+## 
+##                      Class: 1_pointer Class: 2_copyedit Class: 3_general
+## Sensitivity                  0.000000            0.8415           0.6204
+## Specificity                  0.998054            0.7331           0.9185
+## Pos Pred Value               0.000000            0.5983           0.6575
+## Neg Pred Value               0.990238            0.9073           0.9056
+## Prevalence                   0.009743            0.3209           0.2014
+## Detection Rate               0.000000            0.2700           0.1249
+## Detection Prevalence         0.001927            0.4513           0.1900
+## Balanced Accuracy            0.499027            0.7873           0.7695
+##                      Class: 4_specific Class: 6_holistic
+## Sensitivity                     0.5847           0.42162
+## Specificity                     0.8740           0.97770
+## Pos Pred Value                  0.7685           0.43820
+## Neg Pred Value                  0.7464           0.97618
+## Prevalence                      0.4169           0.03961
+## Detection Rate                  0.2438           0.01670
+## Detection Prevalence            0.3172           0.03812
+## Balanced Accuracy               0.7294           0.69966
+##                      Class: 7_idiomatic Class: 8_nobasis
+## Sensitivity                   0.0000000         0.000000
+## Specificity                   1.0000000         0.998593
+## Pos Pred Value                      NaN         0.000000
+## Neg Pred Value                0.9992505         0.989278
+## Prevalence                    0.0007495         0.010707
+## Detection Rate                0.0000000         0.000000
+## Detection Prevalence          0.0000000         0.001392
+## Balanced Accuracy             0.5000000         0.499297</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;All, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
+<pre class="r"><code># This block outputs by-group accuracy values in a single column for Structure x All Data. 
+conf.mat4$byClass</code></pre>
+<pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
+## Class: 1_pointer     0.0000000   0.9980538      0.0000000      0.9902381
+## Class: 2_copyedit    0.8415082   0.7330916      0.5983393      0.9073171
+## Class: 3_general     0.6204147   0.9184877      0.6574648      0.9056180
+## Class: 4_specific    0.5847458   0.8740360      0.7684779      0.7464325
+## Class: 6_holistic    0.4216216   0.9777035      0.4382022      0.9761799
+## Class: 7_idiomatic   0.0000000   1.0000000            NaN      0.9992505
+## Class: 8_nobasis     0.0000000   0.9985931      0.0000000      0.9892784
+##                    Precision    Recall        F1   Prevalence
+## Class: 1_pointer   0.0000000 0.0000000       NaN 0.0097430407
+## Class: 2_copyedit  0.5983393 0.8415082 0.6993899 0.3208779443
+## Class: 3_general   0.6574648 0.6204147 0.6384026 0.2013918630
+## Class: 4_specific  0.7684779 0.5847458 0.6641388 0.4169164882
+## Class: 6_holistic  0.4382022 0.4216216 0.4297521 0.0396145610
+## Class: 7_idiomatic        NA 0.0000000        NA 0.0007494647
+## Class: 8_nobasis   0.0000000 0.0000000       NaN 0.0107066381
+##                    Detection Rate Detection Prevalence Balanced Accuracy
+## Class: 1_pointer       0.00000000          0.001927195         0.4990269
+## Class: 2_copyedit      0.27002141          0.451284797         0.7872999
+## Class: 3_general       0.12494647          0.190042827         0.7694512
+## Class: 4_specific      0.24379015          0.317237687         0.7293909
+## Class: 6_holistic      0.01670236          0.038115632         0.6996625
+## Class: 7_idiomatic     0.00000000          0.000000000         0.5000000
+## Class: 8_nobasis       0.00000000          0.001391863         0.4992965</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;All, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
+<pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x All Data.
+conf.mat4$overall</code></pre>
+<pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
+##      0.6554604      0.4956341      0.6457220      0.6651018      0.4169165 
+## AccuracyPValue  McnemarPValue 
+##      0.0000000            NaN</code></pre>
+<pre class="r"><code>print (line)</code></pre>
+<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
+<pre class="r"><code>print (&quot;All, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
+<pre class="r"><code># This block outputs JUST the overall accuracy value for Structure x All Data. 
+print (&quot;All, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
+<pre class="r"><code>conf.mat4$overall[&#39;Accuracy&#39;]</code></pre>
+<pre><code>##  Accuracy 
+## 0.6554604</code></pre>
+<div id="section-5" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="output-for-review-analysis" class="section level1">
+<h1>Output for Review, Analysis</h1>
+<p>The code block below creates a CSV file containing the original TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory.</p>
+<pre class="writecsv"><code>#Creates a data frame that compares predicted and actual labels for subject and structure
+tallymatrix &lt;- data.frame(&quot;text&quot;=c(comments_rawVERB_R[1:9340,]$text),&quot;subject_label&quot;=c(comments_all_labels_subject), &quot;subject_predicted&quot;=c(comments_all_pred_subject),&quot;structure_label&quot;=c(comments_all_labels_structure), &quot;structure_predicted&quot;=c(comments_all_pred_structure))
+
+#Creates a summary counts table that compares hand-coded counts to Bayes-estimated counts.  
+final.tally &lt;- table(&quot;Hand Coded Subject&quot;=tallymatrix$subject_label, &quot;Hand Coded Structure&quot;=tallymatrix$structure_label)
+final.tally2 &lt;- table(&quot;Bayes Predicted Subject&quot;=tallymatrix$subject_predicted, &quot;Bayes Predicted Structure&quot;=tallymatrix$structure_predicted)
+
+#Write out the final data from the run to a CSV file. For reference, include the randomizer value used in the name of the file.
+write.csv(tallymatrix, file = &quot;SandS_Matrix_Randomizer_123.csv&quot;)
+
+#Print to console the hand coded versus estimated counts as a 2-way contingency table of subject vs. structure.
+final.tally
+prop_tally&lt;-prop.table(final.tally)
+print(prop_tally)
+print(line)
+print(line)
+final.tally2
+prop_tally2&lt;-prop.table(final.tally2)
+print(prop_tally2)</code></pre>
+<p>This is an alternate method to get the same data tables out using <code>tidy</code> format. It seems much longer to me, so likely is over-written.</p>
+<pre><code>tidy_prediction_table
+
+#Use broom::tidy to reorganize into a data frame.
+tidy_tally1 &lt;-tidy(final.tally)
+tidy_tally2 &lt;-tidy(final.tally2)
+tidy_tally3 &lt;-tidy(final.tally)
+tidy_tally4 &lt;-tidy(final.tally2)
+
+#Use mutate to add a proportion of total column. And yes, it calculates based on subgroups rather than whole column.
+prop_tally1&lt;-mutate(tidy_tally1, prop = n/sum(n))
+prop_tally1&lt;-select(prop_tally1, 1,2,4)
+prop_tally2&lt;-mutate(tidy_tally2, prop = n/sum(n))
+prop_tally2&lt;-select(prop_tally2, 1,2,4)
+prop_tally3&lt;-mutate(tidy_tally3, prop = n/sum(n))
+prop_tally3&lt;-select(prop_tally3, 1,2,4)
+prop_tally4&lt;-mutate(tidy_tally4, prop = n/sum(n))
+prop_tally4&lt;-select(prop_tally4, 1,2,4)
+
+#Spread tidy data into a readable table
+spread(prop_tally1,key=Hand.Coded.Structure, value=prop)
+spread(prop_tally2,key=Bayes.Predicted.Structure, value=prop)
+spread(prop_tally3,key=Hand.Coded.Subject, value=prop)
+spread(prop_tally4,key=Bayes.Predicted.Subject, value=prop)
+
+#Calculate the sum of values for each group.
+proptallysum1&lt;-prop_tally1 %&gt;% group_by(Hand.Coded.Subject) %&gt;% summarize(total=sum(prop))
+proptallysum1
+proptallysum2&lt;-prop_tally2 %&gt;% group_by(Bayes.Predicted.Subject) %&gt;% summarize(total=sum(prop))
+proptallysum2
+proptallysum3&lt;-prop_tally3 %&gt;% group_by(Hand.Coded.Structure) %&gt;% summarize(total=sum(prop))
+proptallysum3
+proptallysum4&lt;-prop_tally4 %&gt;% group_by(Bayes.Predicted.Structure) %&gt;% summarize(total=sum(prop))
+proptallysum4</code></pre>
+<div id="graph-outputs" class="section level2">
+<h2>Graph Outputs</h2>
+<p>Comparing outcome from Hand-coding vs. Bayes</p>
+<hr />
+<p>Need to combine two datasets into one. ***</p>
+<pre><code>ggplot(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`,group=1))+
+  geom_line()
+ggplot(data=proptallysum2, aes(x=Bayes.Predicted.Subject, y=total, group=1))+
+  geom_line()
+ggplot(data=proptallysum3, aes(x=Hand.Coded.Structure, y=total, group=1))+
+  geom_line()
+ggplot(data=proptallysum4, aes(x=Bayes.Predicted.Structure, y=total, group=1))+
+  geom_line()</code></pre>
+</div>
+</div>
+
+<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

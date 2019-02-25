@@ -1,12 +1,11 @@
 ---
 title: "Naive Bayes Classifier"
-author: "Dan Johnson"
-date: "2/21/2019"
-output: html_document
+date: "2/24/2019"
+bibliography: library.bib
+biblio-style: apalike
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_setup.Rmd"}
 ```
 
 #Overview
