@@ -1,6 +1,6 @@
 ---
 title: "Initial Exploration"
-date: "2/21/2019"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
 ---

@@ -1,6 +1,6 @@
 ---
 title: "Literature Review"
-date: "2/21/2019"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
 ---
@@ -16,21 +16,22 @@ This project brings together several traditionally separate fields of research:
 *  Writing in the disciplines, and technical writing instruction
 *  Text analysis and classification
 
-Instead of trying to weave a coherent one-page narrative of these very different fields, I have provided links out to sub-pages that describe various background topics separately. Follow the links for details.
+Instead of trying to weave a coherent one-page narrative of these very different fields, I have provided links out to sub-pages for each of the various background topics. Follow the links for details.
 
 General Learning Theories Relevant to the Current Challenge:
 https://adanieljohnson.github.io/default_website/pagename.html 
 
-Educational Research Specific to STEM fields
+STEM Educational Research:
 https://adanieljohnson.github.io/default_website/pagename.html 
 
-Fundamental Principles and Practices of Technical Writing Training:  https://adanieljohnson.github.io/default_website/pagename.html 
+Foundations of Technical Writing Training:  https://adanieljohnson.github.io/default_website/pagename.html 
 
-Primer on Text Classification Strategies; Feature Selection and Engineering:  https://adanieljohnson.github.io/default_website/Text_Classifier_Models.html
+Text Classification 1 - Feature Selection and Engineering:  https://adanieljohnson.github.io/default_website/Text_Classifier_Models.html
 
->Sub-pages:  
->1.  Topic categorization and modeling (https://adanieljohnson.github.io/default_website/Topic_categorization.html)  
->2.  Selecting an appropriate text classifier method (https://adanieljohnson.github.io/default_website/Choosing_classifier.html)  
->3.  Evaluating the outcomes, and improving the classifier (https://adanieljohnson.github.io/default_website/Improving_classifier.html)
+Text Classification 2 - Topic categorization and modeling (https://adanieljohnson.github.io/default_website/Topic_categorization.html)  
+
+Text Classification 3 - Selecting an appropriate text classifier method (https://adanieljohnson.github.io/default_website/Choosing_classifier.html)  
+
+Text Classification 4 - Evaluating the outcomes, and improving the classifier (https://adanieljohnson.github.io/default_website/Improving_classifier.html)
 
 ####\  

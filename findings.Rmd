@@ -8,7 +8,7 @@ biblio-style: apalike
 ```
 
 #Classifier Accuracy
-*Updated 2/22/19*
+*Updated `r format(Sys.time(), '%b %d, %Y')`*
 
 The tables below show observed frequencies for 9,340 TA comments coded by hand, and frequencies for the same TA comments categorized using the optimized Naive Bayes classifier **without** pre-screening. The far right columns are overall subject frequencies, the bottom rows, overall structure frequencies.   
 

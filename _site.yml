@@ -10,25 +10,50 @@ navbar:
     icon: fa-sticky-note
     href: background.html
   - text: "Lit Review"
-    icon: fa-book
-    href: litreview.html
     menu: 
-    - text: "Name1"
+    - text: "Overview"
+      icon: fa-book
+      href: litreview.html
+    - text: "Writing as STEM Ed Research"
       icon: fa-sticky-note
-      href: background.html
-    - text: "Name1"
+      href: pagename.html
+    - text: "Teaching Writing"
       icon: fa-sticky-note
-      href: background.html
+      href: pagename.html
+    - text: "Text Classification"
+      icon: fa-sticky-note
+      href: Text_Classifier_Models.html
+    - text: "Topic Modeling"
+      icon: fa-sticky-note
+      href: Topic_categorization.html
+    - text: "Choosing a Classifier"
+      icon: fa-sticky-note
+      href: Choosing_classifier.html
+    - text: "Evaluating Outcomes"
+      icon: fa-sticky-note
+      href: Improving_classifier.html
   - text: "The Build"
     icon: fa-puzzle-piece
     href: build.html
     menu: 
-    - text: "Name1"
+    - text: "Comment Extraction"
       icon: fa-sticky-note
-      href: background.html
-    - text: "Name1"
+      href: docxcommentextraction.html
+    - text: "Classification Codebook"
       icon: fa-sticky-note
-      href: background.html
+      href: codebook.html
+    - text: "About the Dataset"
+      icon: fa-sticky-note
+      href: dataimport.html
+    - text: "Initial Exploration"
+      icon: fa-sticky-note
+      href: initial_exploration.html
+    - text: "NB Classifier"
+      icon: fa-sticky-note
+      href: NB_2r2c.html
+    - text: "Ensemble Classifier"
+      icon: fa-sticky-note
+      href: Ensemble_Notes.html
   - text: "Data Exploration"
     icon: fa-question-circle
     href: initial_exploration.html

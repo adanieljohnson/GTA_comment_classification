@@ -1,0 +1,13 @@
+---
+title: "Placeholder Page"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+This is a generic page serving as a placeholder for menus and links.
+
+####\  

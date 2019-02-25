@@ -1,6 +1,6 @@
 ---
 title: "The TA Comments Codebook"
-date: "2/23/2019"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
 ---

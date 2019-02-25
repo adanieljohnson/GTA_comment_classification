@@ -1,6 +1,6 @@
 ---
 title: "Naive Bayes Classifier"
-date: "2/24/2019"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
 ---

@@ -1,12 +1,11 @@
 ---
 title: "DOCX Comment Extraction"
-author: "Dan Johnson"
-date: "2/22/2019"
-output: html_document
+date: "`r format(Sys.time(), '%b %d, %Y')`"
+bibliography: library.bib
+biblio-style: apalike
 ---
 
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r, child="_setup.Rmd"}
 ```
 
 The testing dataset used in this project was created using BaSH scripting and one-off tools. This page documents progress on a workflow to replicate that process using R tools.

@@ -1,5 +1,6 @@
 ---
 title: "Background"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
 ---

@@ -1,59 +1,60 @@
 ---
 title: "Working Notes"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
 ---
 
 ```{r, child="_setup.Rmd"}
 ```
+Items to get help on:  
 
-#Items to get help on:
+##General/Site-Wide:
+  Embedding the bibliographic items  
+    Writing the bibtext  
+    Embedding using [@ BaseR] method.  
 
 ##Index:
-	Site map
+*  Decide on bottom page site map strategy  
 
 ##Background:
-	Df
-	  Df
+*  Need to finish these pages:  
+    +  Df
+    +  Df
 
-##Lit review:
-	How to branch to Text Classification Primer
-	  Use sub-menus
-		Text_classifier_models	= 	Text Classification Primer
-		Topic_categorization = Topic Categorization and Modeling Methods
-		Choosing_classifier = Choosing a Text Classifier Method
-		Classifier_comparison = Designing a Classifier Evaluation Workflow 
-		Improving_classifier = Strategies for Improving Text Classifiers
+##Lit review:  
+*  Df  
+    +  Df  
 
 ##The Build:
-	Df
-	  Df
+*  Find out from Melissa which method/model she is using. Useful for another project.  
+    +  Df  
+    
 
 ##Data Exploration:
-	Help with aligning tables and keeping the NA values. 
-	  Use full_join, not merge. 
+*  Try fixing problem of aligning tables and keeping the NA values by switching from "merge" to "full_join"  
+*  Try modifying the comparison of word frequencies in all comments vs. subgroups to comparison between two subsamples from full group. How do the individual subgroups compare to a random sample? Is the variation I see just noise?  
+*  For N-gram analysis, how to join tables with missing values?
+    +  Use full_join, not merge. 
 
 ##Findings:
-	How to graph the different comparisons of NB values from different sources on same plot? 
-	  Add ggplot (data=) value.
+*  How to graph the different comparisons of NB values from different sources on same plot? 
+    +  Add ggplot (data=) value.
+    +  Better to combine data into one dataset though.
 
-##Next Steps:
-	Still in draft stage
-	  Df
+#Next Steps:
+*  Still in draft stage
+    +  Df  
 
-##Etc.:
-	Using a Bibliography in this format?
-	  
-	Can menus have sub-pages? 
-	  Yep, using sub-pages
-	Adding automatic updates to top dates? 
-	  `r_sys.date()`
-	Fix GitHub auto-upload
+#Etc.:
+*  Using a Bibliography in this format  
+*  Adding automatic updates to top dates? 
+    +  ```date: "`r format(Sys.time(), '%b %d, %Y')`" ```
 
-##Check These Out:
-  Upload 'devtools::install_github("WFU-TLC/analyzr")'
-  Using Mike's Metadata packager to annotate our released dataset
-  Try using ```mutate(datacolumn=str_count(utterance_clean, "\\b(um|u=m)\\b"))``` to extract a string character and count.
+*  Fix GitHub auto-upload
 
+##Try These Out:
+*  Use Mike's Metadata packager to annotate our released dataset
+*  Use ```mutate(datacolumn=str_count(utterance_clean, "\\b(um|u=m)\\b"))``` to extract a string character and count. Use this to count punctuation only comments, or ID comments with questions.
 
 ####\  
