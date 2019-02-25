@@ -17,7 +17,8 @@ biblio-style: apalike
 	  Df
 
 ##Lit review:
-	How to branch to Text Classification Primer, sub-pages look okay?
+	How to branch to Text Classification Primer
+	  Use sub-menus
 		Text_classifier_models	= 	Text Classification Primer
 		Topic_categorization = Topic Categorization and Modeling Methods
 		Choosing_classifier = Choosing a Text Classifier Method
@@ -29,10 +30,12 @@ biblio-style: apalike
 	  Df
 
 ##Data Exploration:
-	Help with aligning tables and keeping the NA values
+	Help with aligning tables and keeping the NA values. 
+	  Use full_join, not merge. 
 
 ##Findings:
-	How to graph the different comparisons of NB values from different sources on same plot.
+	How to graph the different comparisons of NB values from different sources on same plot? 
+	  Add ggplot (data=) value.
 
 ##Next Steps:
 	Still in draft stage
@@ -40,9 +43,11 @@ biblio-style: apalike
 
 ##Etc.:
 	Using a Bibliography in this format?
-	Can menus have sub-pages?
-	Adding automatic updates to top dates?
-	Moving top dates?
+	  
+	Can menus have sub-pages? 
+	  Yep, using sub-pages
+	Adding automatic updates to top dates? 
+	  `r_sys.date()`
 	Fix GitHub auto-upload
 
 ##Check These Out:
