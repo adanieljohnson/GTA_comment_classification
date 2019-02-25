@@ -288,32 +288,129 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="sticky-note.html">
-    <span class="fa fa-history"></span>
+  <a href="notes.html">
+    <span class="fa fa-sticky-note"></span>
      
     Notes
   </a>
 </li>
 <li>
   <a href="background.html">
-    <span class="fa fa-history"></span>
+    <span class="fa fa-sticky-note"></span>
      
     Background
   </a>
 </li>
-<li>
-  <a href="litreview.html">
-    <span class="fa fa-book"></span>
-     
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Lit Review
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="litreview.html">
+        <span class="fa fa-book"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Writing as STEM Ed Research
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Teaching Writing
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Text Classification
+      </a>
+    </li>
+    <li>
+      <a href="Topic_categorization.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Topic Modeling
+      </a>
+    </li>
+    <li>
+      <a href="Choosing_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Choosing a Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Improving_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Evaluating Outcomes
+      </a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="build.html">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-puzzle-piece"></span>
      
     The Build
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="docxcommentextraction.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Comment Extraction
+      </a>
+    </li>
+    <li>
+      <a href="codebook.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Classification Codebook
+      </a>
+    </li>
+    <li>
+      <a href="dataimport.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        About the Dataset
+      </a>
+    </li>
+    <li>
+      <a href="initial_exploration.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Initial Exploration
+      </a>
+    </li>
+    <li>
+      <a href="NB_2r2c.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        NB Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Ensemble_Notes.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Ensemble Classifier
+      </a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="initial_exploration.html">
@@ -346,53 +443,101 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Working Notes</h1>
+<h4 class="date"><em>Feb 25, 2019</em></h4>
 
 </div>
 
 
-<div id="items-to-get-help-on" class="section level1">
-<h1>Items to get help on:</h1>
+<p>Items to get help on:</p>
+<div id="generalsite-wide" class="section level2">
+<h2>General/Site-Wide:</h2>
+<p>Embedding the bibliographic items<br />
+Writing the bibtext<br />
+Embedding using [@ BaseR] method.</p>
+</div>
 <div id="index" class="section level2">
 <h2>Index:</h2>
-<pre><code>Site map</code></pre>
+<ul>
+<li>Decide on bottom page site map strategy</li>
+</ul>
 </div>
 <div id="background" class="section level2">
 <h2>Background:</h2>
+<ul>
+<li>Need to finish these pages:
+<ul>
+<li>Df</li>
+<li>Df</li>
+</ul></li>
+</ul>
 </div>
 <div id="lit-review" class="section level2">
 <h2>Lit review:</h2>
-<pre><code>How to branch to Text Classification Primer, sub-pages look okay?
-    Text_classifier_models  =   Text Classification Primer
-    Topic_categorization = Topic Categorization and Modeling Methods
-    Choosing_classifier = Choosing a Text Classifier Method
-    Classifier_comparison = Designing a Classifier Evaluation Workflow 
-    Improving_classifier = Strategies for Improving Text Classifiers</code></pre>
+<ul>
+<li>Df
+<ul>
+<li>Df</li>
+</ul></li>
+</ul>
 </div>
 <div id="the-build" class="section level2">
 <h2>The Build:</h2>
-<pre><code>df
-  df</code></pre>
+<ul>
+<li>Find out from Melissa which method/model she is using. Useful for another project.
+<ul>
+<li>Df</li>
+</ul></li>
+</ul>
 </div>
 <div id="data-exploration" class="section level2">
 <h2>Data Exploration:</h2>
-<pre><code>Help with aligning tables and keeping the NA values</code></pre>
+<ul>
+<li>Try fixing problem of aligning tables and keeping the NA values by switching from “merge” to “full_join”<br />
+</li>
+<li>Try modifying the comparison of word frequencies in all comments vs. subgroups to comparison between two subsamples from full group. How do the individual subgroups compare to a random sample? Is the variation I see just noise?<br />
+</li>
+<li>For N-gram analysis, how to join tables with missing values?
+<ul>
+<li>Use full_join, not merge.</li>
+</ul></li>
+</ul>
 </div>
 <div id="findings" class="section level2">
 <h2>Findings:</h2>
-<pre><code>How to graph the different comparisons of NB values from different sources on same plot.</code></pre>
+<ul>
+<li>How to graph the different comparisons of NB values from different sources on same plot?
+<ul>
+<li>Add ggplot (data=) value.</li>
+<li>Better to combine data into one dataset though.</li>
+</ul></li>
+</ul>
 </div>
-<div id="next-steps" class="section level2">
-<h2>Next Steps:</h2>
-<pre><code>Df
-  Df</code></pre>
+<div id="next-steps" class="section level1">
+<h1>Next Steps:</h1>
+<ul>
+<li>Still in draft stage
+<ul>
+<li>Df</li>
+</ul></li>
+</ul>
 </div>
-<div id="etc." class="section level2">
-<h2>Etc.:</h2>
-<pre><code>Using a Bibliography in this format
-Can menus have sub-pages
-Adding automatic updates to top dates
-Moving top dates</code></pre>
-<p>Using NLP and text data mining</p>
+<div id="etc." class="section level1">
+<h1>Etc.:</h1>
+<ul>
+<li>Using a Bibliography in this format<br />
+</li>
+<li>Adding automatic updates to top dates?
+<ul>
+<li><code>date: &quot;Feb 25, 2019&quot;</code></li>
+</ul></li>
+<li>Fix GitHub auto-upload</li>
+</ul>
+<div id="try-these-out" class="section level2">
+<h2>Try These Out:</h2>
+<ul>
+<li>Use Mike’s Metadata packager to annotate our released dataset</li>
+<li>Use <code>mutate(datacolumn=str_count(utterance_clean, &quot;\\b(um|u=m)\\b&quot;))</code> to extract a string character and count. Use this to count punctuation only comments, or ID comments with questions.</li>
+</ul>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>

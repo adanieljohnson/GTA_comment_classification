@@ -8,7 +8,6 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-#Topic Categorization and Modeling Methods
 Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already, or do they need to be established? What are the main topics   
 
 **Curated Categories** (my provisional term until I find the appropriate equivalent in current use) are established by subject matter experts. The established categories can be constructed from:

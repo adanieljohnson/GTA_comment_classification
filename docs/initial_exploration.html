@@ -288,25 +288,129 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="notes.html">
+    <span class="fa fa-sticky-note"></span>
+     
+    Notes
+  </a>
+</li>
+<li>
   <a href="background.html">
-    <span class="fa fa-history"></span>
+    <span class="fa fa-sticky-note"></span>
      
     Background
   </a>
 </li>
-<li>
-  <a href="litreview.html">
-    <span class="fa fa-book"></span>
-     
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Lit Review
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="litreview.html">
+        <span class="fa fa-book"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Writing as STEM Ed Research
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Teaching Writing
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Text Classification
+      </a>
+    </li>
+    <li>
+      <a href="Topic_categorization.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Topic Modeling
+      </a>
+    </li>
+    <li>
+      <a href="Choosing_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Choosing a Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Improving_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Evaluating Outcomes
+      </a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="build.html">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-puzzle-piece"></span>
      
     The Build
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="docxcommentextraction.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Comment Extraction
+      </a>
+    </li>
+    <li>
+      <a href="codebook.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Classification Codebook
+      </a>
+    </li>
+    <li>
+      <a href="dataimport.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        About the Dataset
+      </a>
+    </li>
+    <li>
+      <a href="initial_exploration.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Initial Exploration
+      </a>
+    </li>
+    <li>
+      <a href="NB_2r2c.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        NB Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Ensemble_Notes.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Ensemble Classifier
+      </a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="initial_exploration.html">
@@ -339,26 +443,23 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Initial Exploration</h1>
-<h4 class="date"><em>2/21/2019</em></h4>
+<h4 class="date"><em>Feb 25, 2019</em></h4>
 
 </div>
 
 
-<div id="overview" class="section level1">
-<h1>Overview</h1>
-<p>The first question to answer before making deeper comparisons is, <strong>are word frequencies different between TAs’ comments from different sub-categories?</strong> This page describes the methods used for this initial exploration.</p>
-<p>Results of these analyses are discussed on this page: <a href="https://adanieljohnson.github.io/default_website/findings.html" class="uri">https://adanieljohnson.github.io/default_website/findings.html</a></p>
+<p>The first question to answer before making deeper comparisons is, <strong>are word frequencies different between TAs’ comments from different sub-categories?</strong> This page describes the methods used for initial exploration of the TA comments dataset.</p>
+<p>Results of these analyses are discussed in depth on this page: <a href="https://adanieljohnson.github.io/default_website/findings.html" class="uri">https://adanieljohnson.github.io/default_website/findings.html</a></p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
-</div>
 <div id="the-analyses" class="section level1">
 <h1>The Analyses</h1>
-<p>I ran three different analyses of word usage frequency.</p>
+<p>I ran three different analyses of word use frequency. For simplicity I reduced the analysis to just the four most common comment subjects.</p>
 <ul>
-<li><strong>Pearson correlations for word use frequencies</strong>. This only compares words found in all of the Subject sub-categories</li>
-<li><strong>Word frequency differences based on log-odds ratios</strong>. This highlights terms that are the most different between sub-categories.</li>
-<li><strong>N-grams mapping</strong> (<em>draft</em>). This identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category.</li>
+<li><strong>Pearson correlations for word use frequencies</strong>. This method compares the <strong>absolute frequencies</strong> for words found in <strong>ALL</strong> of the Subject sub-categories.</li>
+<li><strong>Word frequency differences based on log-odds ratios</strong>. This method highlights terms that are the <strong>most different between sub-categories</strong>. Again, this method compares frequencies for words found in <strong>ALL</strong> of the Subject sub-categories.</li>
+<li><strong>N-grams mapping</strong> (<strong><em>Draft</em></strong>). This method identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. Unlike the other two methods, this one does not drop terms which are missing from one or more groups.</li>
 </ul>
 <div id="section-1" class="section level4">
 <h4> </h4>
@@ -389,7 +490,7 @@ base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anon
 base_data_tokenized &lt;- base_data %&gt;% 
   unnest_tokens(word,ta.comment)
 
-#ALTERNATIVE METHOD for pulling out stopwords.  
+#Stopwords removal.  
 sortedwords.comments.all &lt;- base_data_tokenized %&gt;%
   filter(!word %in% stop_words$word,
          !word %in% str_remove_all(stop_words$word, &quot;&#39;&quot;),
@@ -473,7 +574,9 @@ total_words.logic &lt;- sortedwords.logic %&gt;%
 sortedwords.logic.fraction &lt;- sortedwords.logic %&gt;% as_tibble() %&gt;% mutate(
   logic.fraction = (n*100)/total_words.logic$total
 )</code></pre>
-<p>The next block joins the individual data tables for each subset in a larger file using column named ‘word’. Columns get confusing names so they are renamed.</p>
+<p>The next block joins the individual data tables for each subset in a larger file using column named ‘word’. Columns get confusing names so they are renamed. The graphs compare frequencies for ~770 words that appear in ALL three sub-categories: Writing, Technical, and Logic.</p>
+<p>Graphs 1-3 show frequencies in individual groups versus word frequency overall. Generally, frequency of terms in the whole set of comments should be similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup (Graph 3) are far from the best-fit line, suggesting they are under-used for comments in that sub-category.</p>
+<p>Graphs 4-6 show pair-wise comparisons between sub-categories. Unlike overall frequency, most words are NOT clustered along the best-fit line, suggesting there is still more variation in word use between sub-categories.</p>
 <pre class="r"><code>total &lt;- merge(sortedwords.comments.all.fraction,sortedwords.technical.fraction,by=&quot;word&quot;) 
 total2 &lt;- merge(total,sortedwords.writing.fraction,by=&quot;word&quot;)
 total3 &lt;- merge(total2,sortedwords.logic.fraction,by=&quot;word&quot;)
@@ -494,52 +597,51 @@ total5 &lt;- total4 %&gt;% as_tibble() %&gt;% mutate(
 
 total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   logic.wt = (logic.count *100)/all.count
-)</code></pre>
-<p>The following six graphs compare frequencies for ~770 words that appear in ALL three sub-categories: Writing, Technical, and Logic.</p>
-<pre class="r"><code>ggplot(total6, aes(`all.fraction`,`writing.fraction`)) +
+)
+
+#Plot graphs
+ggplot(total6, aes(`all.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-4.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-4.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-5.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-5.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-6.png" width="672" /></p>
-<p>Graphs 1-3 show frequencies in individual groups versus word frequency overall. Generally, frequency of terms in the whole set of comments should be similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup (Graph 3) are far from the best-fit line, suggesting they are under-used for comments in that sub-category.</p>
-<p>Graphs 4-6 show pair-wise comparisons between sub-categories. Unlike overall frequency, most words are NOT clustered along the best-fit line, suggesting there is still more variation in word use between sub-categories.</p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-6.png" width="672" /></p>
 <div id="section-3" class="section level4">
 <h4> </h4>
 </div>
@@ -549,8 +651,7 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
 <h1>Log-Odds Ratios of Word Frequencies</h1>
 <div id="which-words-are-shared-least-between-categories" class="section level2">
 <h2>Which Words Are Shared LEAST Between Categories?</h2>
-<p>Unlike the preceding analysis, log-odds ratio comparison does not eliminate unshared terms. Instead, it identifies which words are MOST likely to be used in one sub-category, but not another. For simplicity I reduced the analysis to just the four most common comment subjects. This has been the most informative preliminary visualization I have found so far.</p>
-<p>This code block is based on a method for comparing word usage frequencies between two separate Twitter users <a href="described%20here.">https://www.tidytextmining.com/twitter.html</a> If the words used by TAs in their comments differ between sub-categories, there should be fairly low Pearson correlations between word frequencies.</p>
+<p>Log-odds ratio comparison identifies the words that have the greatest difference in usage between the two groups being compared. This code block is based on a method for comparing word usage frequencies between two separate Twitter users <a href="described%20here.">https://www.tidytextmining.com/twitter.html</a> If the words used by TAs in their comments differ between sub-categories, there should be fairly low Pearson correlations between word frequencies.</p>
 <pre class="r"><code># Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
 frequency_writing &lt;- filter(base_data, code.subject==&quot;2_writing&quot;|code.subject==&quot;3_technical&quot;|code.subject==&quot;4_logic&quot;)
 frequency_writing.subcolumns &lt;- frequency_writing %&gt;% select(1, 22:23)
@@ -687,7 +788,7 @@ ggplot(base_data_tokenized_sorted2v3, aes(`2_writing`,`3_technical`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Freqplot_3vs2.png&quot;, width = 10, height = 6)
 
 #Comparing 2 vs. 4.
@@ -702,7 +803,7 @@ ggplot(base_data_tokenized_sorted2v3, aes(`2_writing`,`4_logic`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Freqplot_4vs2.png&quot;, width = 10, height = 6)
 
 #Create groups by code.subject, calculates proportional frequency in each group.
@@ -727,7 +828,7 @@ ggplot(base_data_tokenized_sorted3v4, aes(`3_technical`,`4_logic`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Freqplot_4vs3.png&quot;, width = 10, height = 6)</code></pre>
 </div>
 <div id="calculating-and-plotting-log-odds-pairs-for-subject-sub-categories" class="section level3">
@@ -793,7 +894,7 @@ word_ratios2v3 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Technical-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2_writing&quot;, &quot;3_technical&quot;))</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs3.png&quot;, width = 6, height = 10)
 
 word_ratios3v4 %&gt;%
@@ -806,7 +907,7 @@ word_ratios3v4 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Technical-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;3_technical&quot;,&quot;4_logic&quot;))</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_3vs4.png&quot;, width = 6, height = 10)
 
 word_ratios2v4 %&gt;%
@@ -819,7 +920,7 @@ word_ratios2v4 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2_writing&quot;, &quot;4_logic&quot;))</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs4.png&quot;, width = 6, height = 10)</code></pre>
 <div id="section-5" class="section level4">
 <h4> </h4>

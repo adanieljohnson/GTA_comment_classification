@@ -8,7 +8,6 @@ output: html_document
 ```{r, child="_setup.Rmd"}
 ```
 
-#TA Comment Categories
 Labels in **comment.subject** are routinely recoded as:
 
 *  0_null
