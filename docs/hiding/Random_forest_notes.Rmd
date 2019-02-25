@@ -1,0 +1,13 @@
+---
+title: "Random Forest"
+author: "Dan Johnson"
+date: "12/16/2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Notes on Random Forest Methods
+

@@ -11,7 +11,7 @@
 
 
 
-<title>Initial Explorations</title>
+<title>Initial Exploration</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -302,17 +302,17 @@ div.tocify {
   </a>
 </li>
 <li>
+  <a href="build.html">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    The Build
+  </a>
+</li>
+<li>
   <a href="initial_exploration.html">
     <span class="fa fa-question-circle"></span>
      
     Data Exploration
-  </a>
-</li>
-<li>
-  <a href="classifier.html">
-    <span class="fa fa-puzzle-piece"></span>
-     
-    The Build
   </a>
 </li>
 <li>
@@ -338,65 +338,53 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Initial Explorations</h1>
+<h1 class="title toc-ignore">Initial Exploration</h1>
+<h4 class="date"><em>2/21/2019</em></h4>
 
 </div>
 
 
-<p>The first question to answer before making deeper comparisons is <strong>are TAs’ comments obviously different between sub-categories?</strong> To that end, I ran several different comparisons of TA comments across sub-categories before starting on the comment classifier.</p>
-<ul>
-<li>Word frequencies in different Subject sub-categories, using log-odds ratios</li>
-<li>Pearson correlations between word frequencies
-<ul>
-<li>Mapping Analyses Visually</li>
-<li>Calculating and Plotting Log-Odds Pairs</li>
-</ul></li>
-<li>Direct comparison of word frequency lists</li>
-</ul>
-<div id="setup" class="section level1">
-<h1>Setup</h1>
-<pre class="r"><code># Call in tidyverse, other required libraries.
-library(tidyverse)</code></pre>
-<pre><code>## ── Attaching packages ────────────────────────────────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
-<pre><code>## ✔ ggplot2 2.2.1     ✔ purrr   0.2.4
-## ✔ tibble  1.4.2     ✔ dplyr   0.7.4
-## ✔ tidyr   0.8.0     ✔ stringr 1.3.0
-## ✔ readr   1.1.1     ✔ forcats 0.3.0</code></pre>
-<pre><code>## ── Conflicts ───────────────────────────────────────────────────────────────────── tidyverse_conflicts() ──
-## ✖ dplyr::filter() masks stats::filter()
-## ✖ dplyr::lag()    masks stats::lag()</code></pre>
-<pre class="r"><code>library(tidytext)
-library(dplyr)
-library(tidyr)
-library(ggplot2)
-library(scales)</code></pre>
-<pre><code>## 
-## Attaching package: &#39;scales&#39;</code></pre>
-<pre><code>## The following object is masked from &#39;package:purrr&#39;:
-## 
-##     discard</code></pre>
-<pre><code>## The following object is masked from &#39;package:readr&#39;:
-## 
-##     col_factor</code></pre>
-<pre class="r"><code>#Read in CSV as a starting dataframe named &quot;base_data&quot;. 
-base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anonVERB.csv&#39;)</code></pre>
-<pre><code>## Parsed with column specification:
-## cols(
-##   .default = col_character(),
-##   sort = col_integer(),
-##   course = col_integer(),
-##   Rank = col_integer()
-## )</code></pre>
-<pre><code>## See spec(...) for full column specifications.</code></pre>
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<p>The first question to answer before making deeper comparisons is, <strong>are word frequencies different between TAs’ comments from different sub-categories?</strong> This page describes the methods used for this initial exploration.</p>
+<p>Results of these analyses are discussed on this page: <a href="https://adanieljohnson.github.io/default_website/findings.html" class="uri">https://adanieljohnson.github.io/default_website/findings.html</a></p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="word-frequencies" class="section level1">
-<h1>Word Frequencies</h1>
-<div id="are-shared-words-unequally-distributed" class="section level2">
-<h2>Are Shared Words Unequally Distributed?</h2>
-<p>This analysis takes all comments from base_data, tokenizes and filters stopwords, then counts and sorts fractional frequencies for each word in each category. <strong>Caution</strong>: this analysis only compares word use for terms present in ALL sub-categories. If a word is MISSING from <strong>any subcategory</strong>, the data row for that word is pruned from the dataset. This eliminates all unique words in favor of words in common.</p>
+<div id="the-analyses" class="section level1">
+<h1>The Analyses</h1>
+<p>I ran three different analyses of word usage frequency.</p>
+<ul>
+<li><strong>Pearson correlations for word use frequencies</strong>. This only compares words found in all of the Subject sub-categories</li>
+<li><strong>Word frequency differences based on log-odds ratios</strong>. This highlights terms that are the most different between sub-categories.</li>
+<li><strong>N-grams mapping</strong> (<em>draft</em>). This identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category.</li>
+</ul>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="setup" class="section level1">
+<h1>Setup</h1>
+<pre class="r"><code># Call in tidyverse, other required libraries.
+library(tidyverse)
+library(tidytext)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+
+#Read in CSV as a starting dataframe named &quot;base_data&quot;. 
+base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anonVERB.csv&#39;)</code></pre>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="pearson-correlations-of-word-frequencies" class="section level1">
+<h1>Pearson Correlations of Word Frequencies</h1>
+<div id="are-shared-words-used-at-different-frequencies" class="section level2">
+<h2>Are Shared Words Used At Different Frequencies?</h2>
+<p>This analysis takes all comments from base_data, tokenizes and filters stopwords, then counts and sorts fractional frequencies for each word in each category. <strong>NOTE</strong>: this analysis only compares word use for terms present in ALL sub-categories. If a word is MISSING from <strong>any subcategory</strong>, the data row for that word is pruned from the dataset. This eliminates all unique words in favor of words found in all sub-categories.</p>
 <pre class="r"><code>#Tokenize phrases, remove the stop words listed in R&#39;s standard reference file.
 base_data_tokenized &lt;- base_data %&gt;% 
   unnest_tokens(word,ta.comment)
@@ -407,22 +395,9 @@ sortedwords.comments.all &lt;- base_data_tokenized %&gt;%
          !word %in% str_remove_all(stop_words$word, &quot;&#39;&quot;),
          str_detect(word, &quot;[a-z]&quot;)) %&gt;%
   count(word, word, sort = TRUE) %&gt;%
-  ungroup()</code></pre>
-<pre><code>## Warning: `as_dictionary()` is soft-deprecated as of rlang 0.3.0.
-## Please use `as_data_pronoun()` instead
-## This warning is displayed once per session.</code></pre>
-<pre><code>## Warning: `new_overscope()` is soft-deprecated as of rlang 0.2.0.
-## Please use `new_data_mask()` instead
-## This warning is displayed once per session.</code></pre>
-<pre><code>## Warning: The `parent` argument of `new_data_mask()` is deprecated.
-## The parent of the data mask is determined from either:
-## 
-##   * The `env` argument of `eval_tidy()`
-##   * Quosure environments when applicable
-## This warning is displayed once per session.</code></pre>
-<pre><code>## Warning: `overscope_clean()` is soft-deprecated as of rlang 0.2.0.
-## This warning is displayed once per session.</code></pre>
-<pre class="r"><code>#Calculate total # of words
+  ungroup()
+
+#Calculate total # of words
 total_words.all &lt;- sortedwords.comments.all %&gt;% 
   summarize(total = sum(n))
 
@@ -501,10 +476,8 @@ sortedwords.logic.fraction &lt;- sortedwords.logic %&gt;% as_tibble() %&gt;% mut
 <p>The next block joins the individual data tables for each subset in a larger file using column named ‘word’. Columns get confusing names so they are renamed.</p>
 <pre class="r"><code>total &lt;- merge(sortedwords.comments.all.fraction,sortedwords.technical.fraction,by=&quot;word&quot;) 
 total2 &lt;- merge(total,sortedwords.writing.fraction,by=&quot;word&quot;)
-total3 &lt;- merge(total2,sortedwords.logic.fraction,by=&quot;word&quot;)</code></pre>
-<pre><code>## Warning in merge.data.frame(total2, sortedwords.logic.fraction, by =
-## &quot;word&quot;): column names &#39;n.x&#39;, &#39;n.y&#39; are duplicated in the result</code></pre>
-<pre class="r"><code>#rename lines that were possibly confusing
+total3 &lt;- merge(total2,sortedwords.logic.fraction,by=&quot;word&quot;)
+#rename lines that were possibly confusing
 names(total3)[2] &lt;- &quot;all.count&quot;
 names(total3)[4] &lt;- &quot;technical.count&quot;
 names(total3)[6] &lt;- &quot;writing.count&quot;
@@ -529,50 +502,53 @@ total6 &lt;- total5 %&gt;% as_tibble() %&gt;% mutate(
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-2.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`all.fraction`,`logic.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-3.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-3.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`technical.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-4.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-4.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`writing.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-5.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-5.png" width="672" /></p>
 <pre class="r"><code>ggplot(total6, aes(`logic.fraction`,`technical.fraction`)) +
   geom_jitter(alpha = 0.1, size = 2.5, width = 0.25, height = 0.25) +
   geom_text(aes(label = word), check_overlap = TRUE, vjust = 1.5) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-3-6.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-4-6.png" width="672" /></p>
 <p>Graphs 1-3 show frequencies in individual groups versus word frequency overall. Generally, frequency of terms in the whole set of comments should be similar to frequency in an individual group (X vs Y positions similar.) However, some terms associated with Logic subgroup (Graph 3) are far from the best-fit line, suggesting they are under-used for comments in that sub-category.</p>
 <p>Graphs 4-6 show pair-wise comparisons between sub-categories. Unlike overall frequency, most words are NOT clustered along the best-fit line, suggesting there is still more variation in word use between sub-categories.</p>
-<div id="section-1" class="section level4">
+<div id="section-3" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="which-words-are-least-shared-between-categories" class="section level2">
-<h2>Which Words Are LEAST Shared Between Categories?</h2>
+</div>
+<div id="log-odds-ratios-of-word-frequencies" class="section level1">
+<h1>Log-Odds Ratios of Word Frequencies</h1>
+<div id="which-words-are-shared-least-between-categories" class="section level2">
+<h2>Which Words Are Shared LEAST Between Categories?</h2>
 <p>Unlike the preceding analysis, log-odds ratio comparison does not eliminate unshared terms. Instead, it identifies which words are MOST likely to be used in one sub-category, but not another. For simplicity I reduced the analysis to just the four most common comment subjects. This has been the most informative preliminary visualization I have found so far.</p>
 <p>This code block is based on a method for comparing word usage frequencies between two separate Twitter users <a href="described%20here.">https://www.tidytextmining.com/twitter.html</a> If the words used by TAs in their comments differ between sub-categories, there should be fairly low Pearson correlations between word frequencies.</p>
 <pre class="r"><code># Isolate table rows to compare. Then reduce larger dataframe to only 2 required columns of data.
@@ -582,9 +558,9 @@ frequency_writing.subcolumns &lt;- frequency_writing %&gt;% select(1, 22:23)
 # Tokenize phrases, remove stop words listed in standard reference file.
 base_data_tokenized &lt;- frequency_writing.subcolumns %&gt;% 
   unnest_tokens(word,ta.comment) %&gt;% 
-  anti_join(stop_words)</code></pre>
-<pre><code>## Joining, by = &quot;word&quot;</code></pre>
-<pre class="r"><code>#At this point the dataframe should have &quot;Unique.Record&quot; in column 1, &quot;code.subject&quot; in column 2, and the unnested &quot;word&quot; in column 3. All columns are class = &quot;character&quot;. Stop words listed in the &quot;stop_words&quot; R reference data file have been removed.
+  anti_join(stop_words)
+
+#At this point the dataframe should have &quot;Unique.Record&quot; in column 1, &quot;code.subject&quot; in column 2, and the unnested &quot;word&quot; in column 3. All columns are class = &quot;character&quot;. Stop words listed in the &quot;stop_words&quot; R reference data file have been removed.
 
 #Block below re-organizes the data for comparisons. This pattern sets &quot;2_writing&quot; as the first dataset, then all other data in remaining columns.
 #Groups by code.subject, calculated proportional frequency in each group.
@@ -643,9 +619,9 @@ frequency_writing.subcolumns3 &lt;- frequency_writing3 %&gt;% select(1, 22:23)
 # Tokenize phrases, remove stop words listed in standard reference file.
 base_data_tokenized3 &lt;- frequency_writing.subcolumns3 %&gt;% 
   unnest_tokens(word,ta.comment) %&gt;% 
-  anti_join(stop_words)</code></pre>
-<pre><code>## Joining, by = &quot;word&quot;</code></pre>
-<pre class="r"><code>#At this point the dataframe should have &quot;Unique.Record&quot; in column 1, &quot;code.subject&quot; in column 2, and the unnested &quot;word&quot; in column 3. All columns are class = &quot;character&quot;. Stop words listed in the &quot;stop_words&quot; R reference data file have been removed.
+  anti_join(stop_words)
+
+#At this point the dataframe should have &quot;Unique.Record&quot; in column 1, &quot;code.subject&quot; in column 2, and the unnested &quot;word&quot; in column 3. All columns are class = &quot;character&quot;. Stop words listed in the &quot;stop_words&quot; R reference data file have been removed.
 
 #Block below re-organizes the data for comparisons. This pattern sets &quot;3_technical&quot; as the first dataset, then all other data in remaining columns.
 #Groups by code.subject, calculated proportional frequency in each group.
@@ -685,12 +661,11 @@ broom::tidy(coroutput23)</code></pre>
 {"columns":[{"label":["estimate"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["statistic"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["p.value"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["parameter"],"name":[4],"type":["int"],"align":["right"]},{"label":["conf.low"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["conf.high"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["method"],"name":[7],"type":["chr"],"align":["left"]},{"label":["alternative"],"name":[8],"type":["chr"],"align":["left"]}],"data":[{"1":"0.394349","2":"14.21952","3":"3.045188e-42","4":"1098","5":"0.3432426","6":"0.4431271","7":"Pearson's product-moment correlation","8":"two.sided"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="section-2" class="section level4">
+<div id="section-4" class="section level4">
 <h4> </h4>
 </div>
-</div>
-<div id="visualizing-word-frequency-differences-between-subject-sub-categories" class="section level2">
-<h2>Visualizing Word Frequency Differences Between Subject Sub-Categories</h2>
+<div id="visualizing-frequency-differences-between-sub-categories" class="section level3">
+<h3>Visualizing Frequency Differences Between Sub-Categories</h3>
 <pre class="r"><code>#Create groups by code.subject, calculates proportional frequency in each group.
 #Final step creates 5 columns: code.subject, n, word, total, frequency.
 base_data_tokenized_sorted2 &lt;- base_data_tokenized %&gt;% 
@@ -699,9 +674,9 @@ base_data_tokenized_sorted2 &lt;- base_data_tokenized %&gt;%
   left_join(base_data_tokenized %&gt;% 
   group_by(code.subject) %&gt;% 
   summarise(total = n())) %&gt;%
-  mutate(freq = n/total)</code></pre>
-<pre><code>## Joining, by = &quot;code.subject&quot;</code></pre>
-<pre class="r"><code>base_data_tokenized_sorted2v3 &lt;- base_data_tokenized_sorted2 %&gt;% 
+  mutate(freq = n/total)
+
+base_data_tokenized_sorted2v3 &lt;- base_data_tokenized_sorted2 %&gt;% 
   select(code.subject, word, freq) %&gt;% 
   spread(code.subject, freq) %&gt;%
   arrange(`2_writing`,`3_technical`)
@@ -712,9 +687,7 @@ ggplot(base_data_tokenized_sorted2v3, aes(`2_writing`,`3_technical`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<pre><code>## Warning: Removed 2946 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 2946 rows containing missing values (geom_text).</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Freqplot_3vs2.png&quot;, width = 10, height = 6)
 
 #Comparing 2 vs. 4.
@@ -729,9 +702,7 @@ ggplot(base_data_tokenized_sorted2v3, aes(`2_writing`,`4_logic`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<pre><code>## Warning: Removed 3176 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 3176 rows containing missing values (geom_text).</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-5-2.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-6-2.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Freqplot_4vs2.png&quot;, width = 10, height = 6)
 
 #Create groups by code.subject, calculates proportional frequency in each group.
@@ -742,9 +713,9 @@ base_data_tokenized_sorted3 &lt;- base_data_tokenized %&gt;%
   left_join(base_data_tokenized %&gt;% 
   group_by(code.subject) %&gt;% 
   summarise(total = n())) %&gt;%
-  mutate(freq = n/total)</code></pre>
-<pre><code>## Joining, by = &quot;code.subject&quot;</code></pre>
-<pre class="r"><code>#Set up comparison for 3 vs. 4.
+  mutate(freq = n/total)
+
+#Set up comparison for 3 vs. 4.
 base_data_tokenized_sorted3v4 &lt;- base_data_tokenized_sorted3 %&gt;% 
   select(code.subject, word, freq) %&gt;% 
   spread(code.subject, freq) %&gt;%
@@ -756,12 +727,11 @@ ggplot(base_data_tokenized_sorted3v4, aes(`3_technical`,`4_logic`)) +
   scale_x_log10(labels = percent_format()) +
   scale_y_log10(labels = percent_format()) +
   geom_abline(color = &quot;red&quot;)</code></pre>
-<pre><code>## Warning: Removed 3024 rows containing missing values (geom_point).</code></pre>
-<pre><code>## Warning: Removed 3024 rows containing missing values (geom_text).</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-5-3.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-6-3.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Freqplot_4vs3.png&quot;, width = 10, height = 6)</code></pre>
-<div id="calculating-and-plotting-log-odds-pairs-for-subject-sub-categories" class="section level4">
-<h4>Calculating and Plotting Log-Odds Pairs for Subject Sub-Categories</h4>
+</div>
+<div id="calculating-and-plotting-log-odds-pairs-for-subject-sub-categories" class="section level3">
+<h3>Calculating and Plotting Log-Odds Pairs for Subject Sub-Categories</h3>
 <pre class="r"><code>word_ratios2v3 &lt;- base_data_tokenized %&gt;%
   count(word, code.subject) %&gt;%
   group_by(word) %&gt;%
@@ -823,7 +793,7 @@ word_ratios2v3 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Technical-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2_writing&quot;, &quot;3_technical&quot;))</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-8-1.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs3.png&quot;, width = 6, height = 10)
 
 word_ratios3v4 %&gt;%
@@ -836,7 +806,7 @@ word_ratios3v4 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Technical-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;3_technical&quot;,&quot;4_logic&quot;))</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-7-2.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-8-2.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_3vs4.png&quot;, width = 6, height = 10)
 
 word_ratios2v4 %&gt;%
@@ -849,11 +819,119 @@ word_ratios2v4 %&gt;%
   coord_flip() +
   ylab(&quot;log odds ratio (Writing-top/Logic-bottom)&quot;) +
   scale_fill_discrete(name = &quot;&quot;, labels = c(&quot;2_writing&quot;, &quot;4_logic&quot;))</code></pre>
-<p><img src="initial_exploration_files/figure-html/unnamed-chunk-7-3.png" width="672" /></p>
+<p><img src="initial_exploration_files/figure-html/unnamed-chunk-8-3.png" width="672" /></p>
 <pre class="r"><code>  #ggsave(&quot;Logplot_2vs4.png&quot;, width = 6, height = 10)</code></pre>
-</div>
-<div id="section-3" class="section level4">
+<div id="section-5" class="section level4">
 <h4> </h4>
+</div>
+</div>
+</div>
+</div>
+<div id="n-grams-mapping" class="section level1">
+<h1>N-Grams Mapping</h1>
+<div id="are-certain-terms-and-phrases-unique-to-one-sub-category" class="section level2">
+<h2>Are Certain Terms and Phrases Unique to One Sub-Category?</h2>
+<p>One of our earliest observations was that the n-gram “basic criteria” only appeared in TA comments from three different Subject sub-categories. Of these, the phrase made up &lt;0.5% of comments in two categories, but in the third category, “basic criteria” made up &gt;5% of all comments. This suggests that the “basic criteria” n-gram is essentially diagnostic for that sub-category. This suggests other terms and n-grams that are eliminated in the previous two methods may be equally diagnostic for one sub-category.</p>
+<p>The block below describes a pseudo-code approach.</p>
+<pre><code>Import comments
+Tokenize the comments as 1-, 2, 3-grams
+Add counts within subset, calculate frequency
+Split by subcategory
+Align 4 subcategories, highest to lowest
+</code></pre>
+<div id="section-6" class="section level4">
+<h4> </h4>
+<pre class="r"><code># Call in tidyverse, other required libraries.
+library(tidyverse)
+library(tidytext)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+
+#Read in CSV as a starting dataframe named &quot;base_data&quot;. 
+base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anonVERB.csv&#39;)</code></pre>
+<pre class="r"><code>#Tokenize phrases as N-grams.
+
+base_data_tokenized2n &lt;- base_data %&gt;% 
+  unnest_tokens(ngram, ta.comment, token=&quot;ngrams&quot;, n=2)
+
+sortedwords.comments.all2n &lt;- base_data_tokenized2n %&gt;%
+  count(ngram, sort = TRUE) %&gt;%
+  ungroup()
+
+total_words.all2n &lt;- sortedwords.comments.all2n %&gt;% 
+  summarize(total = sum(n))
+
+sortedwords.comments.all.fraction2n &lt;- sortedwords.comments.all2n %&gt;% as_tibble() %&gt;% mutate(
+  all.fraction = (n*100)/total_words.all2n$total
+  )
+
+#Select SUBSETs of tokenized data based on code.subject: 
+base_data_tokenized.basic2n &lt;- subset(base_data_tokenized2n, code.subject == &quot;1_basic&quot;, select = (1:28))
+base_data_tokenized.writing2n &lt;- subset(base_data_tokenized2n, code.subject == &quot;2_writing&quot;, select = (1:28))
+base_data_tokenized.technical2n &lt;- subset(base_data_tokenized2n, code.subject == &quot;3_technical&quot;, select = (1:28))
+base_data_tokenized.logic2n &lt;- subset(base_data_tokenized2n, code.subject == &quot;4_logic&quot;, select = (1:28))
+
+
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.basic2n &lt;- base_data_tokenized.basic2n %&gt;%
+  count(ngram, sort = TRUE) %&gt;%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.basic2n &lt;- sortedwords.basic2n %&gt;% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.basic.fraction2n &lt;- sortedwords.basic2n %&gt;% as_tibble() %&gt;% mutate(
+  basic.fraction2n = (n*100)/total_words.basic2n$total
+)
+
+#Repeats for subset 2
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.writing2n &lt;- base_data_tokenized.writing2n %&gt;%
+  count(ngram, sort = TRUE) %&gt;%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.writing2n &lt;- sortedwords.writing2n %&gt;% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.writing.fraction2n &lt;- sortedwords.writing2n %&gt;% as_tibble() %&gt;% mutate(
+  writing.fraction2n = (n*100)/total_words.writing2n$total
+)
+
+#Repeats for subset 3
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.technical2n &lt;- base_data_tokenized.technical2n %&gt;%
+  count(ngram, sort = TRUE) %&gt;%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.technical2n &lt;- sortedwords.technical2n %&gt;% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.technical.fraction2n &lt;- sortedwords.technical2n %&gt;% as_tibble() %&gt;% mutate(
+  technical.fraction2n = (n*100)/total_words.technical2n$total
+)
+
+#Repeats for subset 4
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.logic2n &lt;- base_data_tokenized.logic2n %&gt;%
+  count(ngram, sort = TRUE) %&gt;%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.logic2n &lt;- sortedwords.logic2n %&gt;% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.logic.fraction2n &lt;- sortedwords.logic2n %&gt;% as_tibble() %&gt;% mutate(
+  logic.fraction2n = (n*100)/total_words.logic2n$total
+)</code></pre>
 </div>
 </div>
 </div>

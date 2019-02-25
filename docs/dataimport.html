@@ -11,9 +11,8 @@
 
 <meta name="author" content="Dan Johnson" />
 
-<meta name="date" content="2018-12-17" />
 
-<title>Classifier Development</title>
+<title>Data Import &amp; Checking</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -297,17 +296,24 @@ div.tocify {
   </a>
 </li>
 <li>
+  <a href="litreview.html">
+    <span class="fa fa-book"></span>
+     
+    Lit Review
+  </a>
+</li>
+<li>
+  <a href="build.html">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    The Build
+  </a>
+</li>
+<li>
   <a href="initial_exploration.html">
     <span class="fa fa-question-circle"></span>
      
     Data Exploration
-  </a>
-</li>
-<li>
-  <a href="classifier.html">
-    <span class="fa fa-puzzle-piece"></span>
-     
-    Classifier
   </a>
 </li>
 <li>
@@ -333,40 +339,24 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Classifier Development</h1>
+<h1 class="title toc-ignore">Data Import &amp; Checking</h1>
 <h4 class="author"><em>Dan Johnson</em></h4>
-<h4 class="date"><em>12/17/2018</em></h4>
+<h4 class="date"><em>2/22/2019</em></h4>
 
 </div>
 
 
 <div id="overview" class="section level1">
 <h1>Overview</h1>
-<p>This page has three sections. <strong>Part 1</strong> describes the target dataset for this project. <strong>Part 2</strong> outlines the data pre-checks and import process. <strong>Part 3</strong> describes post-import validation developed for the target dataset, and how selected elements within the dataset are recoded for analysis.</p>
-<p>Initial visual exploration of the dataset is described here: <a href="https://adanieljohnson.github.io/default_website/initial_exploration.html" class="uri">https://adanieljohnson.github.io/default_website/initial_exploration.html</a></p>
-<p>These linked pages summarize work to date using categorical Naive Bayes as the text classification method. They provided a baseline from which I am evaluating other approaches.</p>
-<ul>
-<li>Baseline Method: <a href="https://adanieljohnson.github.io/default_website/Naive_bayesV2b.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayesV2b.html</a></li>
-<li>Randomization Method: <a href="https://adanieljohnson.github.io/default_website/Naive_bayesV2r.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayesV2r.html</a></li>
-<li>In/Outgroup Binning: <a href="https://adanieljohnson.github.io/default_website/Naive_bayesV2yn.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayesV2yn.html</a></li>
-<li>In/Outgroup Binning: <a href="https://adanieljohnson.github.io/default_website/Naive_bayes_Smry.html" class="uri">https://adanieljohnson.github.io/default_website/Naive_bayes_Smry.html</a></li>
-</ul>
-<p>Other pages provide the theoretical background for the selected methods. Each deeper analysis method is described in detail on its own separate page. These are listed on the <strong>[LINK] Project Outline</strong> page.</p>
+<p>This page describes the target dataset, data pre-checks and import process, post-import validation, and how selected elements are recoded for analysis.</p>
+<p>The dataset being used to develop this project is an Excel table containing 10,808 TA comments extracted from student lab reports submitted during Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
 </div>
-<div id="part-1.-initial-dataset" class="section level1">
-<h1>Part 1. Initial Dataset</h1>
-<p>The development dataset is an Excel table of 10,808 rows. One column has “TA comments” extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
-<p>Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings <strong>[LINK]</strong>.</p>
-<div id="section-1" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="part-2.-data-pre-checks" class="section level1">
-<h1>Part 2. Data Pre-Checks</h1>
-<p>Prior to import, review the data table <strong>in Excel</strong>; check that:</p>
+<div id="pre-check-and-import" class="section level1">
+<h1>Pre-Check and Import</h1>
+<p>Prior to import, review the data table <strong>in Excel</strong> and check that:</p>
 <ol style="list-style-type: decimal">
 <li>Student and TA names have been recoded using pre-assigned anonymous IDs.</li>
 <li>Vocabulary terms used in coding columns matches criteria in “codebook_for_comments.rmd”</li>
@@ -528,12 +518,191 @@ div.tocify {
 </tr>
 </tbody>
 </table>
+<p>Data were anonymized in Excel, replacing names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings <strong>[LINK]</strong>.</p>
 <p>Once all data are in correct format, export Excel file to CSV with name formatted as <strong>“coded_full_comments_dataset_SemYear.csv”</strong></p>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="target-dataset" class="section level1">
+<h1>Target Dataset</h1>
+<p>The development dataset is an Excel table of 10,808 rows. One column has “TA comments” extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
+<p>Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings <strong>[LINK]</strong>.</p>
 <div id="section-2" class="section level4">
 <h4> </h4>
 </div>
-<div id="initial-library-and-data-import" class="section level2">
-<h2>Initial Library and Data Import</h2>
+</div>
+<div id="pre-checks-before-import" class="section level1">
+<h1>Pre-Checks Before Import</h1>
+<p>Prior to import, review the data table <strong>in Excel</strong> and check that:</p>
+<ol style="list-style-type: decimal">
+<li>Student and TA names have been recoded using pre-assigned anonymous IDs.</li>
+<li>Vocabulary terms used in coding columns matches criteria in “codebook_for_comments.rmd” [LINK]</li>
+<li>Data table headers match those listed below. The same list is in the file “code_column_names.rmd” [LINK]</li>
+</ol>
+<table style="width:83%;">
+<colgroup>
+<col width="18%" />
+<col width="31%" />
+<col width="33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Column Number</th>
+<th>Column Name</th>
+<th>Accepted Values or Format</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>unique.record</td>
+<td>Sp18.00001 (semester and year, then order in dataset)</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>report.id</td>
+<td>R_0fanqHFhaY2yLT7 or similar</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>sort</td>
+<td>remnant of coding</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>report.title (empty)</td>
+<td>string</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>student</td>
+<td>Std_drVZ2x1W (format is Std_nnn)</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>course</td>
+<td>113, 114, or 214</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>ta</td>
+<td>TA_bc8EVX09 (format is TA_nnn)</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>lab</td>
+<td>113: allocation, betta; 114: manduca, frog; 214: enzymes (old) photosynthesis, physarum, cyanophage (new)</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>tag</td>
+<td>first, second</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>type.TA</td>
+<td>submission, revision</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>grade.TA</td>
+<td>A, B, C, F</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>grading.time</td>
+<td>time in minutes</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>Rank</td>
+<td>remnant of coding</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>hypothesis.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>data.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>citation.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>17</td>
+<td>interpretation.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="even">
+<td>18</td>
+<td>organization.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>19</td>
+<td>techflaws.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>writing.ok</td>
+<td>Yes, No</td>
+</tr>
+<tr class="odd">
+<td>21</td>
+<td>comments.incorporated</td>
+<td>Yes, Somewhat, No</td>
+</tr>
+<tr class="even">
+<td>22</td>
+<td>ta.comment</td>
+<td>text string</td>
+</tr>
+<tr class="odd">
+<td>23</td>
+<td>code.subject</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="even">
+<td>24</td>
+<td>code.structure</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>code.locus</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="even">
+<td>26</td>
+<td>code.scope</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="odd">
+<td>27</td>
+<td>code.tone</td>
+<td>values in Ref. Tables</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td>code.notes</td>
+<td>values in Ref. Tables</td>
+</tr>
+</tbody>
+</table>
+<p>Once all data are in correct format, export Excel file to CSV with name formatted as <strong>“coded_full_comments_dataset_SemYear.csv”</strong></p>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="initial-data-import" class="section level1">
+<h1>Initial Data Import</h1>
 <pre class="r"><code># Call in tidyverse, other required libraries.
 library(tidyverse)
 library(tidytext)
@@ -545,33 +714,27 @@ library(scales)</code></pre>
 #Subsequent analyses are performed on extracted subsets of &quot;base_data&quot;.
 base_data &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anonVERB.csv&#39;)</code></pre>
 <p>If dataset imports correctly, there will be a dataframe of ~11,000 rows and 28 columns named as listed in the <strong>Data Pre-Checks</strong> table above.</p>
-<div id="section-3" class="section level4">
+<div id="section-4" class="section level4">
 <h4> </h4>
 </div>
 </div>
-</div>
-<div id="part-3.-post-import-checks" class="section level1">
-<h1>Part 3. Post-Import Checks</h1>
-<p>Given some data points may be entered incorrectly by instructors or students, these post-import data checks help ensure data have been properly coded and columns contain valid entries only. (This process can be automated using the <code>janitor</code> data cleaning package.)</p>
+<div id="post-import-checks" class="section level1">
+<h1>Post-Import Checks</h1>
+<p>Given some data points may be entered incorrectly by instructors or students, these post-import data checks ensure data are properly coded and columns contain valid entries only. (This process can be automated using the <code>janitor</code> data cleaning package.)</p>
 <pre class="r"><code>#&quot;Course&quot; column should only have entries that correspond to 113, 114, 214, NA. 
-course&lt;-unique(base_data$course)
-
-#Entries in &quot;TAs&quot; column should match the anonymous IDs that correspond to the TAs assigned to the relevant courses in the semester being analyzed. 
+course&lt;-unique(base_data$course)</code></pre>
+<pre class="r"><code>#Entries in &quot;TAs&quot; column should match the anonymous IDs that correspond to the TAs assigned to the relevant courses in the semester being analyzed. 
 #If there are incorrect or extra anonymous IDs in this list, the mostly likely source of the error is improper de-identification of the Excel file prior to import.
-ta&lt;-unique(base_data$ta)
-
-#&quot;Lab&quot; should only have entries that match the allowed limited keywords in codebook.
-lab&lt;-unique(base_data$lab)
-
-#It is impractical to validate all randomized identifiers. Instead look at the NUMBER of unique anonymous student IDs. Quantity should be within 10% of (but not more than) the combined enrollment of the 3 target courses for the semester.
-student&lt;-unique(base_data$student)
-
-#Check that the list of &quot;code.subject&quot; topics here matches allowed terms in codebook.
-subject&lt;-unique(base_data$code.subject)
-
-#Check that the list of &quot;code.structure&quot; terms extracted from the dataset and displayed here matches allowed terms in codebook.
+ta&lt;-unique(base_data$ta)</code></pre>
+<pre class="r"><code>#&quot;Lab&quot; should only have entries that match the allowed limited keywords in codebook.
+lab&lt;-unique(base_data$lab)</code></pre>
+<pre class="r"><code>#It is impractical to validate all randomized identifiers. Instead look at the NUMBER of unique anonymous student IDs. Quantity should be within 10% of (but not more than) the combined enrollment of the 3 target courses for the semester.
+student&lt;-unique(base_data$student)</code></pre>
+<pre class="r"><code>#Check that the list of &quot;code.subject&quot; topics here matches allowed terms in codebook.
+subject&lt;-unique(base_data$code.subject)</code></pre>
+<pre class="r"><code>#Check that the list of &quot;code.structure&quot; terms extracted from the dataset and displayed here matches allowed terms in codebook.
 structure&lt;-unique(base_data$code.structure)</code></pre>
-<div id="section-4" class="section level4">
+<div id="section-5" class="section level4">
 <h4> </h4>
 </div>
 <div id="post-import-processing" class="section level2">
@@ -602,7 +765,10 @@ str(comments_raw$subject)</code></pre>
 <pre><code>## 
 ##     1_basic   2_writing 3_technical     4_logic 
 ##         211        2578        5409        1142</code></pre>
-<p>Most in-depth analyses will have a similar extraction and post-processing code block. In practice, it has proven easier to modify the post-processing code than to maintain multiple separate copies of the original CSV dataset for the different analyses.</p>
+<p>Most analyses will use a similar extraction and post-processing code block. In practice, it is easier to modify the post-processing code than to maintain multiple separate copies of the original CSV dataset for different analyses.</p>
+<div id="section-6" class="section level4">
+<h4> </h4>
+</div>
 </div>
 </div>
 

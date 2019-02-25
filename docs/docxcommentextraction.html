@@ -371,8 +371,7 @@ div.tocify {
 </div>
 <div id="sample-working-code" class="section level1">
 <h1>Sample Working Code</h1>
-<pre class="r"><code>library(docxtractr)</code></pre>
-<pre><code>## Warning: package &#39;docxtractr&#39; was built under R version 3.4.4</code></pre>
+<pre><code>library(docxtractr)</code></pre>
 <p>Call in Word files using <code>read_docx</code>. Use <code>docx_extract_all_cmts</code> to pull out comments and <code>rbind</code> to combine them.</p>
 <p>To merge more than two dataframes within R, combine an <code>rbind</code> call with <code>do.call</code>. The ‘do.call’ function uses any existing R functions, such as ‘rbind’, but instead of passing just two dataframes, it passes multiple data frames. Then use <code>write.csv2</code> to write the data to a CSV format.</p>
 <pre><code>Commentframe1&lt;-read_docx(&quot;/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/TestingReport.docx&quot;, track_changes = NULL)

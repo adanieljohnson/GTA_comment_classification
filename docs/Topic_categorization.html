@@ -11,7 +11,7 @@
 
 
 
-<title>Next Steps</title>
+<title>Topic Categorization and Modeling</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -338,14 +338,63 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Next Steps</h1>
+<h1 class="title toc-ignore">Topic Categorization and Modeling</h1>
+<h4 class="date"><em>2/21/2019</em></h4>
 
 </div>
 
 
-<p>Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.</p>
+<div id="topic-categorization-and-modeling-methods" class="section level1">
+<h1>Topic Categorization and Modeling Methods</h1>
+<p>Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already, or do they need to be established? What are the main topics</p>
+<p><strong>Curated Categories</strong> (my provisional term until I find the appropriate equivalent in current use) are established by subject matter experts. The established categories can be constructed from:</p>
+<ul>
+<li>A limited keywords vocabulary (National Library of Medicine MeSH categories for example)</li>
+<li>Disciplinary conventions or shared best practices (the Dublin Core is an example)</li>
+<li>Prior empirical studies</li>
+<li>The dataset itself, using <em>de novo</em> iterative coding. This process is described further here [LINK] and here [LINK].</li>
+</ul>
+<p><strong>Topic Modeling</strong> is a group of techniques for identifying groups of words (the “topic”) that best summarize the information in a collection of documents. Topic modeling is an iterative/ generative process that does not require any prior knowledge of the documents or relationships.</p>
 <div id="section" class="section level4">
 <h4> </h4>
+</div>
+<div id="topic-modeling-methods-to-identify-features" class="section level3">
+<h3>Topic Modeling Methods to Identify Features</h3>
+<div id="latent-dirichlet-allocation" class="section level4">
+<h4>Latent Dirichlet Allocation</h4>
+<p>(LDA) is a common method for generating topic model features. LDA is an iterative model which starts from a fixed number of topics. Each topic is represented as a distribution over words, and each document is then represented as a distribution over topics. Although the tokens themselves are meaningless, the probability distributions over words provided by the topics provide a sense of the different ideas contained in the documents.</p>
+</div>
+<div id="brown-clustering" class="section level4">
+<h4>Brown Clustering</h4>
+<p>A hierarchical clustering algorithm that is applied to text, grouping words into clusters that are assumed to be semantically related by virtue of their having been embedded in similar contexts.</p>
+<p>In natural language processing, Brown clustering or IBM clustering is a form of hierarchical clustering of words based on the contexts in which they occur. The intuition behind the method is that a class-based language model (also called cluster n-gram model), i.e. one where probabilities of words are based on the classes (clusters) of previous words, is used to address the data sparsity problem inherent in language modeling.</p>
+<p>Brown groups items (i.e., types) into classes, using a binary merging criterion based on the log-probability of a text under a class-based language model, i.e. a probability model that takes the clustering into account.</p>
+</div>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+<div id="latent-semantic-analysis" class="section level4">
+<h4>Latent semantic analysis</h4>
+<p>LSA is a technique in natural language processing of analyzing relationships between a set of documents and the terms they contain by producing a set of concepts related to the documents and terms. LSA assumes that words that are close in meaning will occur in similar pieces of text (the distributional hypothesis). A matrix containing word counts per paragraph (rows represent unique words and columns represent each paragraph) is constructed from a large piece of text and a mathematical technique called singular value decomposition (SVD) is used to reduce the number of rows while preserving the similarity structure among columns. Words are then compared by taking the cosine of the angle between the two vectors (or the dot product between the normalizations of the two vectors) formed by any two rows. Values close to 1 represent very similar words while values close to 0 represent very dissimilar words.</p>
+<p>In the context of its application to information retrieval, it is sometimes called latent semantic indexing (LSI).</p>
+<p>LSA can use a term-document matrix which describes the occurrences of terms in documents; it is a sparse matrix whose rows correspond to terms and whose columns correspond to documents. A typical example of the weighting of the elements of the matrix is tf-idf (term frequency–inverse document frequency): the weight of an element of the matrix is proportional to the number of times the terms appear in each document, where rare terms are upweighted to reflect their relative importance.</p>
+<p>Applications of LSA include:</p>
+<ul>
+<li>Comparing documents in low-dimensional space (data clustering, document classification).</li>
+<li>Finding relations between terms (synonymy and polysemy). Synonymy is the phenomenon where different words describe the same idea. Polysemy is the phenomenon where the same word has multiple meanings.</li>
+<li>Given a query of terms, translating it into the low-dimensional space, and find matching documents (information retrieval).</li>
+<li>Analyzing word association in text corpus.</li>
+</ul>
+<p>LSA overcomes two of the most problematic constraints of Boolean keyword queries: multiple words that have similar meanings (synonymy) and words that have more than one meaning (polysemy).</p>
+<p>LSA is also used to perform automated document categorization. Document categorization is the assignment of documents to one or more predefined categories based on their similarity to the conceptual content of the categories. Several experiments have demonstrated that there are a number of correlations between the way LSI and humans process and categorize text.</p>
+<p>LSA uses example documents to establish the conceptual basis for each category. During categorization processing, the concepts contained in the documents being categorized are compared to the concepts contained in the example items, and a category (or categories) is assigned to the documents based on the similarities between the concepts they contain and the concepts that are contained in the example documents.</p>
+<p>LSA automatically adapts to new and changing terminology, and has been shown to be very tolerant of noise (i.e., misspelled words, typographical errors, unreadable characters, etc.).[24] This is especially important for applications using text derived from Optical Character Recognition (OCR) and speech-to-text conversion. LSA also deals effectively with sparse, ambiguous, and contradictory data.</p>
+<p>Text does not need to be in sentence form for LSA to be effective. It can work with lists, free-form notes, email, Web-based content, etc. As long as a collection of text contains multiple terms, LSA can be used to identify patterns in the relationships between the important terms and concepts contained in the text.</p>
+</div>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
 </div>
 
 <p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
