@@ -3,6 +3,9 @@ output_dir: "docs"
 navbar:
   title: "Analyzing TA Comments in R"
   right:
+  - text: "Notes"
+    icon: fa-history
+    href: sticky-note.html
   - text: "Background"
     icon: fa-history
     href: background.html
