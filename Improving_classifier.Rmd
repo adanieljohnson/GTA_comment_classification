@@ -1,0 +1,46 @@
+---
+title: "Improving & Evaluating Text Classifiers"
+date: "2/21/2019"
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+#Improving Text Classification
+Accuracy can be improved using one or more of these strategies.
+
+1. Text Cleaning. Removing stopwords, punctuations marks, suffix variations etc. can  reduce the noise present in text data.
+
+2. Hstacking arrays of text / NLP features with text feature vectors in sequence horizontally (column wise). After extracting features initially, try combining different feature vectors to improve the accuracy of the classifier.
+
+3. Tuning the Classifier. Adjusting the parameters of the classifier is an important step towards a best fit model.
+
+4. Testing Different Ensemble Models. Stacking different models and blending their outputs can help to further improve the results. 
+
+5.  Weighting words: we can significantly improve our algorithm by accounting for the commonality of each word. The word “is” should carry a lower weigh than the word “sandwich” in most cases, because it is more common.
+
+####\  
+
+##Evaluation
+How to evaluate the different components of the overall text classification problem.
+
+####\  
+
+###Gini Index
+One of the most common methods for quantifying the discrimination level of a feature is the use of a measure known as the gini-index. 
+
+####\  
+
+###Cohen's Kappa Score
+Cohen's kappa is a measure of interrater reliability used in social sciences. This excerpt from an R blog explains it.
+
+**Using kappa score for comparisons of groups and methods**
+https://www.personality-project.org/r/html/kappa.html
+https://www.r-bloggers.com/k-is-for-cohens-kappa/
+
+Last April, during the A to Z of Statistics, I blogged about Cohen’s kappa, a measure of interrater reliability. Cohen’s kappa is a way to assess whether two raters or judges are rating something the same way. And thanks to an R package called **irr**, it’s very easy to compute. But first, let’s talk about why you would use Cohen’s kappa and why it’s superior to a more simple measure of interrater reliability, interrater agreement.
+
+####\  
+

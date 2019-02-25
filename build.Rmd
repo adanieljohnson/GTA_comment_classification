@@ -17,6 +17,8 @@ Codebook for classifying TAs' comments: https://adanieljohnson.github.io/default
 
 Structure of development dataset; data import & validation: https://adanieljohnson.github.io/default_website/dataimport.html
 
+Initial exploration of the data: https://adanieljohnson.github.io/default_website/initial_exploration.html
+
 Current version of the Naive Bayes classifier: https://adanieljohnson.github.io/default_website/NB_2r2c.html
 
 Expanding the Naive Bayes classifier to an Ensemble Model (*draft*): https://adanieljohnson.github.io/default_website/Ensemble_Notes.html

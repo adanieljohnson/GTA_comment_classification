@@ -11,7 +11,7 @@
 
 
 
-<title>Literature Review</title>
+<title>Improving &amp; Evaluating Text Classifiers</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -338,19 +338,47 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Literature Review</h1>
+<h1 class="title toc-ignore">Improving &amp; Evaluating Text Classifiers</h1>
 <h4 class="date"><em>2/21/2019</em></h4>
 
 </div>
 
 
-<div id="overview" class="section level1">
-<h1>Overview</h1>
-<p>The supporting literature for this project is broad and convoluted. Rather than try to compress it to a single page, I have provided links out to sub-pages that describe various background topics. Follow the links for details.</p>
-<p>Fundamental Principles and Practices of Technical Writing Training: <a href="https://adanieljohnson.github.io/default_website/pagename.html" class="uri">https://adanieljohnson.github.io/default_website/pagename.html</a></p>
-<p>Primer on Text Classification Strategies: <a href="https://adanieljohnson.github.io/default_website/Text_classifier_models.html" class="uri">https://adanieljohnson.github.io/default_website/Text_classifier_models.html</a></p>
+<div id="strategies-for-improving-text-classification-models" class="section level1">
+<h1>Strategies for Improving Text Classification Models</h1>
+<p>Accuracy can be improved using one or more of these strategies.</p>
+<ol style="list-style-type: decimal">
+<li><p>Text Cleaning. Removing stopwords, punctuations marks, suffix variations etc. can reduce the noise present in text data.</p></li>
+<li><p>Hstacking arrays of text / NLP features with text feature vectors in sequence horizontally (column wise). After extracting features initially, try combining different feature vectors to improve the accuracy of the classifier.</p></li>
+<li><p>Tuning the Classifier. Adjusting the parameters of the classifier is an important step towards a best fit model.</p></li>
+<li><p>Testing Different Ensemble Models. Stacking different models and blending their outputs can help to further improve the results.</p></li>
+<li><p>Weighting words: we can significantly improve our algorithm by accounting for the commonality of each word. The word “is” should carry a lower weigh than the word “sandwich” in most cases, because it is more common.</p></li>
+</ol>
 <div id="section" class="section level4">
 <h4> </h4>
+</div>
+<div id="evaluation" class="section level2">
+<h2>Evaluation</h2>
+<p>How to evaluate the different components of the overall text classification problem.</p>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
+<div id="gini-index" class="section level3">
+<h3>Gini Index</h3>
+<p>One of the most common methods for quantifying the discrimination level of a feature is the use of a measure known as the gini-index.</p>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="cohens-kappa-score" class="section level3">
+<h3>Cohen’s Kappa Score</h3>
+<p>Cohen’s kappa is a measure of interrater reliability used in social sciences. This excerpt from an R blog explains it.</p>
+<p><strong>Using kappa score for comparisons of groups and methods</strong> <a href="https://www.personality-project.org/r/html/kappa.html" class="uri">https://www.personality-project.org/r/html/kappa.html</a> <a href="https://www.r-bloggers.com/k-is-for-cohens-kappa/" class="uri">https://www.r-bloggers.com/k-is-for-cohens-kappa/</a></p>
+<p>Last April, during the A to Z of Statistics, I blogged about Cohen’s kappa, a measure of interrater reliability. Cohen’s kappa is a way to assess whether two raters or judges are rating something the same way. And thanks to an R package called <strong>irr</strong>, it’s very easy to compute. But first, let’s talk about why you would use Cohen’s kappa and why it’s superior to a more simple measure of interrater reliability, interrater agreement.</p>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
+</div>
 </div>
 </div>
 

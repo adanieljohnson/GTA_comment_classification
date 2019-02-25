@@ -1,0 +1,160 @@
+---
+title: "Choosing a Text Classifier Method"
+date: "2/21/2019"
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+#Choosing a Text Classifier Method
+The many methods for classifying texts fall into three general categories:
+
+*  Pattern matching strategies (does a particular phrase appear?)
+*  Algorithms (how closely does the query text meet pre-set criteria?)
+*  Neural networks (the network decides its own criteria, aka machine learning)
+
+This edited excerpt nicely describes the overall approach and problems of text classification. It is from: **xxxxx**
+
+```{}
+Understanding how chatbots work can help us understand text classifiers, because the classifier is the fundamental piece that makes the chatbot work. Let’s look at the inner workings of a Multinomial Naive Bayes algorithm for text classification and natural language processing (NLP). 
+
+This classifier is “naive” because each word is treated as having no connection with other words in the sentence being classified. In other words it assumes independence between "features," in this case, words.
+
+For example, in the sentence “the fox jumped over the log”, there is no relationship between “jumped” and “fox” or “log”. In NLP, this collection of words is referred to as “a bag of words”. While this is incredibly naive, the classifier isn’t attempting to understand the meaning of a sentence, it’s trying to classify it.
+
+Pattern Matchers
+Early chatbots used **pattern matching** to classify text and produce a response. This is often referred to as “brute force” as the author of the system needs to describe every pattern for which there is a response.
+
+A standard structure for these patterns is “AIML” (artificial intelligence markup language). Its use of the term “artificial intelligence” is quite an embellishment, but that’s another story.
+
+A simple pattern matching definition:
+
+<aiml version = "1.0.1" encoding = "UTF-8"?>
+   <category>
+      <pattern> WHO IS ALBERT EINSTEIN </pattern>
+      <template>Albert Einstein was a German physicist.</template>
+   </category>
+   
+   <category>
+      <pattern> WHO IS Isaac NEWTON </pattern>
+      <template>Isaac Newton was a English physicist and mathematician.</template>
+   </category>
+   
+   <category>
+      <pattern>DO YOU KNOW WHO * IS</pattern>
+      <template>
+         <srai>WHO IS <star/></srai>
+      </template>
+   </category>
+</aiml>
+
+
+The machine then produces:
+
+> Human: Do you know who Albert Einstein is
+> Robot: Albert Einstein was a German physicist.
+
+It knows who a physicist is only because his or her name has an associated pattern. Likewise it responds to anything solely because of an authored pattern. Given hundreds or thousands of patterns you might see a chatbot “persona” emerge.
+
+In 2000 a chatbot built by John Denning and colleagues using this approach was in the news for passing the "Turing test." It emulated the replies of a 13 year old boy from Ukraine (broken English and all). I met with John in 2015 and he made no false pretenses about the internal workings of this automaton. It may have been “brute force” but it proved a point: parts of a conversation can be made to appear “natural” using a sufficiently large definition of patterns. It proved Alan Turing’s assertion, that this question of a machine fooling humans was “meaningless”.
+
+An example of this approach used in building chatbots is PandoraBots, who claim over 285k chatbots have been constructed using their framework.
+
+Automated phone voice response systems that recognize patterns of spoken words and direct calls accordingly use a similar approach.  
+
+
+Algorithm-Based Classification
+
+Creating a brute-force pattern matcher is daunting: for each unique input a pattern must be available to specify a response. An algorithm-based method approaches the problem mathematically. 
+
+One text classification algorithm is "Multinomial Naive Bayes." Given a training set of sentences, each belonging to a class (that is, a particular group), we can count the occurrence of each word in each class, account for its commonality and assign each word a score for each class. Factoring for commonality is important: matching the word “it” is considerably less meaningful than a match for the word “cheese”. When we input a new sentence, scores for each word in the new sentence are compared to scores for those same words in the training set. The class with the highest OVERALL score for the input sentence is the class to which the input sentence most likely belongs.
+
+Look at this sample training set:
+
+class: weather
+    "is it nice outside?"
+    "how is it outside?"
+    "is the weather nice?"
+
+class: greeting
+    "how are you?"
+    "hello there"
+    "how is it going?"
+
+
+Let’s classify a few sample input sentences:
+
+input: "Hi there"
+ term: "hi" (no matches in either class)
+ term: "there" (matches a word in class: greeting)
+ classification: greeting (score=1)
+
+input: "What’s it like outside?"
+ term: "it" (matches words in class: weather (2), greeting(1))
+ term: "outside (class: weather (2) )
+ classification: weather (score=4)
+
+
+Notice that the classification for "What’s it like outside" found a term in the "greeting" class but the term similarities to the "weather" class produced a higher score. By using an equation we are looking for word matches given some sample sentences for each class, and we avoid having to identify every pattern.
+
+The classification score produced identifies the class with the highest term matches (accounting for commonality of words) but this has limitations. A score is not the same as a probability, a score tells us which intent is most like the sentence but not the likelihood of it being a match. Thus it is difficult to apply a threshold for which classification scores to accept or not. Having the highest score from this type of algorithm only provides a relative basis, it may still be an inherently weak classification. Also the algorithm doesn’t account for what a sentence is not, it only counts what it is like. You might say this approach doesn’t consider what makes a sentence not a given class.
+
+Many text and spoken word frameworks use similar algorithms such as this to classify intent. Most of what’s taking place is word counting against training datasets. It’s "naive" but surprisingly effective.
+```
+
+I will be using an algorithm-based classification strategy for this project. 
+
+####\  
+
+###Neural Networks
+A neural network is a mathematical model that is designed to behave similar to biological neurons and nervous system. These models are used to recognize complex patterns and relationships that exists within a labelled data. 
+
+Artificial neural networks, invented in the 1940’s, are a way of calculating an output from an input (a classification) using weighted connections (“synapses”) that are calculated from repeated iterations through training data. Each pass through the training data alters the weights such that the neural network produces the output with greater “accuracy” (lower error rate).
+
+There’s not much new about these structures, except today’s software is using much faster processors and can work with a lot more memory. The combination of working memory and speed is crucial when you’re doing hundreds of thousands of matrix multiplications (the neural network’s essential math operation).
+
+Each class is given with some number of example sentences. Once again each sentence is broken down by word (stemmed) and each word becomes an input for the neural network. The synaptic weights are then calculated by iterating through the training data thousands of times, each time adjusting the weights slightly to greater accuracy. By recalculating back across multiple layers (“back-propagation”) the weights of all synapses are calibrated while the results are compared to the training data output. These weights are like a ‘strength’ measure, in a neuron the synaptic weight is what causes something to be more memorable than not. You remember a thing more because you’ve seen it more times: each time the ‘weight’ increases slightly.
+
+At some point the adjustment reaches a point of diminishing returns, this is called “over-fitting” and going beyond this is counter-productive.
+
+The trained neural network is less code than an comparable algorithm but it requires a potentially large matrix of “weights”. In a relatively small sample, where the training sentences have 150 unique words and 30 classes this would be a matrix of 150x30. Imagine multiplying a matrix of this size 100,000 times to establish a sufficiently low error rate. This is where processing speed comes in.
+
+If the neural network sounds magnificently sophisticated, relax, it boils down to matrix multiplication and a formula for reducing values between -1 and 1 or some other minimal range. A middle-school math student could learn this in a few hours. The hard work is achieving clean training data.
+
+Just as there are variations in pattern matching code and in algorithms, there are variations in neural networks, some more complex than others. The basic machinery is the same. The essential work is that of classification.
+
+Networks are looking for patterns in collections of terms, each term is reduced to a token. In this machine words have no meaning except for their patterned existence within training data. The label “artificial intelligence” applied to such machinery is mostly BS.
+
+These methods are beyond the scope of this project. As a reference I have provided some information about these sub-types:  
+
+*  Shallow Neural Networks
+*  Deep Neural Networks
+	+  Convolutional Neural Network (CNN)
+	+  Long Short Term Modelr (LSTM)
+	+  Gated Recurrent Unit (GRU)
+	+  Bidirectional RNN
+	+  Recurrent Convolutional Neural Network (RCNN)
+	+  Other Variants of Deep Neural Networks
+
+A shallow neural network contains mainly three types of layers – input layer, hidden layer, and output layer. Deep Neural Networks are more complex neural networks in which the hidden layers performs much more complex operations than simple sigmoid or relu activations. Different types of deep learning models can be applied in text classification problems.
+
+In Convolutional neural networks, convolutions over the input layer are used to compute the output. This results in local connections, where each region of the input is connected to a neuron in the output. Each layer applies different filters and combines their results.
+
+Unlike Feed-forward neural networks in which activation outputs are propagated only in one direction, the activation outputs from neurons propagate in both directions (from inputs to outputs and from outputs to inputs) in Recurrent Neural Networks. This creates loops in the neural network architecture which acts as a ‘memory state’ of the neurons. This state allows the neurons an ability to remember what have been learned so far.
+
+The memory state in RNNs gives an advantage over traditional neural networks but a problem called Vanishing Gradient is associated with them. In this problem, while learning with a large number of layers, it becomes really hard for the network to learn and tune the parameters of the earlier layers. To address this problem, A new type of RNNs called LSTMs (Long Short Term Memory) Models have been developed.
+
+Gated Recurrent Units are another form of recurrent neural networks. RNN layers can be wrapped in Bidirectional layers as well. 
+
+Once the essential architectures have been tried out, one can try different variants of these layers such as recurrent convolutional neural network. Another variants can be:
+
+*  Hierarchical Attention Networks
+*  Sequence to Sequence Models with Attention
+*  Bidirectional Recurrent Convolutional Neural Networks
+*  CNNs and RNNs with more number of layers
+
+
+####\  
+

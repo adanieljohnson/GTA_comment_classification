@@ -9,14 +9,10 @@ biblio-style: apalike
 ```
 
 #Overview
-This page links out to sub-pages that describe various background topics. Follow the links for details.
+The supporting literature for this project is broad and convoluted. Rather than try to compress it to a single page, I have provided links out to sub-pages that describe various background topics. Follow the links for details.
 
-Description: https://adanieljohnson.github.io/default_website/pagename.html
+Fundamental Principles and Practices of Technical Writing Training:  https://adanieljohnson.github.io/default_website/pagename.html 
 
-Technical Writing Training
-
-Text Classification Strategies:  https://adanieljohnson.github.io/default_website/Text_classifier_models.html
-
-
+Primer on Text Classification Strategies:  https://adanieljohnson.github.io/default_website/Text_classifier_models.html
 
 ####\  
