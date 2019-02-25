@@ -4,17 +4,31 @@ navbar:
   title: "Analyzing TA Comments in R"
   right:
   - text: "Notes"
-    icon: fa-history
-    href: sticky-note.html
+    icon: fa-sticky-note
+    href: notes.html
   - text: "Background"
-    icon: fa-history
+    icon: fa-sticky-note
     href: background.html
   - text: "Lit Review"
     icon: fa-book
     href: litreview.html
+    menu: 
+    - text: "Name1"
+      icon: fa-sticky-note
+      href: background.html
+    - text: "Name1"
+      icon: fa-sticky-note
+      href: background.html
   - text: "The Build"
     icon: fa-puzzle-piece
     href: build.html
+    menu: 
+    - text: "Name1"
+      icon: fa-sticky-note
+      href: background.html
+    - text: "Name1"
+      icon: fa-sticky-note
+      href: background.html
   - text: "Data Exploration"
     icon: fa-question-circle
     href: initial_exploration.html

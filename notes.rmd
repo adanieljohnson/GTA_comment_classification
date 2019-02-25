@@ -13,7 +13,8 @@ biblio-style: apalike
 	Site map
 
 ##Background:
-	
+	Df
+	  Df
 
 ##Lit review:
 	How to branch to Text Classification Primer, sub-pages look okay?
@@ -23,10 +24,9 @@ biblio-style: apalike
 		Classifier_comparison = Designing a Classifier Evaluation Workflow 
 		Improving_classifier = Strategies for Improving Text Classifiers
 
-
 ##The Build:
-	df
-	  df
+	Df
+	  Df
 
 ##Data Exploration:
 	Help with aligning tables and keeping the NA values
@@ -35,21 +35,20 @@ biblio-style: apalike
 	How to graph the different comparisons of NB values from different sources on same plot.
 
 ##Next Steps:
-	Df
+	Still in draft stage
 	  Df
 
 ##Etc.:
-	Using a Bibliography in this format
-	Can menus have sub-pages
-	Adding automatic updates to top dates
-	Moving top dates
+	Using a Bibliography in this format?
+	Can menus have sub-pages?
+	Adding automatic updates to top dates?
+	Moving top dates?
+	Fix GitHub auto-upload
 
 ##Check These Out:
   Upload 'devtools::install_github("WFU-TLC/analyzr")'
-
-
-
-
+  Using Mike's Metadata packager to annotate our released dataset
+  Try using ```mutate(datacolumn=str_count(utterance_clean, "\\b(um|u=m)\\b"))``` to extract a string character and count.
 
 
 ####\  
