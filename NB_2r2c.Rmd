@@ -8,7 +8,6 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-#Overview
 This is the current version of the Naive Bayes workflow used to classify TA comments based on Subject and Structure. Features of **Version 2r.2c**:
 
 *  Data rows used for training and test datasets are assigned randomly but reproducibly using 'set.seed'. 
@@ -89,6 +88,8 @@ inspect(comments_corpusVERB_R[1:3])
 #Use "as.character" function to see what a single text comment looks like.
 as.character(comments_corpusVERB_R[[5]])
 ```
+
+####\  
 
 #Text Data Transformations
 The text data transforms in this code block are intentially separate "tm_map"" and "content_transformer" functions. This simplifies the process of testing how various combinations affect classification. Converting the text to lower case and removing punctuation are the baseline transformations. Switch between "{r}" and "{}" to turn other transformation blocks off or on as desired. **Removing extra white spaces must be the last transformation, and is required.**
@@ -336,7 +337,7 @@ conf.mat4$overall['Accuracy']
 #Output for Review, Analysis
 The code block below creates a CSV file containing the original TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory.
 
-```{r writeCSV}
+```{writeCSV}
 #Creates a data frame that compares predicted and actual labels for subject and structure
 tallymatrix <- data.frame("text"=c(comments_rawVERB_R[1:9340,]$text),"subject_label"=c(comments_all_labels_subject), "subject_predicted"=c(comments_all_pred_subject),"structure_label"=c(comments_all_labels_structure), "structure_predicted"=c(comments_all_pred_structure))
 
@@ -395,6 +396,8 @@ proptallysum4<-prop_tally4 %>% group_by(Bayes.Predicted.Structure) %>% summarize
 proptallysum4
 ```
 
+####\  
+
 ##Graph Outputs
 Comparing outcome from Hand-coding vs. Bayes
 
@@ -402,7 +405,7 @@ Comparing outcome from Hand-coding vs. Bayes
 Need to combine two datasets into one. 
 ***
 
-```{r}
+```{}
 ggplot(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`,group=1))+
   geom_line()
 ggplot(data=proptallysum2, aes(x=Bayes.Predicted.Subject, y=total, group=1))+
