@@ -288,25 +288,129 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="notes.html">
+    <span class="fa fa-sticky-note"></span>
+     
+    Notes
+  </a>
+</li>
+<li>
   <a href="background.html">
-    <span class="fa fa-history"></span>
+    <span class="fa fa-sticky-note"></span>
      
     Background
   </a>
 </li>
-<li>
-  <a href="litreview.html">
-    <span class="fa fa-book"></span>
-     
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     Lit Review
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="litreview.html">
+        <span class="fa fa-book"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Writing as STEM Ed Research
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Teaching Writing
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Text Classification
+      </a>
+    </li>
+    <li>
+      <a href="Topic_categorization.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Topic Modeling
+      </a>
+    </li>
+    <li>
+      <a href="Choosing_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Choosing a Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Improving_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Evaluating Outcomes
+      </a>
+    </li>
+  </ul>
 </li>
-<li>
-  <a href="build.html">
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
     <span class="fa fa-puzzle-piece"></span>
      
     The Build
+     
+    <span class="caret"></span>
   </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="docxcommentextraction.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Comment Extraction
+      </a>
+    </li>
+    <li>
+      <a href="codebook.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Classification Codebook
+      </a>
+    </li>
+    <li>
+      <a href="dataimport.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        About the Dataset
+      </a>
+    </li>
+    <li>
+      <a href="initial_exploration.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Initial Exploration
+      </a>
+    </li>
+    <li>
+      <a href="NB_2r2c.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        NB Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Ensemble_Notes.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Ensemble Classifier
+      </a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="initial_exploration.html">
@@ -339,13 +443,11 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Naive Bayes Classifier</h1>
-<h4 class="date"><em>2/24/2019</em></h4>
+<h4 class="date"><em>Feb 25, 2019</em></h4>
 
 </div>
 
 
-<div id="overview" class="section level1">
-<h1>Overview</h1>
 <p>This is the current version of the Naive Bayes workflow used to classify TA comments based on Subject and Structure. Features of <strong>Version 2r.2c</strong>:</p>
 <ul>
 <li>Data rows used for training and test datasets are assigned randomly but reproducibly using ‘set.seed’.</li>
@@ -358,7 +460,6 @@ div.tocify {
 <p>For import and post-import data validation see: <a href="https://adanieljohnson.github.io/default_website/dataimport.html" class="uri">https://adanieljohnson.github.io/default_website/dataimport.html</a></p>
 <div id="section" class="section level4">
 <h4> </h4>
-</div>
 </div>
 <div id="initial-setup" class="section level1">
 <h1>Initial Setup</h1>
@@ -415,18 +516,18 @@ comments_rawVERB$randomizer &lt;- c(vector)
 comments_rawVERB_R &lt;-comments_rawVERB %&gt;% arrange(randomizer)
 print(comments_rawVERB_R)</code></pre>
 <pre><code>## # A tibble: 9,340 x 4
-##    subject    structure text                                    randomizer
-##    &lt;fct&gt;      &lt;fct&gt;     &lt;chr&gt;                                        &lt;int&gt;
-##  1 3_technic… 4_specif… The commitment pulse occurs during the…          1
-##  2 2_writing  2_copyed… This is not a scientific term                    2
-##  3 3_technic… 4_specif… Another potential reason could be erro…          3
-##  4 3_technic… 4_specif… I would rather focus on improving the …          4
-##  5 3_technic… 4_specif… What is the stimuli to open Ca++ chann…          5
-##  6 3_technic… 2_copyed… Try something like, “The average R:S r…          6
-##  7 2_writing  4_specif… This goes in methods, but why’d you us…          7
-##  8 2_writing  4_specif… Instead of saying that the obtained re…          8
-##  9 3_technic… 2_copyed… Just refer to the study, not the autho…          9
-## 10 2_writing  1_pointer ?                                               10
+##    subject    structure text                                     randomizer
+##    &lt;fct&gt;      &lt;fct&gt;     &lt;chr&gt;                                         &lt;int&gt;
+##  1 3_technic… 4_specif… The commitment pulse occurs during the …          1
+##  2 2_writing  2_copyed… This is not a scientific term                     2
+##  3 3_technic… 4_specif… Another potential reason could be error…          3
+##  4 3_technic… 4_specif… I would rather focus on improving the p…          4
+##  5 3_technic… 4_specif… What is the stimuli to open Ca++ channe…          5
+##  6 3_technic… 2_copyed… Try something like, “The average R:S ra…          6
+##  7 2_writing  4_specif… This goes in methods, but why’d you use…          7
+##  8 2_writing  4_specif… Instead of saying that the obtained res…          8
+##  9 3_technic… 2_copyed… Just refer to the study, not the author.          9
+## 10 2_writing  1_pointer ?                                                10
 ## # ... with 9,330 more rows</code></pre>
 <p>Convert data set to a volative corpus using “tm” library.</p>
 <pre class="r"><code>#Create the volatile corpus that contains the &quot;text&quot; vector from data frame.
@@ -458,6 +559,9 @@ inspect(comments_corpusVERB_R[1:3])</code></pre>
 <pre class="r"><code>#Use &quot;as.character&quot; function to see what a single text comment looks like.
 as.character(comments_corpusVERB_R[[5]])</code></pre>
 <pre><code>## [1] &quot;What is the stimuli to open Ca++ channels, the arrival of an AP or the opening of K+ channels? You should be precise.&quot;</code></pre>
+<div id="section-1" class="section level4">
+<h4> </h4>
+</div>
 </div>
 <div id="text-data-transformations" class="section level1">
 <h1>Text Data Transformations</h1>
@@ -487,7 +591,7 @@ comments_corpus_cleanVERB_R &lt;- tm_map(comments_corpus_cleanVERB_R, stripWhite
 #Look at an example of cleaned text comment to see if cleaned comment matches what is expected. Change the value inside double brackets to look at a different comment.
 as.character((comments_corpus_cleanVERB_R[[5]]))</code></pre>
 <pre><code>## [1] &quot; stimuli open ca channels arrival ap opening k channels precise&quot;</code></pre>
-<div id="section-1" class="section level4">
+<div id="section-2" class="section level4">
 <h4> </h4>
 </div>
 </div>
@@ -519,14 +623,14 @@ inspect(comments_dtm_1gram)</code></pre>
 ##   7325   1    2     1      4          0       0    0    1       0   1
 ##   8865   1    1     1      0          0       1    0    1       0   0
 ##   9224   0    1     1      0          0       1    0    1       0   0</code></pre>
-<div id="section-2" class="section level4">
+<div id="section-3" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="split-data-to-training-testing-sets" class="section level1">
 <h1>Split Data to Training, Testing Sets</h1>
 <p>This code splits data into 75% training and 25% testing sets, so that after Naive Bayes algorithm is trained it can be tested on unseen data.</p>
-<pre><code>#This is for convenience. It is not required if the number of training, test rows is known.
+<pre><code>#This block is for convenience. It is not required if the number of training, test rows is known.
 .75 * 9340 #Number of rows in the dataset; product is #rows for training
 .25 * 9340 #Product is #rows for testing set</code></pre>
 <p>This code divides the previously randomized comments into training, testing, and re-analysis subsets of data.</p>
@@ -572,7 +676,7 @@ comments_test_labels_structure &lt;- comments_rawVERB_R[7006:9340,]$structure</c
 ## 0.0115631692 0.3083511777 0.2055674518 0.4222698073 0.0385438972 
 ##  7_idiomatic    8_nobasis 
 ## 0.0004282655 0.0132762313</code></pre>
-<div id="section-3" class="section level4">
+<div id="section-4" class="section level4">
 <h4> </h4>
 </div>
 </div>
@@ -591,20 +695,20 @@ comments_dtm_freq_test &lt;- comments_dtm_test[ , comments_freq_words]</code></p
   x &lt;- ifelse(x &gt; 0, &quot;Yes&quot;, &quot;No&quot;)
 }</code></pre>
 <p>The resulting matrices have cells indicating “yes” or “no” if the word represented by the column appears in the text comment represented by the row.</p>
-<p>Below is an <strong>alternate version</strong> of convert_function code block that KEEPs word frequencies while still using the same variable names and code structure. The processed matrices have cells with word frequencies instead of categorical yes/no values. This block only works for binary classification (ingroup/outgroup). It breaks when applied to data with multiple categories.</p>
+<p>The block below is an <strong>alternate version</strong> of the <code>convert_function</code> code block that KEEPs word frequencies while still using the same variable names and code structure. The processed matrices have cells with word frequencies instead of categorical yes/no values. This block <strong>only</strong> works when performing binary classification (ingroup/outgroup). The classifier fails when frequency values are used with data in multiple categories.</p>
 <pre><code>convert_counts2 &lt;- function(x) {
   y &lt;- x
 }</code></pre>
-<p>Applies whichever “convert_counts2” function is currently active.</p>
+<p>This block applies whichever “convert_counts2” function is currently active.</p>
 <pre class="r"><code>comments_all &lt;- apply(comments_dtm_freq_all, MARGIN = 2, convert_counts2)
 comments_train &lt;- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
 comments_test &lt;- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)</code></pre>
-<div id="section-4" class="section level4">
+<div id="section-5" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="train-model-predict-evaluate-for-subject" class="section level1">
-<h1>Train Model, Predict, Evaluate for Subject</h1>
+<h1>Train Model, Predict &amp; Evaluate for Subject</h1>
 <p>This block predicts whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic.</p>
 <pre class="r"><code># Train the classifier on training data, then test on test dataset, and full dataset.
 comments_classifier_subject &lt;- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
@@ -671,10 +775,7 @@ table(&quot;Predictions&quot;= comments_test_pred_subject,  &quot;Actual Subject
 <pre class="r"><code>#An alternative is to use the Cross Table command (from &quot;gmodels&quot; package) to generate a more detailed output table with frequency values for each individual cell.
 #CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c(&#39;predicted&#39;, &#39;actual&#39;))</code></pre>
 <p>The faster method is to calculate a confusion matrix, which displays BOTH the truth table, and the final overall accuracy. A confusion matrix can be queried for specific values.</p>
-<pre class="r"><code>#&quot;line&quot; is just spacer text for improving readability.
-line&lt;-(&quot;**************************************************************&quot;)
-
-# Prepare the confusion matrix. 
+<pre class="r"><code># Prepare the confusion matrix. 
 conf.mat1 &lt;- confusionMatrix(comments_test_pred_subject, comments_test_labels_subject)
 conf.mat2 &lt;- confusionMatrix(comments_all_pred_subject, comments_all_labels_subject)
 conf.mat3 &lt;- confusionMatrix(comments_test_pred_structure, comments_test_labels_structure)
@@ -682,7 +783,9 @@ conf.mat4 &lt;- confusionMatrix(comments_all_pred_structure, comments_all_labels
 
 
 #These commands show how to print out individual pieces of the confusion matrix. They show both the overall and by-group accuracy values for Subject x Test Subset.
-conf.mat1</code></pre>
+print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat1</code></pre>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##              Reference
@@ -722,12 +825,10 @@ conf.mat1</code></pre>
 ## Detection Rate              0.07152
 ## Detection Prevalence        0.11178
 ## Balanced Accuracy           0.76001</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs the by-group accuracy values in a single column for Subject x Test Subset. 
-conf.mat1$byClass</code></pre>
+print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat1$byClass</code></pre>
 <pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
 ## Class: 1_basic       0.5090909   0.9938596      0.6666667      0.9882250
 ## Class: 2_writing     0.7391975   0.8850030      0.7117385      0.8983153
@@ -743,28 +844,24 @@ conf.mat1$byClass</code></pre>
 ## Class: 2_writing             0.28822270         0.8121002
 ## Class: 3_technical           0.58201285         0.8411074
 ## Class: 4_logic               0.11177730         0.7600116</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Subject x Test Subset.
-conf.mat1$overall</code></pre>
+print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat1$overall</code></pre>
 <pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
 ##   7.888651e-01   6.310203e-01   7.717402e-01   8.052621e-01   5.725910e-01 
 ## AccuracyPValue  McnemarPValue 
 ##  1.467772e-107   3.925158e-02</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs JUST the overall accuracy value for Subject x Test Subset. 
-conf.mat1$overall[&#39;Accuracy&#39;]</code></pre>
+print (&quot;Test, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat1$overall[&#39;Accuracy&#39;]</code></pre>
 <pre><code>##  Accuracy 
 ## 0.7888651</code></pre>
-<pre class="r"><code>print (&quot;Test, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;Test, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs both the overall and by-group accuracy values for Subject x All Data.
-conf.mat2</code></pre>
+print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat2</code></pre>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##              Reference
@@ -804,12 +901,10 @@ conf.mat2</code></pre>
 ## Detection Rate              0.07634
 ## Detection Prevalence        0.11349
 ## Balanced Accuracy           0.79101</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs by-group accuracy values in a single column for Subject x All Data. 
-conf.mat2$byClass</code></pre>
+print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat2$byClass</code></pre>
 <pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
 ## Class: 1_basic       0.4739336   0.9943039      0.6578947      0.9879190
 ## Class: 2_writing     0.7571761   0.9010648      0.7447539      0.9068314
@@ -825,28 +920,24 @@ conf.mat2$byClass</code></pre>
 ## Class: 2_writing             0.28062099         0.8291204
 ## Class: 3_technical           0.58961456         0.8579517
 ## Class: 4_logic               0.11349036         0.7910079</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Subject x All Data.
-conf.mat2$overall</code></pre>
+print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat2$overall</code></pre>
 <pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
 ##   8.119914e-01   6.683222e-01   8.039172e-01   8.198706e-01   5.791221e-01 
 ## AccuracyPValue  McnemarPValue 
 ##   0.000000e+00   1.025480e-11</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs JUST the overall accuracy value for Subject x All Data. 
-conf.mat2$overall[&#39;Accuracy&#39;]</code></pre>
+print (&quot;All, Subject&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
+<pre class="r"><code>conf.mat2$overall[&#39;Accuracy&#39;]</code></pre>
 <pre><code>##  Accuracy 
 ## 0.8119914</code></pre>
-<pre class="r"><code>print (&quot;All, Subject&quot;)</code></pre>
-<pre><code>## [1] &quot;All, Subject&quot;</code></pre>
 <pre class="r"><code># This block outputs both the overall and by-group accuracy values for Structure x Test Subset.
-conf.mat3</code></pre>
+print (&quot;Test, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
+<pre class="r"><code>conf.mat3</code></pre>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##              Reference
@@ -907,12 +998,10 @@ conf.mat3</code></pre>
 ## Detection Rate                0.0000000        0.0000000
 ## Detection Prevalence          0.0000000        0.0008565
 ## Balanced Accuracy             0.5000000        0.4995660</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
-<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
 <pre class="r"><code># This block outputs by-group accuracy values in a single column for Structure x Test Subset. 
-conf.mat3$byClass</code></pre>
+print (&quot;Test, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
+<pre class="r"><code>conf.mat3$byClass</code></pre>
 <pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
 ## Class: 1_pointer     0.0000000   0.9978336      0.0000000      0.9884120
 ## Class: 2_copyedit    0.8097222   0.7083591      0.5531309      0.8930523
@@ -937,20 +1026,14 @@ conf.mat3$byClass</code></pre>
 ## Class: 6_holistic     0.009850107          0.035546039         0.6144147
 ## Class: 7_idiomatic    0.000000000          0.000000000         0.5000000
 ## Class: 8_nobasis      0.000000000          0.000856531         0.4995660</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
-<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
 <pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x Test Subset.
-conf.mat3$overall</code></pre>
+print (&quot;Test, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
+<pre class="r"><code>conf.mat3$overall</code></pre>
 <pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
 ##   6.085653e-01   4.299106e-01   5.884285e-01   6.284293e-01   4.222698e-01 
 ## AccuracyPValue  McnemarPValue 
 ##   3.105959e-73            NaN</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
-<pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
 <pre class="r"><code># This block outputs JUST the overall accuracy value for Structure x Test Subset. 
 conf.mat3$overall[&#39;Accuracy&#39;]</code></pre>
 <pre><code>##  Accuracy 
@@ -958,7 +1041,9 @@ conf.mat3$overall[&#39;Accuracy&#39;]</code></pre>
 <pre class="r"><code>print (&quot;Test, Structure&quot;)</code></pre>
 <pre><code>## [1] &quot;Test, Structure&quot;</code></pre>
 <pre class="r"><code># This block outputs both the overall and by-group accuracy values for Structure x All Data.
-conf.mat4</code></pre>
+print (&quot;All, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
+<pre class="r"><code>conf.mat4</code></pre>
 <pre><code>## Confusion Matrix and Statistics
 ## 
 ##              Reference
@@ -1019,12 +1104,10 @@ conf.mat4</code></pre>
 ## Detection Rate                0.0000000         0.000000
 ## Detection Prevalence          0.0000000         0.001392
 ## Balanced Accuracy             0.5000000         0.499297</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;All, Structure&quot;)</code></pre>
-<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
 <pre class="r"><code># This block outputs by-group accuracy values in a single column for Structure x All Data. 
-conf.mat4$byClass</code></pre>
+print (&quot;All, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
+<pre class="r"><code>conf.mat4$byClass</code></pre>
 <pre><code>##                    Sensitivity Specificity Pos Pred Value Neg Pred Value
 ## Class: 1_pointer     0.0000000   0.9980538      0.0000000      0.9902381
 ## Class: 2_copyedit    0.8415082   0.7330916      0.5983393      0.9073171
@@ -1049,34 +1132,28 @@ conf.mat4$byClass</code></pre>
 ## Class: 6_holistic      0.01670236          0.038115632         0.6996625
 ## Class: 7_idiomatic     0.00000000          0.000000000         0.5000000
 ## Class: 8_nobasis       0.00000000          0.001391863         0.4992965</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;All, Structure&quot;)</code></pre>
-<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
 <pre class="r"><code># This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x All Data.
-conf.mat4$overall</code></pre>
+print (&quot;All, Structure&quot;)</code></pre>
+<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
+<pre class="r"><code>conf.mat4$overall</code></pre>
 <pre><code>##       Accuracy          Kappa  AccuracyLower  AccuracyUpper   AccuracyNull 
 ##      0.6554604      0.4956341      0.6457220      0.6651018      0.4169165 
 ## AccuracyPValue  McnemarPValue 
 ##      0.0000000            NaN</code></pre>
-<pre class="r"><code>print (line)</code></pre>
-<pre><code>## [1] &quot;**************************************************************&quot;</code></pre>
-<pre class="r"><code>print (&quot;All, Structure&quot;)</code></pre>
-<pre><code>## [1] &quot;All, Structure&quot;</code></pre>
 <pre class="r"><code># This block outputs JUST the overall accuracy value for Structure x All Data. 
 print (&quot;All, Structure&quot;)</code></pre>
 <pre><code>## [1] &quot;All, Structure&quot;</code></pre>
 <pre class="r"><code>conf.mat4$overall[&#39;Accuracy&#39;]</code></pre>
 <pre><code>##  Accuracy 
 ## 0.6554604</code></pre>
-<div id="section-5" class="section level4">
+<div id="section-6" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="output-for-review-analysis" class="section level1">
 <h1>Output for Review, Analysis</h1>
-<p>The code block below creates a CSV file containing the original TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory.</p>
-<pre class="writecsv"><code>#Creates a data frame that compares predicted and actual labels for subject and structure
+<p>The code block below creates a CSV file containing the <strong>original</strong> unmodified TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory.</p>
+<pre class="r"><code>#Creates a data frame that compares predicted and actual labels for subject and structure
 tallymatrix &lt;- data.frame(&quot;text&quot;=c(comments_rawVERB_R[1:9340,]$text),&quot;subject_label&quot;=c(comments_all_labels_subject), &quot;subject_predicted&quot;=c(comments_all_pred_subject),&quot;structure_label&quot;=c(comments_all_labels_structure), &quot;structure_predicted&quot;=c(comments_all_pred_structure))
 
 #Creates a summary counts table that compares hand-coded counts to Bayes-estimated counts.  
@@ -1087,18 +1164,72 @@ final.tally2 &lt;- table(&quot;Bayes Predicted Subject&quot;=tallymatrix$subject
 write.csv(tallymatrix, file = &quot;SandS_Matrix_Randomizer_123.csv&quot;)
 
 #Print to console the hand coded versus estimated counts as a 2-way contingency table of subject vs. structure.
-final.tally
-prop_tally&lt;-prop.table(final.tally)
-print(prop_tally)
-print(line)
-print(line)
-final.tally2
-prop_tally2&lt;-prop.table(final.tally2)
+final.tally</code></pre>
+<pre><code>##                   Hand Coded Structure
+## Hand Coded Subject    1    2    3    4    5    6    7
+##                  1    0    4  107   99    1    0    0
+##                  2   62  724  776  881   99    3   33
+##                  3   18 2225  667 2372   66    4   57
+##                  4   11   44  331  542  204    0   10</code></pre>
+<pre class="r"><code>prop_tally&lt;-prop.table(final.tally)
+print(prop_tally)</code></pre>
+<pre><code>##                   Hand Coded Structure
+## Hand Coded Subject            1            2            3            4
+##                  1 0.0000000000 0.0004282655 0.0114561028 0.0105995717
+##                  2 0.0066381156 0.0775160600 0.0830835118 0.0943254818
+##                  3 0.0019271949 0.2382226981 0.0714132762 0.2539614561
+##                  4 0.0011777302 0.0047109208 0.0354389722 0.0580299786
+##                   Hand Coded Structure
+## Hand Coded Subject            5            6            7
+##                  1 0.0001070664 0.0000000000 0.0000000000
+##                  2 0.0105995717 0.0003211991 0.0035331906
+##                  3 0.0070663812 0.0004282655 0.0061027837
+##                  4 0.0218415418 0.0000000000 0.0010706638</code></pre>
+<pre class="r"><code>print(line)</code></pre>
+<pre><code>## function (x, y = NULL) 
+## {
+##     xy &lt;- xy.coords(x, y, setLab = FALSE)
+##     ok &lt;- complete.cases(xy$x, xy$y)
+##     Call &lt;- sys.call()
+##     structure(.Call(C_tukeyline, as.double(xy$x[ok]), as.double(xy$y[ok]), 
+##         Call), class = &quot;tukeyline&quot;)
+## }
+## &lt;bytecode: 0x7ffc284db660&gt;
+## &lt;environment: namespace:stats&gt;</code></pre>
+<pre class="r"><code>print(line)</code></pre>
+<pre><code>## function (x, y = NULL) 
+## {
+##     xy &lt;- xy.coords(x, y, setLab = FALSE)
+##     ok &lt;- complete.cases(xy$x, xy$y)
+##     Call &lt;- sys.call()
+##     structure(.Call(C_tukeyline, as.double(xy$x[ok]), as.double(xy$y[ok]), 
+##         Call), class = &quot;tukeyline&quot;)
+## }
+## &lt;bytecode: 0x7ffc284db660&gt;
+## &lt;environment: namespace:stats&gt;</code></pre>
+<pre class="r"><code>final.tally2</code></pre>
+<pre><code>##                        Bayes Predicted Structure
+## Bayes Predicted Subject    1    2    3    4    5    7
+##                       1    7    0   90   39   12    4
+##                       2    0  867  912  781   60    1
+##                       3    5 3340  552 1602    6    2
+##                       4    6    8  221  541  278    6</code></pre>
+<pre class="r"><code>prop_tally2&lt;-prop.table(final.tally2)
 print(prop_tally2)</code></pre>
-<p>This is an alternate method to get the same data tables out using <code>tidy</code> format. It seems much longer to me, so likely is over-written.</p>
-<pre><code>tidy_prediction_table
-
-#Use broom::tidy to reorganize into a data frame.
+<pre><code>##                        Bayes Predicted Structure
+## Bayes Predicted Subject            1            2            3
+##                       1 0.0007494647 0.0000000000 0.0096359743
+##                       2 0.0000000000 0.0928265525 0.0976445396
+##                       3 0.0005353319 0.3576017131 0.0591006424
+##                       4 0.0006423983 0.0008565310 0.0236616702
+##                        Bayes Predicted Structure
+## Bayes Predicted Subject            4            5            7
+##                       1 0.0041755889 0.0012847966 0.0004282655
+##                       2 0.0836188437 0.0064239829 0.0001070664
+##                       3 0.1715203426 0.0006423983 0.0002141328
+##                       4 0.0579229122 0.0297644540 0.0006423983</code></pre>
+<p>This block is an alternative method to get the same data tables out using <code>tidy</code> format. It seems much less direct, but may be over-written.</p>
+<pre class="r"><code>#Use broom::tidy to reorganize into a data frame.
 tidy_tally1 &lt;-tidy(final.tally)
 tidy_tally2 &lt;-tidy(final.tally2)
 tidy_tally3 &lt;-tidy(final.tally)
@@ -1115,33 +1246,85 @@ prop_tally4&lt;-mutate(tidy_tally4, prop = n/sum(n))
 prop_tally4&lt;-select(prop_tally4, 1,2,4)
 
 #Spread tidy data into a readable table
-spread(prop_tally1,key=Hand.Coded.Structure, value=prop)
-spread(prop_tally2,key=Bayes.Predicted.Structure, value=prop)
-spread(prop_tally3,key=Hand.Coded.Subject, value=prop)
-spread(prop_tally4,key=Bayes.Predicted.Subject, value=prop)
-
-#Calculate the sum of values for each group.
+spread(prop_tally1,key=Hand.Coded.Structure, value=prop)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Hand.Coded.Subject"],"name":[1],"type":["chr"],"align":["left"]},{"label":["1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["4"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["5"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["6"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["7"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.000000000","3":"0.0004282655","4":"0.01145610","5":"0.01059957","6":"0.0001070664","7":"0.0000000000","8":"0.000000000"},{"1":"2","2":"0.006638116","3":"0.0775160600","4":"0.08308351","5":"0.09432548","6":"0.0105995717","7":"0.0003211991","8":"0.003533191"},{"1":"3","2":"0.001927195","3":"0.2382226981","4":"0.07141328","5":"0.25396146","6":"0.0070663812","7":"0.0004282655","8":"0.006102784"},{"1":"4","2":"0.001177730","3":"0.0047109208","4":"0.03543897","5":"0.05802998","6":"0.0218415418","7":"0.0000000000","8":"0.001070664"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>spread(prop_tally2,key=Bayes.Predicted.Structure, value=prop)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Bayes.Predicted.Subject"],"name":[1],"type":["chr"],"align":["left"]},{"label":["1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["4"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["5"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["7"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.0007494647","3":"0.000000000","4":"0.009635974","5":"0.004175589","6":"0.0012847966","7":"0.0004282655"},{"1":"2","2":"0.0000000000","3":"0.092826552","4":"0.097644540","5":"0.083618844","6":"0.0064239829","7":"0.0001070664"},{"1":"3","2":"0.0005353319","3":"0.357601713","4":"0.059100642","5":"0.171520343","6":"0.0006423983","7":"0.0002141328"},{"1":"4","2":"0.0006423983","3":"0.000856531","4":"0.023661670","5":"0.057922912","6":"0.0297644540","7":"0.0006423983"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>spread(prop_tally3,key=Hand.Coded.Subject, value=prop)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Hand.Coded.Structure"],"name":[1],"type":["chr"],"align":["left"]},{"label":["1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["4"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.0000000000","3":"0.0066381156","4":"0.0019271949","5":"0.001177730"},{"1":"2","2":"0.0004282655","3":"0.0775160600","4":"0.2382226981","5":"0.004710921"},{"1":"3","2":"0.0114561028","3":"0.0830835118","4":"0.0714132762","5":"0.035438972"},{"1":"4","2":"0.0105995717","3":"0.0943254818","4":"0.2539614561","5":"0.058029979"},{"1":"5","2":"0.0001070664","3":"0.0105995717","4":"0.0070663812","5":"0.021841542"},{"1":"6","2":"0.0000000000","3":"0.0003211991","4":"0.0004282655","5":"0.000000000"},{"1":"7","2":"0.0000000000","3":"0.0035331906","4":"0.0061027837","5":"0.001070664"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>spread(prop_tally4,key=Bayes.Predicted.Subject, value=prop)</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Bayes.Predicted.Structure"],"name":[1],"type":["chr"],"align":["left"]},{"label":["1"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["2"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["3"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["4"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.0007494647","3":"0.0000000000","4":"0.0005353319","5":"0.0006423983"},{"1":"2","2":"0.0000000000","3":"0.0928265525","4":"0.3576017131","5":"0.0008565310"},{"1":"3","2":"0.0096359743","3":"0.0976445396","4":"0.0591006424","5":"0.0236616702"},{"1":"4","2":"0.0041755889","3":"0.0836188437","4":"0.1715203426","5":"0.0579229122"},{"1":"5","2":"0.0012847966","3":"0.0064239829","4":"0.0006423983","5":"0.0297644540"},{"1":"7","2":"0.0004282655","3":"0.0001070664","4":"0.0002141328","5":"0.0006423983"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>#Calculate the sum of values for each group.
 proptallysum1&lt;-prop_tally1 %&gt;% group_by(Hand.Coded.Subject) %&gt;% summarize(total=sum(prop))
-proptallysum1
-proptallysum2&lt;-prop_tally2 %&gt;% group_by(Bayes.Predicted.Subject) %&gt;% summarize(total=sum(prop))
-proptallysum2
-proptallysum3&lt;-prop_tally3 %&gt;% group_by(Hand.Coded.Structure) %&gt;% summarize(total=sum(prop))
-proptallysum3
-proptallysum4&lt;-prop_tally4 %&gt;% group_by(Bayes.Predicted.Structure) %&gt;% summarize(total=sum(prop))
+proptallysum1</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Hand.Coded.Subject"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.02259101"},{"1":"2","2":"0.27601713"},{"1":"3","2":"0.57912206"},{"1":"4","2":"0.12226981"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>proptallysum2&lt;-prop_tally2 %&gt;% group_by(Bayes.Predicted.Subject) %&gt;% summarize(total=sum(prop))
+proptallysum2</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Bayes.Predicted.Subject"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.01627409"},{"1":"2","2":"0.28062099"},{"1":"3","2":"0.58961456"},{"1":"4","2":"0.11349036"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>proptallysum3&lt;-prop_tally3 %&gt;% group_by(Hand.Coded.Structure) %&gt;% summarize(total=sum(prop))
+proptallysum3</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Hand.Coded.Structure"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.0097430407"},{"1":"2","2":"0.3208779443"},{"1":"3","2":"0.2013918630"},{"1":"4","2":"0.4169164882"},{"1":"5","2":"0.0396145610"},{"1":"6","2":"0.0007494647"},{"1":"7","2":"0.0107066381"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>proptallysum4&lt;-prop_tally4 %&gt;% group_by(Bayes.Predicted.Structure) %&gt;% summarize(total=sum(prop))
 proptallysum4</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Bayes.Predicted.Structure"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.001927195"},{"1":"2","2":"0.451284797"},{"1":"3","2":"0.190042827"},{"1":"4","2":"0.317237687"},{"1":"5","2":"0.038115632"},{"1":"7","2":"0.001391863"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div id="section-7" class="section level4">
+<h4> </h4>
+</div>
 <div id="graph-outputs" class="section level2">
 <h2>Graph Outputs</h2>
-<p>Comparing outcome from Hand-coding vs. Bayes</p>
-<hr />
-<p>Need to combine two datasets into one. ***</p>
-<pre><code>ggplot(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`,group=1))+
-  geom_line()
-ggplot(data=proptallysum2, aes(x=Bayes.Predicted.Subject, y=total, group=1))+
-  geom_line()
-ggplot(data=proptallysum3, aes(x=Hand.Coded.Structure, y=total, group=1))+
-  geom_line()
-ggplot(data=proptallysum4, aes(x=Bayes.Predicted.Structure, y=total, group=1))+
-  geom_line()</code></pre>
+<p>This code block generates two graphs comparing the sub-category frequencies obtained by hand-coding vs. predicted frequencies from the Naive Bayes classifier. There are separate comparisons for the Subject and Structure categories.</p>
+<pre class="r"><code>blendSubject = ggplot()+
+  geom_col(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`, group=1), color=&quot;blue&quot;, fill=&quot;cornflowerblue&quot;, alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum2, aes(`Bayes.Predicted.Subject`, `total`, group=1), color=&quot;brown&quot;, fill=&quot;indianred4&quot;, alpha=0.5, width=0.4,position = position_nudge(x=0.1))+
+  xlab(&quot;Subject Groups&quot;)+
+  ylab(&quot;Fraction of All Comments&quot;)+
+  ggtitle(&quot;Comparison of Coded (blue) vs Predicted (red) Subject&quot;)
+
+
+blendStructure = ggplot()+
+  geom_col(data=proptallysum3, aes(`Hand.Coded.Structure`, `total`,group=1), color=&quot;springgreen4&quot;, fill=&quot;springgreen3&quot;, alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum4, aes(`Bayes.Predicted.Structure`, `total`, group=1), color=&quot;goldenrod3&quot;, fill=&quot;goldenrod2&quot;, alpha=0.5, width=0.4, position = position_nudge(x=0.1))+
+  xlab(&quot;Structure Groups&quot;)+
+  ylab(&quot;Fraction of All Comments&quot;)+
+  ggtitle(&quot;Comparison of Coded (green) vs Predicted (orange) Structure&quot;)
+
+
+print(blendSubject)</code></pre>
+<p><img src="NB_2r2c_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<pre class="r"><code>print(blendStructure)</code></pre>
+<p><img src="NB_2r2c_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
 </div>
 </div>
 

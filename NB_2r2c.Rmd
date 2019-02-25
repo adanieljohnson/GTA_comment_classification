@@ -142,7 +142,7 @@ inspect(comments_dtm_1gram)
 This code splits data into 75% training and 25% testing sets, so that after Naive Bayes algorithm is trained it can be tested on unseen data. 
 
 ```{}
-#This is for convenience. It is not required if the number of training, test rows is known.
+#This block is for convenience. It is not required if the number of training, test rows is known.
 .75 * 9340 #Number of rows in the dataset; product is #rows for training
 .25 * 9340 #Product is #rows for testing set
 ```
@@ -201,14 +201,14 @@ convert_counts2 <- function(x) {
 
 The resulting matrices have cells indicating "yes" or "no" if the word represented by the column appears in the text comment represented by the row.
 
-Below is an **alternate version** of convert_function code block that KEEPs word frequencies while still using the same variable names and code structure. The processed matrices have cells with word frequencies instead of categorical yes/no values. This block only works for binary classification (ingroup/outgroup). It breaks when applied to data with multiple categories.
+The block below is an **alternate version** of the ```convert_function``` code block that KEEPs word frequencies while still using the same variable names and code structure. The processed matrices have cells with word frequencies instead of categorical yes/no values. This block **only** works when performing binary classification (ingroup/outgroup). The classifier fails when frequency values are used with data in multiple categories.
 ```{}
 convert_counts2 <- function(x) {
   y <- x
 }
 ```
 
-Applies whichever "convert_counts2" function is currently active.
+This block applies whichever "convert_counts2" function is currently active.
 ```{r apply_conversion}
 comments_all <- apply(comments_dtm_freq_all, MARGIN = 2, convert_counts2)
 comments_train <- apply(comments_dtm_freq_train, MARGIN = 2, convert_counts2)
@@ -217,7 +217,7 @@ comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
 
 ####\  
 
-#Train Model, Predict, Evaluate for Subject
+#Train Model, Predict & Evaluate for Subject
 This block predicts whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. 
 ```{r bayes_training}
 # Train the classifier on training data, then test on test dataset, and full dataset.
@@ -244,9 +244,6 @@ table("Predictions"= comments_all_pred_structure,  "Actual Structure All" = comm
 
 The faster method is to calculate a confusion matrix, which displays BOTH the truth table, and the final overall accuracy. A confusion matrix can be queried for specific values.
 ```{r reportOut}
-#"line" is just spacer text for improving readability.
-line<-("**************************************************************")
-
 # Prepare the confusion matrix. 
 conf.mat1 <- confusionMatrix(comments_test_pred_subject, comments_test_labels_subject)
 conf.mat2 <- confusionMatrix(comments_all_pred_subject, comments_all_labels_subject)
@@ -255,77 +252,64 @@ conf.mat4 <- confusionMatrix(comments_all_pred_structure, comments_all_labels_st
 
 
 #These commands show how to print out individual pieces of the confusion matrix. They show both the overall and by-group accuracy values for Subject x Test Subset.
-conf.mat1
-print (line)
 print ("Test, Subject")
+conf.mat1
 
 # This block outputs the by-group accuracy values in a single column for Subject x Test Subset. 
-conf.mat1$byClass
-print (line)
 print ("Test, Subject")
+conf.mat1$byClass
 
 # This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Subject x Test Subset.
-conf.mat1$overall
-print (line)
 print ("Test, Subject")
+conf.mat1$overall
 
 # This block outputs JUST the overall accuracy value for Subject x Test Subset. 
-conf.mat1$overall['Accuracy']
 print ("Test, Subject")
+conf.mat1$overall['Accuracy']
 
 # This block outputs both the overall and by-group accuracy values for Subject x All Data.
-conf.mat2
-print (line)
 print ("All, Subject")
+conf.mat2
 
 # This block outputs by-group accuracy values in a single column for Subject x All Data. 
-conf.mat2$byClass
-print (line)
 print ("All, Subject")
+conf.mat2$byClass
 
 # This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Subject x All Data.
-conf.mat2$overall
-print (line)
 print ("All, Subject")
+conf.mat2$overall
 
 # This block outputs JUST the overall accuracy value for Subject x All Data. 
-conf.mat2$overall['Accuracy']
 print ("All, Subject")
-
+conf.mat2$overall['Accuracy']
 
 # This block outputs both the overall and by-group accuracy values for Structure x Test Subset.
-conf.mat3
-print (line)
 print ("Test, Structure")
+conf.mat3
 
 # This block outputs by-group accuracy values in a single column for Structure x Test Subset. 
-conf.mat3$byClass
-print (line)
 print ("Test, Structure")
+conf.mat3$byClass
 
 # This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x Test Subset.
-conf.mat3$overall
-print (line)
 print ("Test, Structure")
+conf.mat3$overall
 
 # This block outputs JUST the overall accuracy value for Structure x Test Subset. 
 conf.mat3$overall['Accuracy']
 print ("Test, Structure")
 
 # This block outputs both the overall and by-group accuracy values for Structure x All Data.
-conf.mat4
-print (line)
 print ("All, Structure")
+conf.mat4
 
 # This block outputs by-group accuracy values in a single column for Structure x All Data. 
-conf.mat4$byClass
-print (line)
 print ("All, Structure")
+conf.mat4$byClass
 
 # This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x All Data.
-conf.mat4$overall
-print (line)
 print ("All, Structure")
+conf.mat4$overall
 
 # This block outputs JUST the overall accuracy value for Structure x All Data. 
 print ("All, Structure")
@@ -335,9 +319,9 @@ conf.mat4$overall['Accuracy']
 ####\  
 
 #Output for Review, Analysis
-The code block below creates a CSV file containing the original TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory.
+The code block below creates a CSV file containing the **original** unmodified TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory. 
 
-```{writeCSV}
+```{r writeCSV}
 #Creates a data frame that compares predicted and actual labels for subject and structure
 tallymatrix <- data.frame("text"=c(comments_rawVERB_R[1:9340,]$text),"subject_label"=c(comments_all_labels_subject), "subject_predicted"=c(comments_all_pred_subject),"structure_label"=c(comments_all_labels_structure), "structure_predicted"=c(comments_all_pred_structure))
 
@@ -359,9 +343,8 @@ prop_tally2<-prop.table(final.tally2)
 print(prop_tally2)
 ```
 
-This is an alternate method to get the same data tables out using ```tidy``` format. It seems much longer to me, so likely is over-written.
-```{}
-tidy_prediction_table
+This block is an alternative method to get the same data tables out using ```tidy``` format. It seems much less direct, but may be over-written.
+```{r tidy_prediction_table}
 
 #Use broom::tidy to reorganize into a data frame.
 tidy_tally1 <-tidy(final.tally)
@@ -399,22 +382,26 @@ proptallysum4
 ####\  
 
 ##Graph Outputs
-Comparing outcome from Hand-coding vs. Bayes
+This code block generates two graphs comparing the sub-category frequencies obtained by hand-coding vs. predicted frequencies from the Naive Bayes classifier. There are separate comparisons for the Subject and Structure categories. 
 
-***
-Need to combine two datasets into one. 
-***
+```{r}
+blendSubject = ggplot()+
+  geom_col(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`, group=1), color="blue", fill="cornflowerblue", alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum2, aes(`Bayes.Predicted.Subject`, `total`, group=1), color="brown", fill="indianred4", alpha=0.5, width=0.4,position = position_nudge(x=0.1))+
+  xlab("Subject Groups")+
+  ylab("Fraction of All Comments")+
+  ggtitle("Comparison of Coded (blue) vs Predicted (red) Subject")
 
-```{}
-ggplot(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`,group=1))+
-  geom_line()
-ggplot(data=proptallysum2, aes(x=Bayes.Predicted.Subject, y=total, group=1))+
-  geom_line()
-ggplot(data=proptallysum3, aes(x=Hand.Coded.Structure, y=total, group=1))+
-  geom_line()
-ggplot(data=proptallysum4, aes(x=Bayes.Predicted.Structure, y=total, group=1))+
-  geom_line()
+
+blendStructure = ggplot()+
+  geom_col(data=proptallysum3, aes(`Hand.Coded.Structure`, `total`,group=1), color="springgreen4", fill="springgreen3", alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum4, aes(`Bayes.Predicted.Structure`, `total`, group=1), color="goldenrod3", fill="goldenrod2", alpha=0.5, width=0.4, position = position_nudge(x=0.1))+
+  xlab("Structure Groups")+
+  ylab("Fraction of All Comments")+
+  ggtitle("Comparison of Coded (green) vs Predicted (orange) Structure")
+
+
+print(blendSubject)
+print(blendStructure)
 ```
- 
 
- 
