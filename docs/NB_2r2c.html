@@ -316,24 +316,31 @@ div.tocify {
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
+      <a href="techwriting.html">
         <span class="fa fa-sticky-note"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
+      <a href="futurefaculty.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
       <a href="Text_Classifier_Models.html">
         <span class="fa fa-sticky-note"></span>
          
-        Text Classification
+        Intro to Text Classification
       </a>
     </li>
     <li>
@@ -368,6 +375,13 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="build.html">
+        <span class="fa fa-book"></span>
+         
+        The Build
+      </a>
+    </li>
     <li>
       <a href="docxcommentextraction.html">
         <span class="fa fa-sticky-note"></span>
@@ -443,7 +457,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Naive Bayes Classifier</h1>
-<h4 class="date"><em>Feb 25, 2019</em></h4>
+<h4 class="date"><em>Feb 26, 2019</em></h4>
 
 </div>
 
@@ -455,9 +469,6 @@ div.tocify {
 <li>Back-analysis evaluates both a testing sub-set and the entire input dataset.</li>
 <li>Outputs a tidy data table in CSV format with unmodified original comments, and hand-scored and NB-predicted Subject and Structure assignments.</li>
 </ul>
-<p>This page outlines Ver 2r.2c of NB Classifier and the process for building various components used in the project. Details of each component are provided in these sub-pages.</p>
-<p>For structure of the initial dataset see: <a href="https://adanieljohnson.github.io/default_website/datastructure.html" class="uri">https://adanieljohnson.github.io/default_website/datastructure.html</a></p>
-<p>For import and post-import data validation see: <a href="https://adanieljohnson.github.io/default_website/dataimport.html" class="uri">https://adanieljohnson.github.io/default_website/dataimport.html</a></p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
@@ -468,7 +479,8 @@ div.tocify {
 library(tm)
 library(tidytext)
 library(e1071)
-library(caret)</code></pre>
+library(caret)
+library(ggplot2)</code></pre>
 <p>Import the initial dataset. Then extract comments and classification data as subsets of CSV.</p>
 <pre class="r"><code>#Read in TA comments from CSV file.
 base_dataVERB &lt;- read_csv(file=&#39;data/coded_full_comments_dataset_Spring18anonVERB.csv&#39;)
@@ -1194,7 +1206,7 @@ print(prop_tally)</code></pre>
 ##     structure(.Call(C_tukeyline, as.double(xy$x[ok]), as.double(xy$y[ok]), 
 ##         Call), class = &quot;tukeyline&quot;)
 ## }
-## &lt;bytecode: 0x7ffc284db660&gt;
+## &lt;bytecode: 0x7f80f02b5d10&gt;
 ## &lt;environment: namespace:stats&gt;</code></pre>
 <pre class="r"><code>print(line)</code></pre>
 <pre><code>## function (x, y = NULL) 
@@ -1205,7 +1217,7 @@ print(prop_tally)</code></pre>
 ##     structure(.Call(C_tukeyline, as.double(xy$x[ok]), as.double(xy$y[ok]), 
 ##         Call), class = &quot;tukeyline&quot;)
 ## }
-## &lt;bytecode: 0x7ffc284db660&gt;
+## &lt;bytecode: 0x7f80f02b5d10&gt;
 ## &lt;environment: namespace:stats&gt;</code></pre>
 <pre class="r"><code>final.tally2</code></pre>
 <pre><code>##                        Bayes Predicted Structure
@@ -1299,32 +1311,53 @@ proptallysum4</code></pre>
 {"columns":[{"label":["Bayes.Predicted.Structure"],"name":[1],"type":["chr"],"align":["left"]},{"label":["total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.001927195"},{"1":"2","2":"0.451284797"},{"1":"3","2":"0.190042827"},{"1":"4","2":"0.317237687"},{"1":"5","2":"0.038115632"},{"1":"7","2":"0.001391863"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
-<div id="section-7" class="section level4">
-<h4> </h4>
 </div>
-<div id="graph-outputs" class="section level2">
-<h2>Graph Outputs</h2>
-<p>This code block generates two graphs comparing the sub-category frequencies obtained by hand-coding vs. predicted frequencies from the Naive Bayes classifier. There are separate comparisons for the Subject and Structure categories.</p>
+<div id="tabular-and-graphical-comparisons-of-coded-and-predicted-categories" class="section level1">
+<h1>Tabular and Graphical Comparisons of Coded and Predicted Categories</h1>
+<p>These code blocks compare the hand-coded versus NB-predicted frequencies. There are separate comparisons for the Subject and Structure categories, and both tabular and graphical comparisons.</p>
+<pre class="r"><code>colnames(proptallysum1)[colnames(proptallysum1)==&quot;Hand.Coded.Subject&quot;] &lt;- &quot;Subject&quot;
+colnames(proptallysum1)[colnames(proptallysum1)==&quot;total&quot;] &lt;- &quot;Hand&quot;
+colnames(proptallysum2)[colnames(proptallysum2)==&quot;Bayes.Predicted.Subject&quot;] &lt;- &quot;Subject&quot;
+colnames(proptallysum2)[colnames(proptallysum2)==&quot;total&quot;] &lt;- &quot;Bayes&quot; 
+propmerge12&lt;-merge.data.frame(proptallysum1,proptallysum2, all=TRUE)
+propmerge12</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Subject"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Hand"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Bayes"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.02259101","3":"0.01627409"},{"1":"2","2":"0.27601713","3":"0.28062099"},{"1":"3","2":"0.57912206","3":"0.58961456"},{"1":"4","2":"0.12226981","3":"0.11349036"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
 <pre class="r"><code>blendSubject = ggplot()+
-  geom_col(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`, group=1), color=&quot;blue&quot;, fill=&quot;cornflowerblue&quot;, alpha=0.5, width=0.4) +
-  geom_col(data=proptallysum2, aes(`Bayes.Predicted.Subject`, `total`, group=1), color=&quot;brown&quot;, fill=&quot;indianred4&quot;, alpha=0.5, width=0.4,position = position_nudge(x=0.1))+
+  geom_col(data=proptallysum1, aes(`Subject`, `Hand`, group=1), color=&quot;blue&quot;, fill=&quot;cornflowerblue&quot;, alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum2, aes(`Subject`, `Bayes`, group=1), color=&quot;brown&quot;, fill=&quot;indianred4&quot;, alpha=0.5, width=0.4,position = position_nudge(x=0.12))+
   xlab(&quot;Subject Groups&quot;)+
   ylab(&quot;Fraction of All Comments&quot;)+
-  ggtitle(&quot;Comparison of Coded (blue) vs Predicted (red) Subject&quot;)
-
-
-blendStructure = ggplot()+
-  geom_col(data=proptallysum3, aes(`Hand.Coded.Structure`, `total`,group=1), color=&quot;springgreen4&quot;, fill=&quot;springgreen3&quot;, alpha=0.5, width=0.4) +
-  geom_col(data=proptallysum4, aes(`Bayes.Predicted.Structure`, `total`, group=1), color=&quot;goldenrod3&quot;, fill=&quot;goldenrod2&quot;, alpha=0.5, width=0.4, position = position_nudge(x=0.1))+
-  xlab(&quot;Structure Groups&quot;)+
-  ylab(&quot;Fraction of All Comments&quot;)+
-  ggtitle(&quot;Comparison of Coded (green) vs Predicted (orange) Structure&quot;)
-
+  ggtitle(&quot;Comment Subject Frequencies: Coded (blue) vs Predicted (red)&quot;)
 
 print(blendSubject)</code></pre>
-<p><img src="NB_2r2c_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<pre class="r"><code>print(blendStructure)</code></pre>
-<p><img src="NB_2r2c_files/figure-html/unnamed-chunk-3-2.png" width="672" /></p>
+<p><img src="NB_2r2c_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>colnames(proptallysum3)[colnames(proptallysum3)==&quot;Hand.Coded.Structure&quot;] &lt;- &quot;Structure&quot;
+colnames(proptallysum3)[colnames(proptallysum3)==&quot;total&quot;] &lt;- &quot;Hand&quot;
+colnames(proptallysum4)[colnames(proptallysum4)==&quot;Bayes.Predicted.Structure&quot;] &lt;- &quot;Structure&quot;
+colnames(proptallysum4)[colnames(proptallysum4)==&quot;total&quot;] &lt;- &quot;Bayes&quot;
+propmerge34&lt;-merge.data.frame(proptallysum3,proptallysum4, all=TRUE)
+propmerge34</code></pre>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["Structure"],"name":[1],"type":["chr"],"align":["left"]},{"label":["Hand"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["Bayes"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"0.0097430407","3":"0.001927195"},{"1":"2","2":"0.3208779443","3":"0.451284797"},{"1":"3","2":"0.2013918630","3":"0.190042827"},{"1":"4","2":"0.4169164882","3":"0.317237687"},{"1":"5","2":"0.0396145610","3":"0.038115632"},{"1":"6","2":"0.0007494647","3":"NA"},{"1":"7","2":"0.0107066381","3":"0.001391863"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<pre class="r"><code>blendStructure = ggplot()+
+  geom_col(data=proptallysum3, aes(`Structure`, `Hand`,group=1), color=&quot;springgreen4&quot;, fill=&quot;springgreen3&quot;, alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum4, aes(`Structure`, `Bayes`, group=1), color=&quot;goldenrod3&quot;, fill=&quot;goldenrod2&quot;, alpha=0.5, width=0.4, position = position_nudge(x=0.12))+
+  xlab(&quot;Structure Groups&quot;)+
+  ylab(&quot;Fraction of All Comments&quot;)+
+  ggtitle(&quot;Comment Structure Frequencies: Coded (green) vs Predicted (orange)&quot;)
+
+print(blendStructure)</code></pre>
+<p><img src="NB_2r2c_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<div id="section-7" class="section level4">
+<h4> </h4>
+<hr />
 </div>
 </div>
 

@@ -8,18 +8,31 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-This page links to sub-pages describing how various components used in the overall project were constructed. Follow the links for details.
+This page links to sub-pages describing construction of the various components used in the overall project. Progress on each component is in parentheses.
 
-Extracting TAs' Comments (***Draft***): https://adanieljohnson.github.io/default_website/docxcommentextraction.html
+**Extracting TAs' Comments** *(Early coding stage)*  
+Protocol used to extract TA comments from student lab reports.  
+https://adanieljohnson.github.io/default_website/docxcommentextraction.html  
 
-Codebook for Classifying TAs' Comments: https://adanieljohnson.github.io/default_website/codebook.html
+**Structure of Development Dataset; Data Import & Validation** *(Completed)*  
+Organization of the initial dataset, and how data were imported in R and validated.  
+https://adanieljohnson.github.io/default_website/dataimport.html  
 
-Structure of Development Dataset; Data Import & Validation: https://adanieljohnson.github.io/default_website/dataimport.html
+**Codebook for Classifying TAs' Comments** *(Completed)*  
+Describes the process for developing the codes used to classify comments.  
+https://adanieljohnson.github.io/default_website/codebook.html
 
-Initial Exploration of the Dataset: https://adanieljohnson.github.io/default_website/initial_exploration.html
+**Initial Exploration of the Dataset** *(Partly completed)*  
+What is the distribution of words used in the TA comments?  
+https://adanieljohnson.github.io/default_website/initial_exploration.html
 
-Current Version of the Naive Bayes Comment Classifier: https://adanieljohnson.github.io/default_website/NB_2r2c.html
+**Current Version of the Naive Bayes Comment Classifier** *(Completed)*  
+Code for the most recent version of the optimized NB classifier.   
+https://adanieljohnson.github.io/default_website/NB_2r2c.html
 
-Embedding the Naive Bayes Classifier in an Ensemble Model (***Draft***): https://adanieljohnson.github.io/default_website/Ensemble_Notes.html
+**Embedding the Naive Bayes Classifier in an Ensemble Model** *(Planning stage)*  
+The NB method alone does not classify TA comments with sufficient accuracy for the "Structure" category. This page outlines a vertically stacked "ensemble" classifier that uses pattern matching and other pre-processing steps to improve NB accuracy.
+https://adanieljohnson.github.io/default_website/Ensemble_Notes.html
 
 ####\  
+***

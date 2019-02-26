@@ -9,6 +9,7 @@ biblio-style: apalike
 
 DRAFT PLACEHOLDER PAGE
 
-Qualitative coding of TA comments is informative but unsustainable. Developing the codebook then rating the first set of 11,000 comments required nearly 2 months of investigator effort. Even with the codebook, individual coders will require training to achieve any accuracy. Given 10-12,000 comments are generate EACH SEMESTER, an automated sorting method is needed.
+Lorem ipsum dolor sit amet...
 
 ####\  
+***

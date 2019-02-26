@@ -1,0 +1,20 @@
+---
+title: "Preparing Future Technical Writing Teachers"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+Policymakers are calling for faculty development programs that specifically address STEM education priorities [@NRC2010, @NRC2012, @Starke-Meyerring2011] including development of faculty across career stages and preparation of doctoral students and postdocs to be effective teachers. This needs to include how to teach science writing.
+
+A major barrier to routine writing in STEM courses is instructor knowledge. Many instructors are unaware that there are publicly available, evidence-based writing training models; instead of using these validated tools, they create their own materials from scratch. similarly, many college STEM teachers have never been introduced to proven writing training strategies, nor have they been trained to give effective, context-specific feedback [@Coil2010].
+
+Knowing which instructional models are effective is not sufficient to ensure adoption. Faculty may have different priorities or hindering attitudes by the time they teach their first classes as assistant professors. These attitudes underlie comments like “I don’t have time for something new,” “I don’t have spare class time to spend teaching writing,” or “students should learn how to write elsewhere” [@Coil2010, @Clughe2012, @FSSE2016]. These attitudes are very resistant to change. For example, despite a nationwide multi-year effort promoting interactive, inquiry- and skills-centric teaching, many faculty still believe their main goal should be content delivery, not development of students’ disciplinary thinking and process skills [@DAvanzo2013, @Freeman2014, @Gottschalk2003, @NRC2012, @VandC2011, @FSSE2016].
+
+Even when faculty are motivated to innovate, how they learn about alternative strategies affects the odds of adoption. For example, faculty who attend formal professional development activities that promote evidence- based practices are less likely to adopt those practices than if they learn about them from trusted colleagues or respected opinion leaders [@Andrews2016]. In contrast, graduate students who participate in formal professional development about learner-centered instruction readily adopt learner-centered methods into their personal teaching practice [(]@Ebert-May2015]. A more effective strategy for changing faculty instructional practices may be to target and train future faculty who then act as change agents [@Tanner2006].
+
+####\  
+***

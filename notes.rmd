@@ -12,10 +12,18 @@ Items to get help on:
 ##General/Site-Wide:
   Embedding the bibliographic items  
     Writing the bibtext  
-    Embedding using [@ BaseR] method.  
+    Embedding using @baseR method, or [@holder].  
+  Modify the icons:
+  
+  Set menu so landing page is an "Overview"
+  Append this code to end of all pages
+```
+      #### \   
+      ***
+```
 
 ##Index:
-*  Decide on bottom page site map strategy  
+*  Decide on bottom page site map strategy, and attach  
 
 ##Background:
 *  Need to finish these pages:  
@@ -23,7 +31,7 @@ Items to get help on:
     +  Df
 
 ##Lit review:  
-*  Df  
+*  Finalize what content pages will be
     +  Df  
 
 ##The Build:
@@ -39,22 +47,25 @@ Items to get help on:
 
 ##Findings:
 *  How to graph the different comparisons of NB values from different sources on same plot? 
-    +  Add ggplot (data=) value.
-    +  Better to combine data into one dataset though.
+    +  Add ggplot (data=) value. SOLVED 
+    +  Better to combine data into one dataset though. (REQUIRED for proper legend formats)
 
 #Next Steps:
 *  Still in draft stage
     +  Df  
 
 #Etc.:
-*  Using a Bibliography in this format  
+*  Adding the Bibliography in this format
+    +  Need to add the new citation entries to library.bib
 *  Adding automatic updates to top dates? 
     +  ```date: "`r format(Sys.time(), '%b %d, %Y')`" ```
 
-*  Fix GitHub auto-upload
+#Miscellaneous:
+*  Fix GitHub link on laptop to auto-upload without passwords again
 
 ##Try These Out:
 *  Use Mike's Metadata packager to annotate our released dataset
 *  Use ```mutate(datacolumn=str_count(utterance_clean, "\\b(um|u=m)\\b"))``` to extract a string character and count. Use this to count punctuation only comments, or ID comments with questions.
 
 ####\  
+888

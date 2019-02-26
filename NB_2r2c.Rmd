@@ -15,12 +15,6 @@ This is the current version of the Naive Bayes workflow used to classify TA comm
 *  Back-analysis evaluates both a testing sub-set and the entire input dataset.
 *  Outputs a tidy data table in CSV format with unmodified original comments, and hand-scored and NB-predicted Subject and Structure assignments. 
 
-This page outlines Ver 2r.2c of NB Classifier and the process for building various components used in the project. Details of each  component are provided in these sub-pages.
-
-For structure of the initial dataset see: https://adanieljohnson.github.io/default_website/datastructure.html
-
-For import and post-import data validation see: https://adanieljohnson.github.io/default_website/dataimport.html
-
 ####\  
 
 #Initial Setup
@@ -31,6 +25,7 @@ library(tm)
 library(tidytext)
 library(e1071)
 library(caret)
+library(ggplot2)
 ```
 
 Import the initial dataset. Then extract comments and classification data as subsets of CSV.
@@ -379,29 +374,48 @@ proptallysum4<-prop_tally4 %>% group_by(Bayes.Predicted.Structure) %>% summarize
 proptallysum4
 ```
 
-####\  
+#Tabular and Graphical Comparisons of Coded and Predicted Categories
+These code blocks compare the hand-coded versus NB-predicted frequencies. There are separate comparisons for the Subject and Structure categories, and both tabular and graphical comparisons.
 
-##Graph Outputs
-This code block generates two graphs comparing the sub-category frequencies obtained by hand-coding vs. predicted frequencies from the Naive Bayes classifier. There are separate comparisons for the Subject and Structure categories. 
+```{r}
+colnames(proptallysum1)[colnames(proptallysum1)=="Hand.Coded.Subject"] <- "Subject"
+colnames(proptallysum1)[colnames(proptallysum1)=="total"] <- "Hand"
+colnames(proptallysum2)[colnames(proptallysum2)=="Bayes.Predicted.Subject"] <- "Subject"
+colnames(proptallysum2)[colnames(proptallysum2)=="total"] <- "Bayes" 
+propmerge12<-merge.data.frame(proptallysum1,proptallysum2, all=TRUE)
+propmerge12
+```
 
 ```{r}
 blendSubject = ggplot()+
-  geom_col(data=proptallysum1, aes(`Hand.Coded.Subject`, `total`, group=1), color="blue", fill="cornflowerblue", alpha=0.5, width=0.4) +
-  geom_col(data=proptallysum2, aes(`Bayes.Predicted.Subject`, `total`, group=1), color="brown", fill="indianred4", alpha=0.5, width=0.4,position = position_nudge(x=0.1))+
+  geom_col(data=proptallysum1, aes(`Subject`, `Hand`, group=1), color="blue", fill="cornflowerblue", alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum2, aes(`Subject`, `Bayes`, group=1), color="brown", fill="indianred4", alpha=0.5, width=0.4,position = position_nudge(x=0.12))+
   xlab("Subject Groups")+
   ylab("Fraction of All Comments")+
-  ggtitle("Comparison of Coded (blue) vs Predicted (red) Subject")
-
-
-blendStructure = ggplot()+
-  geom_col(data=proptallysum3, aes(`Hand.Coded.Structure`, `total`,group=1), color="springgreen4", fill="springgreen3", alpha=0.5, width=0.4) +
-  geom_col(data=proptallysum4, aes(`Bayes.Predicted.Structure`, `total`, group=1), color="goldenrod3", fill="goldenrod2", alpha=0.5, width=0.4, position = position_nudge(x=0.1))+
-  xlab("Structure Groups")+
-  ylab("Fraction of All Comments")+
-  ggtitle("Comparison of Coded (green) vs Predicted (orange) Structure")
-
+  ggtitle("Comment Subject Frequencies: Coded (blue) vs Predicted (red)")
 
 print(blendSubject)
+```
+
+```{r}
+colnames(proptallysum3)[colnames(proptallysum3)=="Hand.Coded.Structure"] <- "Structure"
+colnames(proptallysum3)[colnames(proptallysum3)=="total"] <- "Hand"
+colnames(proptallysum4)[colnames(proptallysum4)=="Bayes.Predicted.Structure"] <- "Structure"
+colnames(proptallysum4)[colnames(proptallysum4)=="total"] <- "Bayes"
+propmerge34<-merge.data.frame(proptallysum3,proptallysum4, all=TRUE)
+propmerge34
+```
+
+```{r}
+blendStructure = ggplot()+
+  geom_col(data=proptallysum3, aes(`Structure`, `Hand`,group=1), color="springgreen4", fill="springgreen3", alpha=0.5, width=0.4) +
+  geom_col(data=proptallysum4, aes(`Structure`, `Bayes`, group=1), color="goldenrod3", fill="goldenrod2", alpha=0.5, width=0.4, position = position_nudge(x=0.12))+
+  xlab("Structure Groups")+
+  ylab("Fraction of All Comments")+
+  ggtitle("Comment Structure Frequencies: Coded (green) vs Predicted (orange)")
+
 print(blendStructure)
 ```
 
+####\  
+***

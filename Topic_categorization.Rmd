@@ -8,7 +8,7 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already, or do they need to be established? What are the main topics   
+Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already, or do they need to be established?  
 
 **Curated Categories** (my provisional term until I find the appropriate equivalent in current use) are established by subject matter experts. The established categories can be constructed from:
 
@@ -59,3 +59,4 @@ LSA automatically adapts to new and changing terminology, and has been shown to 
 Text does not need to be in sentence form for LSA to be effective. It can work with lists, free-form notes, email, Web-based content, etc. As long as a collection of text contains multiple terms, LSA can be used to identify patterns in the relationships between the important terms and concepts contained in the text.
 
 ####\  
+***

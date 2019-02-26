@@ -14,13 +14,16 @@ navbar:
     - text: "Overview"
       icon: fa-book
       href: litreview.html
-    - text: "Writing as STEM Ed Research"
-      icon: fa-sticky-note
-      href: pagename.html
     - text: "Teaching Writing"
       icon: fa-sticky-note
-      href: pagename.html
-    - text: "Text Classification"
+      href: techwriting.html
+    - text: "Training Future Faculty"
+      icon: fa-sticky-note
+      href: futurefaculty.html
+    - text: "Automated Text Analysis"
+      icon: fa-sticky-note
+      href: aacr.html
+    - text: "Intro to Text Classification"
       icon: fa-sticky-note
       href: Text_Classifier_Models.html
     - text: "Topic Modeling"
@@ -36,6 +39,9 @@ navbar:
     icon: fa-puzzle-piece
     href: build.html
     menu: 
+    - text: "The Build"
+      icon: fa-book
+      href: build.html
     - text: "Comment Extraction"
       icon: fa-sticky-note
       href: docxcommentextraction.html

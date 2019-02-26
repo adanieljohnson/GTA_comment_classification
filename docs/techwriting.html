@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>The Challenges of Teaching Technical Writing</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/journal.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/textmate.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+<link href="site_libs/font-awesome-5.0.13/css/fa-svg-with-js.css" rel="stylesheet" />
+<script src="site_libs/font-awesome-5.0.13/js/fontawesome-all.min.js"></script>
+<script src="site_libs/font-awesome-5.0.13/js/fa-v4-shims.min.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+<link rel="stylesheet" href="css/style.css" type="text/css" />
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 61px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+
+.section h2 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h3 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h4 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h5 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+.section h6 {
+  padding-top: 66px;
+  margin-top: -66px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_').toLowerCase();
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+  padding-left: 25px;
+  text-indent: 0;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Analyzing TA Comments in R</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="notes.html">
+    <span class="fa fa-sticky-note"></span>
+     
+    Notes
+  </a>
+</li>
+<li>
+  <a href="background.html">
+    <span class="fa fa-sticky-note"></span>
+     
+    Background
+  </a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Lit Review
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="litreview.html">
+        <span class="fa fa-book"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Writing as STEM Ed Research
+      </a>
+    </li>
+    <li>
+      <a href="pagename.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Teaching Writing
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Text Classification
+      </a>
+    </li>
+    <li>
+      <a href="Topic_categorization.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Topic Modeling
+      </a>
+    </li>
+    <li>
+      <a href="Choosing_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Choosing a Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Improving_classifier.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Evaluating Outcomes
+      </a>
+    </li>
+  </ul>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-puzzle-piece"></span>
+     
+    The Build
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="docxcommentextraction.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Comment Extraction
+      </a>
+    </li>
+    <li>
+      <a href="codebook.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Classification Codebook
+      </a>
+    </li>
+    <li>
+      <a href="dataimport.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        About the Dataset
+      </a>
+    </li>
+    <li>
+      <a href="initial_exploration.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Initial Exploration
+      </a>
+    </li>
+    <li>
+      <a href="NB_2r2c.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        NB Classifier
+      </a>
+    </li>
+    <li>
+      <a href="Ensemble_Notes.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Ensemble Classifier
+      </a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="initial_exploration.html">
+    <span class="fa fa-question-circle"></span>
+     
+    Data Exploration
+  </a>
+</li>
+<li>
+  <a href="findings.html">
+    <span class="fa fa-chart-bar"></span>
+     
+    Findings
+  </a>
+</li>
+<li>
+  <a href="nextsteps.html">
+    <span class="fa fa-shoe-prints"></span>
+     
+    Next Steps
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">The Challenges of Teaching Technical Writing</h1>
+<h4 class="date"><em>Feb 26, 2019</em></h4>
+
+</div>
+
+
+<p>Strong scientific thinking &amp; communication skills are essential for 21st century STEM workers <span class="citation">(<span class="citeproc-not-found" data-reference-id="Anderman2011"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="CWPA2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="PCAST2012"><strong>???</strong></span>)</span>)</span>, but there are not enough college graduates with these skills to meet projected US workforce demands <span class="citation">(<span class="citeproc-not-found" data-reference-id="AACU2007"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="BHEF2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Carnevale2011"><strong>???</strong></span>)</span>)</span>. Policy makers have called on educators to prioritize development of career-relevant “21st-century skills” <span class="citation">(<span class="citeproc-not-found" data-reference-id="CWPA2011"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="NRC2010"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="NRC2012"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Starke-Meyerring2011"><strong>???</strong></span>)</span>)</span>. These include quantitative and information literacy, adaptability, novel problem-solving, self-regulation, systems thinking, analytical and critical thinking skills, and complex communication skills <span class="citation">(<span class="citeproc-not-found" data-reference-id="Anderman2011"><strong>???</strong></span>)</span> A more scientifically and computationally literate citizenry also will be better prepared to evaluate personal choices, societal issues, and larger policies that have deep connections to science and technology <span class="citation">(<span class="citeproc-not-found" data-reference-id="PCAST2012"><strong>???</strong></span>)</span>.</p>
+<p>All of the aforementioned 21st-century skills are vital for college graduates, so why focus specifically on improving written communication in the form of scientific writing? First, these skills do not develop in isolation. As students master complex communication, they also develop critical thinking skills <span class="citation">(<span class="citeproc-not-found" data-reference-id="Anderman2011"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Carpenter2001"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Gorzelski2016"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Rounsaville2008"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Reiff2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Rogers2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Starke-Meyerring2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="White2009"><strong>???</strong></span>)</span>)</span>. By improving written communication we also can impact other skills. Second, good communication skills cut across all STEM fields. Even individuals working in relative isolation routinely record data and observations, interpret evidence, and share findings informally or formally either orally or in writing. Scientific writing skills are also valued and highly sought by employers independent of discipline or field of study <span class="citation">(<span class="citeproc-not-found" data-reference-id="Treadwell1999"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Gray2005"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Fry2014"><strong>???</strong></span>)</span>)</span>. Third, writing is not just a mean for communication. It is also a tool to teach and develop scientific thinking. Scientific writing proficiency helps students be more literate and focused, and move from intuition-based thinking towards evidence-based thinking <span class="citation">(<span class="citeproc-not-found" data-reference-id="Libarkin2012"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Quitadamo2007"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Fellows1994"><strong>???</strong></span>)</span>)</span>.</p>
+<p>Given projected workforce needs and that strong communications skills are vital across the range of careers, teaching scientific writing should be an obvious priority in STEM courses. Ideally, instructors would give students regular opportunities to practice critical and applied thinking by assigning writing routinely <span class="citation">(<span class="citeproc-not-found" data-reference-id="Reynolds2012"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Holyoak1998"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Anderman2011"><strong>???</strong></span>)</span>)</span>, but there are significant logistical barriers to this pedagogical ideal <span class="citation">(<span class="citeproc-not-found" data-reference-id="Haswell2006a"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Haswell2006b"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Henderson2007"><strong>???</strong></span>)</span>)</span>.</p>
+<p>The most obvious logistical barrier is workload. Good scientific writing is one of the most difficult and time-consuming skills to teach. It is an iterative cycle of writing drafts, receiving actionable feedback and coaching, then making further refinements until a final product emerges. This cycle is too time- and labor-intensive to be practical in high-enrollment introductory courses. Even in lower-enrollment courses with more than 10-20 students, multiple assignments pose significant logistical challenges <span class="citation">(<span class="citeproc-not-found" data-reference-id="Coil2010"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Fry2014"><strong>???</strong></span>)</span>)</span>. When students do have an opportunity to write for class, circumstances may permit just one round of revisions. The feedback they receive needs to be as focused, individualized, and impactful as possible.</p>
+<p>Giving effective feedback is a challenging and complex task that needs to be learned through specific training <span class="citation">(<span class="citeproc-not-found" data-reference-id="Bazerman1994"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Bazerman2006"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Gottschalk2003"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Graves2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Kiefer2002"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="NCTENWP"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Perelman2009"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Szymanski2014"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Underwood2006"><strong>???</strong></span>)</span>)</span>. Effective feedback will be process-oriented rather than focused on finding and correcting errors. Comments will be understandable and unambiguous. Effective feedback keeps the writer in control and encourages them to revise their draft thoughtfully and thoroughly, and keeps copy-editing feedback to a minimum <span class="citation">(<span class="citeproc-not-found" data-reference-id="Breidenbach2006"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Ruegg2015"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Trupiano2006"><strong>???</strong></span>)</span>)</span>. Over-commenting or giving overly prescriptive comments can push a student writer into a passive role. They treat comments as a to-do list that needs to be completed rather than suggestions for reflection and self-assessment <span class="citation">(<span class="citeproc-not-found" data-reference-id="Anson2001"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="CWPA2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Harris1979"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Haswell2006a"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Haswell2006b"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Reynolds2009"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Szymanski2015"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Swilky1991"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Underwood2006"><strong>???</strong></span>)</span>)</span>.</p>
+<p>There is clear need for more robust student training and assessment models that make it easier to give students multiple cycles of “holistic feedback,” that is, feedback that helps undergraduates identify their current shortcomings as a writer and directs them towards a path to improvement. An ideal model would: 1) embody best practices for teaching writing; 2) reduce instructor workload; 3) stress holistic feedback rather than copy-editing; 4) limit the overall number of comments to what students can manage; and 5) help students understand feedback and prioritize revision efforts appropriately.</p>
+<div id="section" class="section level4">
+<h4> </h4>
+</div>
+<div id="future-faculty-need-training-on-how-to-teach-scientific-writing" class="section level1">
+<h1>Future Faculty Need Training on How to Teach Scientific Writing</h1>
+<p>This project focuses specifically on improving the feedback process in two ways. First, the training program teaches instructors how to give holistic feedback that is individualized and context-specific. Second, students will receive a portion of their feedback from SAWHET, a technology-assisted, automated feedback system.</p>
+<p>A major barrier to routine writing in STEM is limited instructor awareness of evidence-based training models. Many college STEM teachers have not been introduced to proven writing training strategies or trained to give effective, context-specific feedback <span class="citation">(<span class="citeproc-not-found" data-reference-id="Coil2010"><strong>???</strong></span>)</span>. Policymakers are calling for faculty development programs that specifically address STEM education priorities <span class="citation">(<span class="citeproc-not-found" data-reference-id="NRC2010"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="NRC2012"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Starke-Meyerring2011"><strong>???</strong></span>)</span>)</span> including development of faculty across career stages and preparation of doctoral students and postdocs to be effective teachers. This needs to include how to teach science writing.</p>
+<p>Knowing which instructional models are effective is not sufficient to ensure adoption. Faculty may have different priorities or hindering attitudes by the time they teach their first classes as assistant professors. These attitudes underlie comments like “I don’t have time for something new,” “I don’t have spare class time to spend teaching writing,” or “students should learn how to write elsewhere” <span class="citation">(<span class="citeproc-not-found" data-reference-id="Coil2010"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Clughe2012"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="FSSE2016"><strong>???</strong></span>)</span>)</span>. These attitudes are very resistant to change. For example, despite a nationwide multi-year effort promoting interactive, inquiry- and skills-centric teaching, many faculty still believe their main goal should be content delivery, not development of students’ disciplinary thinking and process skills <span class="citation">(<span class="citeproc-not-found" data-reference-id="DAvanzo2013"><strong>???</strong></span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Freeman2014"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="Gottschalk2003"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="NRC2012"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="VandC2011"><strong>???</strong></span>)</span>, <span class="citation">(<span class="citeproc-not-found" data-reference-id="FSSE2016"><strong>???</strong></span>)</span>)</span>.</p>
+<p>Even when faculty are motivated to innovate, how they learn about alternative strategies affects the odds of adoption. For example, faculty who attend formal professional development activities that promote evidence- based practices are less likely to adopt those practices than if they learn about them from trusted colleagues or respected opinion leaders <span class="citation">(<span class="citeproc-not-found" data-reference-id="Andrews2016"><strong>???</strong></span>)</span>. In contrast, graduate students who participate in formal professional development about learner-centered instruction readily adopt learner-centered methods into their personal teaching practice <span class="citation">(<span class="citeproc-not-found" data-reference-id="Ebert-May2015"><strong>???</strong></span>)</span>. A more effective strategy for changing faculty instructional practices may be to target and train future faculty (<span class="citation">(<span class="citeproc-not-found" data-reference-id="Tanner2006"><strong>???</strong></span>)</span> and references therein) who then act as change agents.</p>
+<p>A central goal of this project is to test a scalable model for teaching GTAs about the importance of scientific writing in students’ intellectual development and training them to use best-practice models. Specifically, TAs will learn how to: 1) lead students through the instructional process, 2) use validated methods and rubrics, 3) provide effective, growth-oriented feedback, and 4) grade consistently. One of the questions to be tested in this project is whether GTA conceptual knowledge and self-efficacy related to teaching scientific writing training will increase over the course of the program described in Project Activities.</p>
+<div id="section-1" class="section level4">
+<h4> </h4>
+<hr />
+</div>
+</div>
+
+<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

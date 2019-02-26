@@ -316,24 +316,31 @@ div.tocify {
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
+      <a href="techwriting.html">
         <span class="fa fa-sticky-note"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
+      <a href="futurefaculty.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-sticky-note"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
       <a href="Text_Classifier_Models.html">
         <span class="fa fa-sticky-note"></span>
          
-        Text Classification
+        Intro to Text Classification
       </a>
     </li>
     <li>
@@ -368,6 +375,13 @@ div.tocify {
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="build.html">
+        <span class="fa fa-book"></span>
+         
+        The Build
+      </a>
+    </li>
     <li>
       <a href="docxcommentextraction.html">
         <span class="fa fa-sticky-note"></span>
@@ -443,20 +457,32 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Project Build-Out</h1>
-<h4 class="date"><em>Feb 25, 2019</em></h4>
+<h4 class="date"><em>Feb 26, 2019</em></h4>
 
 </div>
 
 
-<p>This page links to sub-pages describing how various components used in the overall project were constructed. Follow the links for details.</p>
-<p>Extracting TAs’ Comments (<strong><em>Draft</em></strong>): <a href="https://adanieljohnson.github.io/default_website/docxcommentextraction.html" class="uri">https://adanieljohnson.github.io/default_website/docxcommentextraction.html</a></p>
-<p>Codebook for Classifying TAs’ Comments: <a href="https://adanieljohnson.github.io/default_website/codebook.html" class="uri">https://adanieljohnson.github.io/default_website/codebook.html</a></p>
-<p>Structure of Development Dataset; Data Import &amp; Validation: <a href="https://adanieljohnson.github.io/default_website/dataimport.html" class="uri">https://adanieljohnson.github.io/default_website/dataimport.html</a></p>
-<p>Initial Exploration of the Dataset: <a href="https://adanieljohnson.github.io/default_website/initial_exploration.html" class="uri">https://adanieljohnson.github.io/default_website/initial_exploration.html</a></p>
-<p>Current Version of the Naive Bayes Comment Classifier: <a href="https://adanieljohnson.github.io/default_website/NB_2r2c.html" class="uri">https://adanieljohnson.github.io/default_website/NB_2r2c.html</a></p>
-<p>Embedding the Naive Bayes Classifier in an Ensemble Model (<strong><em>Draft</em></strong>): <a href="https://adanieljohnson.github.io/default_website/Ensemble_Notes.html" class="uri">https://adanieljohnson.github.io/default_website/Ensemble_Notes.html</a></p>
+<p>This page links to sub-pages describing construction of the various components used in the overall project.</p>
+<p><strong>Extracting TAs’ Comments</strong> <em>(Draft)</em><br />
+Protocol used to extract TA comments from student lab reports.<br />
+<a href="https://adanieljohnson.github.io/default_website/docxcommentextraction.html" class="uri">https://adanieljohnson.github.io/default_website/docxcommentextraction.html</a></p>
+<p><strong>Structure of Development Dataset; Data Import &amp; Validation</strong><br />
+Organization of the initial dataset, and how data were imported in R and validated.<br />
+<a href="https://adanieljohnson.github.io/default_website/dataimport.html" class="uri">https://adanieljohnson.github.io/default_website/dataimport.html</a></p>
+<p><strong>Codebook for Classifying TAs’ Comments</strong><br />
+Describes the process for developing the codes used to classify comments.<br />
+<a href="https://adanieljohnson.github.io/default_website/codebook.html" class="uri">https://adanieljohnson.github.io/default_website/codebook.html</a></p>
+<p><strong>Initial Exploration of the Dataset</strong><br />
+What is the distribution of words used in the TA comments?<br />
+<a href="https://adanieljohnson.github.io/default_website/initial_exploration.html" class="uri">https://adanieljohnson.github.io/default_website/initial_exploration.html</a></p>
+<p><strong>Current Version of the Naive Bayes Comment Classifier</strong><br />
+Code for the most recent version of the optimized NB classifier.<br />
+<a href="https://adanieljohnson.github.io/default_website/NB_2r2c.html" class="uri">https://adanieljohnson.github.io/default_website/NB_2r2c.html</a></p>
+<p><strong>Embedding the Naive Bayes Classifier in an Ensemble Model</strong> <em>(Draft)</em><br />
+The NB classifier alone is insufficient to classify TA comments on its own. This page outlines a plan for a vertically stacked “ensemble” classifier that combines the NB method with pattern matching and other pre-processing steps. <a href="https://adanieljohnson.github.io/default_website/Ensemble_Notes.html" class="uri">https://adanieljohnson.github.io/default_website/Ensemble_Notes.html</a></p>
 <div id="section" class="section level4">
 <h4> </h4>
+<hr />
 </div>
 
 <p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>

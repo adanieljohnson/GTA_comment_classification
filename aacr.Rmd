@@ -1,0 +1,30 @@
+---
+title: "Automated Analysis of Student Writing Writing "
+date: "`r format(Sys.time(), '%b %d, %Y')`"
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+There is growing need and interest in incorporating automated feedback into writing training. This raises important questions that have not yet been adequately answered:
+
+*  Does automated feedback identify similar issues with similar frequency as live instructors?
+*  When instructors have access to automated feedback, do they trust it? Do they provide feedback on different issues, focus on higher-order problems, or continue grading as if they had no insights?
+*  Do students respond to automated feedback in the same way as feedback from live instructors?
+
+####\  
+
+#How Did Automated Feedback Begin?
+Interest in technology-assisted automated feedback on writing began in the mid-1960s. Systems have progressed from basic spelling and grammar checkers to automated essay scoring (AES) systems that provide feedback on the content of open-response writing. AES systems use natural language processing and machine learning algorithms to produce a score that is based on syntactic and lexical patterns and features such as sentence length, word frequency and part of speech [@Shermis2010, @Balfour2013].
+
+AES systems have the advantage of being scalable and are very attractive for large face-to-face courses, and for asynchronous courses like massive open online courses [@Balfour2013]. Demand for AES systems has spurred development of several commercial products including Criterion®, WriteToLearn™, Intelligent Essay Assessor™, IntelliMetric®, WriteLab, Inc. and Turnitin Feedback Studio.
+
+AES systems are not without drawbacks. First, it is controversial how accurately unsupervised AES systems score student work. Perelman [@Perelman2013] highlighted the poor accuracy of extant AES by using obviously faked texts to demonstrate how easily current AES applications are fooled. Second, it is unclear to what extent students pay attention to automated feedback. One small study [@Heffernan2015] compared relative impacts of teacher feedback versus technology driven feedback from ETS' Criterion® tool on 12 Japanese English-foreign- language students' writing. Results showed automated feedback alone was less effective than feedback from the teacher and Criterion® combined. However, the authors only compared scores on three independent, consecutive writing assignments; they did not compare effects of feedback on draft versus final versions of the same assignment. Also, the authors failed to compare automated feedback alone to teachers' comments alone. The degree of authority that students attach to automated feedback may also be a confounding variable. Ruegg [@Ruegg2015] found that feedback from peer reviewers was not valued as much as teachers' feedback, even though teachers provided less explicit comments than peer reviewers. Ruegg argued that this is likely because teachers are the ones that ultimately grade the student's writing. More research is needed to improve AES systems and to test their effectiveness in the classroom.
+
+Despite their limitations, demand remains high for AES systems, and there are ongoing efforts to integrate them into more traditional writing review models [@Balfour2013]. Constructed response assessments reveal more about student thinking and the persistence of misconceptions than do multiple-choice questions. However they require more analysis on the part of the educator, and so are less likely to be used in large-enrollment courses. Urban-Lurain and colleagues developed automated assessment of constructed response (AACR) as a way to give students constructed response test questions and other work that can be graded automatically [@Kaplan2014, @Weston2015, @Ha2015, @Urban-Lurain2015, @Ha2016]. AACR uses a robust and scalable platform for scoring open responses to pre-written prompts that probe important disciplinary concepts from biology and biological chemistry. The prompts are administered via online course management systems where students enter responses. Lexical and statistical analyses then predict what expert ratings would be for student responses. Work to date shows that automated analyses can predict expert ratings of students' work on these topics accurately and with higher inter-rater reliability than a group of trained human graders. The AACR model is growing rapidly to include additonal STEM disicplines and has a national presence (http://create4stem.msu.edu/project/aacr). 
+The success of AACR would suggest that the general lexical analysis principles this project is based on can be applied to the analysis of student writing. Our NSF-sponsored propoosal is exploring whether automated feedback affect how graduate teaching assistants (TAs) grade writing-related activities. Using the text classifier being built for this FLC project, we will determine whether TAs provide students with more feedback focused on higher order thinking, and less on low-level copy editing. 
+
+####\  
+***

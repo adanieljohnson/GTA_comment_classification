@@ -19,20 +19,23 @@ My project for the **Faculty Learning Community for R** was to create an automat
 
 #### \   
 ##Work Plan
-The work plan for this project is:
+The work outline for this project is:
 
-1.  Compile an initial dataset for testing, and de-identify both TAs and students by replacing names with anonymous IDs.
+1.  Compile an initial dataset of hand-coded TA comments on reports for testing. Data will be de-identified by replacing both TAs' and students' names with anonymous IDs.
 2.  Import TA comments and relevant metadata from student reports into R as a "tidy" dataframe.
 3.  Use basic text analysis methods to explore comment data structure, n-gram frequencies, etc., and identify potentially useful elements for feature engineering.
-4.  Write a baseline workflow using Naive Bayes for supervised text classification.
-5.  Assign TA comments to categories using the NB classifier, then establish baseline accuracy values using the optimized NB classifier by comparing outcomes of automated classification to hand-coded results.
-6.  Using features (from Step #3) and comparison data from NB classification protocol (from Step #5) as guides, further optimize the NB classifier method. 
-7.  When accuracy stabilizes, apply the optimized NB classifier to the original FULL comment dataset, identify all comments that are being classified incorrectly, and look for potential patterns.
+4.  Write a workflow using Naive Bayes for supervised text classification, and test various permutations of analysis parameters to establish a baseline classifier.
+5.  Assign TA comments to categories using the baseline NB classifier, and establish baseline accuracy values by comparing outcomes of automated classification to hand-coded results.
+6.  Using features (from Step #3) and comparison data from NB classification protocol (from Step #5) as guides, further optimize the NB classifier method until predicted accuracy stabilizes.
+7.  Apply the optimized NB classifier to the original FULL comment dataset, identify all comments that are being classified incorrectly, and look for potential patterns.
 8.  Write a small set of rule- or REGEX pattern-based searches that can identify comments which are more likely to be classified incorrectly. 
-9.  Append rules/pattern-based pre-screening to the optimized Naive Bayes classifier to create a vertical Ensemble Classifier.
-10.  Validate the Ensemble Classifier using a subset of ~2000 new hand-coded TA comments extracted from a non-overlapping set of student lab reports. Compare automated results for new data set to hand-coded categories.
+9.  Combine the rules/pattern-based pre-screening process with the optimized Naive Bayes classifier to create a vertical Ensemble Classifier.
+10.  Re-validate the Ensemble Classifier using a subset of ~2000 new hand-coded TA comments extracted from student lab reports for a different semester than the initial test dataset. Compare automated results for new data set to hand-coded categories.
 
-Looking beyond the current project, I will be using the NB-based Ensemble Classifier as the control method for evaluating other text classifier strategies. 
+Looking beyond the current project, I will use the vertical Ensemble Classifier two ways:
+
+*  To monitor TA comment patterns in the ongoing NSF-funded project.
+*  As the control method for evaluating other potential text classifier strategies. 
 
 
 #### \   
@@ -42,3 +45,4 @@ Insert a text-based overview and site map of the major pages and branch points h
 When appropriate, anchor pages branch to extended supporting documentation.
 
 #### \   
+***
