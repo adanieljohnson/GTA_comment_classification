@@ -338,7 +338,7 @@ prop_tally2<-prop.table(final.tally2)
 print(prop_tally2)
 ```
 
-This block is an alternative method to get the same data tables out using ```tidy``` format. It seems much less direct, but may be over-written.
+This block is an **alternative method** to get the same data tables out using ```tidy``` format. It seems much less direct, but may be over-written.
 ```{r tidy_prediction_table}
 
 #Use broom::tidy to reorganize into a data frame.
@@ -374,7 +374,7 @@ proptallysum4<-prop_tally4 %>% group_by(Bayes.Predicted.Structure) %>% summarize
 proptallysum4
 ```
 
-#Tabular and Graphical Comparisons of Coded and Predicted Categories
+#Comparing Coded and Predicted Categories
 These code blocks compare the hand-coded versus NB-predicted frequencies. There are separate comparisons for the Subject and Structure categories, and both tabular and graphical comparisons.
 
 ```{r}
