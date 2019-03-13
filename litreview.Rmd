@@ -1,6 +1,6 @@
 ---
 title: "Literature Review"
-date: "`r format(Sys.time(), '%b %d, %Y')`"
+date: "Updated `r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
 ---
@@ -16,31 +16,33 @@ This project brings together three disparate challenges:
 
 Follow the links below (or from top menu) to sub-pages that explore each of these challenges in more detail.  
 
-**Challenges of Teaching Technical Writing**  
+####\  
+
+####Challenges of Teaching Technical Writing
 More than 50% of colleges and universities use some form of Writing in the Disciplines, Write to Learn, and Writing Across the Curriculum (WID/WTL/WAC) as part of their general education programs. There are well-established WAC/WID teaching principles based on >40 years of evidence and experience, but much of this work focuses on non-technical styles of writing. We know much less about teaching technical writing specifically. What do we know, and what can we bring from the WAC/WID community? What do we NOT know?  
 https://adanieljohnson.github.io/default_website/techwriting.html  
 
-**Challenges of Training Future Faculty**  
+####Challenges of Training Future Faculty
 A major barrier to routine writing in STEM is limited instructor awareness of evidence-based training models. Many college STEM teachers have never been introduced to proven writing training strategies or trained to give effective, context-specific feedback. How does this impact instruction more generally?  
 https://adanieljohnson.github.io/default_website/futurefaculty.html  
 
-**Challenges of Applying Automated Text Analysis to Student Learning**  
+####Challenges of Applying Automated Text Analysis to Student Learning
 Interest in technology-assisted automated feedback on writing began in the mid-1960s. Systems have progressed from basic spelling and grammar checkers to automated essay scoring (AES) systems that provide feedback on the content of open-response writing. Can automated text analysis support student learning?  
 https://adanieljohnson.github.io/default_website/aacr.html  
 
-**Text Classification 1 - Feature Selection and Engineering**  
+####Text Classification 1 - Feature Selection and Engineering
 What is the general strategy and steps for solving a text classification problem? What features are important? 
 https://adanieljohnson.github.io/default_website/Text_Classifier_Models.html  
 
-**Text Classification 2 - Topic Categorization and Modeling**  
+####Text Classification 2 - Topic Categorization and Modeling
 Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already? If not, how are they established?  
 https://adanieljohnson.github.io/default_website/Topic_categorization.html  
 
-**Text Classification 3 - Selecting an Appropriate Classifier Method**  
+####Text Classification 3 - Selecting an Appropriate Classifier Method
 There are three general classes of text classification strategies: pattern matching, algorithmic, and neural networks. Each is described briefly.  
 https://adanieljohnson.github.io/default_website/Choosing_classifier.html  
 
-**Text Classification 4 - Evaluating and Improving the Classifier**  
+####Text Classification 4 - Evaluating and Improving the Classifier
 If there are many ways to classify texts, how do we know which one is most accurate? How can we improve the classification process? How do we make comparisons and evaluate the different steps in a text classification problem?  
 https://adanieljohnson.github.io/default_website/Improving_classifier.html  
 

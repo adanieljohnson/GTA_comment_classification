@@ -296,13 +296,15 @@ div.tocify {
 </li>
 <li>
   <a href="background.html">
-    <span class="fa fa-sticky-note"></span>
+    <span class="fa fa-history"></span>
      
     Background
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-search"></span>
+     
     Lit Review
      
     <span class="caret"></span>
@@ -310,49 +312,56 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="litreview.html">
-        <span class="fa fa-book"></span>
+        <span class="fa fa-search"></span>
          
         Overview
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="techwriting.html">
+        <span class="fa fa-chalkboard"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
-      <a href="Text_Classifier_Models.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="futurefaculty.html">
+        <span class="fa fa-chalkboard-teacher"></span>
          
-        Text Classification
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-chart-bar"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sort-amount-down"></span>
+         
+        Intro to Text Classification
       </a>
     </li>
     <li>
       <a href="Topic_categorization.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-code-branch"></span>
          
         Topic Modeling
       </a>
     </li>
     <li>
       <a href="Choosing_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-hand-point-up"></span>
          
         Choosing a Classifier
       </a>
     </li>
     <li>
       <a href="Improving_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-edit"></span>
          
         Evaluating Outcomes
       </a>
@@ -369,43 +378,50 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="build.html">
+        <span class="fa fa-puzzle-piece"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
       <a href="docxcommentextraction.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-cut"></span>
          
         Comment Extraction
       </a>
     </li>
     <li>
       <a href="codebook.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-book"></span>
          
         Classification Codebook
       </a>
     </li>
     <li>
       <a href="dataimport.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-sign-in-alt"></span>
          
         About the Dataset
       </a>
     </li>
     <li>
       <a href="initial_exploration.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-eye"></span>
          
         Initial Exploration
       </a>
     </li>
     <li>
       <a href="NB_2r2c.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-map-marker-alt"></span>
          
         NB Classifier
       </a>
     </li>
     <li>
       <a href="Ensemble_Notes.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-archive"></span>
          
         Ensemble Classifier
       </a>
@@ -427,7 +443,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="nextsteps.html">
+  <a href="sitemap.html">
     <span class="fa fa-shoe-prints"></span>
      
     Next Steps
@@ -443,7 +459,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Choosing a Text Classifier Method</h1>
-<h4 class="date"><em>Feb 25, 2019</em></h4>
+<h4 class="date"><em>Feb 28, 2019</em></h4>
 
 </div>
 
@@ -456,7 +472,7 @@ div.tocify {
 <li>Algorithms (how closely does the query text meet pre-set criteria?)</li>
 <li>Neural networks (the network decides its own criteria, aka machine learning)</li>
 </ul>
-<p>This edited excerpt nicely describes the overall approach and problems of text classification. It is from: <strong>xxxxx</strong></p>
+<p>This edited excerpt from a tutorial on chat-bots nicely describes the overall approach and problems of text classification. For the original version,, go to: <a href="https://medium.com/@gk_/how-chat-bots-work-dfff656a35e2" class="uri">https://medium.com/@gk_/how-chat-bots-work-dfff656a35e2</a></p>
 <pre><code>Understanding how chatbots work can help us understand text classifiers, because the classifier is the fundamental piece that makes the chatbot work. Let’s look at the inner workings of a Multinomial Naive Bayes algorithm for text classification and natural language processing (NLP). 
 
 This classifier is “naive” because each word is treated as having no connection with other words in the sentence being classified. In other words it assumes independence between &quot;features,&quot; in this case, words.
