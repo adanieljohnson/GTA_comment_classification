@@ -39,7 +39,7 @@ https://adanieljohnson.github.io/default_website/NB_2r2c.html
 
 ####Embedding the Naive Bayes Classifier in an Ensemble Model  
 *(Planning stage)*
-The NB method alone does not classify TA comments with sufficient accuracy for the "Structure" category. This page outlines a vertically stacked "ensemble" classifier that uses pattern matching and other pre-processing steps to improve NB accuracy.
+The NB method alone does not classify TA comments with sufficient accuracy for the "Structure" category. This page outlines a draft plan for a vertically stacked "ensemble" classifier that uses pattern matching and other pre-processing steps to improve NB accuracy.
 https://adanieljohnson.github.io/default_website/Ensemble_Notes.html
 
 ####\  

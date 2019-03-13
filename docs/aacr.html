@@ -11,7 +11,7 @@
 
 
 
-<title>Preparing Future Technical Writing Teachers</title>
+<title>Automated Feedback on Student Writing</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -458,62 +458,64 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Preparing Future Technical Writing Teachers</h1>
+<h1 class="title toc-ignore">Automated Feedback on Student Writing</h1>
 <h4 class="date"><em>Mar 13, 2019</em></h4>
 
 </div>
 
 
-<p>Policymakers are calling for faculty development programs that specifically address STEM education priorities <span class="citation">(National Research Council 2010, <span class="citation">National Research Council (2012)</span>, <span class="citation">Starke-Meyerring and Paré (2011)</span>)</span> including development of faculty across career stages and preparation of doctoral students and postdocs to be effective teachers. This needs to include how to teach science writing.</p>
-<p>A major barrier to routine writing in STEM courses is instructor knowledge. Many instructors are unaware that there are publicly available, evidence-based writing training models; instead of using these validated tools, they create their own materials from scratch. similarly, many college STEM teachers have never been introduced to proven writing training strategies, nor have they been trained to give effective, context-specific feedback <span class="citation">(Coil et al. 2010)</span>.</p>
-<p>Knowing which instructional models are effective is not sufficient to ensure adoption. Faculty may have different priorities or hindering attitudes by the time they teach their first classes as assistant professors. These attitudes underlie comments like “I don’t have time for something new,” “I don’t have spare class time to spend teaching writing,” or “students should learn how to write elsewhere” <span class="citation">(Coil et al. 2010, <span class="citation">Clughen and Connell (2012)</span>, <span class="citation">First-Year Survey of Student Engagement (2016)</span>)</span>. These attitudes are very resistant to change. For example, despite a nationwide multi-year effort promoting interactive, inquiry- and skills-centric teaching, many faculty still believe their main goal should be content delivery, not development of students’ disciplinary thinking and process skills <span class="citation">(D’Avanzo 2013, <span class="citation">Freeman et al. (2014)</span>, <span class="citation">Gottschalk (2003)</span>, <span class="citation">National Research Council (2012)</span>, <span class="citation">AAAS (2011)</span>, <span class="citation">First-Year Survey of Student Engagement (2016)</span>)</span>.</p>
-<p>Even when faculty are motivated to innovate, how they learn about alternative strategies affects the odds of adoption. For example, faculty who attend formal professional development activities that promote evidence- based practices are less likely to adopt those practices than if they learn about them from trusted colleagues or respected opinion leaders <span class="citation">(Andrews et al. 2016)</span>. In contrast, graduate students who participate in formal professional development about learner-centered instruction readily adopt learner-centered methods into their personal teaching practice <span class="citation">(Ebert-May et al. 2015)</span>. A more effective strategy for changing faculty instructional practices may be to target and train future faculty who then act as change agents <span class="citation">(Tanner and Allen 2006)</span>.</p>
+<p>There is growing need and interest in using automated feedback as part of writing training. This raises important questions that have not yet been adequately answered:</p>
+<ul>
+<li>Can/do automated feedback systems identify similar issues as live instructors, with similar frequency?</li>
+<li>When instructors have access to automated feedback, do they trust it? Do they provide feedback on different issues, focus on higher-order problems, or continue grading as if they had no insights?</li>
+<li>Do students respond to automated feedback in the same way as feedback from live instructors?</li>
+</ul>
 <div id="section" class="section level4">
 <h4> </h4>
+</div>
+<div id="origins-of-automated-feedback" class="section level1">
+<h1>Origins of Automated Feedback</h1>
+<p>Interest in automated feedback on writing emerged in the mid-1960s. Systems have since progressed from basic spelling checkers to syntax-aware spelling and grammar evaluation. More recently, automated essay scoring (AES) systems emerged that can provide feedback on open-response writing. AES systems use natural language processing and machine learning algorithms to produce a score based on syntactic and lexical patterns and features such as sentence length, word frequency and part of speech <span class="citation">(Shermis et al. 2010, <span class="citation">Balfour (2013)</span>)</span>.</p>
+<p>Demand for AES systems has spurred development of several commercial products including Criterion®, WriteToLearn™, Intelligent Essay Assessor™, IntelliMetric®, WriteLab, Inc. and Turnitin Feedback Studio.</p>
+<p>AES systems have the advantage of being scalable and are very attractive for large face-to-face courses, and for asynchronous courses like massive open online courses <span class="citation">(Balfour 2013)</span>. Still they are not without drawbacks. First, un-/minimally-supervised AES systems may not score student work consistently. Perelman <span class="citation">(Perelman 2013)</span> highlighted their poor accuracy, using obviously faked texts to demonstrate how easily current AES applications are fooled. Second, it is unclear to what extent students pay attention to automated feedback. One small study <span class="citation">(Heffernan and Otoshi 2015)</span> compared relative impacts of teacher feedback versus technology driven feedback from ETS’ Criterion® tool on 12 Japanese English-foreign- language students’ writing. Results showed automated feedback alone was less effective than feedback from the teacher and Criterion® combined. However, the authors only compared scores on three independent, consecutive writing assignments; they did not compare effects of feedback on draft versus final versions of the same assignment. Also, the authors failed to compare automated feedback alone to teachers’ comments alone.</p>
+<p>The degree of authority students attach to both automated and human feedback also is a confounding variable. Anecdotally, most instructors can cite many examples of students ignoring basic spelling and grammar feedback that is standard for word processors like MS. Word. Ruegg <span class="citation">(Ruegg 2015)</span> found that feedback from peer reviewers was not valued as much as teachers’ feedback, even though teachers provided less explicit comments than peer reviewers. Ruegg argued that this is likely because teachers are the ones that ultimately grade the student’s writing.</p>
+<p>Despite their limitations, demand remains high for AES systems, and there are ongoing efforts to integrate them into more traditional writing review models <span class="citation">(Balfour 2013)</span>. Constructed response assessments reveal more about student thinking and the persistence of misconceptions than do multiple-choice questions. However they require more analysis on the part of the educator, and so are less likely to be used in large-enrollment courses. Urban-Lurain and colleagues developed automated assessment of constructed response (AACR) as a way to give students constructed response test questions and other work that can be graded automatically <span class="citation">(Kaplan et al. 2014, <span class="citation">Weston et al. (2015)</span>, <span class="citation">Ha, Baldwin, and Nehm (2015)</span>, <span class="citation">Urban-Lurain et al. (2015)</span>, <span class="citation">Ha M. and Nehm (2016)</span>)</span>. AACR uses a robust and scalable platform for scoring open responses to pre-written prompts that probe important disciplinary concepts from biology and biological chemistry. The prompts are administered via online course management systems where students enter responses. Lexical and statistical analyses then predict what expert ratings would be for student responses. Work to date shows that automated analyses can predict expert ratings of students’ work on these topics accurately and with higher inter-rater reliability than a group of trained human graders. The AACR model is growing rapidly to include additonal STEM disicplines and has a national presence (<a href="http://create4stem.msu.edu/project/aacr" class="uri">http://create4stem.msu.edu/project/aacr</a>).</p>
+<p>The success of AACR <strong>suggests</strong> that the general lexical analysis principles this project is based on can be applied to the analysis of student writing. However, more research is needed before we can say with any confidence that automated feedback benefits students or their instructors.</p>
+<p>Our NSF-sponsored propoosal is exploring whether automated feedback affect how graduate teaching assistants (TAs) grade writing-related activities. Using the text classifier being built for this FLC project, we will determine whether TAs provide students with more feedback focused on higher order thinking, and less on low-level copy editing.</p>
+<div id="section-1" class="section level4">
+<h4> </h4>
 <hr />
-<p><em>Work Cited</em></p>
 <div id="refs" class="references">
-<div id="ref-VandC2011">
-<p>AAAS. 2011. “Vision and Change in Undergraduate Biology: A Call to Action.” Report. American Association for the Advancement of Science.</p>
+<div id="ref-Balfour2013">
+<p>Balfour, S. P. 2013. “Assessing Writing in Moocs: Automated Essay Scoring and Calibrated Peer Review (Tm).” In <em>Research &amp; Practice in Assessment</em>. Vol. 8.</p>
 </div>
-<div id="ref-Andrews2016">
-<p>Andrews, T. C., E. P. Conaway, J. Zhao, and E. L. Dolan. 2016. “Colleagues as Change Agents: How Department Networks and Opinion Leaders Influence Teaching at a Single Research University.” <em>Cell Biology Education</em> 2 (15): 25–37.</p>
+<div id="ref-Ha2015">
+<p>Ha, M., B. C. Baldwin, and R. H. Nehm. 2015. “The Long-Term Impacts of Short-Term Professional Development: Science Teachers and Evolution.” <em>Evolution: Education and Outreach</em> 8 (1). doi:<a href="https://doi.org/10.1186/s12052-015-0040-9">10.1186/s12052-015-0040-9</a>.</p>
 </div>
-<div id="ref-Clughe2012">
-<p>Clughen, L., and M. Connell. 2012. “Writing and Resistance: Reflections on the Practice of Embedding Writing in the Curriculum.” <em>Arts and Humanities in Higher Education</em> 11 (4): 333–45.</p>
+<div id="ref-Ha2016">
+<p>Ha, M., and R. H. Nehm. 2016. “Predicting the Accuracy of Computer Scoring of Text: Probabilistic, Multi-Model, and Semantic Similarity Approaches.” Baltimore, MD: NARST.</p>
 </div>
-<div id="ref-Coil2010">
-<p>Coil, D., Wenderoth M. P., Cunningham M., and C. Dirks. 2010. “Teaching the Process of Science: Faculty Perceptions and an Effective Methodology.” <em>CBE-Life Sciences Education</em> 9 (4): 524–35.</p>
+<div id="ref-Heffernan2015">
+<p>Heffernan, N., and J. Otoshi. 2015. “Comparing the Pedagogical Benefits of Both Criterion and Teacher Feedback on Japanese Efl Students’ Writing.” <em>JALT CALL Journal</em> 11 (1).</p>
 </div>
-<div id="ref-DAvanzo2013">
-<p>D’Avanzo, C. 2013. “Post-Vision and Change: Do We Know How to Change?” <em>CBE-Life Sciences Education</em> 12: 373–82.</p>
+<div id="ref-Kaplan2014">
+<p>Kaplan, J. J., K. C. Haudek, M. Ha, N. Rogness, and D. G. Fisher. 2014. “Using Lexical Analysis Software to Assess Student Writing in Statistics.” <em>Technology Innovations in Statistics Education</em> 8.</p>
 </div>
-<div id="ref-Ebert-May2015">
-<p>Ebert-May, D., T. L. Derting, T. P. Henkel, J. Middlemis Maher, J. L. Momsen, B. Arnold, and H. A. Passmore. 2015. “Breaking the Cycle: Future Faculty Begin Teaching with Learner-Centered Strategies After Professional Development.” <em>CBE Life Science Education</em> 14 (2): ar22.</p>
+<div id="ref-Perelman2013">
+<p>Perelman, L. 2013. “Critique (Ver. 3.4) of Mark d. Shermis and Ben Hammer, Contrasting State-of-the-Art Automated Scoring of Essays: Analysis.” <em>Critique (Ver. 3.4) of Mark D. Shermis and Ben Hammer, Contrasting State-of-the-Art Automated Scoring of Essays: Analysis</em>.</p>
 </div>
-<div id="ref-FSSE2016">
-<p>First-Year Survey of Student Engagement. 2016. “Aggregate Frequencies Distributions by Disciplinary Area: Faculty Who Teach Lower Division Courses.” Indiana University.</p>
+<div id="ref-Ruegg2015">
+<p>Ruegg, R. 2015. “Differences in the Uptake of Peer and Teacher Feedback.” <em>RELC Journal</em> 46 (2): 131–45.</p>
 </div>
-<div id="ref-Freeman2014">
-<p>Freeman, S., S. L. Eddy, M. McDonough, M. K. Smith, N. Okoroafor, H. Jordt, and M. P. Wenderoth. 2014. “Active Learning Increases Student Performance in Science, Engineering, and Mathematics.” <em>Proceedings of the National Academy of Sciences</em> 111 (23): 8410–5.</p>
+<div id="ref-Shermis2010">
+<p>Shermis, M. D., J. Burstein, D. Higgins, and K. Zechner. 2010. “Automated Essay Scoring: Writing Assessment and Instruction.” <em>Automated Essay Scoring: Writing Assessment and Instruction</em> 4: 20–26.</p>
 </div>
-<div id="ref-Gottschalk2003">
-<p>Gottschalk, K.K. 2003. “The Ecology of Response to Student Essays.” <em>ADE Bulletin</em> 134-135: 49–56.</p>
+<div id="ref-Urban-Lurain2015">
+<p>Urban-Lurain, M., M. M. Cooper, K. C. Haudek, J. J. Kaplan, J. K. Knight, and P. P. Lemons. 2015. “Expanding a National Network for Automated Analysis of Constructed Response Assessments to Reveal Student Thinking in Stem.” <em>Computers in Education Journal</em> 6: 65–81.</p>
 </div>
-<div id="ref-NRC2010">
-<p>National Research Council. 2010. “Exploring the Intersection of Science Education and 21st Century Skills: A Workshop Summary.” Report. National Research Council. <a href="http://www.nap.edu/catalog/12771" class="uri">http://www.nap.edu/catalog/12771</a>.</p>
+<div id="ref-Weston2015">
+<p>Weston, M., K. C. Haudek, L. Prevost, M. Urban-Lurain, and J. Merrill. 2015. “Examining the Impact of Question Surface Features on Students’ Answers to Constructed-Response Questions on Photosynthesis.” <em>CBE - Life Sciences Education</em> 14. doi:<a href="https://doi.org/10.1187/cbe.14-07-0110">10.1187/cbe.14-07-0110</a>.</p>
 </div>
-<div id="ref-NRC2012">
-<p>———. 2012. “Education for Life and Work: Developing Transferable Knowledge and Skills in the 21st Century.” Report. National Research Council. <a href="http://www.nap.edu/catalog/13398" class="uri">http://www.nap.edu/catalog/13398</a>.</p>
-</div>
-<div id="ref-Nilson2014">
-<p>Nilson, L.B. 2014. <em>Specifications Grading: Restoring Rigor, Motivating Students, and Saving Faculty Time</em>. Stylus Press, Sterling VA.</p>
-</div>
-<div id="ref-Starke-Meyerring2011">
-<p>Starke-Meyerring, D., and A. Paré. 2011. “The Roles of Writing in Knowledge Societies: Questions, Exigencies, and Implications for the Study and Teaching of Writing.” In <em>Perspectives on Writing</em>, edited by D. Starke-Meyerring, A. Paré, N. Artemeva, M. Horne, and L. Yousoubova, 3–28. WAC Clearinghouse/Parlor Press.</p>
-</div>
-<div id="ref-Tanner2006">
-<p>Tanner, K., and D. Allen. 2006. “Approaches to Biology Teaching and Learning: On Integrating Pedagogical Training into the Graduate Experiences of Future Science Faculty.” <em>Cell Biology Education</em> 5 (1): 1–6.</p>
 </div>
 </div>
 </div>

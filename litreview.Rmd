@@ -46,5 +46,5 @@ https://adanieljohnson.github.io/default_website/Choosing_classifier.html
 If there are many ways to classify texts, how do we know which one is most accurate? How can we improve the classification process? How do we make comparisons and evaluate the outcomes of a text classification problem?  
 https://adanieljohnson.github.io/default_website/Improving_classifier.html  
 
+
 ####\  
-***

@@ -467,11 +467,11 @@ div.tocify {
 <h2>Overview</h2>
 <p>I am using classroom research and data science to better understand how students develop technical writing skills in large-enrollment biology courses.</p>
 <p>My current NSF-sponsored grant asks whether we can accelerate student development as writers using a mix of scripted active instruction, automated support of writing in progress, and holistic feedback. One specific question we have is how <strong>changing the structure and main focus of instructors’ comments</strong> affects students’ writing development over time. To answer this we extract instructor comments from student reports, categorize the comments according to their subject and structure, then correlate the types of comments instructors make with student performance.</p>
-<p>Classifying TA comments this way is informative, but doing so by hand is impractical: 10-12,000 comments need to be scored EACH semester. There also is a significant risk of “coding drift” over time, reducing accuracy.</p>
-<p>My project for the <strong>Faculty Learning Community for R</strong> was to create an automated comment classifier that could generate two-axis contingency tables comparable to the one generated using hand-coded data. This automated classifier will used within the larger NSF-funded research project to:</p>
+<p>Classifying TA comments has been informative, but doing it by hand is impractical: 10-12,000 comments need to be scored EACH semester. There also is a significant risk of “coding drift” over time, reducing accuracy.</p>
+<p>My project for the <strong>Faculty Learning Community for R</strong> was to create an automated comment classifier that can sort TA comments from student report into the same categories that we use for hand-coded data. This automated classifier will be used within the larger NSF-funded research project to:</p>
 <ul>
 <li>Improve both speed and consistency when classifying TA comments across multiple semesters.</li>
-<li>Monitor how the types and focus of TAs comments on student writing change over time.</li>
+<li>Monitor how the key concepts and points that TAs stress in comments on student writing change over time.</li>
 </ul>
 <div id="section" class="section level4">
 <h4> </h4>
@@ -479,24 +479,23 @@ div.tocify {
 </div>
 <div id="work-plan" class="section level2">
 <h2>Work Plan</h2>
-<p>The work outline for this project is:</p>
+<p>The plan for this project is to:</p>
 <ol style="list-style-type: decimal">
-<li>Compile an initial dataset of hand-coded TA comments on reports for testing. Data will be de-identified by replacing both TAs’ and students’ names with anonymous IDs.</li>
+<li>Compile an anonymized testing dataset of hand-coded TA comments from reports.</li>
 <li>Import TA comments and relevant metadata from student reports into R as a “tidy” dataframe.</li>
-<li>Use basic text analysis methods to explore comment data structure, n-gram frequencies, etc., and identify potentially useful elements for feature engineering.</li>
-<li>Write a workflow using Naive Bayes for supervised text classification, and test various permutations of analysis parameters to establish a baseline classifier.</li>
-<li>Assign TA comments to categories using the baseline NB classifier, and establish baseline accuracy values by comparing outcomes of automated classification to hand-coded results.</li>
-<li>Using features (from Step #3) and comparison data from NB classification protocol (from Step #5) as guides, further optimize the NB classifier method until predicted accuracy stabilizes.</li>
-<li>Apply the optimized NB classifier to the original FULL comment dataset, identify all comments that are being classified incorrectly, and look for potential patterns.</li>
-<li>Write a small set of rule- or REGEX pattern-based searches that can identify comments which are more likely to be classified incorrectly.</li>
-<li>Combine the rules/pattern-based pre-screening process with the optimized Naive Bayes classifier to create a vertical Ensemble Classifier.</li>
-<li>Re-validate the Ensemble Classifier using a subset of ~2000 new hand-coded TA comments extracted from student lab reports for a different semester than the initial test dataset. Compare automated results for new data set to hand-coded categories.</li>
+<li>Explore comment data structure, n-gram frequencies, etc., and identify potential elements for feature engineering.</li>
+<li>Write a supervised text classification workflow that uses Naive Bayes to assign TA comments to our pre-defined categories.</li>
+<li>Test permutations of analysis parameters to optimize the classifier and establish baseline accuracy.</li>
+<li>Apply the optimized NB classifier to the original FULL comment dataset, identify which comments are being classified incorrectly, and look for potential patterns.</li>
+<li>Based on features identified in Steps #3 and #6, write a small set of rule- or REGEX pattern-based searches that can identify comments that are more likely to be classified incorrectly.</li>
 </ol>
-<p>Looking beyond the current project, I will use the vertical Ensemble Classifier two ways:</p>
-<ul>
-<li>To monitor TA comment patterns in the ongoing NSF-funded project.</li>
-<li>As the control method for evaluating other potential text classifier strategies.</li>
-</ul>
+<p>After completing the FLC project, my goals are to:</p>
+<ol start="8" style="list-style-type: decimal">
+<li>Combine the rules/pattern-based pre-screening process with the optimized Naive Bayes classifier to create a vertically Ensemble Classifier.</li>
+<li>Re-validate the Ensemble Classifier against a subset of ~2000 independently hand-coded TA comments extracted from student lab reports for a different semester than the initial test dataset.</li>
+<li>Begin using the classifier to monitor TA comment patterns in the ongoing NSF-funded project.</li>
+</ol>
+<p>Looking till further ahead, I would like to evaluate other potential text classifier strategies, using the work presented here as a baseline.</p>
 <div id="section-1" class="section level4">
 <h4> </h4>
 </div>

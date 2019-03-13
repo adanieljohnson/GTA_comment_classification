@@ -10,20 +10,21 @@ biblio-style: apalike
 Items to get help on:  
 
 ##General/Site-Wide:
-  Embedding the bibliographic items  
-    Writing the bibtext  
-    Embedding using @baseR method, or [@holder].  
-  Modify the icons:
-  
-  Set menu so landing page is an "Overview"
-  Append this code to end of all pages
+
++  Write bibliographic entries for missing citations. 
++  Set menu so landing page of each topic is an "Overview"
++  Modify bottom code of all pages. If has citations, make sure the page has:
 ```
       #### \   
       ***
 ```
++  If a page has no citations, REMOVE the bottom code for the horizontal rule. It now is in the footer.
++  Beloe is the standard output format for citation tags in my copy of BibDesk. To make the tags work properly, need to search and replace the pre-string.
+
+```\@[Carpenter2001] is output. Change "\@[" to "[@"```
 
 ##Index:
-*  Decide on bottom page site map strategy, and attach  
+*  Decide on bottom page site map strategy, and attach.  
 
 ##Background:
 *  Need to finish these pages:  
@@ -68,4 +69,4 @@ Items to get help on:
 *  Use ```mutate(datacolumn=str_count(utterance_clean, "\\b(um|u=m)\\b"))``` to extract a string character and count. Use this to count punctuation only comments, or ID comments with questions.
 
 ####\  
-888
+
