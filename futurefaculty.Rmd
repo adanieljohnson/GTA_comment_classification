@@ -3,6 +3,8 @@ title: "Preparing Future Technical Writing Teachers"
 date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
+nocite: | 
+  @Nilson2014
 ---
 
 ```{r, child="_setup.Rmd"}
@@ -14,7 +16,8 @@ A major barrier to routine writing in STEM courses is instructor knowledge. Many
 
 Knowing which instructional models are effective is not sufficient to ensure adoption. Faculty may have different priorities or hindering attitudes by the time they teach their first classes as assistant professors. These attitudes underlie comments like “I don’t have time for something new,” “I don’t have spare class time to spend teaching writing,” or “students should learn how to write elsewhere” [@Coil2010, @Clughe2012, @FSSE2016]. These attitudes are very resistant to change. For example, despite a nationwide multi-year effort promoting interactive, inquiry- and skills-centric teaching, many faculty still believe their main goal should be content delivery, not development of students’ disciplinary thinking and process skills [@DAvanzo2013, @Freeman2014, @Gottschalk2003, @NRC2012, @VandC2011, @FSSE2016].
 
-Even when faculty are motivated to innovate, how they learn about alternative strategies affects the odds of adoption. For example, faculty who attend formal professional development activities that promote evidence- based practices are less likely to adopt those practices than if they learn about them from trusted colleagues or respected opinion leaders [@Andrews2016]. In contrast, graduate students who participate in formal professional development about learner-centered instruction readily adopt learner-centered methods into their personal teaching practice [(]@Ebert-May2015]. A more effective strategy for changing faculty instructional practices may be to target and train future faculty who then act as change agents [@Tanner2006].
+Even when faculty are motivated to innovate, how they learn about alternative strategies affects the odds of adoption. For example, faculty who attend formal professional development activities that promote evidence- based practices are less likely to adopt those practices than if they learn about them from trusted colleagues or respected opinion leaders [@Andrews2016]. In contrast, graduate students who participate in formal professional development about learner-centered instruction readily adopt learner-centered methods into their personal teaching practice [@Ebert-May2015]. A more effective strategy for changing faculty instructional practices may be to target and train future faculty who then act as change agents [@Tanner2006].
 
 ####\  
 ***
+*Works Cited*

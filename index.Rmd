@@ -45,4 +45,3 @@ Insert a text-based overview and site map of the major pages and branch points h
 When appropriate, anchor pages branch to extended supporting documentation.
 
 #### \   
-***
