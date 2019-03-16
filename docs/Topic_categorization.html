@@ -296,13 +296,15 @@ div.tocify {
 </li>
 <li>
   <a href="background.html">
-    <span class="fa fa-sticky-note"></span>
+    <span class="fa fa-history"></span>
      
     Background
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-search"></span>
+     
     Lit Review
      
     <span class="caret"></span>
@@ -310,49 +312,56 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="litreview.html">
-        <span class="fa fa-book"></span>
+        <span class="fa fa-search"></span>
          
         Overview
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="techwriting.html">
+        <span class="fa fa-chalkboard"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
-      <a href="Text_Classifier_Models.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="futurefaculty.html">
+        <span class="fa fa-chalkboard-teacher"></span>
          
-        Text Classification
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-chart-bar"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sort-amount-down"></span>
+         
+        Intro to Text Classification
       </a>
     </li>
     <li>
       <a href="Topic_categorization.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-code-branch"></span>
          
         Topic Modeling
       </a>
     </li>
     <li>
       <a href="Choosing_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-hand-point-up"></span>
          
         Choosing a Classifier
       </a>
     </li>
     <li>
       <a href="Improving_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-edit"></span>
          
         Evaluating Outcomes
       </a>
@@ -369,43 +378,50 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="build.html">
+        <span class="fa fa-puzzle-piece"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
       <a href="docxcommentextraction.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-cut"></span>
          
         Comment Extraction
       </a>
     </li>
     <li>
       <a href="codebook.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-book"></span>
          
         Classification Codebook
       </a>
     </li>
     <li>
       <a href="dataimport.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-sign-in-alt"></span>
          
         About the Dataset
       </a>
     </li>
     <li>
       <a href="initial_exploration.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-eye"></span>
          
         Initial Exploration
       </a>
     </li>
     <li>
       <a href="NB_2r2c.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-map-marker-alt"></span>
          
         NB Classifier
       </a>
     </li>
     <li>
       <a href="Ensemble_Notes.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-archive"></span>
          
         Ensemble Classifier
       </a>
@@ -427,7 +443,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="nextsteps.html">
+  <a href="sitemap.html">
     <span class="fa fa-shoe-prints"></span>
      
     Next Steps
@@ -448,13 +464,13 @@ div.tocify {
 </div>
 
 
-<p>Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already, or do they need to be established? What are the main topics</p>
+<p>Establishing meaningful text classification categories depends on the goals of the project or the question being asked. Are relevant categories known already, or do they need to be established?</p>
 <p><strong>Curated Categories</strong> (my provisional term until I find the appropriate equivalent in current use) are established by subject matter experts. The established categories can be constructed from:</p>
 <ul>
 <li>A limited keywords vocabulary (National Library of Medicine MeSH categories for example)</li>
 <li>Disciplinary conventions or shared best practices (the Dublin Core is an example)</li>
 <li>Prior empirical studies</li>
-<li>The dataset itself, using <em>de novo</em> iterative coding. This process is described further here [LINK] and here [LINK].</li>
+<li>The dataset itself, using <em>de novo</em> iterative coding. This process is described further here <span class="citation">(<span class="citeproc-not-found" data-reference-id="LINK"><strong>???</strong></span>)</span>.</li>
 </ul>
 <p><strong>Topic Modeling</strong> is a group of techniques for identifying groups of words (the “topic”) that best summarize the information in a collection of documents. Topic modeling is an iterative/ generative process that does not require any prior knowledge of the documents or relationships.</p>
 <div id="section" class="section level4">
@@ -490,15 +506,19 @@ div.tocify {
 <p>LSA overcomes two of the most problematic constraints of Boolean keyword queries: multiple words that have similar meanings (synonymy) and words that have more than one meaning (polysemy).</p>
 <p>LSA is also used to perform automated document categorization. Document categorization is the assignment of documents to one or more predefined categories based on their similarity to the conceptual content of the categories. Several experiments have demonstrated that there are a number of correlations between the way LSI and humans process and categorize text.</p>
 <p>LSA uses example documents to establish the conceptual basis for each category. During categorization processing, the concepts contained in the documents being categorized are compared to the concepts contained in the example items, and a category (or categories) is assigned to the documents based on the similarities between the concepts they contain and the concepts that are contained in the example documents.</p>
-<p>LSA automatically adapts to new and changing terminology, and has been shown to be very tolerant of noise (i.e., misspelled words, typographical errors, unreadable characters, etc.).[24] This is especially important for applications using text derived from Optical Character Recognition (OCR) and speech-to-text conversion. LSA also deals effectively with sparse, ambiguous, and contradictory data.</p>
+<p>LSA automatically adapts to new and changing terminology, and has been shown to be very tolerant of noise (i.e., misspelled words, typographical errors, unreadable characters, etc.). This is especially important for applications using text derived from Optical Character Recognition (OCR) and speech-to-text conversion. LSA also deals effectively with sparse, ambiguous, and contradictory data.</p>
 <p>Text does not need to be in sentence form for LSA to be effective. It can work with lists, free-form notes, email, Web-based content, etc. As long as a collection of text contains multiple terms, LSA can be used to identify patterns in the relationships between the important terms and concepts contained in the text.</p>
 </div>
 <div id="section-2" class="section level4">
 <h4> </h4>
+<hr />
+<p><em>Work Cited</em></p>
 </div>
 </div>
 
-<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+<p></p>
+<hr>
+<p>Copyright &copy; 2019 A. Daniel Johnson. All rights reserved.</p>
 
 
 </div>

@@ -29,7 +29,9 @@ Our first goal is to better understand student and instructor behaviors within t
 
 ####\  
 ##Context & Prior Work
-From prior studies (*see the Literature Review for details*), we know students make greater gains as writers if instructors avoid telling students what to correct ("copy editing"), and use a coaching-oriented approach instead [@Bazerman1994; @Bazerman2006; @Breidenbach2006; @Gottschalk2003; @Graves2011; @Kiefer2002; @NCTENWP; @Perelman2009; @Ruegg2015; @Szymanski2014;@Trupiano2006; @Underwood2006; @Anson2001; @CWPA2011; @Harris1979; @Haswell2006a; @Haswell2006b; @Reynolds2009; @Szymanski2014; @Swilky1991]. To that end, our program trains graduate TAs to use a **global issues / biggest issues first** approach to correcting undergraduate technical writing. Ideally:
+From prior studies (*see the Literature Review for details*), we know students make greater gains as writers if instructors avoid telling students what to correct ("copy editing"), and use a coaching-oriented approach instead [@Bazerman1994; @Bazerman2006; @Breidenbach2006; @Gottschalk2003; @Graves2011; @Kiefer2002; @NCTENWP; @Perelman2009; @Ruegg2015; @Szymanski2014; @Trupiano2006; @Underwood2006; @Anson2001; @CWPA2011; @Harris1979; @Haswell2006a; @Haswell2006b; @Reynolds2009; @Szymanski2014; @Swilky1991]. 
+
+To that end, our program trains graduate TAs to use a **global issues / biggest issues first** approach to correcting undergraduate technical writing. Ideally:
 
 *  TAs spend a shorter amount of time writing fewer comments that focus on broader issues.
 *  TAs provide no more than 3-5 comments per text page.

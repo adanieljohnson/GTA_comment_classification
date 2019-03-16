@@ -182,8 +182,6 @@ Example: I want to invest in a company XYZ. I am not sure about its performance 
 >5.  Market Research team in same segment: This team analyzes the customer preference of company XYZ’s product over others and how is this changing with time. Because he deals with customer side, he is unaware of the changes company XYZ will bring because of alignment to its own goals. In the past, they have been right 75% of times.  
   
 >6.  Social Media Expert: This person can help us understand how has company XYZ has positioned its products in the market. And how are the sentiment of customers changing over time towards company. He is unaware of any kind of details beyond digital marketing. In the past, he has been right 65% of times.  
-
-
 Given the broad spectrum of access we have, we can probably combine all the information and make an informed decision. In a scenario when all the 6 experts/teams verify that it’s a good decision(assuming all the predictions are independent of each other), we will get a combined accuracy rate of:
 
 ```

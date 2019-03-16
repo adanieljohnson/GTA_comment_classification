@@ -140,3 +140,5 @@ In order to capture in a quantitative way the nuance necessary to distinguish ma
 https://nlp.stanford.edu/projects/glove/
 
 ####\  
+***
+*Work Cited*

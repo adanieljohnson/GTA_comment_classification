@@ -20,8 +20,9 @@ The dataset being used to develop this project is an Excel table containing 10,8
 Prior to import, review the data table **in Excel** and check that:
 
 1.  Student and TA names have been recoded using pre-assigned anonymous IDs.
-2.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.rmd"
-3.  Data table headers match those listed below. The same list is in the file "code_column_names.rmd"
+2.  Vocabulary terms used in coding columns matches comment codebook criteria described at https://adanieljohnson.github.io/default_website/codebook.html.
+3.  Data table headers match those listed below.  
+
 
 Column Number|Column Name|Accepted Values or Format
 ------------|----------------------|-----------------------
@@ -55,19 +56,17 @@ Column Number|Column Name|Accepted Values or Format
 28|code.notes|values in Ref. Tables
 
 
-Data were anonymized in Excel, replacing names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings **[LINK]**. 
+Data were anonymized in Excel, replacing names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings. 
 
 
 Once all data are in correct format, export Excel file to CSV with name formatted as **"coded_full_comments_dataset_SemYear.csv"**
-
-
 
 ####\  
 
 #Target Dataset
 The development dataset is an Excel table of 10,808 rows. One column has "TA comments" extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.
 
-Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings **[LINK]**. 
+Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings. 
 
 ####\  
 
@@ -75,8 +74,8 @@ Data were anonymized in Excel prior to conversion to CSV format. Names, email ad
 Prior to import, review the data table **in Excel** and check that:
 
 1.  Student and TA names have been recoded using pre-assigned anonymous IDs.
-2.  Vocabulary terms used in coding columns matches criteria in "codebook_for_comments.rmd" [LINK]
-3.  Data table headers match those listed below. The same list is in the file "code_column_names.rmd" [LINK]
+2.  Vocabulary terms used in coding columns matches comment codebook criteria described at https://adanieljohnson.github.io/default_website/codebook.html.
+3.  Data table headers match those listed below. 
 
 Column Number|Column Name|Accepted Values or Format
 ------------|----------------------|-----------------------

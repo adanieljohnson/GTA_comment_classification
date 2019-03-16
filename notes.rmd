@@ -69,4 +69,6 @@ Items to get help on:
 *  Use ```mutate(datacolumn=str_count(utterance_clean, "\\b(um|u=m)\\b"))``` to extract a string character and count. Use this to count punctuation only comments, or ID comments with questions.
 
 ####\  
+***
+*Work Cited*
 

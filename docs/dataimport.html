@@ -297,13 +297,15 @@ div.tocify {
 </li>
 <li>
   <a href="background.html">
-    <span class="fa fa-sticky-note"></span>
+    <span class="fa fa-history"></span>
      
     Background
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-search"></span>
+     
     Lit Review
      
     <span class="caret"></span>
@@ -311,49 +313,56 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="litreview.html">
-        <span class="fa fa-book"></span>
+        <span class="fa fa-search"></span>
          
         Overview
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="techwriting.html">
+        <span class="fa fa-chalkboard"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
-      <a href="Text_Classifier_Models.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="futurefaculty.html">
+        <span class="fa fa-chalkboard-teacher"></span>
          
-        Text Classification
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-chart-bar"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sort-amount-down"></span>
+         
+        Intro to Text Classification
       </a>
     </li>
     <li>
       <a href="Topic_categorization.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-code-branch"></span>
          
         Topic Modeling
       </a>
     </li>
     <li>
       <a href="Choosing_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-hand-point-up"></span>
          
         Choosing a Classifier
       </a>
     </li>
     <li>
       <a href="Improving_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-edit"></span>
          
         Evaluating Outcomes
       </a>
@@ -370,43 +379,50 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="build.html">
+        <span class="fa fa-puzzle-piece"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
       <a href="docxcommentextraction.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-cut"></span>
          
         Comment Extraction
       </a>
     </li>
     <li>
       <a href="codebook.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-book"></span>
          
         Classification Codebook
       </a>
     </li>
     <li>
       <a href="dataimport.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-sign-in-alt"></span>
          
         About the Dataset
       </a>
     </li>
     <li>
       <a href="initial_exploration.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-eye"></span>
          
         Initial Exploration
       </a>
     </li>
     <li>
       <a href="NB_2r2c.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-map-marker-alt"></span>
          
         NB Classifier
       </a>
     </li>
     <li>
       <a href="Ensemble_Notes.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-archive"></span>
          
         Ensemble Classifier
       </a>
@@ -428,7 +444,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="nextsteps.html">
+  <a href="sitemap.html">
     <span class="fa fa-shoe-prints"></span>
      
     Next Steps
@@ -463,8 +479,8 @@ div.tocify {
 <p>Prior to import, review the data table <strong>in Excel</strong> and check that:</p>
 <ol style="list-style-type: decimal">
 <li>Student and TA names have been recoded using pre-assigned anonymous IDs.</li>
-<li>Vocabulary terms used in coding columns matches criteria in “codebook_for_comments.rmd”</li>
-<li>Data table headers match those listed below. The same list is in the file “code_column_names.rmd”</li>
+<li>Vocabulary terms used in coding columns matches comment codebook criteria described at <a href="https://adanieljohnson.github.io/default_website/codebook.html" class="uri">https://adanieljohnson.github.io/default_website/codebook.html</a>.</li>
+<li>Data table headers match those listed below.</li>
 </ol>
 <table style="width:83%;">
 <colgroup>
@@ -622,7 +638,7 @@ div.tocify {
 </tr>
 </tbody>
 </table>
-<p>Data were anonymized in Excel, replacing names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings <strong>[LINK]</strong>.</p>
+<p>Data were anonymized in Excel, replacing names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings.</p>
 <p>Once all data are in correct format, export Excel file to CSV with name formatted as <strong>“coded_full_comments_dataset_SemYear.csv”</strong></p>
 <div id="section-1" class="section level4">
 <h4> </h4>
@@ -631,7 +647,7 @@ div.tocify {
 <div id="target-dataset" class="section level1">
 <h1>Target Dataset</h1>
 <p>The development dataset is an Excel table of 10,808 rows. One column has “TA comments” extracted from student lab reports in Spring 2018. Each TA comment is stored as a separate row of the table, and is a mixed alphanumeric string of one or more words, numbers, and punctuation. Other columns record unique report, student, and TA IDs; grade assigned to the report; other standardized information about the original report from which the comment was extracted; and the hand-coded subject and structure of each comment.</p>
-<p>Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings <strong>[LINK]</strong>.</p>
+<p>Data were anonymized in Excel prior to conversion to CSV format. Names, email addresses, and other confidential information was replaced with unique randomized alphanumeric strings.</p>
 <div id="section-2" class="section level4">
 <h4> </h4>
 </div>
@@ -641,8 +657,8 @@ div.tocify {
 <p>Prior to import, review the data table <strong>in Excel</strong> and check that:</p>
 <ol style="list-style-type: decimal">
 <li>Student and TA names have been recoded using pre-assigned anonymous IDs.</li>
-<li>Vocabulary terms used in coding columns matches criteria in “codebook_for_comments.rmd” [LINK]</li>
-<li>Data table headers match those listed below. The same list is in the file “code_column_names.rmd” [LINK]</li>
+<li>Vocabulary terms used in coding columns matches comment codebook criteria described at <a href="https://adanieljohnson.github.io/default_website/codebook.html" class="uri">https://adanieljohnson.github.io/default_website/codebook.html</a>.</li>
+<li>Data table headers match those listed below.</li>
 </ol>
 <table style="width:83%;">
 <colgroup>
@@ -876,7 +892,9 @@ str(comments_raw$subject)</code></pre>
 </div>
 </div>
 
-<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+<p></p>
+<hr>
+<p>Copyright &copy; 2019 A. Daniel Johnson. All rights reserved.</p>
 
 
 </div>

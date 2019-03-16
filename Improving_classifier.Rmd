@@ -43,5 +43,3 @@ https://www.r-bloggers.com/k-is-for-cohens-kappa/
 Last April, during the A to Z of Statistics, I blogged about Cohen’s kappa, a measure of interrater reliability. Cohen’s kappa is a way to assess whether two raters or judges are rating something the same way. And thanks to an R package called **irr**, it’s very easy to compute. But first, let’s talk about why you would use Cohen’s kappa and why it’s superior to a more simple measure of interrater reliability, interrater agreement.
 
 ####\  
-***
-*Work Cited*
