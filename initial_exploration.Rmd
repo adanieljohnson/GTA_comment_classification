@@ -19,7 +19,7 @@ I ran three different analyses of word use frequency. For simplicity I reduced t
 
 *  __Pearson correlations for word use frequencies__. This method compares the **absolute frequencies** for words found in **ALL** of the Subject sub-categories.
 *  __Word frequency differences based on log-odds ratios__. This method highlights terms that are the **most different between sub-categories**. Again, this method compares frequencies for words found in **ALL** of the Subject sub-categories.
-*  __N-grams mapping__ (***Draft***). This method identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. Unlike the other two methods, this one does not drop terms which are missing from one or more groups.
+*  __N-grams mapping__ (***In progress***). This method identifies text strings, phrases, and terms that are unique (or nearly unique) to one sub-category. Unlike the other two methods, this one does not drop terms which are missing from one or more groups.
 
 ####\  
 
@@ -553,3 +553,16 @@ sortedwords.logic.fraction2n <- sortedwords.logic2n %>% as_tibble() %>% mutate(
   logic.fraction2n = (n*100)/total_words.logic2n$total
 )
 ```
+
+####\  
+***
+*Work Cited*
+
+
+
+
+
+
+
+
+

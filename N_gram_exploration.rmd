@@ -1,0 +1,139 @@
+---
+title: "N-gram Frequency Analysis"
+date: "`r format(Sys.time(), '%b %d, %Y')`"
+bibliography: library.bib
+biblio-style: apalike
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+Another comparison looks at frequencies of N-grams between different sub-categories. This page describes the process used for initial exploration of the TA comments dataset. 
+
+####\  
+
+#N-Grams Mapping 
+##Are Certain Terms and Phrases Unique to One Sub-Category?
+One of our earliest observations was that the n-gram "basic criteria" only appeared in TA comments from three different Subject sub-categories. Of these, the phrase made up <0.5% of comments in two categories, but in the third category, "basic criteria" made up >5% of all comments. This suggests that the "basic criteria" n-gram is essentially diagnostic for that sub-category. This suggests other terms and n-grams that are eliminated in the previous two methods may be equally diagnostic for one sub-category.
+
+The block below describes a pseudo-code approach.
+```{}
+Import comments
+Tokenize the comments as 1-, 2, 3-grams
+Add counts within subset, calculate frequency
+Split by subcategory
+Align 4 subcategories, highest to lowest
+
+```
+
+####\  
+```{r}
+# Call in tidyverse, other required libraries.
+library(tidyverse)
+library(tidytext)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(scales)
+
+#Read in CSV as a starting dataframe named "base_data". 
+base_data <- read_csv(file='data/coded_full_comments_dataset_Spring18anonVERB.csv')
+```
+
+```{r}
+#Tokenize phrases as N-grams.
+
+base_data_tokenized2n <- base_data %>% 
+  unnest_tokens(ngram, ta.comment, token="ngrams", n=2)
+
+sortedwords.comments.all2n <- base_data_tokenized2n %>%
+  count(ngram, sort = TRUE) %>%
+  ungroup()
+
+total_words.all2n <- sortedwords.comments.all2n %>% 
+  summarize(total = sum(n))
+
+sortedwords.comments.all.fraction2n <- sortedwords.comments.all2n %>% as_tibble() %>% mutate(
+  all.fraction = (n*100)/total_words.all2n$total
+  )
+
+#Select SUBSETs of tokenized data based on code.subject: 
+base_data_tokenized.basic2n <- subset(base_data_tokenized2n, code.subject == "1_basic", select = (1:28))
+base_data_tokenized.writing2n <- subset(base_data_tokenized2n, code.subject == "2_writing", select = (1:28))
+base_data_tokenized.technical2n <- subset(base_data_tokenized2n, code.subject == "3_technical", select = (1:28))
+base_data_tokenized.logic2n <- subset(base_data_tokenized2n, code.subject == "4_logic", select = (1:28))
+
+
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.basic2n <- base_data_tokenized.basic2n %>%
+  count(ngram, sort = TRUE) %>%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.basic2n <- sortedwords.basic2n %>% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.basic.fraction2n <- sortedwords.basic2n %>% as_tibble() %>% mutate(
+  basic.fraction2n = (n*100)/total_words.basic2n$total
+)
+
+#Repeats for subset 2
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.writing2n <- base_data_tokenized.writing2n %>%
+  count(ngram, sort = TRUE) %>%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.writing2n <- sortedwords.writing2n %>% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.writing.fraction2n <- sortedwords.writing2n %>% as_tibble() %>% mutate(
+  writing.fraction2n = (n*100)/total_words.writing2n$total
+)
+
+#Repeats for subset 3
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.technical2n <- base_data_tokenized.technical2n %>%
+  count(ngram, sort = TRUE) %>%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.technical2n <- sortedwords.technical2n %>% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.technical.fraction2n <- sortedwords.technical2n %>% as_tibble() %>% mutate(
+  technical.fraction2n = (n*100)/total_words.technical2n$total
+)
+
+#Repeats for subset 4
+#For each subset, filter stopwords, count words and total, then calculate frequencies.
+sortedwords.logic2n <- base_data_tokenized.logic2n %>%
+  count(ngram, sort = TRUE) %>%
+  ungroup()
+
+#Calculate the number of words in total in the subset
+total_words.logic2n <- sortedwords.logic2n %>% 
+  summarize(total = sum(n))
+
+#Mutate table to calculate then append fractional word frequency in the text.
+sortedwords.logic.fraction2n <- sortedwords.logic2n %>% as_tibble() %>% mutate(
+  logic.fraction2n = (n*100)/total_words.logic2n$total
+)
+```
+
+####\  
+***
+*Work Cited*
+
+
+
+
+
+
+
+
+
+

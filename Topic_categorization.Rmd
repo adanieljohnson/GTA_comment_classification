@@ -15,7 +15,8 @@ Establishing meaningful text classification categories depends on the goals of t
 *  A limited keywords vocabulary (National Library of Medicine MeSH categories for example)
 *  Disciplinary conventions or shared best practices (the Dublin Core is an example)
 *  Prior empirical studies
-*  The dataset itself, using *de novo* iterative coding. This process is described further here [@LINK].
+*  The dataset itself, using *de novo* iterative coding. This process is described further here: https://adanieljohnson.github.io/default_website/codebook.html  
+
 
 **Topic Modeling** is a group of techniques for identifying groups of words (the "topic")  that best summarize the information in a collection of documents. Topic modeling is an iterative/ generative process that does not require any prior knowledge of the documents or relationships.
 
@@ -23,7 +24,7 @@ Establishing meaningful text classification categories depends on the goals of t
 
 ###Topic Modeling Methods to Identify Features
 ####Latent Dirichlet Allocation
-(LDA) is a common method for generating topic model features. LDA is an iterative model which starts from a fixed number of topics. Each topic is represented as a distribution over words, and each document is then represented as a distribution over topics. Although the tokens themselves are meaningless, the probability distributions over words provided by the topics provide a sense of the different ideas contained in the documents. 
+LDA is a common method for generating topic model features. LDA is an iterative model which starts from a fixed number of topics. Each topic is represented as a distribution over words, and each document is then represented as a distribution over topics. Although the tokens themselves are meaningless, the probability distributions over words provided by the topics provide a sense of the different ideas contained in the documents. 
 
 ####Brown Clustering
 A hierarchical clustering algorithm that is applied to text, grouping words into clusters that are assumed to be semantically related by virtue of their having been embedded in similar contexts.

@@ -296,13 +296,15 @@ div.tocify {
 </li>
 <li>
   <a href="background.html">
-    <span class="fa fa-sticky-note"></span>
+    <span class="fa fa-history"></span>
      
     Background
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-search"></span>
+     
     Lit Review
      
     <span class="caret"></span>
@@ -310,49 +312,56 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="litreview.html">
-        <span class="fa fa-book"></span>
+        <span class="fa fa-search"></span>
          
         Overview
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="techwriting.html">
+        <span class="fa fa-chalkboard"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
-      <a href="Text_Classifier_Models.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="futurefaculty.html">
+        <span class="fa fa-chalkboard-teacher"></span>
          
-        Text Classification
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-chart-bar"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sort-amount-down"></span>
+         
+        Intro to Text Classification
       </a>
     </li>
     <li>
       <a href="Topic_categorization.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-code-branch"></span>
          
         Topic Modeling
       </a>
     </li>
     <li>
       <a href="Choosing_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-hand-point-up"></span>
          
         Choosing a Classifier
       </a>
     </li>
     <li>
       <a href="Improving_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-edit"></span>
          
         Evaluating Outcomes
       </a>
@@ -369,43 +378,50 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="build.html">
+        <span class="fa fa-puzzle-piece"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
       <a href="docxcommentextraction.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-cut"></span>
          
         Comment Extraction
       </a>
     </li>
     <li>
       <a href="codebook.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-book"></span>
          
         Classification Codebook
       </a>
     </li>
     <li>
       <a href="dataimport.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-sign-in-alt"></span>
          
         About the Dataset
       </a>
     </li>
     <li>
       <a href="initial_exploration.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-eye"></span>
          
         Initial Exploration
       </a>
     </li>
     <li>
       <a href="NB_2r2c.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-map-marker-alt"></span>
          
         NB Classifier
       </a>
     </li>
     <li>
       <a href="Ensemble_Notes.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-archive"></span>
          
         Ensemble Classifier
       </a>
@@ -427,7 +443,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="nextsteps.html">
+  <a href="sitemap.html">
     <span class="fa fa-shoe-prints"></span>
      
     Next Steps
@@ -447,41 +463,193 @@ div.tocify {
 </div>
 
 
+<p><em>Updated May 12, 2019</em></p>
+<div id="vocabulary-and-word-use-patterns" class="section level1">
+<h1>Vocabulary and Word Use Patterns</h1>
+<div id="results-of-single-word-frequencies" class="section level2">
+<h2>Results of Single Word Frequencies</h2>
+<p>Pearson correlations for word use frequencies compares absolute use frequencies for words found in ALL THREE of the Subject sub-categories (excluding Basic Criteria). Results of one analysis are illustrated below.</p>
+<div class="figure">
+<img src="docs/initial_exploration_files/figure-html/unnamed-chunk-3-6.png" alt="XY plot of relative word use frequency in technical comments vs. logic comments. " />
+<p class="caption"><em>XY plot of relative word use frequency in technical comments vs. logic comments. </em></p>
+</div>
+<div id="section" class="section level4">
+<h4> </h4>
+<p>Results are summarized below.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Comparison</th>
+<th>Correlation</th>
+<th>95% CI</th>
+<th>p-value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Writing vs. Technical</td>
+<td>0.404</td>
+<td>0.355 - 0.451</td>
+<td>1.64e-47</td>
+</tr>
+<tr class="even">
+<td>Writing vs. Logic</td>
+<td>0.559</td>
+<td>0.514 - 0.602</td>
+<td>3.60e-79</td>
+</tr>
+<tr class="odd">
+<td>Logic vs. Technical</td>
+<td>0.394</td>
+<td>0.343 - 0.443</td>
+<td>3.05e-42</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="section-1" class="section level4">
+<h4> </h4>
+<p>The comparatively low correlations of word frequencies between subject categories suggests that some terms can serve as diagnostic keywords for particular subjects.</p>
+</div>
+<div id="section-2" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="results-of-log-odds-pairs-for-subject-sub-categories" class="section level2">
+<h2>Results of Log-Odds Pairs for Subject Sub-Categories</h2>
+<p>Word frequency differences between sub-categories were calculated using log-odds ratios. One example analysis is shown below.</p>
+<div class="figure">
+<img src="docs/initial_exploration_files/figure-html/unnamed-chunk-7-1.png" alt="Log-Odds ratio comparison of words most different between Writing comments (top) and Technical comments (bottom). " />
+<p class="caption"><em>Log-Odds ratio comparison of words most different between Writing comments (top) and Technical comments (bottom). </em></p>
+</div>
+<div id="section-3" class="section level4">
+<h4> </h4>
+<p>Words identified by individual analyses were collated into two lists: highly predictive (those appearing in two comparisions) and moderately predictive (those found in one comparison).</p>
+</div>
+<div id="section-4" class="section level4">
+<h4> </h4>
+</div>
+<div id="words-for-subject-2.-writing" class="section level3">
+<h3>Words for Subject = 2. Writing</h3>
+<p><strong>Highly predictive</strong> Broad, broader, broadly; colloquial; language; quote, quotes, quotations; revise; tense</p>
+<p><strong>Moderately predictive</strong> Abstract; avoid; belongs; concise; concluding; details; formal; grammar; hypothesize; ideas; implications; importance; incorrect; informal; judgement; language; locate; methods; paraphrase; precise; read; recipe; redundant; repetitive; salinity; save; starting; style; takeaway; title; typos; voice; word; wrote</p>
+<div id="section-5" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="words-for-subject-3.-technical" class="section level3">
+<h3>Words for Subject = 3. Technical</h3>
+<p><strong>Highly predictive</strong> Average, averaged, averages; axis; bar, bars; caption, captions; deviation; figure, figures; format, formatting; graph, graphs; legend; paired; raw; represent; sd; standard; table, tables; units</p>
+<p><strong>Moderately predictive</strong> Chloroplast; day; df; error; label; ml; properly; stat; total</p>
+<div id="section-6" class="section level4">
+<h4> </h4>
+</div>
+</div>
+<div id="words-for-subject-4.-logic" class="section level3">
+<h3>Words for Subject = 4. Logic</h3>
+<p><strong>Highly predictive</strong> Connect, connection; expect, expected; relate; shelter</p>
+<p><strong>Moderately predictive</strong> Affecting; benefits; biological; broader; build; calculated; chloroplast; concluding; costs; density; dots; error; evolution; expand; explore; finding; fitness; gain; grow; hypothesize; ideas; implications; importance; isolated; logical; mechanisms; prediction; procedural; relative; relevance; resources; salinity; sample; selection; sodium; temp; tie; weren’t</p>
+<div id="section-7" class="section level4">
+<h4> </h4>
+</div>
+</div>
+</div>
+<div id="results-of-n-gram-frequency-comparisons" class="section level2">
+<h2>Results of N-Gram Frequency Comparisons</h2>
+<p>I also tried a limited scale test of an alternative approach, using 2-word phrases (2-grams) instead of single words to classify TA comments. Lists of 2-grams and relative frequencies of appearance were calculated for TA comments in all Subject categories (Basic, Writing, Technical, Logic). N-gram lists were sorted by appearance frequencies, and truncated at a within-subject frequency of &lt;1%, producing a starting dataset of ~550 2-grams.</p>
+<p>All 2-grams occurring at similar rates in 3 out of 4 Subject categories were classified as too general and deleted, leaving a working dataset of ~338 2-grams (out of original 550). Remaining 2-grams were tagged as potential identifiers of 1-2 Subject areas. The individual 2-gram lists were merged back to the master set and sorted alphabetically.</p>
+<p>The compiled set was visually scanned to identify individual 2-grams and 2-gram patterns that:</p>
+<ul>
+<li>Appeared in at least 1% of all comments in one sub-group</li>
+<li>Appeared at a 10-fold greater frequency in one sub-group versus all others.</li>
+</ul>
+<p>Full analysis of the dataset requires writing a coded search algorithm; for now, I am treating these results as s “proof-of-concept” demonstration only. This is a partial list of the potentially useful 2-grams identified so far.</p>
+<div id="section-8" class="section level4">
+<h4> </h4>
+<hr />
+<ul>
+<li>Subject = Basic
+<ul>
+<li>“basic criteria/criterion” (present in 25.12% of all Basic comments)</li>
+<li>“missing outside”&quot; (6.64% of all Basic comments)</li>
+<li>“outside source(s)”&quot; (13.75% of all Basic comments)</li>
+<li>“criteria __&quot;</li>
+<li>Single words (1-grams) strongly correlated with Basic category: basic, credit, grade, criteria, fail/failing, outside</li>
+</ul></li>
+<li>Subject = Writing
+<ul>
+<li>“abstract __&quot;</li>
+<li>“avoid __&quot;</li>
+<li>“capitalize __&quot;</li>
+<li>“colloquial __&quot;</li>
+</ul></li>
+<li>Subject = Technical
+<ul>
+<li>amplitude</li>
+<li>analysis/analyze</li>
+<li>“a figure/graph/legend”</li>
+<li>“a paired”</li>
+<li>alpha level/value&quot;</li>
+<li>“annotation exercise”</li>
+<li>“anova __&quot;</li>
+<li>“average __&quot;</li>
+<li>“bar(s) __&quot;</li>
+<li>“caption(s) __&quot;</li>
+</ul></li>
+<li>Subject = Logic
+<ul>
+<li>“a biological”</li>
+<li>“affect __&quot;</li>
+<li>“aggression/aggressive __&quot;</li>
+<li>“allocation __&quot;</li>
+<li>“axis __&quot;</li>
+<li>“betta(s) __&quot; (Is name of model system typically logic?)</li>
+<li>big(ger) picture/concept is logic</li>
+<li>connect “__&quot;</li>
+</ul></li>
+<li>N-grams Identifying TWO Subjects
+<ul>
+<li>“a citation” is basic or technical</li>
+<li>“a significant” is logic or technical</li>
+<li>“about __&quot; is logic, possibly writing. Weaker example.</li>
+<li>“background __&quot; is writing or logic</li>
+<li>“because that’s” is writing/technical</li>
+<li>“(bio)core guide/resource” is technical or writing</li>
+<li>“biological __&quot; is logic or writing</li>
+<li>“broader __&quot; is logic or writing</li>
+<li>“data __&quot; is most often technical, but occurs in others.</li>
+</ul></li>
+</ul>
+</div>
+<div id="section-9" class="section level4">
+<h4> </h4>
+</div>
+</div>
+</div>
 <div id="classifier-accuracy" class="section level1">
 <h1>Classifier Accuracy</h1>
-<p><em>Updated Feb 25, 2019</em></p>
 <p>The tables below show observed frequencies for 9,340 TA comments coded by hand, and frequencies for the same TA comments categorized using the optimized Naive Bayes classifier <strong>without</strong> pre-screening. The far right columns are overall subject frequencies, the bottom rows, overall structure frequencies.</p>
-<div id="section" class="section level4">
+<div id="section-10" class="section level4">
 <h4> </h4>
 <div class="figure">
 <img src="images/Result_of_NB_2D_mapping_Feb2019.png" alt="Comparison of frequency tables generated by hand-coding TA comments (top) versus predicted categories using optimized NB classifier (bottom). " />
 <p class="caption"><em>Comparison of frequency tables generated by hand-coding TA comments (top) versus predicted categories using optimized NB classifier (bottom). </em></p>
 </div>
 </div>
-<div id="section-1" class="section level4">
+<div id="section-11" class="section level4">
 <h4> </h4>
 <p>On average, the classifier is only 80-90% accurate for one subject sub-category or one specific comment. OVERALL though, the optimized NB classifier estimated relative frequencies of Subject subcategories very well; there was &lt;1.5% difference in fractional frequencies between observed (hand-coded) and computationally assigned Subject sub-categories.</p>
 <p>Overall accuracy was considerably lower for Structure sub-categories. Specifically, the NB classifier over-assigned comments to the “Copy-editing” sub-category, and under-assigned comments to the “Specifics” sub-category. Most incorrectly classified comments belonged to the “Technical” Subject sub-category. This <strong>suggest</strong> there may be specific terms present in comments within this sub-category that are problematic, and warrant further exploration.</p>
 </div>
-<div id="section-2" class="section level4">
+<div id="section-12" class="section level4">
 <h4> </h4>
 </div>
-<div id="data-story-2" class="section level2">
-<h2>Data Story 2</h2>
-</div>
-</div>
-<div id="overview" class="section level1">
-<h1>Overview</h1>
-<p>This notebook summarizes my progress, thoughts while building a working Ensemble method for categorizing TA comments.</p>
-<div id="section-3" class="section level4">
-<h4> </h4>
-</div>
-<div id="replicate-cycles-test-of-naive-bayes" class="section level2">
-<h2>Replicate Cycles Test of Naive Bayes</h2>
-<p>One of my ideas was to see if I could refine Naive Bayes by running the same classifier with different randomized datasets, then putting individual outputs side by side and assigning final categories based on most frequent classification in the set.</p>
+<div id="test-of-horizontal-stacked-naive-bayes" class="section level2">
+<h2>Test of Horizontal Stacked Naive Bayes</h2>
+<p>One strategy to refine Naive Bayes was running the same classifier with different randomized datasets, then putting individual outputs side by side and assigning final categories based on most frequent classification in the set.</p>
 <p>To test this I ran 5 Subject classifier replicates using the code in <em>Naive_bayes_V2r_2b.rmd</em>, with 5 different <code>set.seed</code> values. The exported CSV files were combined to get a set of data with up to 5 classifier assignments for the same comment.</p>
-<p>Using multiple randomized NB training runs does not seem to help. First, it was rare for the randomized runs to assign different incorrect classes. Second, when I compared 5 independently randomized runs by eye, the incorrectly categorized items were repeatedly put into the SAME incorrect group each time. Based on this, an Ensemble method using H-stacked categorical NB is unlikely to reduce overall errors in classification.</p>
-<p>Looking at the combined data DID provide other helpful insights into the overall classification procedure though. Naive Bayes does not seem to do well with comments that:</p>
+<p>Using multiple randomized NB training runs does not seem to help. First, it was rare for the randomized runs to assign different incorrect classes. Second, when I compared 5 independently randomized runs by eye, incorrectly categorized items were repeatedly put into the SAME incorrect group each time. Given this, an Ensemble method of H-stacked categorical NB comparison seems unlikely to reduce overall errors in classification.</p>
+<p>Looking at the joined data DID provide other helpful insights into the overall classification procedure though. Naive Bayes does not seem to do well with comments that:</p>
 <ul>
 <li>Contain many or mostly punctuation symbols, such as:
 <ul>
@@ -504,72 +672,63 @@ div.tocify {
 <li>Are sentences enclosed in punctuation</li>
 <li>Are made up entirely of STOP/common words (I am not as sure on this one)</li>
 </ul>
-<div id="section-4" class="section level4">
+<div id="section-13" class="section level4">
 <h4> </h4>
 </div>
 </div>
 <div id="overall-accuracy" class="section level2">
 <h2>Overall Accuracy</h2>
-<p>I also looked at OVERALL accuracy of NB by recreating the 2-dimensional contingency table that I made when hand-coding, and comparing it side-by-side to NB classifications. From this I gained additional insights.</p>
-<p>OVERALL, the 2-D Naive Bayes model performed very well for classifying comment Subject. When I re-ran the full original dataset (9340 comments) through the prediction model, NB estimates for Subject were within 1.5% of my hand-scored assignments. Structure classification was not as robust. Other observations:</p>
+<p>I looked at OVERALL accuracy of NB by recreating the 2-dimensional contingency table that I made when hand-coding, and comparing it side-by-side to NB classifications. From this I gained additional insights. Results are summarized below.</p>
+<div id="section-14" class="section level4">
+<h4> </h4>
+<div class="figure">
+<img src="docs/NB_2r2c_files/figure-html/unnamed-chunk-4-1.png" alt="alt text" />
+<p class="caption">alt text</p>
+</div>
+<div class="figure">
+<img src="docs/NB_2r2c_files/figure-html/unnamed-chunk-6-1.png" alt="alt text" />
+<p class="caption">alt text</p>
+</div>
+</div>
+<div id="section-15" class="section level4">
+<h4> </h4>
+<p>OVERALL, the 2-D Naive Bayes model performed very well for classifying comment <strong>Subject</strong>. When I re-ran the full original dataset (9340 comments) through the prediction model, NB estimates for Subject were within 1.5% of my hand-scored assignments. Structure classification was not as robust. Other observations:</p>
 <ul>
 <li>NB over-classified comments as “copyediting of technical issues” by 8-10%, and under-classified comments that should be marked as “specific technical issues” by almost same amount.</li>
-<li>Comments that belonged to groups making up less than 1-2% of all comments were more likely to be mis-classified.</li>
-<li>Longer text comments seemed to be mis-classified more often. Follow-up methods to evaluate:
+<li>Comments that belonged to groups comprising &lt;1-2% of all comments were more likely to be mis-classified.</li>
+<li>Longer text comments were mis-classified more often. This suggests two follow-up methods to evaluate:
 <ul>
-<li>Split longer comments into shorter phrases</li>
-<li>Evaluate only the first 5-10 words of a comment</li>
+<li>Splitting longer comments into shorter phrases</li>
+<li>Evaluating only the first 5-10 words of a comment</li>
 </ul></li>
 </ul>
-<p>It appears that Subject categories are more terms-centered, while Structure is based more on the sentiment and sentence structure of a comment. This suggests that I need to incorporate a sentiment classifier or PoS tagger step.</p>
-<div id="section-5" class="section level4">
+<p>It appears that Subject categories are assigned mainly on the terminology used, while Structure categories are assigned based more on the sentiment and sentence structure of a comment. This suggests that a sentiment classifier or PoS tagger step needs to be added.</p>
+</div>
+<div id="section-16" class="section level4">
 <h4> </h4>
 </div>
 </div>
+</div>
+<div id="looking-ahead" class="section level1">
+<h1>Looking Ahead</h1>
 <div id="mixed-ensemble-method" class="section level2">
 <h2>Mixed Ensemble Method</h2>
-<p>Based on the seems like the most reasonable approach for maximum accuracy is going to be a mixed Ensemble method. The initial working model is to:</p>
-<p>Add a pre-screening step prior to implementing NB:</p>
+<p>Based on the results outlined above, it appears that maximum classification accuracy will be a mixed vertical Ensemble method. Going forward, the working strategy will be to:</p>
 <ul>
-<li>Isolate “short-string” comments first. These are comments consisting of single words, two-word phrases, more punctuation than text, etc. These represent mostly pointers and copy-editing.</li>
-<li>Look for 2-grams with high frequencies in one particular category. (Ex., “basic criteria” 2-gram identifies a Basic Criteria comment.)</li>
+<li>Pre-screen extracted TA feedback for “short-string” comments consisting of single words, two-word phrases, more punctuation than text, etc. These represent mostly pointers and copy-editing.</li>
+<li>Screen comments for 2-grams with high frequencies in one particular category. (Ex., “basic criteria” 2-gram.)</li>
+<li>Use current Naive Bayes classifier to identify Subject.</li>
+<li>Evaluate whether a part-of-speech tagger can identify Structure of comments with higher accuracy, either alone when joined with NB preliminary classification.</li>
 </ul>
-<div id="section-6" class="section level4">
+<div id="section-17" class="section level4">
 <h4> </h4>
-</div>
-<div id="section-7" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-</div>
-<div id="tool-or-analysis-2" class="section level1">
-<h1>Tool or Analysis 2</h1>
-<div id="section-8" class="section level4">
-<h4><br />
-</h4>
-</div>
-<div id="data-story-3" class="section level2">
-<h2>Data Story 3</h2>
-<div id="section-9" class="section level4">
-<h4><br />
-</h4>
-</div>
-</div>
-<div id="data-story-4" class="section level2">
-<h2>Data Story 4</h2>
-<div id="section-10" class="section level4">
-<h4><br />
-</h4>
-</div>
-<div id="section-11" class="section level4">
-<h4><br />
-</h4>
 </div>
 </div>
 </div>
 
-<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+<p></p>
+<hr>
+<p>Copyright &copy; 2019 A. Daniel Johnson. All rights reserved.</p>
 
 
 </div>

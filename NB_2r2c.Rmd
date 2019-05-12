@@ -214,16 +214,23 @@ comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
 
 #Train Model, Predict & Evaluate for Subject
 This block predicts whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. 
-```{r bayes_training}
+```{r bayes_training subject}
 # Train the classifier on training data, then test on test dataset, and full dataset.
 comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
 comments_test_pred_subject <- predict(comments_classifier_subject, comments_test)
 comments_all_pred_subject <- predict(comments_classifier_subject, comments_all)
+```
 
+```{r bayes_training structure}
 comments_classifier_structure <- naiveBayes(comments_train, comments_train_labels_structure, laplace=1)
 comments_test_pred_structure <- predict(comments_classifier_structure, comments_test)
 comments_all_pred_structure <- predict(comments_classifier_structure, comments_all)
 ```
+
+
+
+
+
 
 A truth table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting Subject. 
 ```{r}
@@ -316,6 +323,7 @@ conf.mat4$overall['Accuracy']
 #Output for Review, Analysis
 The code block below creates a CSV file containing the **original** unmodified TA comments, the subject and structure labels assigned by a human observer, and the corresponding predicted categories for each comment based on the Naive Bayes estimator. Results are exported to a CSV file. By default the CSV file should be saved to the current working directory. 
 
+
 ```{r writeCSV}
 #Creates a data frame that compares predicted and actual labels for subject and structure
 tallymatrix <- data.frame("text"=c(comments_rawVERB_R[1:9340,]$text),"subject_label"=c(comments_all_labels_subject), "subject_predicted"=c(comments_all_pred_subject),"structure_label"=c(comments_all_labels_structure), "structure_predicted"=c(comments_all_pred_structure))
@@ -339,6 +347,7 @@ print(prop_tally2)
 ```
 
 This block is an **alternative method** to get the same data tables out using ```tidy``` format. It seems much less direct, but may be over-written.
+
 ```{r tidy_prediction_table}
 
 #Use broom::tidy to reorganize into a data frame.
@@ -348,13 +357,13 @@ tidy_tally3 <-tidy(final.tally)
 tidy_tally4 <-tidy(final.tally2)
 
 #Use mutate to add a proportion of total column. And yes, it calculates based on subgroups rather than whole column.
-prop_tally1<-mutate(tidy_tally1, prop = n/sum(n))
+prop_tally1<-mutate(tidy_tally1, prop = Freq/sum(Freq))
 prop_tally1<-select(prop_tally1, 1,2,4)
-prop_tally2<-mutate(tidy_tally2, prop = n/sum(n))
+prop_tally2<-mutate(tidy_tally2, prop = Freq/sum(Freq))
 prop_tally2<-select(prop_tally2, 1,2,4)
-prop_tally3<-mutate(tidy_tally3, prop = n/sum(n))
+prop_tally3<-mutate(tidy_tally3, prop = Freq/sum(Freq))
 prop_tally3<-select(prop_tally3, 1,2,4)
-prop_tally4<-mutate(tidy_tally4, prop = n/sum(n))
+prop_tally4<-mutate(tidy_tally4, prop = Freq/sum(Freq))
 prop_tally4<-select(prop_tally4, 1,2,4)
 
 #Spread tidy data into a readable table

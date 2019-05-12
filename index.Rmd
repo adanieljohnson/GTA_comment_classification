@@ -6,11 +6,11 @@ title: "Automated Classification of TA Comments on Student Writing"
 ```
 
 ##Overview
-I am using classroom research and data science to better understand how students develop technical writing skills in large-enrollment biology courses.
+The STEM Writing Project is using classroom research and data science to better understand how students develop technical writing skills in large-enrollment biology courses. Our current NSF-sponsored grant asks if student development as writers can be accelerated using a mix of scripted active instruction, automated support of writing in progress, and holistic feedback. 
 
-My current NSF-sponsored grant asks whether we can accelerate student development as writers using a mix of scripted active instruction, automated support of writing in progress, and holistic feedback. One specific question we have is how **changing the structure and main focus of instructors' comments** affects students' writing development over time. To answer this we extract instructor comments from student reports, categorize the comments according to their subject and structure, then correlate the types of comments instructors make with student performance. 
+One specific question we have is **does the structure and main focus of instructors' comments impact the rate of students' writing development over time?** To answer this we must extract instructor comments from student reports, categorize the comments according to their subject and structure, then correlate the types of comments instructors make with student performance. 
 
-Classifying TA comments has been informative, but doing it by hand is impractical: 10-12,000 comments need to be scored EACH semester. There also is a significant risk of "coding drift" over time, reducing accuracy.
+Classifying TA comments has been informative, but doing it by hand is impractical. First, 10-12,000 comments must be scored EACH semester. Second, there is a significant risk of "coding drift" over time, reducing accuracy.
 
 My project for the **Faculty Learning Community for R** was to create an automated comment classifier that can sort TA comments from student report into the same categories that we use for hand-coded data. This automated classifier will be used within the larger NSF-funded research project to:
 
@@ -18,8 +18,8 @@ My project for the **Faculty Learning Community for R** was to create an automat
 *  Monitor how the key concepts and points that TAs stress in comments on student writing change over time. 
 
 #### \   
-##Work Plan
-The plan for this project is to:
+##Outline of Work Plan
+The plan is to:
 
 1.  Compile an anonymized testing dataset of hand-coded TA comments from reports. 
 2.  Import TA comments and relevant metadata from student reports into R as a "tidy" dataframe.
@@ -27,10 +27,10 @@ The plan for this project is to:
 4.  Write a supervised text classification workflow that uses Naive Bayes to assign TA comments to our pre-defined categories. 
 5.  Test permutations of analysis parameters to optimize the classifier and establish baseline accuracy.
 6.  Apply the optimized NB classifier to the original FULL comment dataset, identify which comments are being classified incorrectly, and look for potential patterns.
-7.  Based on features identified in Steps #3 and #6, write a small set of rule- or REGEX pattern-based searches that can identify comments that are more likely to be classified incorrectly. 
 
 After completing the FLC project, my goals are to:
 
+7.  Based on features identified in Steps #3 and #6, write a small set of rule- or REGEX pattern-based searches that can identify comments that are more likely to be classified incorrectly. 
 8.  Combine the rules/pattern-based pre-screening process with the optimized Naive Bayes classifier to create a vertically  Ensemble Classifier.
 9.  Re-validate the Ensemble Classifier against a subset of ~2000 independently hand-coded TA comments extracted from student lab reports for a different semester than the initial test dataset.
 10. Begin using the classifier to monitor TA comment patterns in the ongoing NSF-funded project.

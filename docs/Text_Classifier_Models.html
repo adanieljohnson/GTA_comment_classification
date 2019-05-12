@@ -11,7 +11,7 @@
 
 
 
-<title>Text Classification Primer</title>
+<title>Primer of Text Classification</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -296,13 +296,15 @@ div.tocify {
 </li>
 <li>
   <a href="background.html">
-    <span class="fa fa-sticky-note"></span>
+    <span class="fa fa-history"></span>
      
     Background
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-search"></span>
+     
     Lit Review
      
     <span class="caret"></span>
@@ -310,49 +312,56 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="litreview.html">
-        <span class="fa fa-book"></span>
+        <span class="fa fa-search"></span>
          
         Overview
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="techwriting.html">
+        <span class="fa fa-chalkboard"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
-      <a href="Text_Classifier_Models.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="futurefaculty.html">
+        <span class="fa fa-chalkboard-teacher"></span>
          
-        Text Classification
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-chart-bar"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sort-amount-down"></span>
+         
+        Intro to Text Classification
       </a>
     </li>
     <li>
       <a href="Topic_categorization.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-code-branch"></span>
          
         Topic Modeling
       </a>
     </li>
     <li>
       <a href="Choosing_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-hand-point-up"></span>
          
         Choosing a Classifier
       </a>
     </li>
     <li>
       <a href="Improving_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-edit"></span>
          
         Evaluating Outcomes
       </a>
@@ -369,43 +378,50 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="build.html">
+        <span class="fa fa-puzzle-piece"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
       <a href="docxcommentextraction.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-cut"></span>
          
         Comment Extraction
       </a>
     </li>
     <li>
       <a href="codebook.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-book"></span>
          
         Classification Codebook
       </a>
     </li>
     <li>
       <a href="dataimport.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-sign-in-alt"></span>
          
         About the Dataset
       </a>
     </li>
     <li>
       <a href="initial_exploration.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-eye"></span>
          
         Initial Exploration
       </a>
     </li>
     <li>
       <a href="NB_2r2c.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-map-marker-alt"></span>
          
         NB Classifier
       </a>
     </li>
     <li>
       <a href="Ensemble_Notes.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-archive"></span>
          
         Ensemble Classifier
       </a>
@@ -427,7 +443,7 @@ div.tocify {
   </a>
 </li>
 <li>
-  <a href="nextsteps.html">
+  <a href="sitemap.html">
     <span class="fa fa-shoe-prints"></span>
      
     Next Steps
@@ -442,7 +458,7 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">Text Classification Primer</h1>
+<h1 class="title toc-ignore">Primer of Text Classification</h1>
 <h4 class="date"><em>2/21/2019</em></h4>
 
 </div>
@@ -456,10 +472,10 @@ div.tocify {
 <h1>Basic Workflow</h1>
 <p>Text classification problems can be broken down into four overlapping sub-problems. Each piece may be more or less important to the overall problem, but all need to be considered.</p>
 <ol style="list-style-type: decimal">
-<li>Feature selection and engineering (described here)</li>
+<li>Feature selection and engineering (<em>described below</em>)</li>
 <li>Topic categorization and modeling (<a href="https://adanieljohnson.github.io/default_website/Topic_categorization.html" class="uri">https://adanieljohnson.github.io/default_website/Topic_categorization.html</a>)</li>
 <li>Selecting an appropriate text classifier method (<a href="https://adanieljohnson.github.io/default_website/Choosing_classifier.html" class="uri">https://adanieljohnson.github.io/default_website/Choosing_classifier.html</a>)</li>
-<li>Evaluating the outcomes, and improving the classifier ( <a href="https://adanieljohnson.github.io/default_website/Improving_classifier.html" class="uri">https://adanieljohnson.github.io/default_website/Improving_classifier.html</a>)</li>
+<li>Evaluating the outcomes, and improving the classifier (<a href="https://adanieljohnson.github.io/default_website/Improving_classifier.html" class="uri">https://adanieljohnson.github.io/default_website/Improving_classifier.html</a>)</li>
 </ol>
 <div id="section-1" class="section level4">
 <h4> </h4>
@@ -488,7 +504,7 @@ div.tocify {
 <li>Average word density of sentences</li>
 <li>Average length of the words used in the documents</li>
 <li>TF-IDF</li>
-<li>Reading level estimates, readability (described below)</li>
+<li>Reading level estimates, readability (<em>described below</em>)</li>
 </ul></li>
 <li>Part of Speech Tagging and Frequency Distribution of Tags
 <ul>
@@ -503,7 +519,7 @@ div.tocify {
 <p>Additional features are available for longer texts such as multi-sentence paragraphs. These features require analysis of sentence structure, syntax, parts of speech patterns, etc.</p>
 <ul>
 <li>Word choices (vocabulary range)</li>
-<li>Lexical diversity (described below)</li>
+<li>Lexical diversity (<em>described below</em>)</li>
 <li>Stance patterns - hedging, booster, generalization words or phrasing</li>
 <li>Concision - comparisons of noun phrase density versus comment clause density</li>
 <li>Cohesion - use of words that are additive (also), countering (however), specify or emphasize (even, both, especially), connecting (former, latter)</li>
@@ -555,7 +571,7 @@ div.tocify {
 <p>Word2vec is a group of shallow, two-layer neural network models that produce word embeddings. The toolkit can train vector space models to reconstruct linguistic contexts of words. Word2vec takes as its input a large corpus of text and produces a vector space, typically of several hundred dimensions, with each unique word in the corpus being assigned a corresponding vector in the space. Word vectors are positioned in the vector space so words that share common contexts in the corpus are located in close proximity to one another in the space.</p>
 <p>The use of different model parameters and different corpus sizes can greatly affect the quality of a word2vec model. Accuracy can be improved in a number of ways, including the choice of model architecture (CBOW or Skip-Gram), increasing the training data set, increasing the number of vector dimensions, and increasing the window size of words considered by the algorithm. Each of these improvements comes with the cost of increased computational complexity and therefore increased model generation time.</p>
 <p>In models using large corpora and a high number of dimensions, the skip-gram model yields the highest overall accuracy, and consistently produces the highest accuracy on semantic relationships, as well as yielding the highest syntactic accuracy in most cases. However, the CBOW is less computationally expensive and yields similar accuracy results.</p>
-<p>Accuracy increases overall as the number of words used increases, and as the number of dimensions increases. Altszyler et al. (2017) studied Word2vec performance in two semantic tests for different corpus size. They found that Word2vec has a steep learning curve, outperforming another word-embedding technique (LSA) when it is trained with medium to large corpus size (more than 10 million words). However, with a small training corpus LSA showed better performance. Additionally they show that the best parameter setting depends on the task and the training corpus. Nevertheless, for skip-gram models trained in medium size corpora, with 50 dimensions, a window size of 15 and 10 negative samples seems to be a good parameter setting.</p>
+<p>Accuracy increases overall as the number of words used increases, and as the number of dimensions increases. Altszyler et al. <span class="citation">(Altszyler et al. 2017)</span> studied Word2vec performance in two semantic tests for different corpus size. They found that Word2vec has a steep learning curve, outperforming another word-embedding technique (LSA) when it is trained with medium to large corpus size (more than 10 million words). However, with a small training corpus LSA showed better performance. Additionally they show that the best parameter setting depends on the task and the training corpus. Nevertheless, for skip-gram models trained in medium size corpora, with 50 dimensions, a window size of 15 and 10 negative samples seems to be a good parameter setting.</p>
 </div>
 <div id="section-6" class="section level4">
 <h4> </h4>
@@ -588,11 +604,20 @@ div.tocify {
 </div>
 <div id="section-8" class="section level4">
 <h4> </h4>
+<hr />
+<p><em>Work Cited</em></p>
+<div id="refs" class="references">
+<div id="ref-Altszyler2017">
+<p>Altszyler, E., S. Ribeiro, M. Sigman, and D. Fernández Slezak. 2017. “The Interpretation of Dream Meaning: Resolving Ambiguity Using Latent Semantic Analysis in a Small Corpus of Text.” <em>Consciousness and Cognition</em> 56: 178–87.</p>
+</div>
+</div>
 </div>
 </div>
 </div>
 
-<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+<p></p>
+<hr>
+<p>Copyright &copy; 2019 A. Daniel Johnson. All rights reserved.</p>
 
 
 </div>

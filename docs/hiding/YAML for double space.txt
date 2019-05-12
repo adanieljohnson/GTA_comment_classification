@@ -1,0 +1,30 @@
+Here's the full yaml header for double spacing and adding line numbers:
+
+---
+title: "Corpus Studies of Syntax"
+author: "Jerid Francom"
+date: '\today{}'
+output:
+  pdf_document:
+    keep_tex: yes
+    number_sections: yes
+    toc: yes
+  word_document:
+    toc: yes
+fontsize: 11pt
+geometry: margin=3cm
+header-includes:
+  - \usepackage{setspace}
+  - \doublespacing
+  - \usepackage{lineno}
+  - \linenumbers
+  # - \setlength{\parindent}{2em}
+  # - \setlength{\parskip}{0em}
+link-citations: yes
+bibliography: /Users/francojc/Documents/Bib/library.bib
+csl: /Users/francojc/Documents/Styles/apa-no-doi-no-issue.csl
+biblio-style: apalike
+nocite: |
+  @Chomsky1957, @Anderson1978, @Garnsey1997
+---
+

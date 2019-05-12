@@ -8,10 +8,10 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-This project brings together three disparate challenges:
+This project raises three challenges:
 
-*  The challenges of teaching technical writing to students in STEM disciplines
-*  Needs and barriers for training future faculty to teach technical writing
+*  How best to teach students in STEM disciplines to write
+*  How to train future faculty to teach technical writing
 *  Automated text analysis and classification
 
 Sub-pages (links below and in top menu) explore each of these challenges in detail.  

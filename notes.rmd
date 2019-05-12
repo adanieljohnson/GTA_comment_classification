@@ -19,7 +19,7 @@ Items to get help on:
       ***
 ```
 +  If a page has no citations, REMOVE the bottom code for the horizontal rule. It now is in the footer.
-+  Beloe is the standard output format for citation tags in my copy of BibDesk. To make the tags work properly, need to search and replace the pre-string.
++  Below is the standard output format for citation tags in my copy of BibDesk. To make the tags work properly, need to search and replace the pre-string.
 
 ```\@[Carpenter2001] is output. Change "\@[" to "[@"```
 

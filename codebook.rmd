@@ -25,15 +25,15 @@ To score the full data table, the 1200 scored training comments were rejoined wi
 ####\  
 
 #Subject Category
-Is primary emphasis of the comment on:
+Does the comment focus on or emphasize:
 
-*  Fundamental pieces
+*  Fundamental required components?
 *  How to communicate generally?
 *  How to collect, analyze and present data correctly?
 *  The underlying rationale for the report/experiment?
 *  Other issues?
 
-Below are the choices for identifying the subject of the comment. Criteria for basic, technical, and writing choices are the same as used in the report grading rubric. To simplify sorting, administrative tags used to mark comments for further processing are included in this category.
+Final subject categories for comments are outlined below. Criteria for basic, technical, and writing choices are the same as used in the report grading rubric. Administrative tags used to mark comments for further processing are included in this category.
 
 **Code.Subject** Term|Description
 --------------------|-------------------------------------
@@ -125,7 +125,7 @@ Comments about the following belong here.
 ####\  
 
 #Structure Category
-Is the comment idiomatic or informative? Is there general or specific information contained in comment? Is it instructional only, or does the comment foster broader thinking?
+Is the comment idiomatic or informative? Is there general or specific information contained in the comment? Is it instructional only, or does the comment foster broader thinking?
 
 **Code.Structure** Term|Description
 --------------------|-------------------------------------
@@ -142,8 +142,8 @@ Is the comment idiomatic or informative? Is there general or specific informatio
 **1. Pointer** is simple notation indicating there is an error, or that a correction is needed. Includes comments like:
 
 *  ??
-*  Misspelling, typo, format, check, etc.
-*  *Repeated phrase. (Only points to immediate error; compare to below)
+*  One-word comments: misspelling, typo, format, check, etc.
+*  Simple phrases. (Only point to immediate error; compare to below)
 
 **2. Copy correction** comments provide specific instructions for correcting or modifying copy in ONE SPECIFIC location, but do not address the logic or reason. Includes comments like:
 
@@ -226,9 +226,9 @@ Is the comment idiomatic or informative? Is there general or specific informatio
 
 ####\  
 
-####Contingency Table For Holistic Scores
+####Contingency Table For Deciding Whether to Assign Holistic Tag
 
-Scores need to have BOTH information and process (what and why) to be holistic
+A comment needs to have BOTH information and process (what and why) to be holistic.
 
 \ | Process ("why" or “thinking” part) |
 ---- | ---- | ----
@@ -242,8 +242,8 @@ Scores need to have BOTH information and process (what and why) to be holistic
 **7. Idiomatic** comments point out discipline-dependent or personally idiomatic issues we do not grade on. Includes personal preferences, outlier issues, comments about italics, underlines, etc. Includes comments like:
 
 *  Always use correct format for scientific names, i.e., italicize or underline. 
-(Idiomatic because not required in our grading scheme. Incidentally, this is not accurate form either, which is one answer to ongoing arguments.)
-*  You provided both scientific and common names for your plant species, so can use common names throughout the rest of the report including the title and abstract. Revise accordingly. (Idiomatic because this is not standard to all fields)
+(Idiomatic because this not required in our grading scheme. Incidentally, this is not accurate form either, which is one answer to ongoing arguments.)
+*  You provided both scientific and common names for your plant species, so can use common names throughout the rest of the report including the title and abstract. Revise accordingly. (Idiomatic because this is not standard to all fields, **and** is not a high-priority issue in our grading scheme.)
 
 ####\  
 
@@ -252,7 +252,7 @@ Scores need to have BOTH information and process (what and why) to be holistic
 
 >Ah, so it didn’t move directly towards the Physarum. Here it’s important to make that distinction in how you took measurements in your methods section. Did you go based on leading edge? If so, this data point would probably be inconclusive in the results section. Did you go based on a central axis upon which you took measurements? Instead, that’d be different.
 
-There are two questions in the comment, which suggests that it is a holistic comment to pull knowledge out through thinking. However, the TA comment provides some interpretation in the next sentence. So this comment is seeking or providing specific information, while also directly fostering student’s deeper thinking. It would be tagged as “Holistic."
+There are two questions in the comment, which suggests that it is a holistic comment to pull knowledge out through thinking. The comment provides some interpretation in the next sentence, but is not just prescriptive. This comment is seeking or providing specific information, while also directly asking student to engage in deeper thinking. It would be tagged as “Holistic."
 
 ####\  
 

@@ -8,7 +8,7 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-The many methods for classifying texts fall into three general categories:
+Methods for classifying texts fall into three general categories:
 
 *  Pattern matching strategies (does a particular phrase appear?)
 *  Algorithms (how closely does the query text meet pre-set criteria?)

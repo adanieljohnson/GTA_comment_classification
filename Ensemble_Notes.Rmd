@@ -9,7 +9,7 @@ biblio-style: apalike
 ```
 
 #Overview
-This notebook summarizes my progress, thoughts while building a working Ensemble method for categorizing TA comments.
+This notebook summarizes progress and thoughts while building a working Ensemble method for categorizing TA comments.
 
 ####\  
 
