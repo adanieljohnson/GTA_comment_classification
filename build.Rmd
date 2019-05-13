@@ -13,32 +13,27 @@ This page links to sub-pages describing construction of the various components u
 ####\  
 
 ####Extracting TAs' Comments 
-*(Preliminary coding)*  
+*(Draft)*  
 Fully R-based protocol for extracting TA comments from student lab reports. Will replace current process using a mix of Linux and Excel scripts.  
 https://adanieljohnson.github.io/default_website/docxcommentextraction.html  
 
 ####Structure of Development Dataset; Data Import & Validation 
-*(Complete)*  
 Organization of the initial dataset, and how data were imported in R and validated.  
 https://adanieljohnson.github.io/default_website/dataimport.html  
 
 ####Codebook for Classifying TAs' Comments 
-*(Complete)*  
 Describes the process for developing the codes used to classify comments.  
 https://adanieljohnson.github.io/default_website/codebook.html
 
 ####Initial Exploration of Dataset 
-*(Partly complete)*  
 What is the distribution of words used in the TA comments?  
 https://adanieljohnson.github.io/default_website/initial_exploration.html
 
 ####Naive Bayes Comment Classifier 
-*(Complete)*  
 Code for the most recent version of the optimized NB classifier.   
 https://adanieljohnson.github.io/default_website/NB_2r2c.html
 
 ####Embedding Naive Bayes Classifier in an Ensemble Model  
-*(Initial design stage)*
 Outlines a strategy for combining pattern matching and other pre-processing steps with Naive Bayes Classifier to improve accuracy.
 https://adanieljohnson.github.io/default_website/Ensemble_Notes.html
 

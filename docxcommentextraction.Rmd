@@ -1,5 +1,5 @@
 ---
-title: "DOCX Comment Extraction"
+title: "DRAFT: DOCX Comment Extraction"
 date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
@@ -7,14 +7,15 @@ biblio-style: apalike
 
 ```{r, child="_setup.Rmd"}
 ```
-DRAFT PAGE
 
-The testing dataset used in this project was created using BaSH scripting and one-off tools. This page documents progress on a workflow to replicate that process using R tools.
+The testing dataset used in this project was created using BaSH scripting and one-off text processing. This page documents progress on building a workflow to replicate that process using R tools.
 
 ####\  
 
 #General Approach
-Create a list of files to cycle through OR put all files to process in ONE folder. For each file, use 'read_docx', then 'docx_extract_all_cmnts'. Use 'do.call("rbind", list(dataframes to merge))' to cycle through and append the extracted comments to ONE dataframe
+*  Create a list of files to cycle through OR put all files to process in ONE folder. 
+*  For each file, use 'read_docx', then 'docx_extract_all_cmnts'. 
+*  Use 'do.call("rbind", list(dataframes to merge))' to cycle through and append the extracted comments to ONE dataframe
 
 ####\  
 

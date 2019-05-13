@@ -1,0 +1,41 @@
+---
+title: "Automated Classification of TA Comments on Student Writing"
+author: "Dan Johnson"
+date: "2/3/2019"
+output: html_document
+---
+
+```{r, child="_setup.Rmd"}
+```
+
+Labels in **comment.subject** are routinely recoded as:
+
+*  0_null
+*  1_basic
+*  2_writing
+*  3_technical
+*  4_logic
+*  5_exposition
+*  6_misconduct
+*  7_administrative
+*  8_nobasis
+*  9_split
+*  10_context
+*  11_flag
+*  12_narrative
+*  13_sciname
+
+Labels in **comment.structure** are routinely recoded as:
+
+*  0_null
+*  1_pointer
+*  2_copyedit
+*  3_general
+*  4_specific
+*  5_rationale
+*  6_holistic
+*  7_idiomatic
+*  8_nobasis
+
+
+####\  

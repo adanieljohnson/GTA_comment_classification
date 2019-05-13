@@ -40,8 +40,6 @@ Looking further ahead, I hope to use the work presented here as a baseline for e
 #### \   
 
 ##Project Site Map
-Insert a text-based overview and site map of the major pages and branch points here.
-
-When appropriate, anchor pages branch to extended supporting documentation.
+![](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/images/Sitemap.png)
 
 #### \   
