@@ -13,7 +13,7 @@ biblio-style: apalike
 ##Results of Single Word Frequencies
 Pearson correlations for word use frequencies compares absolute use frequencies for words found in ALL THREE of the Subject sub-categories (excluding Basic Criteria). Results of one analysis are illustrated below.
 
-![*XY plot of relative word use frequency in technical comments vs. logic comments. *](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/docs/initial_exploration_files/figure-html/unnamed-chunk-3-6.png)
+![*XY plot of relative word use frequency in technical comments vs. logic comments. *](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/images/unnamed-chunk-3-6.png)
 
 ####\  
 
@@ -34,7 +34,8 @@ The comparatively low correlations of word frequencies between subject categorie
 ##Results of Log-Odds Pairs for Subject Sub-Categories
 Word frequency differences between sub-categories were calculated using log-odds ratios. One example analysis is shown below.
 
-![*Log-Odds ratio comparison of words most different between Writing comments (top) and Technical comments (bottom). *](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/docs/initial_exploration_files/figure-html/unnamed-chunk-7-1.png)
+![*Log-Odds ratio comparison of words most different between Writing comments (top) and Technical comments (bottom). *](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/images/unnamed-chunk-7-1.png)
+
 
 ####\  
 
@@ -174,9 +175,11 @@ I looked at OVERALL accuracy of NB by recreating the 2-dimensional contingency t
 
 ####\  
 
-![alt text](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/docs/NB_2r2c_files/figure-html/unnamed-chunk-4-1.png)
+![](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/images/unnamed-chunk-4-1.png)
 
-![alt text](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/docs/NB_2r2c_files/figure-html/unnamed-chunk-6-1.png)
+
+![](/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/default_website/images/unnamed-chunk-6-1.png)
+
 
 ####\  
 

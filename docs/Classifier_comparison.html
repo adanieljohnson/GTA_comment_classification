@@ -10,6 +10,7 @@
 
 
 
+<meta name="date" content="2019-05-13" />
 
 <title>Designing a Classifier Evaluation Workflow</title>
 
@@ -288,21 +289,16 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="notes.html">
-    <span class="fa fa-sticky-note"></span>
-     
-    Notes
-  </a>
-</li>
-<li>
   <a href="background.html">
-    <span class="fa fa-sticky-note"></span>
+    <span class="fa fa-history"></span>
      
     Background
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-search"></span>
+     
     Lit Review
      
     <span class="caret"></span>
@@ -310,49 +306,56 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="litreview.html">
-        <span class="fa fa-book"></span>
+        <span class="fa fa-search"></span>
          
         Overview
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="techwriting.html">
+        <span class="fa fa-chalkboard"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
-      <a href="Text_Classifier_Models.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="futurefaculty.html">
+        <span class="fa fa-chalkboard-teacher"></span>
          
-        Text Classification
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-chart-bar"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sort-amount-down"></span>
+         
+        Intro to Text Classification
       </a>
     </li>
     <li>
       <a href="Topic_categorization.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-code-branch"></span>
          
         Topic Modeling
       </a>
     </li>
     <li>
       <a href="Choosing_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-hand-point-up"></span>
          
         Choosing a Classifier
       </a>
     </li>
     <li>
       <a href="Improving_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-edit"></span>
          
         Evaluating Outcomes
       </a>
@@ -369,43 +372,50 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="build.html">
+        <span class="fa fa-puzzle-piece"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
       <a href="docxcommentextraction.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-cut"></span>
          
         Comment Extraction
       </a>
     </li>
     <li>
       <a href="codebook.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-book"></span>
          
         Classification Codebook
       </a>
     </li>
     <li>
       <a href="dataimport.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-sign-in-alt"></span>
          
         About the Dataset
       </a>
     </li>
     <li>
       <a href="initial_exploration.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-eye"></span>
          
         Initial Exploration
       </a>
     </li>
     <li>
       <a href="NB_2r2c.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-map-marker-alt"></span>
          
         NB Classifier
       </a>
     </li>
     <li>
       <a href="Ensemble_Notes.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-archive"></span>
          
         Ensemble Classifier
       </a>
@@ -426,13 +436,6 @@ div.tocify {
     Findings
   </a>
 </li>
-<li>
-  <a href="nextsteps.html">
-    <span class="fa fa-shoe-prints"></span>
-     
-    Next Steps
-  </a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -443,7 +446,7 @@ div.tocify {
 
 
 <h1 class="title toc-ignore">Designing a Classifier Evaluation Workflow</h1>
-<h4 class="date"><em>Feb 25, 2019</em></h4>
+<h4 class="date"><em>May 13, 2019</em></h4>
 
 </div>
 
@@ -461,7 +464,7 @@ div.tocify {
 <div id="picking-the-algorithms" class="section level1">
 <h1>Picking the Algorithm(s)</h1>
 <p>Algorithms approach text classification several ways.</p>
-<p>The <strong>bag of keywords approach</strong> requires compiling a list of “key terms” that qualifies the type of content in question to a certain topic. If one or more qualifying keywords is present in a document, the document is assigned to the topic. One of the many problems with this approach is that identifying and organizing a list of terms (preferred, alternate, etc.) is labor intensive (much like simple pattern matching), and the natural ambiguity of language (one keyword can have different meanings) causes lots of false positives. This makes the bag of keywords approach not only not scalable, but also inaccurate.</p>
+<p>The <strong>bag of keywords approach</strong> requires compiling a list of “key terms” that qualifies the type of content in question to a certain topic. If one or more qualifying keywords is present in a document, the document is assigned to the topic. One of the many problems with this approach is that identifying and organizing a list of terms (preferred, alternate, etc.) is labor intensive (much like simple pattern matching), and the natural ambiguity of language (one keyword can have different meanings) causes lots of false positives. These limitations make the bag of keywords approach both poorly scalable and less accurate.</p>
 <p><strong>Rules-based approaches</strong> use linguistic rules that capture all of the elements and attributes of a document to assign it to a category. Rules can be written manually or generated by automatic analysis and then validated manually (reducing manual effort up to 90%). Rules can be understood and improved (unlike the black box system used with statistics-based algorithms). A rules-based approach is flexible, powerful (much more than a bag of keywords) and easy to express. This approach works best when combined with semantic technology that can uncover deeper connections within text (meaning, relevancy, relationship between concepts, etc.)</p>
 <p><strong>Statistical approaches</strong> use a “training set” of documents that covers the same topic to identify key features (usually words). The algorithm (Bayesian, LSA, etc.) calculates term frequencies, then builds implicit rules in order to classify other content. This approach has no understanding of meaning. In addition, systems using these types of text classification algorithms are essentially a “black box”; no one can explain why specific terms are selected by the algorithm or how they are being weighted. In the event the classification is incorrect, there is no accurate way to modify a rule for better results.</p>
 <p>Algorithms also can be separated into un-supervised and supervised methods. <strong>Unsupervised learning</strong> uses test data that has not been labeled, classified or categorized. Unsupervised learning identifies commonalities in the training data, then classifies new texts based on the presence or absence of such commonalities.</p>
@@ -649,10 +652,10 @@ div.tocify {
 </blockquote>
 <blockquote>
 <ol start="6" style="list-style-type: decimal">
-<li>Social Media Expert: This person can help us understand how has company XYZ has positioned its products in the market. And how are the sentiment of customers changing over time towards company. He is unaware of any kind of details beyond digital marketing. In the past, he has been right 65% of times.</li>
+<li>Social Media Expert: This person can help us understand how has company XYZ has positioned its products in the market. And how are the sentiment of customers changing over time towards company. He is unaware of any kind of details beyond digital marketing. In the past, he has been right 65% of times.<br />
+Given the broad spectrum of access we have, we can probably combine all the information and make an informed decision. In a scenario when all the 6 experts/teams verify that it’s a good decision(assuming all the predictions are independent of each other), we will get a combined accuracy rate of:</li>
 </ol>
 </blockquote>
-<p>Given the broad spectrum of access we have, we can probably combine all the information and make an informed decision. In a scenario when all the 6 experts/teams verify that it’s a good decision(assuming all the predictions are independent of each other), we will get a combined accuracy rate of:</p>
 <pre><code>          1 - 30%*25%*30%*40%*25%*35%
 
         = 1 - 0.07875 = 99.92125%</code></pre>
@@ -753,7 +756,9 @@ div.tocify {
 </div>
 </div>
 
-<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+<p></p>
+<hr>
+<p>Copyright &copy; 2019 A. Daniel Johnson. All rights reserved.</p>
 
 
 </div>

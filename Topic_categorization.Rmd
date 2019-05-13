@@ -15,7 +15,7 @@ Establishing meaningful text classification categories depends on the goals of t
 *  A limited keywords vocabulary (National Library of Medicine MeSH categories for example)
 *  Disciplinary conventions or shared best practices (the Dublin Core is an example)
 *  Prior empirical studies
-*  The dataset itself, using *de novo* iterative coding. This process is described further here: https://adanieljohnson.github.io/default_website/codebook.html  
+*  The dataset itself, using *de novo* iterative coding. This process is [described further here](https://adanieljohnson.github.io/default_website/codebook.html).  
 
 
 **Topic Modeling** is a group of techniques for identifying groups of words (the "topic")  that best summarize the information in a collection of documents. Topic modeling is an iterative/ generative process that does not require any prior knowledge of the documents or relationships.
@@ -60,5 +60,3 @@ LSA automatically adapts to new and changing terminology, and has been shown to 
 Text does not need to be in sentence form for LSA to be effective. It can work with lists, free-form notes, email, Web-based content, etc. As long as a collection of text contains multiple terms, LSA can be used to identify patterns in the relationships between the important terms and concepts contained in the text.
 
 ####\  
-***
-*Work Cited*

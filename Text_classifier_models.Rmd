@@ -141,4 +141,3 @@ https://nlp.stanford.edu/projects/glove/
 
 ####\  
 ***
-*Work Cited*

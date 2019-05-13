@@ -227,10 +227,7 @@ comments_test_pred_structure <- predict(comments_classifier_structure, comments_
 comments_all_pred_structure <- predict(comments_classifier_structure, comments_all)
 ```
 
-
-
-
-
+####\  
 
 A truth table lists how many of the predicted categories are in their correct categories. Adding diagonally and dividing by total count gives the percent accuracy at predicting Subject. 
 ```{r}

@@ -286,4 +286,5 @@ PCA is closely related to factor analysis. Factor analysis typically incorporate
 
 PCA is also related to canonical correlation analysis (CCA). CCA defines coordinate systems that optimally describe the cross-covariance between two datasets while PCA defines a new orthogonal coordinate system that optimally describes variance in a single dataset.
 
+
 ####\  

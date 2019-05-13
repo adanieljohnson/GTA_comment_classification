@@ -125,15 +125,3 @@ sortedwords.logic.fraction2n <- sortedwords.logic2n %>% as_tibble() %>% mutate(
 ```
 
 ####\  
-***
-*Work Cited*
-
-
-
-
-
-
-
-
-
-

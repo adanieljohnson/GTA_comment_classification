@@ -10,8 +10,9 @@
 
 
 
+<meta name="date" content="2019-05-13" />
 
-<title>DOCX Comment Extraction</title>
+<title>DRAFT: DOCX Comment Extraction</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -288,21 +289,16 @@ div.tocify {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="notes.html">
-    <span class="fa fa-sticky-note"></span>
-     
-    Notes
-  </a>
-</li>
-<li>
   <a href="background.html">
-    <span class="fa fa-sticky-note"></span>
+    <span class="fa fa-history"></span>
      
     Background
   </a>
 </li>
 <li class="dropdown">
   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    <span class="fa fa-search"></span>
+     
     Lit Review
      
     <span class="caret"></span>
@@ -310,49 +306,56 @@ div.tocify {
   <ul class="dropdown-menu" role="menu">
     <li>
       <a href="litreview.html">
-        <span class="fa fa-book"></span>
+        <span class="fa fa-search"></span>
          
         Overview
       </a>
     </li>
     <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
-         
-        Writing as STEM Ed Research
-      </a>
-    </li>
-    <li>
-      <a href="pagename.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="techwriting.html">
+        <span class="fa fa-chalkboard"></span>
          
         Teaching Writing
       </a>
     </li>
     <li>
-      <a href="Text_Classifier_Models.html">
-        <span class="fa fa-sticky-note"></span>
+      <a href="futurefaculty.html">
+        <span class="fa fa-chalkboard-teacher"></span>
          
-        Text Classification
+        Training Future Faculty
+      </a>
+    </li>
+    <li>
+      <a href="aacr.html">
+        <span class="fa fa-chart-bar"></span>
+         
+        Automated Text Analysis
+      </a>
+    </li>
+    <li>
+      <a href="Text_Classifier_Models.html">
+        <span class="fa fa-sort-amount-down"></span>
+         
+        Intro to Text Classification
       </a>
     </li>
     <li>
       <a href="Topic_categorization.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-code-branch"></span>
          
         Topic Modeling
       </a>
     </li>
     <li>
       <a href="Choosing_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-hand-point-up"></span>
          
         Choosing a Classifier
       </a>
     </li>
     <li>
       <a href="Improving_classifier.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-edit"></span>
          
         Evaluating Outcomes
       </a>
@@ -369,43 +372,50 @@ div.tocify {
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="build.html">
+        <span class="fa fa-puzzle-piece"></span>
+         
+        Overview
+      </a>
+    </li>
+    <li>
       <a href="docxcommentextraction.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-cut"></span>
          
         Comment Extraction
       </a>
     </li>
     <li>
       <a href="codebook.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-book"></span>
          
         Classification Codebook
       </a>
     </li>
     <li>
       <a href="dataimport.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-sign-in-alt"></span>
          
         About the Dataset
       </a>
     </li>
     <li>
       <a href="initial_exploration.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-eye"></span>
          
         Initial Exploration
       </a>
     </li>
     <li>
       <a href="NB_2r2c.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-map-marker-alt"></span>
          
         NB Classifier
       </a>
     </li>
     <li>
       <a href="Ensemble_Notes.html">
-        <span class="fa fa-sticky-note"></span>
+        <span class="fa fa-archive"></span>
          
         Ensemble Classifier
       </a>
@@ -426,13 +436,6 @@ div.tocify {
     Findings
   </a>
 </li>
-<li>
-  <a href="nextsteps.html">
-    <span class="fa fa-shoe-prints"></span>
-     
-    Next Steps
-  </a>
-</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -442,20 +445,23 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">DOCX Comment Extraction</h1>
-<h4 class="date"><em>Feb 25, 2019</em></h4>
+<h1 class="title toc-ignore">DRAFT: DOCX Comment Extraction</h1>
+<h4 class="date"><em>May 13, 2019</em></h4>
 
 </div>
 
 
-<p>DRAFT PAGE</p>
-<p>The testing dataset used in this project was created using BaSH scripting and one-off tools. This page documents progress on a workflow to replicate that process using R tools.</p>
+<p>The testing dataset used in this project was created using BaSH scripting and one-off text processing. This page documents progress on building a workflow to replicate that process using R tools.</p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
 <div id="general-approach" class="section level1">
 <h1>General Approach</h1>
-<p>Create a list of files to cycle through OR put all files to process in ONE folder. For each file, use ‘read_docx’, then ‘docx_extract_all_cmnts’. Use ‘do.call(“rbind”, list(dataframes to merge))’ to cycle through and append the extracted comments to ONE dataframe</p>
+<ul>
+<li>Create a list of files to cycle through OR put all files to process in ONE folder.</li>
+<li>For each file, use ‘read_docx’, then ‘docx_extract_all_cmnts’.</li>
+<li>Use ‘do.call(“rbind”, list(dataframes to merge))’ to cycle through and append the extracted comments to ONE dataframe</li>
+</ul>
 <div id="section-1" class="section level4">
 <h4> </h4>
 </div>
@@ -494,9 +500,14 @@ NROW(comments1And2)
 #When all lines are appended, write the CSV file 
 write.csv2(comments1And2, file = &quot;TAcomments.csv&quot;)
 </code></pre>
+<div id="section-3" class="section level4">
+<h4> </h4>
+</div>
 </div>
 
-<p>Copyright &copy; 2018 A. Daniel Johnson. All rights reserved.</p>
+<p></p>
+<hr>
+<p>Copyright &copy; 2019 A. Daniel Johnson. All rights reserved.</p>
 
 
 </div>

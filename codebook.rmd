@@ -254,5 +254,5 @@ A comment needs to have BOTH information and process (what and why) to be holist
 
 There are two questions in the comment, which suggests that it is a holistic comment to pull knowledge out through thinking. The comment provides some interpretation in the next sentence, but is not just prescriptive. This comment is seeking or providing specific information, while also directly asking student to engage in deeper thinking. It would be tagged as “Holistic."
 
-####\  
 
+####\  
