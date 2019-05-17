@@ -1,5 +1,5 @@
 ---
-title: "DRAFT: DOCX Comment Extraction"
+title: "DRAFT: Extracting Comments From MS Word DOCX Files"
 date: "`r format(Sys.time(), '%b %d, %Y')`"
 bibliography: library.bib
 biblio-style: apalike
@@ -8,62 +8,89 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-The testing dataset used in this project was created using BaSH scripting and one-off text processing. This page documents progress on building a workflow to replicate that process using R tools.
+The testing dataset used in to build this project was created using BaSH scripting and one-off text processing. This page documents progress on building an R-based repeatable workflow to simplify that process.
 
 ####\  
 
 #General Approach
-*  Create a list of files to cycle through OR put all files to process in ONE folder. 
+*  Put all files to process in ONE folder. 
+*  Extract a list of file names to cycle through.
 *  For each file, use 'read_docx', then 'docx_extract_all_cmnts'. 
-*  Use 'do.call("rbind", list(dataframes to merge))' to cycle through and append the extracted comments to ONE dataframe
+*  Cycle through and append the extracted comments to ONE dataframe
 
-####\  
-
-#Code Sources, Examples
-
-https://stackoverflow.com/questions/50439684/how-to-extract-plain-text-from-docx-file-using-r
-
-https://stackoverflow.com/questions/5965698/merge-unequal-dataframes-and-replace-missing-rows-with-0
-
-https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html
-
-https://www.dummies.com/programming/r/how-to-use-the-merge-function-with-data-sets-in-r/
-
-https://datascienceplus.com/combining-data-in-r-the-skill-of-merging-joining-and-stacking/
-
-https://www.rdocumentation.org/packages/analogue/versions/0.17-1/topics/join
-Load required Libraries
-
-####\  
-
-#Sample Working Code
-```{}
+```{r Libraries}
+library(plyr)
+library(tidyverse)
+library(reshape2)
+library(tidyr)
+library(readtext)
 library(docxtractr)
 ```
 
-Call in Word files using ```read_docx```. Use ```docx_extract_all_cmts``` to pull out comments and ```rbind``` to combine them. 
 
-To merge more than two dataframes within R, combine an ```rbind``` call with ```do.call```. The 'do.call' function uses any existing R functions, such as 'rbind', but instead of passing just two dataframes, it passes multiple data frames. Then use ```write.csv2``` to write the data to a CSV format.
+```{r List_Files}
+#Generates a list of all files in a particular folder
+files_list <-list.files("~/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/Test_Set", full.names=TRUE)
+```
 
-```{}
-Commentframe1<-read_docx("/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/TestingReport.docx", track_changes = NULL)
-comments1<-docx_extract_all_cmnts(Commentframe1, include_text = FALSE)
 
-Commentframe2<-read_docx("/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/TestingCommentExtraction.docx", track_changes = NULL)
-comments2<-docx_extract_all_cmnts(Commentframe2, include_text = FALSE)
+```{r Pull the comments}
+#### load data ####
+# Define path of directory
+# Get full path filename of every .docx-file in directory as 'filelist'
+# Get filenames without paths for same sequence as 'filelist_short'
+pathto <- "~/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/Test_Set/Hiding"
+filelist <- list.files(path = pathto, pattern = "*.docx", full.names = TRUE)
+filelist_short <- list.files(path = pathto, pattern = "*.docx", full.names = FALSE)
 
-# comments1And2 <- rbind(comments1,comments2)
-# OR
-# comments1And2 <- do.call("rbind", list(comments1,comments2))
+# Read every file with docxtractr::read_docx()
+# Extract every comment from every file with docxtractr::docx_extract_all_cmnts()
+document_contents_list <- lapply(filelist, read_docx)
+comments_list <- lapply(document_contents_list, docx_extract_all_cmnts, include_text=TRUE)
 
-#Check data have been successfully merged by checking the number of rows
-NROW(comments1And2)
-# [1] 32
+```
+ 
+The variable named 'comments_list' is a  list of length 6. Each item in the list is a tibble with variable number of rows, but all with the same 6 columns:
 
-#When all lines are appended, write the CSV file 
-write.csv2(comments1And2, file = "TAcomments.csv")
+*  id
+*  author
+*  date
+*  initials
+*  comment_text
+*  word_src
+
+I need to append each tibble to the next one for all items in the list.
+
+```{r Bind together the individual items in the comments_list List}
+
+ 
+# identify the filename of the docx file that was used to create the list of comments
+document_contents_list[[3]]$path
+
+# join the individual lists of comments into a larger list
+comments_list_joined <- bind_rows(comments_list, id=NULL)
+
+# problem is that I lose the filenames.
 
 ```
 
+***
+Problem to solve now is the joined comments list contains no record of the source file's name. Need some way to attach the remaining report metadata.
+***
+
+
+```{r Write CSV}
+#Creates the output CSV file if needed for analysis outside R.
+write.csv(comments_list_joined, file = "~/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/Test_Set/Extracted_comments.csv")
+```
+
+
+
+```{}
+
+#Rename the columns in a data.frame. In this example, "name" has 2 columns. The command pipes new names to the 2 columns, using the vectorized text names.
+names(name_of_file_to_change) <- c("columns", "values")
+
+```
 
 ####\  

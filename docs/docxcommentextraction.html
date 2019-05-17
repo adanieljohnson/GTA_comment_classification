@@ -10,9 +10,9 @@
 
 
 
-<meta name="date" content="2019-05-13" />
+<meta name="date" content="2019-05-17" />
 
-<title>DRAFT: DOCX Comment Extraction</title>
+<title>DRAFT: Extracting Comments From MS Word DOCX Files</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -445,62 +445,70 @@ div.tocify {
 
 
 
-<h1 class="title toc-ignore">DRAFT: DOCX Comment Extraction</h1>
-<h4 class="date"><em>May 13, 2019</em></h4>
+<h1 class="title toc-ignore">DRAFT: Extracting Comments From MS Word DOCX Files</h1>
+<h4 class="date"><em>May 17, 2019</em></h4>
 
 </div>
 
 
-<p>The testing dataset used in this project was created using BaSH scripting and one-off text processing. This page documents progress on building a workflow to replicate that process using R tools.</p>
+<p>The testing dataset used in to build this project was created using BaSH scripting and one-off text processing. This page documents progress on building an R-based repeatable workflow to simplify that process.</p>
 <div id="section" class="section level4">
 <h4> </h4>
 </div>
 <div id="general-approach" class="section level1">
 <h1>General Approach</h1>
 <ul>
-<li>Create a list of files to cycle through OR put all files to process in ONE folder.</li>
+<li>Put all files to process in ONE folder.</li>
+<li>Extract a list of file names to cycle through.</li>
 <li>For each file, use ‘read_docx’, then ‘docx_extract_all_cmnts’.</li>
-<li>Use ‘do.call(“rbind”, list(dataframes to merge))’ to cycle through and append the extracted comments to ONE dataframe</li>
+<li>Cycle through and append the extracted comments to ONE dataframe</li>
 </ul>
-<div id="section-1" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="code-sources-examples" class="section level1">
-<h1>Code Sources, Examples</h1>
-<p><a href="https://stackoverflow.com/questions/50439684/how-to-extract-plain-text-from-docx-file-using-r" class="uri">https://stackoverflow.com/questions/50439684/how-to-extract-plain-text-from-docx-file-using-r</a></p>
-<p><a href="https://stackoverflow.com/questions/5965698/merge-unequal-dataframes-and-replace-missing-rows-with-0" class="uri">https://stackoverflow.com/questions/5965698/merge-unequal-dataframes-and-replace-missing-rows-with-0</a></p>
-<p><a href="https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html" class="uri">https://stat.ethz.ch/R-manual/R-devel/library/base/html/merge.html</a></p>
-<p><a href="https://www.dummies.com/programming/r/how-to-use-the-merge-function-with-data-sets-in-r/" class="uri">https://www.dummies.com/programming/r/how-to-use-the-merge-function-with-data-sets-in-r/</a></p>
-<p><a href="https://datascienceplus.com/combining-data-in-r-the-skill-of-merging-joining-and-stacking/" class="uri">https://datascienceplus.com/combining-data-in-r-the-skill-of-merging-joining-and-stacking/</a></p>
-<p><a href="https://www.rdocumentation.org/packages/analogue/versions/0.17-1/topics/join" class="uri">https://www.rdocumentation.org/packages/analogue/versions/0.17-1/topics/join</a> Load required Libraries</p>
-<div id="section-2" class="section level4">
-<h4> </h4>
-</div>
-</div>
-<div id="sample-working-code" class="section level1">
-<h1>Sample Working Code</h1>
-<pre><code>library(docxtractr)</code></pre>
-<p>Call in Word files using <code>read_docx</code>. Use <code>docx_extract_all_cmts</code> to pull out comments and <code>rbind</code> to combine them.</p>
-<p>To merge more than two dataframes within R, combine an <code>rbind</code> call with <code>do.call</code>. The ‘do.call’ function uses any existing R functions, such as ‘rbind’, but instead of passing just two dataframes, it passes multiple data frames. Then use <code>write.csv2</code> to write the data to a CSV format.</p>
-<pre><code>Commentframe1&lt;-read_docx(&quot;/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/TestingReport.docx&quot;, track_changes = NULL)
-comments1&lt;-docx_extract_all_cmnts(Commentframe1, include_text = FALSE)
+<pre class="r"><code>library(plyr)
+library(tidyverse)
+library(reshape2)
+library(tidyr)
+library(readtext)
+library(docxtractr)</code></pre>
+<pre class="r"><code>#Generates a list of all files in a particular folder
+files_list &lt;-list.files(&quot;~/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/Test_Set&quot;, full.names=TRUE)</code></pre>
+<pre class="r"><code>#### load data ####
+# Define path of directory
+# Get full path filename of every .docx-file in directory as &#39;filelist&#39;
+# Get filenames without paths for same sequence as &#39;filelist_short&#39;
+pathto &lt;- &quot;~/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/Test_Set/Hiding&quot;
+filelist &lt;- list.files(path = pathto, pattern = &quot;*.docx&quot;, full.names = TRUE)
+filelist_short &lt;- list.files(path = pathto, pattern = &quot;*.docx&quot;, full.names = FALSE)
 
-Commentframe2&lt;-read_docx(&quot;/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/TestingCommentExtraction.docx&quot;, track_changes = NULL)
-comments2&lt;-docx_extract_all_cmnts(Commentframe2, include_text = FALSE)
+# Read every file with docxtractr::read_docx()
+# Extract every comment from every file with docxtractr::docx_extract_all_cmnts()
+document_contents_list &lt;- lapply(filelist, read_docx)
+comments_list &lt;- lapply(document_contents_list, docx_extract_all_cmnts, include_text=TRUE)</code></pre>
+<p>The variable named ‘comments_list’ is a list of length 6. Each item in the list is a tibble with variable number of rows, but all with the same 6 columns:</p>
+<ul>
+<li>id</li>
+<li>author</li>
+<li>date</li>
+<li>initials</li>
+<li>comment_text</li>
+<li>word_src</li>
+</ul>
+<p>I need to append each tibble to the next one for all items in the list.</p>
+<pre class="r"><code># identify the filename of the docx file that was used to create the list of comments
+document_contents_list[[3]]$path</code></pre>
+<pre><code>## [1] &quot;/Users/danjohnson/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/Test_Set/Hiding/EmilyConte_R_Qb0snGjbwoeyhEt_text.docx&quot;</code></pre>
+<pre class="r"><code># join the individual lists of comments into a larger list
+comments_list_joined &lt;- bind_rows(comments_list, id=NULL)
 
-# comments1And2 &lt;- rbind(comments1,comments2)
-# OR
-# comments1And2 &lt;- do.call(&quot;rbind&quot;, list(comments1,comments2))
-
-#Check data have been successfully merged by checking the number of rows
-NROW(comments1And2)
-# [1] 32
-
-#When all lines are appended, write the CSV file 
-write.csv2(comments1And2, file = &quot;TAcomments.csv&quot;)
+# problem is that I lose the filenames.</code></pre>
+<hr />
+<p>Problem to solve now is the joined comments list contains no record of the source file’s name. Need some way to attach the remaining report metadata. ***</p>
+<pre class="r"><code>#Creates the output CSV file if needed for analysis outside R.
+write.csv(comments_list_joined, file = &quot;~/Dropbox/Coding_Tools/R_Environment/R_Projects/DOCX_comment_extraction/Test_Set/Extracted_comments.csv&quot;)</code></pre>
+<pre><code>
+#Rename the columns in a data.frame. In this example, &quot;name&quot; has 2 columns. The command pipes new names to the 2 columns, using the vectorized text names.
+names(name_of_file_to_change) &lt;- c(&quot;columns&quot;, &quot;values&quot;)
 </code></pre>
-<div id="section-3" class="section level4">
+<div id="section-1" class="section level4">
 <h4> </h4>
 </div>
 </div>
