@@ -8,7 +8,7 @@ biblio-style: apalike
 ```{r, child="_setup.Rmd"}
 ```
 
-Undergraduate introductory STEM courses often include technical writing training. Often it is secondary to content coverage, and so treated as an incidental skill that each student develops "along the way." Alternatively, the writing instruction process may be haphazardly designed, implemented, and executed. Adding to the learning challenge, faculty may not be who is helping students develop writing skills. Often graduate teaching assistants or even advanced undergraduates are who teaches technical writing. TAs may have under-developed writing skills themselves, lack pedagogical content knowledge needed to guide students effectively, or not have been explicitly trained to teach writing in a particular way. 
+Undergraduate introductory STEM courses often include technical writing training. Often it is secondary to content coverage, and treated as an incidental skill that each student develops "along the way." Alternatively, the writing instruction process may be haphazardly designed, implemented, and executed. Adding to the learning challenge, faculty may not be who is helping students develop writing skills. Often graduate teaching assistants or even advanced undergraduates are who teaches technical writing. TAs may have under-developed writing skills themselves, lack pedagogical content knowledge needed to guide students effectively, or not have been explicitly trained to teach writing in a particular way. 
 
 The first step towards improving writing training is widespread adoption of evidence-based strategies. Equally important is reducing the practical barriers that keep faculty from routinely including scientific writing in post-secondary STEM classes. 
 

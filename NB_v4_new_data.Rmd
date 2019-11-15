@@ -212,89 +212,20 @@ comments_test <- apply(comments_dtm_freq_test, MARGIN = 2, convert_counts2)
 
 ####\  
 
-
-Here is where I need to add code to format NEW datasets, and drop the text DTM into the trained classifier. Pseudo-code is:
-  Import Sp19_comments.csv
-  Extract ta.comments to a new data object
-  Run the ta.comments object through processing:
-
-```{r input data}
-#Read in TA comments from NEW CSV file.
-comparison_data19 <- read_csv(file='data/Sp19_comments.csv')
-
-
-#Select rows representing the sub-groups to compare. 
-data19_comments <- comparison_data19$ta.comment
-
-#Convert data set to a volative corpus using "tm" library.
-#Create the volatile corpus that contains the "text" vector from data frame.
-data19_comments_corpus <- VCorpus(VectorSource(data19_comments))
-print(data19_comments_corpus)
-
-#Check out the first few text comments in the new corpus, which is basically a list that can be manipulated with list operations.
-inspect(data19_comments_corpus[1:3])
-
-#Use "as.character" function to see what a single text comment looks like.
-as.character(data19_comments_corpus[[5]])
+#Train Model, Predict & Evaluate for Subject
+This block predicts whether a message is likely to be in group 1_basic, 2_writing, 3_technical, or 4_logic. 
+```{r bayes_training subject}
+# Train the classifier on training data, then test on test dataset, and full dataset.
+comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
+comments_test_pred_subject <- predict(comments_classifier_subject, comments_test)
+comments_all_pred_subject <- predict(comments_classifier_subject, comments_all)
 ```
-
-#Text Data Transformations
-The text data transforms in this code block are intentially separate "tm_map"" and "content_transformer" functions. This simplifies the process of testing how various combinations affect classification. Converting the text to lower case and removing punctuation are the baseline transformations. Switch between "{r}" and "{}" to turn other transformation blocks off or on as desired. **Removing extra white spaces must be the last transformation, and is required.**
-
-```{r}
-#Convert text to all lower case letters.
-data19_comments_corpus_clean <- tm_map(data19_comments_corpus, content_transformer(tolower))
-
-#Remove punctuation using the "removePunctuation" function. 
-#This step removes evidence of questions, so may remove data.
-#THIS ALSO REMOVES EVIDENCE OF POINTER ITEMS
-data19_comments_corpus_clean <- tm_map(data19_comments_corpus_clean, removePunctuation)
-
-#Remove numerals. 
-#This step may remove evidence indicating technical comments
-data19_comments_corpus_clean <- tm_map(data19_comments_corpus_clean, removeNumbers)
-
-#Stopword removal. 
-#This is a standard cleanup step, but again may remove useful terms.
-#The "stopwords" file is a convention; other files can be substituted for it
-data19_comments_corpus_clean <- tm_map(data19_comments_corpus_clean, removeWords, stopwords())
-
-#The option to apply stemming has been removed from this version. Stemming reduced accuracy in all trials. Future iterations should examine lemmatization instead.
-
-#Final step removes white space from the document. This is NOT an optional step.
-data19_comments_corpus_clean <- tm_map(data19_comments_corpus_clean, stripWhitespace)
-
-#Look at an example of cleaned text comment to see if cleaned comment matches what is expected. Change the value inside double brackets to look at a different comment.
-as.character((data19_comments_corpus_clean[[5]]))
-```
-
-#Tokenize the N-Grams
-This code block uses tm's NLP commands to assess different n-grams. For single words, change the "#" variable in "(words(x), #)" to "1". Use other values to change the n-gram size. Data are stored in document-term matrix (dtm) format.
-
-```{r tokenizer}
-NLP_Tokenizer <- function(x) {
-      unlist(lapply(ngrams(words(x), 1), paste, collapse = " "), use.names = FALSE)
-}
-
-Sp19comments_dtm_1gram <- DocumentTermMatrix(data19_comments_corpus_clean, control=list(tokenize = NLP_Tokenizer))
-Sp19comments_dtm_1gram_tidy <- tidy(Sp19comments_dtm_1gram)
-inspect(Sp19comments_dtm_1gram)
-
-
-#Some subset of the above steps SHOULD convert the new dataset to a readable format for comparison. END GOAL is to have a data object that can be plugged into the "predict" command.
-
-##Break
-#***
-```
-
 
 ```{r bayes_training structure}
-comments_classifier_subject <- naiveBayes(comments_train, comments_train_labels_subject, laplace=1)
-Sp19comments_test_pred_subject <- predict(comments_classifier_subject, data19_comments)
+comments_classifier_structure <- naiveBayes(comments_train, comments_train_labels_structure, laplace=1)
+comments_test_pred_structure <- predict(comments_classifier_structure, comments_test)
+comments_all_pred_structure <- predict(comments_classifier_structure, comments_all)
 ```
-
-
-Sp19comments_dtm_1gram
 
 ####\  
 
@@ -303,8 +234,8 @@ A truth table lists how many of the predicted categories are in their correct ca
 # Create a truth table by tabulating the predicted class labels with the actual class labels 
 table("Predictions"= comments_test_pred_subject,  "Actual Subject Test" = comments_test_labels_subject )
 table("Predictions"= comments_all_pred_subject,  "Actual Subject All" = comments_all_labels_subject )
-table("Predictions"= comments_test_pred_structure,  "Actual Structure Test" = comments_test_labels_structure )
-table("Predictions"= comments_all_pred_structure,  "Actual Structure All" = comments_all_labels_structure )
+#table("Predictions"= comments_test_pred_structure,  "Actual Structure Test" = comments_test_labels_structure )
+#table("Predictions"= comments_all_pred_structure,  "Actual Structure All" = comments_all_labels_structure )
 
 #An alternative is to use the Cross Table command (from "gmodels" package) to generate a more detailed output table with frequency values for each individual cell.
 #CrossTable(comments_test_pred_subject, comments_test_labels_subject, prop.chisq = FALSE, prop.t = FALSE, dnn = c('predicted', 'actual'))
@@ -315,8 +246,8 @@ The faster method is to calculate a confusion matrix, which displays BOTH the tr
 # Prepare the confusion matrix. 
 conf.mat1 <- confusionMatrix(comments_test_pred_subject, comments_test_labels_subject)
 conf.mat2 <- confusionMatrix(comments_all_pred_subject, comments_all_labels_subject)
-conf.mat3 <- confusionMatrix(comments_test_pred_structure, comments_test_labels_structure)
-conf.mat4 <- confusionMatrix(comments_all_pred_structure, comments_all_labels_structure)
+#conf.mat3 <- confusionMatrix(comments_test_pred_structure, comments_test_labels_structure)
+#conf.mat4 <- confusionMatrix(comments_all_pred_structure, comments_all_labels_structure)
 
 
 #These commands show how to print out individual pieces of the confusion matrix. They show both the overall and by-group accuracy values for Subject x Test Subset.
@@ -352,36 +283,36 @@ print ("All, Subject")
 conf.mat2$overall['Accuracy']
 
 # This block outputs both the overall and by-group accuracy values for Structure x Test Subset.
-print ("Test, Structure")
-conf.mat3
+#print ("Test, Structure")
+#conf.mat3
 
 # This block outputs by-group accuracy values in a single column for Structure x Test Subset. 
-print ("Test, Structure")
-conf.mat3$byClass
+#print ("Test, Structure")
+#conf.mat3$byClass
 
 # This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x Test Subset.
-print ("Test, Structure")
-conf.mat3$overall
+#print ("Test, Structure")
+#conf.mat3$overall
 
 # This block outputs JUST the overall accuracy value for Structure x Test Subset. 
-conf.mat3$overall['Accuracy']
-print ("Test, Structure")
+#conf.mat3$overall['Accuracy']
+#print ("Test, Structure")
 
 # This block outputs both the overall and by-group accuracy values for Structure x All Data.
-print ("All, Structure")
-conf.mat4
+#print ("All, Structure")
+#conf.mat4
 
 # This block outputs by-group accuracy values in a single column for Structure x All Data. 
-print ("All, Structure")
-conf.mat4$byClass
+#print ("All, Structure")
+#conf.mat4$byClass
 
 # This block outputs a single line table with overall accuracy, kappa, lower and higher limits of accuracy, accuracy null value, P value for accuracy, and Mcnemar P value for Structure x All Data.
-print ("All, Structure")
-conf.mat4$overall
+#print ("All, Structure")
+#conf.mat4$overall
 
 # This block outputs JUST the overall accuracy value for Structure x All Data. 
-print ("All, Structure")
-conf.mat4$overall['Accuracy']
+#print ("All, Structure")
+#conf.mat4$overall['Accuracy']
 ```
 
 ####\  
